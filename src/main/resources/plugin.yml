@@ -1,0 +1,109 @@
+name: ${project.name}
+version: ${project.version}
+description: ${project.description}
+author: cnaude
+website: http://dev.bukkit.org/server-mods/purpleirc/
+main: com.cnaude.purpleirc.PurpleIRC
+softdepend:
+- Vault
+- Factions
+- FactionChat
+- HeroChat
+- mcMMO
+- CleverNotch
+- TitanChat
+- ReportRTS
+- Essentials
+- TownyChat
+- dynmap
+- Shortify
+- OreBroadcast
+- RedditStream
+- AdminPrivateChat
+- SuperVanish
+commands:
+    irc:
+        description: Various irc commands
+        usage: /<command> help - List all irc commands available.
+permissions:
+  'irc.reloadconfig':
+    description: Gives player access to the /irc reloadconfig.
+    default: op
+  'irc.reloadbot':
+    description: Gives player access to the /irc reloadbot.
+    default: op
+  'irc.reloadbotconfig':
+    description: Gives player access to the /irc reloadconfig.
+    default: op  
+  'irc.reconnect':
+    description: Gives player access to the /irc reconnect.
+    default: op
+  'irc.message.chat':
+    description: Receive IRC chat messages.
+    default: true
+  'irc.message.gamechat':
+    description: Send game chat to IRC
+    default: true
+  'irc.message.action':
+    description: Receive IRC chat actions (/me).
+    default: true
+  'irc.message.nickchange':
+    description: Receive IRC nick change messages
+    default: true
+  'irc.message.join':
+    description: Receive IRC join messages.
+    default: false
+  'irc.message.quit':
+    description: Receive IRC quit messages.
+    default: false    
+  'irc.message.disconnect':
+    description: Receive IRC disconnect messages.
+    default: op
+  'irc.message.connect':
+    description: Receive IRC connect messages.
+    default: op
+  'irc.message.topic':
+    description: Receive IRC topic messages.
+    default: false
+  'irc.message.kick':
+    description: Receive IRC kick messages.
+    default: false    
+  'irc.message.part':
+    description: Receive IRC part messages.
+    default: false        
+  'irc.listbots':
+    description: Gives player access to the /irc listbots command.
+    default: op
+  'irc.list':
+    description: Gives player access to the /irc list command.
+    default: op  
+  'irc.tablist':
+    description: Allow player to see IRC nick list in the tab list
+    default: op
+  'irc.msg':
+    description: Gives player access to the /irc msg command.
+    default: op 
+  'irc.sendraw':
+    description: Gives player access to the /irc sendraw command.
+    default: op 
+  'irc.ctcp':
+    description: Gives player access to the /irc ctcp command.
+    default: op 
+  'irc.notice':
+    description: Gives player access to the /irc notice command.
+    default: op 
+  'irc.message.mode':
+    description: Player receives IRC mode change messages.
+    default: op 
+  'irc.message.notice':
+    description: Player receives IRC notice messages.
+    default: op     
+  'irc.motd':
+    description: Gives player access to the /irc motd command.
+    default: op    
+  'irc.load':
+    description: Gives player access to the /irc load command.
+    default: op  
+  'irc.unload':
+    description: Gives player access to the /irc unload command.
+    default: op  

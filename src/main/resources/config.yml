@@ -1,0 +1,279 @@
+# Global configuration for PurpleIRC
+# NOTE: If you make changes to this file while the server is running use "/irc reloadconfig" to load the changes into memory.
+# Check for updates
+update-checker: true
+# Update checker mode: stable or dev
+update-checker-mode: stable
+# How often we check to see if a bot is connected to the IRC server. This is in server ticks (There 20 ticks in one sec).
+conn-check-interval: 1000
+# Startup an ident server
+enable-ident-server: false
+# How often we check the channel user list
+channel-check-interval: 100
+# Chat messages support standard Bukkit color codes using '&#'. See http://minecraft.gamepedia.com/Formatting_codes
+# The following macro tokens are also supported.
+#  %WORLD% 
+#  %NAME% 
+#  %HOST% - Host of player or IRC user
+#  %SERVER% - Server of IRC user
+#  %AWAY% - IRC user away message
+#  %KICKERHOST% - Host of IRC kicker
+#  %KICKERSERVER% - Server of IRC kicker
+#  %KICKERAWAY% - IRC kicker away message
+#  %NICKPREFIX% - IRC user's status (see nick-prefixes below)
+#  %DISPLAYNAME% - Player's custom name
+#  %PLAYERIP% - IP address of a player
+#  %CHANNEL% 
+#  %MESSAGE%
+#  %KICKER% - IRC kicker name
+#  %TOPIC%
+#  %REASON%
+#  %GROUP% - Requires Vault if you want to use this.
+#  %PLAYERPREFIX% - Requires Vault if you want to use this.
+#  %PLAYERSUFFIX% - Requires Vault if you want to use this.
+#  %GROUPSUFFIX% - Requires Vault if you want to use this.
+#  %GROUPPREFIX% - Requires Vault if you want to use this.
+#  %WORLDCOLOR% - Requires Multiverse.
+#  %PARTY% - mcMMO party channel name
+#  %FACTIONMODE% - Faction chat mode (all, ally, enemy)
+#  %FACTIONTAG%  - Faction tag name
+#  %HEROCHANNEL% - HeroChat channel name
+#  %HERONICK% - HeroChat channel nick
+#  %HEROCOLOR% - HeroChat channel color
+#  %TITANCHANNEL% - TitanChat channel name
+#  %TITANCOLOR% - TitanChat channel color
+#  %WORLDALIAS% - World alias name
+#  ReportRTS ticket: %MESSAGE%, %MODNAME% %DISPLAYMODNAME% %RTSNAME% %RTSWORLD% %TICKETNUMBER% %MODCOMMENT%
+#  %TOWNYCHANNEL% - Towny channel name
+#  %TOWNYCHANNELTAG% - Towny channel tag name
+#  %TOWNYMSGCOLOR% - Towny message color
+#  %JOBS% - Player jobs
+#  %JOBSSHORT% - Player jobs shortened
+# Prism custom tokens:
+#   prism-rollback:
+#    %COMMAND%
+#    %KEYWORD%
+#    %SORTDIRECTION%
+#    %PARAMWORLD%
+#    %ID%
+#    %ORIGINALBLOCK%
+#    %NEWBLOCK%
+#    %X%
+#    %Y%
+#    %Z%
+#    %BLOCKWORLD%
+#   prism-drain and prism-extinguish:
+#    %RADIUS%
+#    %ORIGINALBLOCK%
+#    %NEWBLOCK%
+#    %X%
+#    %Y%
+#    %Z%
+#    %BLOCKWORLD%
+#   prism-custom:
+#    %ACTION%
+#    %MESSAGE%
+#    %PLUGIN%   
+message-format:
+  # Message templates for game to IRC messages  
+  console-chat: '[&dServer&r] %MESSAGE%' 
+  game-achievement: '[&2%WORLD%&r] %NAME% has just earned the achievement [%MESSAGE%]'
+  game-mode: '[&2%WORLD%&r] %NAME% has changed game mode: [%MESSAGE%]'
+  game-action: '[&2%WORLD%&r]***%NAME% %MESSAGE%'
+  game-pchat: '[&2%WORLD%] <%NAME%> %MESSAGE%'
+  # death-messages - http://dev.bukkit.org/bukkit-plugins/death-messages
+  death-messages: '[&2%WORLD%&r]%MESSAGE%'  
+  # Notification to player when sending a private message to an IRC user
+  game-pchat-response: ' &6-> &7%TARGET%: %MESSAGE%'
+  game-chat: '[&2%WORLD%&r] <%NAME%> %MESSAGE%'  
+  game-death: '[&2%WORLD%&r] %MESSAGE%'    
+  game-kick: '[&2%WORLD%&r] %MESSAGE%: %REASON%'
+  game-join: '[&2%WORLD%&r] %NAME% joined the game.'
+  game-quit: '[&2%WORLD%&r] %NAME% left the game.'
+  game-command: '[&2%WORLD%&r] Command detected by %NAME%: %COMMAND% %PARAMS%'
+  # Message template for "/irc send" to IRC message
+  game-send: '[&2%WORLD%&r]<%NAME%> %MESSAGE%' 
+  # Essentials messages
+  ess-player-afk: '[&2%WORLD%&r] %NAME% is now AFK' 
+  ess-player-not-afk: '[&2%WORLD%&r] %NAME% is no longer AFK' 
+  ess-helpop: '&4[HelpOp] %DISPLAYNAME%&r: %MESSAGE%'
+  irc-ess-helpop: '&4[HelpOp] %DISPLAYNAME%&r: %MESSAGE%'
+  # Message templates for IRC to game messages
+  irc-action: '[&4IRC&r] ***%NAME% %MESSAGE%'
+  irc-chat: '[&4IRC&r]<%NAME%> %MESSAGE%'  
+  # Response message when using @chat or @ochat
+  irc-chat-response: ' &6-> &7Minecraft: %MESSAGE%'
+  irc-pchat: '&dPrivate message: [&4IRC&r]<%NAME%> %MESSAGE%' 
+  # Notification to user when sending a private message to a player
+  irc-pchat-response: ' &6-> &7%TARGET%: %MESSAGE%'
+  # Notification to user when sending a message to a specific hero channel
+  irc-hchat-response: ' &6-> &7%TARGET%: %MESSAGE%'
+  irc-join: '[&4IRC&r] %NAME% has joined %CHANNEL%.'
+  irc-kick: '[&4IRC&r] %NAME% was kicked from %CHANNEL% by %KICKER%. (Reason- %REASON%)'
+  irc-part: '[&4IRC&r] %NAME% has left %CHANNEL%.'  
+  irc-quit: '[&4IRC&r] %NAME% has left %CHANNEL%. (Reason: %REASON%)'  
+  irc-topic: '[&4IRC&r] Topic changed by %NAME%: %TOPIC%.'  
+  irc-nickchange: '[&4IRC&r] %OLDNICK% is now known as %NEWNICK%.'  
+  irc-mode: '[&4IRC&r] %NAME% %MODE% on %CHANNEL%'
+  irc-console-chat: '&f[&5IRC&f]&r<%NAME%> %MESSAGE%'
+  irc-notice: '[&4IRC&r] [notice(%CHANNEL%)] %NOTICE% '
+  # AdminPrivateChat response message in IRC. Set to '' to disable.
+  irc-a-response: ' &6-> &7[AdminChat]: %MESSAGE%'
+  # AdinPrivateChat message from game to IRC
+  game-a-chat: '[%WORLD%] <%NAME%> -> [AdminChat]: %MESSAGE%'
+  # Message template for Clevernotch bot to IRC messages
+  clever-send: '[&4BOT]<%NAME%> %MESSAGE%' 
+  # Message templates for mcMMO to IRC messages
+  mcmmo-admin-chat: '[admin:%WORLD%]<%NAME%> %MESSAGE%'    
+  mcmmo-party-chat: '[party:%PARTY%]<%NAME%> %MESSAGE%'
+  mcmmo-chat: '[mcMMO]<%NAME%> %MESSAGE%'
+  # Message templates for FactionChat to IRC messages
+  faction-public-chat: '[%FACTIONMODE%&r][%FACTIONTAG%]<%NAME%> %MESSAGE%'  
+  faction-ally-chat: '[%FACTIONMODE%&r][%FACTIONTAG%]<%NAME%> %MESSAGE%'  
+  faction-enemy-chat: '[%FACTIONMODE%&r][%FACTIONTAG%]<%NAME%> %MESSAGE%'  
+  # Message template for Herochat to IRC messages
+  hero-chat: '[%CHANNEL%]<%NAME%> %MESSAGE%'
+  hero-action: '[&2%CHANNEL%&r]***%NAME% %MESSAGE%'
+  # Message templates for IRC to Herochat messages
+  irc-hero-action: '[&3IRC&r] ***%NAME% %MESSAGE%'
+  irc-hero-chat: '[&3IRC&r]<%NAME%> %MESSAGE%'  
+  irc-hero-join: '[&3IRC&r] %NAME% has joined %CHANNEL%.'
+  irc-hero-kick: '[&3IRC&r] %NAME% was kicked from %CHANNEL% by %KICKER%. (Reason- %REASON%)'
+  irc-hero-part: '[&3IRC&r] %NAME% has left %CHANNEL%.'  
+  irc-hero-quit: '[&3IRC&r] %NAME% has left %CHANNEL%.'  
+  irc-hero-topic: '[&3IRC&r] Topic changed by %NAME%: %TOPIC%.'  
+  # Message template for TitanChat to IRC messages
+  titan-chat: '[%CHANNEL%]<%NAME%> %MESSAGE%'
+  # Message templates for IRC to TitanChat messages
+  irc-titan-chat: '[&3IRC&r]<%NAME%> %MESSAGE%'
+  # Help reply message
+  valid-irc-commands: 'Valid commands: %COMMANDS%'
+  # Invalid IRC command message
+  invalid-irc-command: "I'm sorry '%NICK%' I can't do that. Type '%CMDPREFIX%help' for a list of commands I might respond to."
+  no-perm-for-irc-command: "I'm sorry '%NICK%' you are not authorized to do that. Type '%CMDPREFIX%help' for a list of commands I might respond to."
+  rts-notify: '[RTS:New] #%TICKETNUMBER% <%NAME%> %MESSAGE%'
+  rts-complete: '[RTS:Complete] #%TICKETNUMBER% <%NAME%> %MESSAGE%'
+  rts-claim: '[RTS:Claim] #%TICKETNUMBER% <%NAME%> %MESSAGE%'
+  rts-unclaim: '[RTS:Unclaim] #%TICKETNUMBER% <%NAME%> %MESSAGE%'
+  rts-held: '[RTS:Held] #%TICKETNUMBER% <%NAME%> %MESSAGE%'
+  rts-assign: '[RTS:Assign] #%TICKETNUMBER% <%NAME%> %MESSAGE%'
+  rts-reopen: '[RTS:Reopen] #%TICKETNUMBER% <%NAME%> %MESSAGE%'
+  # Dynmap Web Chat to IRC
+  dynmap-web-chat: '[Dynmap] <%NAME%> %MESSAGE%'
+  # IRC to Dynmap Chat
+  irc-dynmap-web-chat: '[IRC] %MESSAGE%'
+  # IRC acion to Dynmap Chat (/me)
+  irc-action-dynmap-web-chat: '[IRC] ***%NAME% %MESSAGE%'
+  # OreBroadcast message
+  ore-broadcast: '[OreBroadcast] %MESSAGE%'
+  # Jobs seperator
+  jobs-separator: ', '
+  # Message format per hero channel. From IRC to game.
+  irc-hero-channels:
+      Global: '[G][IRC]%PLAYERPREFIX%%NAME% %MESSAGE%'
+  # Message format per hero channel. From IRC actions to game.
+  irc-hero-action-channels:
+      Global: '[G][IRC]***%PLAYERPREFIX%%NAME% %MESSAGE%'
+  # Message format per hero channel. From game to IRC. Overrides hero-chat template.
+  hero-channels:
+      Global: '[%CHANNEL%]<%NAME%> %MESSAGE%'
+  # Emote message format per hero channel. From game to IRC. Overrides hero-action template.
+  hero-action-channels:
+      Global: '[&2%CHANNEL%&r]***%NAME% %MESSAGE%'
+  # Message templates for Towny to IRC messages
+  towny-channel-chat: '%TOWNYCHANNELTAG%[%TOWNYCHANNEL%]<%NAME%> %MESSAGE%'
+  # Message templates for IRC to Towny messages
+  irc-towny-chat: '[&3IRC&r]<%NAME%> %MESSAGE%'
+  # Message format per towny channel. From IRC to game.
+  irc-towny-channels:
+      irc: '[IRC]%PLAYERPREFIX%%NAME% %MESSAGE%'
+  broadcast-message: '[Broadcast] <%NAME%> %MESSAGE%'
+  broadcast-console-message: '[Broadcast] <Console> %MESSAGE%'
+  # Prism templates. See above for token names.
+  prism-rollback: '[PrismRollback] [Player: %NAME%] [Radius: %RADIUS%] [Command: %COMMAND%] [Keyword: %KEYWORD%] [X,Y,Z: %X%,%Y%,%Z%] [World: %PARAMWORLD%]'
+  prism-drain: '[PrismDrain] [Player: %NAME%] [Radius: %RADIUS%] [OrigBlock: %ORIGINALBLOCK%] [NewBlock: %NEWBLOCK%] [X,Y,Z: %X%,%Y%,%Z%] [World: %BLOCKWORLD%]'
+  prism-extinguish: '[PrismExtinguish] [Player: %NAME%] [Radius%: %RADIUS] [OrigBlock: %ORIGINALBLOCK%] [NewBlock: %NEWBLOCK%] [X,Y,Z: %X%,%Y%,%Z%] [World: %BLOCKWORLD%]'
+  prism-custom: '[PrismCustom] [Player: %NAME%] [Action: %ACTION%] [Message: %MESSAGE%] [Plugin: %PLUGIN%]'
+  # RedditStream
+  reddit-messages: '[R] %MESSAGE%'
+  # Defaults below take effect when user joins IRC and matching player is offline
+  default-player-suffix: ''
+  default-player-prefix: ''
+  default-group-suffix: ''
+  default-group-prefix: ''
+  default-player-world: 'world'
+  default-player-group: ''  
+# Format for the @list command in IRC
+list-format: '[&9Minecraft&r] &2Online &r(%COUNT%/%MAX%): %PLAYERS%'
+list-separator: ', '
+list-player: '%GROUPPREFIX%%NAME%'
+# Sort playerlist by %NAME% and not by list-player format
+list-sort-by-name: true
+# Prevent game colors from appearing in IRC
+strip-game-colors: false
+# Prevent IRC colors from appearing in game
+strip-irc-colors: false
+# Strip IRC background colors (recommend leaving this as true)
+strip-irc-bg-colors: true
+# Add IRC names to in-game tab list
+custom-tab-list: false
+# Nothing to see here
+custom-tab-prefix: '[I] '
+# IRC user gamemode in the tab list: ADVENTURE, CREATIVE, NOT_SET, SPECTATOR, SURVIVAL
+custom-tab-gamemode: SPECTATOR
+# IRC nick must be an exact match to a player name for token expanding
+nick-exact-match: true
+# IRC nick prefixes (can include & color codes)
+nick-prefixes:
+    ircop: '&4~'
+    ircsuperop: '&6&&'
+    op: '&c@'
+    halfop: '&3%'
+    voice: '&2+'
+# See http://site.pircbotx.googlecode.com/hg/apidocs/org/pircbotx/Colors.html for IRC color names
+# See http://jd.bukkit.org/rb/doxygen/d7/dc0/enumorg_1_1bukkit_1_1ChatColor.html for game color names
+# Game to IRC color map: Game Color Code => IRC Color Code
+irc-color-map:
+    AQUA: CYAN
+    BLACK: BLACK
+    BLUE: BLUE
+    BOLD: BOLD
+    DARK_AQUA: TEAL
+    DARK_BLUE: DARK_BLUE
+    DARK_GRAY: DARK_GRAY
+    DARK_GREEN: DARK_GREEN
+    DARK_PURPLE: PURPLE
+    DARK_RED: RED
+    GOLD: OLIVE
+    GRAY: LIGHT_GRAY
+    GREEN: GREEN
+    LIGHT_PURPLE: MAGENTA
+    RED: RED
+    UNDERLINE: UNDERLINE
+    YELLOW: YELLOW
+    WHITE: WHITE
+    RESET: NORMAL  
+# IRC to game color map: IRC Color Code => Game Color Code
+game-color-map:
+    BLACK: BLACK
+    BLUE: BLUE    
+    BOLD: BOLD
+    BROWN: GRAY
+    CYAN: AQUA            
+    DARK_BLUE: DARK_BLUE
+    DARK_GRAY: DARK_GRAY        
+    DARK_GREEN: DARK_GREEN
+    GREEN: GREEN
+    LIGHT_GRAY: GRAY
+    MAGENTA: LIGHT_PURPLE
+    NORMAL: RESET
+    OLIVE: GOLD
+    PURPLE: DARK_PURPLE
+    RED: RED
+    TEAL: DARK_AQUA
+    UNDERLINE: UNDERLINE
+    WHITE: WHITE
+    YELLOW: YELLOW
+Debug: false
+# Ignore chat cancellation.
+ignore-chat-cancel: false

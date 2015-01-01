@@ -1,0 +1,424 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <!-- Bukkit API Version, change if out dated -->
+        <bukkit.version>1.8</bukkit.version>
+        <build.number>SNAPSHOT</build.number>
+    </properties>
+
+    <groupId>com.cnaude</groupId>
+    <artifactId>PurpleIRC</artifactId>
+    <version>1.0-${build.number}</version>
+    <name>PurpleIRC-spigot</name>
+    <description>A CraftBukkit plugin for bridging game chat with IRC. Connect to any number of IRC servers and channels simultaneously.</description>
+    <url>http://dev.bukkit.org/server-mods/purpleirc/</url>
+
+    <repositories>
+        <!-- For anything else without its own repo -->
+        <repository>
+            <id>cnaude-repo</id>
+            <url>http://cnaude.org/repo/</url>
+        </repository>
+        
+        <repository>
+            <id>sonatype-nexus-public</id>
+            <name>SonaType public snapshots and releases repository</name>
+            <url>https://oss.sonatype.org/content/groups/public</url>
+            <releases> 
+                <!-- set to true if you wish to fetch releases from this repo too. -->
+                <enabled>false</enabled>
+            </releases> 
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </repository>
+        
+        <!-- Bukkit -->
+        <repository>
+            <id>bukkit-repo</id>
+            <url>http://repo.bukkit.org/content/groups/public/</url>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </repository>
+
+        <!-- ReportRTS -->
+        <repository>
+            <id>regularbox-repo</id>
+            <url>http://ci.regularbox.com/plugin/repository/everything/</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+        </repository>
+       
+        <!-- Vault -->
+        <!--
+        <repository>
+            <id>vault-repo</id>
+            <url>http://nexus.theyeticave.net/content/repositories/pub_releases</url>
+        </repository>
+       -->
+    </repositories>
+    
+    <dependencies>
+        
+        <dependency>
+            <groupId>org.bukkit</groupId>
+            <artifactId>spigot-api</artifactId>
+            <version>${bukkit.version}</version>
+            <type>jar</type>
+            <scope>provided</scope>
+        </dependency>
+        
+        <dependency>
+            <groupId>org.bukkit</groupId>
+            <artifactId>spigot</artifactId>
+            <version>${bukkit.version}</version>
+            <type>jar</type>
+            <scope>provided</scope>
+        </dependency>
+
+        <!-- Following dependency is provided by CraftBukkit -->
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+            <version>15.0</version>
+            <type>jar</type>
+            <scope>provided</scope>
+        </dependency>
+        
+        <!-- Essentials -->
+        <dependency>
+            <groupId>com.cnaude.essentials</groupId>
+            <artifactId>essentials</artifactId>
+            <version>2.14</version>
+            <type>jar</type>
+        </dependency>
+        
+        <!-- ReportRTS -->
+        <dependency>
+            <groupId>com.nyancraft.reportrts</groupId>
+            <artifactId>ReportRTS</artifactId>
+            <version>1.2.3</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>com.comphenix.protocol</groupId>
+                    <artifactId>ProtocolLib</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>net.milkbowl.net</groupId>
+                    <artifactId>Vault</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.bukkit</groupId>
+                    <artifactId>bukkit</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        
+        <!-- Vault -->
+        <dependency>
+            <groupId>net.milkbowl.vault</groupId>
+            <artifactId>Vault</artifactId>
+            <version>1.5.1</version>
+        </dependency>
+
+        <!-- Herochat -->
+        <dependency>
+            <groupId>com.cnaude.herochat</groupId>
+            <artifactId>Herochat</artifactId>
+            <version>5.6.7</version>
+        </dependency>
+        
+        <!-- Jobs -->
+        <dependency>
+            <groupId>com.cnaude.jobs</groupId>
+            <artifactId>Jobs</artifactId>
+            <version>2.13.1</version>
+        </dependency>
+        
+        <!-- Jobs -->
+        <dependency>
+            <groupId>com.cnaude.jobs</groupId>
+            <artifactId>JobsOld</artifactId>
+            <version>2.12.0</version>
+        </dependency>
+        
+        <!-- Factions -->
+        <dependency>
+            <groupId>com.cnaude.factions</groupId>
+            <artifactId>Factions</artifactId>
+            <version>2.7.3</version>
+        </dependency>
+        
+        <!-- OreBroadcast -->
+        <dependency>
+            <groupId>com.cnaude.orebroadcast</groupId>
+            <artifactId>OreBroadcast</artifactId>
+            <version>1.2.3</version>
+        </dependency>
+        
+        <!-- RedditStream -->
+        <dependency>
+            <groupId>com.cnaude.RedditStream</groupId>
+            <artifactId>RedditStream</artifactId>
+            <version>0.2</version>
+        </dependency>
+        
+        <!-- VanishNoPacket -->
+        <dependency>
+            <groupId>com.cnaude.vanishnopacket</groupId>
+            <artifactId>VanishNoPacket</artifactId>
+            <version>3.19.1</version>
+        </dependency>
+        
+        <!-- mcore -->
+        <dependency>
+            <groupId>com.cnaude.mcore</groupId>
+            <artifactId>MassiveCore</artifactId>
+            <version>2.7.3</version>
+        </dependency>
+        
+        <!-- FactionChat -->
+        <dependency>
+            <groupId>com.cnaude.factionchat</groupId>
+            <artifactId>FactionChat</artifactId>
+            <version>1.8.6</version>
+        </dependency>
+
+        <!-- TitanChat -->
+        <dependency>
+            <groupId>com.cnaude.titanchat</groupId>
+            <artifactId>TitanChat</artifactId>
+            <version>4.1</version>
+        </dependency>
+
+        <!-- mcMMO -->
+        <dependency>
+            <groupId>com.gmail.nossr50</groupId>
+            <artifactId>mcMMO</artifactId>
+            <version>1.5.01-SNAPSHOT-b3682</version>
+        </dependency>
+        
+        <!-- Mulitverse-Core -->
+        <dependency>
+            <groupId>com.cnaude.multiverse</groupId>
+            <artifactId>Multiverse-Core</artifactId>
+            <version>2.5</version>
+        </dependency>
+        
+        <!-- Towny -->
+        <dependency>
+            <groupId>com.cnaude.townychat</groupId>
+            <artifactId>TownyChat</artifactId>
+            <version>0.40</version>
+        </dependency>
+        
+        <!-- Towny -->
+        <dependency>
+            <groupId>com.cnaude.towny</groupId>
+            <artifactId>Towny</artifactId>
+            <version>0.84.0.0</version>
+        </dependency>
+        
+        <!-- ProtocolLib -->
+        <dependency>
+            <groupId>com.cnaude.protocol</groupId>
+            <artifactId>ProtocolLib</artifactId>
+            <version>3.6.3</version>
+        </dependency>
+        
+        <!-- PircBotX -->
+        <dependency>
+            <groupId>org.pircbotx</groupId>
+            <artifactId>pircbotx</artifactId>
+            <version>2.0.1</version>
+        </dependency>
+        
+                
+        <!-- CleverNotch -->
+        <dependency>
+            <groupId>com.cnaude.clevernotch</groupId>
+            <artifactId>CleverNotch</artifactId>
+            <version>1.1-RELEASE</version>
+        </dependency>
+        
+        <!-- slf4j (used by PircBotX) -->
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-nop</artifactId>
+            <version>1.7.5</version>
+        </dependency>
+        
+        <!-- DeathMessages -->
+        <dependency>
+            <groupId>com.cnaude.deathmessages</groupId>
+            <artifactId>DeathMessages</artifactId>
+            <version>2.9.1-SNAPSHOT</version>
+        </dependency>
+
+        <!-- Shortify -->
+        <dependency>
+            <groupId>com.cnaude.shortify</groupId>
+            <artifactId>Shortify</artifactId>
+            <version>1.8-SNAPSHOT</version>
+        </dependency>
+        
+        <!-- DynmapAPI -->
+        <dependency>
+            <groupId>com.cnaude.dynmap</groupId>
+            <artifactId>DynmapAPI</artifactId>
+            <version>1.9.4</version>
+        </dependency>
+        
+        <!-- Prism -->
+        <dependency>
+            <groupId>com.cnaude.prism</groupId>
+            <artifactId>Prism</artifactId>
+            <version>2.0.1</version>
+        </dependency>
+        
+        <!-- AdminPrivateChat -->
+        <dependency>
+            <groupId>com.cnaude.adminprivatechat</groupId>
+            <artifactId>AdminPrivateChat</artifactId>
+            <version>2.1</version>
+        </dependency>
+        
+        <!-- SuperVanish -->
+        <dependency>
+            <groupId>com.cnaude.supervanish</groupId>
+            <artifactId>SuperVanish</artifactId>
+            <version>5.0.1</version>
+        </dependency>
+           
+        <!-- Testing only -->
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.10</version>
+            <type>jar</type>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.carrotsearch</groupId>
+            <artifactId>junit-benchmarks</artifactId>
+            <version>0.4.0</version>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <!-- Filter only plugin.yml -->
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>true</filtering>
+                <includes>
+                    <include>plugin.yml</include>
+                </includes>
+            </resource>
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>false</filtering>
+                <excludes>
+                    <exclude>plugin.yml</exclude>
+                </excludes>
+            </resource>
+        </resources>
+               
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>2.3.2</version>
+                <configuration>
+                    <!-- Minimum Minecraft requirement -->
+                    <source>1.7</source>
+                    <target>1.7</target>
+                </configuration>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-shade-plugin</artifactId>
+                <version>2.2</version>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>shade</goal>
+                        </goals>
+                        <configuration>
+                            <minimizeJar>true</minimizeJar>
+                            <artifactSet>
+                                <includes>
+                                    <include>org.pircbotx</include>
+                                    <include>org.slf4j</include>                                    
+                                    <include>org.apache.commons</include>
+                                </includes>
+                            </artifactSet>
+                            <filters>
+                            </filters>
+                            <relocations>
+                                <relocation>
+                                    <pattern>org.pircbotx</pattern>
+                                    <shadedPattern>org.pircbotx</shadedPattern>
+                                </relocation>
+                                <relocation>
+                                    <pattern>org.slf4j</pattern>
+                                    <shadedPattern>org.slf4j</shadedPattern>
+                                </relocation>
+                                <relocation>
+                                    <pattern>org.slf4j.impl</pattern>
+                                    <shadedPattern>org.slf4j.impl</shadedPattern>
+                                </relocation>
+                                <relocation>
+                                    <pattern>org.apache.commons.lang3</pattern>
+                                    <shadedPattern>org.apache.commons.lang3</shadedPattern>
+                                </relocation>
+                            </relocations>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>  
+            <plugin>
+                <artifactId>maven-antrun-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <configuration>
+                            <tasks>                                                                              
+                                <copy file="../${project.name}/target/PurpleIRC-${project.version}.jar" tofile="../${project.name}/target/PurpleIRC.jar"/>
+                                <exec dir="../${project.name}/target" executable="scp">
+                                    <arg line="PurpleIRC.jar cnaude@h.cnaude.org:spigottest/plugins/PurpleIRC.jar"/>
+                                </exec>
+                            </tasks>
+                        </configuration>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+            
+    <distributionManagement>
+        <repository>
+            <id>stage-repo</id>
+            <url>file://${basedir}/../repo/releases</url>
+        </repository>
+        <snapshotRepository>
+            <id>stage-repo-stapshots</id>
+            <url>file://${basedir}/../repo/snapshots</url>
+        </snapshotRepository>
+    </distributionManagement>
+</project>
