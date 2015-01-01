@@ -1,8 +1,8 @@
-name: ${project.name}
+name: ${project.artifactId}
 version: ${project.version}
 description: ${project.description}
 author: cnaude
-website: http://dev.bukkit.org/server-mods/purpleirc/
+website: http://.../
 main: com.cnaude.purpleirc.PurpleIRC
 softdepend:
 - Vault
