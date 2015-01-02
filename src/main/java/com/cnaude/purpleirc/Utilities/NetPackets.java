@@ -46,7 +46,6 @@ public class NetPackets {
 
     PurpleIRC plugin;
     private final ProtocolManager protocolManager;
-    private PacketConstructor playerListConstructor;
 
     /**
      *
@@ -114,18 +113,7 @@ public class NetPackets {
         String displayName = truncateName(plugin.customTabPrefix + name);
         PacketContainer packet = null;
         String version = plugin.getServer().getVersion();
-        if (version.contains("MC: 1.7.10")) {
-            try {
-                packet = protocolManager.createPacket(PacketType.Play.Server.PLAYER_INFO);
-                packet.getIntegers().write(0, (add ? 0 : 4));
-                packet.getGameProfiles().write(0, new WrappedGameProfile(java.util.UUID.nameUUIDFromBytes(("OfflinePlayer:" + name).getBytes(Charsets.UTF_8)), displayName));
-                packet.getIntegers().write(1, 0);
-                packet.getIntegers().write(2, 0);
-                packet.getStrings().write(0, displayName);
-            } catch (Exception ex) {
-                plugin.logError("tabPacket: " + ex.getMessage());
-            }
-        } else if (version.contains("MC: 1.8")) {
+        if (version.contains("MC: 1.8")) {
             try {
                 UUID uuid = null; // = plugin.getPlayerUuid(name);
                 if (uuid == null) {
@@ -156,11 +144,7 @@ public class NetPackets {
             } catch (Exception ex) {
                 plugin.logError("tabPacket: " + ex.getMessage());
             }
-        } else {
-            plugin.logDebug("tabPacket: deprecated ");
-            playerListConstructor = protocolManager.createPacketConstructor(Packets.Server.PLAYER_INFO, "", false, (int) 0);
-            packet = playerListConstructor.createPacket(displayName, add, 0);
-        }
+        } 
         return packet;
     }
 
