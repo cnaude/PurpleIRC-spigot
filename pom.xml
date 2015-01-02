@@ -14,8 +14,8 @@
     <artifactId>PurpleIRC</artifactId>
     <version>1.0-${build.number}</version>
     <name>PurpleIRC-spigot</name>
-    <description>A CraftBukkit plugin for bridging game chat with IRC. Connect to any number of IRC servers and channels simultaneously.</description>
-    <url>http://dev.bukkit.org/server-mods/purpleirc/</url>
+    <description>Minecraft IRC integration for Spigot servers.</description>
+    <url>http://www.spigotmc.org/resources/purpleirc.2836/</url>
 
     <repositories>
         <!-- For anything else without its own repo -->
