@@ -7,8 +7,8 @@
 nick: AwesomeBot
 # If your bot's nick is in use try these alternates. Leave blank for none.
 alt-nicks:
-    - %NICK%_
-    - %NICK%__
+  - '%NICK%_'
+  - '%NICK%__'
 # login - Your bot's login name
 login: AwesomeName
 # realname

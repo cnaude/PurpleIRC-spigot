@@ -206,11 +206,11 @@ public final class PurpleBot {
         loadConfig();
         addListeners();
         version = plugin.getDescription().getFullName() + ", "
-                        + plugin.getDescription().getDescription() + " - "
-                        + plugin.getDescription().getWebsite();
+                + plugin.getDescription().getDescription() + " - "
+                + plugin.getDescription().getWebsite();
         buildBot();
         messageQueue = new IRCMessageQueueWatcher(this, plugin);
-        
+
     }
 
     public void buildBot() {
@@ -436,8 +436,7 @@ public final class PurpleBot {
 
     public void asyncCTCPMessage(final String target, final String message) {
         plugin.logDebug("Entering asyncCTCPMessage");
-        messageQueue.add(new IRCMessage(target, plugin.colorConverter
-                .gameColorsToIrc(message), true));
+        messageQueue.add(new IRCMessage(target, plugin.colorConverter.gameColorsToIrc(message), true));
     }
 
     public void blockingIRCMessage(final String target, final String message) {
@@ -445,8 +444,11 @@ public final class PurpleBot {
             return;
         }
         plugin.logDebug("[blockingIRCMessage] About to send IRC message to " + target);
-        bot.sendIRC().message(target, plugin.colorConverter
-                .gameColorsToIrc(message));
+        try {
+            bot.sendIRC().message(target, plugin.colorConverter.gameColorsToIrc(message));
+        } catch (Exception ex) {
+            plugin.logError("Problem sending IRC message: " + ex.getMessage());
+        }
         plugin.logDebug("[blockingIRCMessage] Message sent to " + target);
     }
 
@@ -455,8 +457,11 @@ public final class PurpleBot {
             return;
         }
         plugin.logDebug("[blockingCTCPMessage] About to send IRC message to " + target);
-        bot.sendIRC().ctcpResponse(target, plugin.colorConverter
-                .gameColorsToIrc(message));
+        try {
+            bot.sendIRC().ctcpResponse(target, plugin.colorConverter.gameColorsToIrc(message));
+        } catch (Exception ex) {
+            plugin.logError("Problem sending IRC CTCP message: " + ex.getMessage());
+        }
         plugin.logDebug("[blockingCTCPMessage] Message sent to " + target);
     }
 
@@ -1957,15 +1962,15 @@ public final class PurpleBot {
         }
         List<String> channelUsers = new ArrayList<>();
         for (User user : channel.getUsers()) {
-            String nick = user.getNick();
-            nick = getNickPrefix(user, channel) + nick;
+            String n = user.getNick();
+            n = getNickPrefix(user, channel) + n;
             if (user.isAway()) {
-                nick = nick + ChatColor.GRAY + " | Away";
+                n = n + ChatColor.GRAY + " | Away";
             }
-            if (nick.equals(bot.getNick())) {
-                nick = ChatColor.DARK_PURPLE + nick;
+            if (n.equals(bot.getNick())) {
+                n = ChatColor.DARK_PURPLE + n;
             }
-            channelUsers.add(nick);
+            channelUsers.add(n);
         }
         Collections.sort(channelUsers, Collator.getInstance());
         for (String userName : channelUsers) {
