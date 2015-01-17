@@ -548,7 +548,7 @@ public class ChatTokenizer {
         String group = plugin.getPlayerGroup(player);
         String displayName = player.getDisplayName();
         String playerIP = player.getAddress().getAddress().getHostAddress();
-        String host = plugin.getPlayerHost(player);
+        String host = plugin.getPlayerHost(playerIP);
         String worldName = "";
         String worldAlias = "";
         String worldColor = "";
