@@ -22,6 +22,8 @@ import java.text.SimpleDateFormat;
 import java.util.List;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
+import org.pircbotx.Channel;
+import org.pircbotx.User;
 import org.pircbotx.hooks.ListenerAdapter;
 import org.pircbotx.hooks.events.WhoisEvent;
 
@@ -54,12 +56,27 @@ public class WhoisListener extends ListenerAdapter {
             return;
         }
         CommandSender sender = ircBot.whoisSenders.remove(0);
+        
 
         sender.sendMessage(ChatColor.DARK_PURPLE + "----[ " + ChatColor.WHITE + "Whois" + ChatColor.DARK_PURPLE + " ]----");
         sender.sendMessage(ChatColor.DARK_PURPLE + "Nick: " + ChatColor.WHITE + event.getNick());        
         sender.sendMessage(ChatColor.DARK_PURPLE + "Username: " + ChatColor.WHITE + event.getLogin() + "@" + event.getHostname());
         sender.sendMessage(ChatColor.DARK_PURPLE + "Real name: " + ChatColor.WHITE + event.getRealname());
-        sender.sendMessage(ChatColor.DARK_PURPLE + "Server: " + ChatColor.WHITE + event.getServer());        
+        sender.sendMessage(ChatColor.DARK_PURPLE + "Server: " + ChatColor.WHITE + event.getServer());
+        User user = null;
+        for (Channel channel : ircBot.getBot().getUserBot().getChannels()) {
+            for (User u : channel.getUsers()) {
+                if (u.getNick().equalsIgnoreCase(event.getNick())) {
+                    user = u;
+                    break;
+                }
+            }
+        }
+        if (user != null) {
+            if (user.isAway()) {
+                sender.sendMessage(ChatColor.DARK_PURPLE + "Away: " + ChatColor.WHITE + user.getAwayMessage());
+            }
+        }
         if (!event.getChannels().isEmpty()) {
             StringBuilder sb = new StringBuilder();
             for (Object channel : (List<String>)event.getChannels()) {                
