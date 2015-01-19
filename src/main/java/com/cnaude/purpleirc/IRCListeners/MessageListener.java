@@ -65,6 +65,8 @@ public class MessageListener extends ListenerAdapter {
 
         if (ircBot.isValidChannel(channel.getName())) {
             plugin.ircMessageHandler.processMessage(ircBot, user, channel, message, false);
+        } else {
+            plugin.logDebug("Channel " + channel.getName() + " is not valid.");
         }
     }
 }
