@@ -161,9 +161,12 @@ message-format:
   # Dynmap Web Chat to IRC
   dynmap-web-chat: '[Dynmap] <%NAME%> %MESSAGE%'
   # IRC to Dynmap Chat
-  irc-dynmap-web-chat: '[IRC] %MESSAGE%'
+  irc-dynmap-web-chat: '%MESSAGE%'
   # IRC acion to Dynmap Chat (/me)
   irc-action-dynmap-web-chat: '[IRC] ***%NAME% %MESSAGE%'
+  # Optionally format the nick (workaround for dynamp message formatting issue)
+  irc-dynmap-nick: '[IRC] %NICK%'
+  irc-dynmap-action-nick: '[IRC] ***%NICK%'
   # OreBroadcast message
   ore-broadcast: '[OreBroadcast] %MESSAGE%'
   # Jobs seperator

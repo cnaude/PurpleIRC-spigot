@@ -2211,7 +2211,9 @@ public final class PurpleBot {
                 String template = plugin.getMsgTemplate(botNick, TemplateName.IRC_DYNMAP_WEB_CHAT);
                 String rawDWMessage = filterMessage(
                         plugin.tokenizer.ircChatToGameTokenizer(this, user, channel, template, message), myChannel);
-                plugin.dynmapHook.sendMessage(user.getNick(), rawDWMessage);
+                String nickTmpl = plugin.getMsgTemplate(botNick, TemplateName.IRC_DYNMAP_NICK);
+                String rawNick = nickTmpl.replace("%NICK%", user.getNick());
+                plugin.dynmapHook.sendMessage(rawNick, rawDWMessage);
                 messageSent = true;
             } else {
                 plugin.logDebug("Nope, " + TemplateName.IRC_DYNMAP_WEB_CHAT + " is NOT enabled...");
@@ -2453,7 +2455,9 @@ public final class PurpleBot {
                 String template = plugin.getMsgTemplate(botNick, TemplateName.IRC_ACTION_DYNMAP_WEB_CHAT);
                 String rawDWMessage = filterMessage(
                         plugin.tokenizer.ircChatToGameTokenizer(this, user, channel, template, message), myChannel);
-                plugin.dynmapHook.sendMessage(user.getNick(), rawDWMessage);
+                String nickTmpl = plugin.getMsgTemplate(botNick, TemplateName.IRC_DYNMAP_ACTION_NICK);
+                String rawNick = nickTmpl.replace("%NICK%", user.getNick());
+                plugin.dynmapHook.sendMessage(rawNick, rawDWMessage);
             } else {
                 plugin.logDebug("Nope, " + TemplateName.IRC_ACTION_DYNMAP_WEB_CHAT + " is NOT enabled...");
             }
