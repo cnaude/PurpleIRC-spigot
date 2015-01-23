@@ -1194,10 +1194,11 @@ public class PurpleIRC extends JavaPlugin {
      */
     public String getGroupPrefix(String worldName, String player) {
         String prefix = "";
+        UUID uuid = getPlayerUuid(player);
         if (vaultHelpers != null) {
             if (vaultHelpers.chat != null) {
                 String group = "";
-                OfflinePlayer offlinePlayer = getServer().getOfflinePlayer(player);
+                OfflinePlayer offlinePlayer = getServer().getOfflinePlayer(uuid);
                 if (offlinePlayer != null) {
                     try {
                         group = vaultHelpers.permission.getPrimaryGroup(worldName, offlinePlayer);
