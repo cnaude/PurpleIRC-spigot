@@ -140,8 +140,8 @@
     <dependency>
       <groupId>com.google.guava</groupId>
       <artifactId>guava</artifactId>
-      <version>15.0</version>
-      <scope>provided</scope>
+      <version>17.0</version>
+      <scope>compile</scope>
     </dependency>
     <dependency>
       <groupId>com.cnaude.essentials</groupId>
