@@ -97,6 +97,7 @@ public class IRCMessageHandler {
                 String perm = (String) ircBot.commandMap.get(myChannel).get(command).get("perm");
                 boolean privateCommand = Boolean.parseBoolean(ircBot.commandMap.get(myChannel).get(command).get("private"));
                 boolean ctcpResponse = Boolean.parseBoolean(ircBot.commandMap.get(myChannel).get(command).get("ctcp"));
+                String senderName = ircBot.commandMap.get(myChannel).get(command).get("sender").replace("%NICK%", user.getNick());
 
                 if (privateCommand || privateMessage) {
                     target = user.getNick();
@@ -179,7 +180,7 @@ public class IRCMessageHandler {
                                 }
                                 plugin.logDebug("GM: \"" + gameCommand.trim() + "\"");
                                 try {
-                                    plugin.commandQueue.add(new IRCCommand(new IRCCommandSender(ircBot, target, plugin, ctcpResponse), gameCommand.trim()));
+                                    plugin.commandQueue.add(new IRCCommand(new IRCCommandSender(ircBot, target, plugin, ctcpResponse, senderName), gameCommand.trim()));
                                 } catch (Exception ex) {
                                     plugin.logError(ex.getMessage());
                                 }

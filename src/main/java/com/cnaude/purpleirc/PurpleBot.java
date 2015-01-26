@@ -863,6 +863,7 @@ public final class PurpleBot {
                         optionPair.put("private", config.getString(commandKey + "private", "false"));
                         optionPair.put("ctcp", config.getString(commandKey + "ctcp", "false"));
                         optionPair.put("game_command", config.getString(commandKey + "game_command", ""));
+                        optionPair.put("sender", config.getString(commandKey + "sender", "CONSOLE"));
                         extraCommands.addAll(config.getStringList(commandKey + "extra_commands"));
                         plugin.logDebug("extra_commands: " + extraCommands.toString());
                         optionPair.put("private_listen", config.getString(commandKey + "private_listen", "true"));
@@ -2948,7 +2949,7 @@ public final class PurpleBot {
             }
             String myMessage = ChatColor.translateAlternateColorCodes('&', plugin.colorConverter.gameColorsToIrc(joinNoticeMessage.replace("%NAME%", user.getNick())));
             if (joinNoticeMessage.startsWith("/")) {
-                plugin.commandQueue.add(new IRCCommand(new IRCCommandSender(this, target, plugin, joinNoticeCtcp), myMessage.trim().substring(1)));
+                plugin.commandQueue.add(new IRCCommand(new IRCCommandSender(this, target, plugin, joinNoticeCtcp, "CONSOLE"), myMessage.trim().substring(1)));
             } else {
                 if (joinNoticeCtcp) {
                     asyncCTCPMessage(target, myMessage);
