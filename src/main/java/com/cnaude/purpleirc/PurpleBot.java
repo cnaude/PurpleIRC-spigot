@@ -2949,7 +2949,10 @@ public final class PurpleBot {
             }
             String myMessage = ChatColor.translateAlternateColorCodes('&', plugin.colorConverter.gameColorsToIrc(joinNoticeMessage.replace("%NAME%", user.getNick())));
             if (joinNoticeMessage.startsWith("/")) {
-                plugin.commandQueue.add(new IRCCommand(new IRCCommandSender(this, target, plugin, joinNoticeCtcp, "CONSOLE"), myMessage.trim().substring(1)));
+                plugin.commandQueue.add(new IRCCommand(
+                        new IRCCommandSender(this, target, plugin, joinNoticeCtcp, "CONSOLE"), 
+                        new IRCConsoleCommandSender(this, target, plugin, joinNoticeCtcp, "CONSOLE"), 
+                        myMessage.trim().substring(1)));
             } else {
                 if (joinNoticeCtcp) {
                     asyncCTCPMessage(target, myMessage);

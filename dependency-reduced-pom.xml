@@ -138,6 +138,12 @@
       <scope>provided</scope>
     </dependency>
     <dependency>
+      <groupId>com.cnaude.purpleirc</groupId>
+      <artifactId>PurpleIRC-API</artifactId>
+      <version>1.0-SNAPSHOT</version>
+      <scope>compile</scope>
+    </dependency>
+    <dependency>
       <groupId>com.google.guava</groupId>
       <artifactId>guava</artifactId>
       <version>17.0</version>

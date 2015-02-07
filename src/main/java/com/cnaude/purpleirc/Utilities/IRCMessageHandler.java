@@ -18,6 +18,7 @@ package com.cnaude.purpleirc.Utilities;
 
 import com.cnaude.purpleirc.IRCCommand;
 import com.cnaude.purpleirc.IRCCommandSender;
+import com.cnaude.purpleirc.IRCConsoleCommandSender;
 import com.cnaude.purpleirc.PurpleBot;
 import com.cnaude.purpleirc.PurpleIRC;
 import com.cnaude.purpleirc.TemplateName;
@@ -180,7 +181,10 @@ public class IRCMessageHandler {
                                 }
                                 plugin.logDebug("GM: \"" + gameCommand.trim() + "\"");
                                 try {
-                                    plugin.commandQueue.add(new IRCCommand(new IRCCommandSender(ircBot, target, plugin, ctcpResponse, senderName), gameCommand.trim()));
+                                    plugin.commandQueue.add(new IRCCommand(
+                                            new IRCCommandSender(ircBot, target, plugin, ctcpResponse, senderName), 
+                                            new IRCConsoleCommandSender(ircBot, target, plugin, ctcpResponse, senderName),
+                                            gameCommand.trim()));
                                 } catch (Exception ex) {
                                     plugin.logError(ex.getMessage());
                                 }
