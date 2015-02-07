@@ -84,12 +84,6 @@
             <type>jar</type>
             <scope>provided</scope>
         </dependency>
-        
-        <dependency>
-            <groupId>com.cnaude.purpleirc</groupId>
-            <artifactId>PurpleIRC-API</artifactId>
-            <version>1.0-SNAPSHOT</version>
-        </dependency>
 
         <!-- Following dependency is provided by CraftBukkit -->
         <dependency>
