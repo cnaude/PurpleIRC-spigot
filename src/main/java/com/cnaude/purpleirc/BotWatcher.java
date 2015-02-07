@@ -46,7 +46,7 @@ public class BotWatcher {
                     } else {
                         ircBot.setConnected(false);
                         if (ircBot.autoConnect) {
-                            plugin.logInfo("[" + ircBot.botNick + "] NOT CONNECTED");
+                            plugin.logDebug("[" + ircBot.botNick + "] Attempting reconnect...");
                             ircBot.reload();
                         }
                     }

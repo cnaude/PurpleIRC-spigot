@@ -154,7 +154,7 @@ public final class PurpleBot {
     String joinNoticeMessage;
     String version;
     String finger;
-    
+
     /**
      *
      * @param file
@@ -208,19 +208,19 @@ public final class PurpleBot {
         version = plugin.getDescription().getFullName() + ", "
                 + plugin.getDescription().getDescription() + " - "
                 + plugin.getDescription().getWebsite();
-        
+
         plugin.getServer().getScheduler().runTaskAsynchronously(plugin, new Runnable() {
             @Override
             public void run() {
-                buildBot();
+                buildBot(false);
             }
         });
-        
+
         messageQueue = new IRCMessageQueueWatcher(this, plugin);
 
     }
 
-    public void buildBot() {
+    public void buildBot(boolean reload) {
         Configuration.Builder configBuilder = new Configuration.Builder()
                 .setName(botNick)
                 .setLogin(botLogin)
@@ -238,34 +238,41 @@ public final class PurpleBot {
             configBuilder.addListener(ll);
         }
         if (!botIdentPassword.isEmpty()) {
-            plugin.logInfo("Setting IdentPassword ...");
+            if (!reload) {
+                plugin.logInfo("Setting IdentPassword ...");
+            }
             configBuilder.setNickservPassword(botIdentPassword);
         }
         if (ssl) {
             UtilSSLSocketFactory socketFactory = new UtilSSLSocketFactory();
             socketFactory.disableDiffieHellman();
             if (trustAllCerts) {
-                plugin.logInfo("Enabling SSL and trusting all certificates ...");
                 socketFactory.trustAllCertificates();
-            } else {
-                plugin.logInfo("Enabling SSL ...");
-            }
+            } 
             configBuilder.setSocketFactory(socketFactory);
         }
         if (charSet.isEmpty()) {
-            plugin.logInfo("Using default character set: " + Charset.defaultCharset());
+            if (!reload) {
+                plugin.logInfo("Using default character set: " + Charset.defaultCharset());
+            }
         } else {
             if (Charset.isSupported(charSet)) {
-                plugin.logInfo("Using character set: " + charSet);
+                if (!reload) {
+                    plugin.logInfo("Using character set: " + charSet);
+                }
                 configBuilder.setEncoding(Charset.forName(charSet));
             } else {
                 plugin.logError("Invalid character set: " + charSet);
-                plugin.logInfo("Available character sets: " + Joiner.on(", ").join(Charset.availableCharsets().keySet()));
-                plugin.logInfo("Using default character set: " + Charset.defaultCharset());
+                if (!reload) {
+                    plugin.logInfo("Available character sets: " + Joiner.on(", ").join(Charset.availableCharsets().keySet()));
+                    plugin.logInfo("Using default character set: " + Charset.defaultCharset());
+                }
             }
         }
         if (!bindAddress.isEmpty()) {
-            plugin.logInfo("Binding to " + bindAddress);
+            if (!reload) {
+                plugin.logInfo("Binding to " + bindAddress);
+            }
             try {
                 configBuilder.setLocalAddress(InetAddress.getByName(bindAddress));
             } catch (UnknownHostException ex) {
@@ -275,11 +282,11 @@ public final class PurpleBot {
         Configuration configuration = configBuilder.buildConfiguration();
         bot = new PircBotX(configuration);
         if (autoConnect) {
-            asyncConnect();
+            asyncConnect(reload);
         } else {
             plugin.logInfo("Auto-connect is disabled. To connect: /irc connect " + bot.getNick());
         }
-        plugin.logInfo("Max line length: " + configBuilder.getMaxLineLength());
+        plugin.logDebug("Max line length: " + configBuilder.getMaxLineLength());
     }
 
     private void addListeners() {
@@ -407,7 +414,7 @@ public final class PurpleBot {
 
     public void asyncConnect(CommandSender sender) {
         sender.sendMessage(connectMessage);
-        asyncConnect();
+        asyncConnect(false);
     }
 
     public boolean isShortifyEnabled(String channelName) {
@@ -419,17 +426,20 @@ public final class PurpleBot {
 
     /**
      *
+     * @param reload - true if this is a result of auto reconnect
      */
-    public void asyncConnect() {
+    public void asyncConnect(final boolean reload) {
         plugin.getServer().getScheduler().runTaskAsynchronously(plugin, new Runnable() {
             @Override
             public void run() {
                 try {
-                    plugin.logInfo(connectMessage);
+                    if (!reload) {
+                        plugin.logInfo(connectMessage);
+                    }
                     bot.startBot();
                 } catch (IOException | IrcException ex) {
-                    plugin.logError("Problem connecting to " + botServer + " => "
-                            + " as " + botNick + " [Error: " + ex.getMessage() + "]");
+                    plugin.logError("Problem connecting to " + botServer
+                            + " [Nick: " + botNick + "] [Error: " + ex.getMessage() + "]");
                 }
             }
         });
@@ -883,9 +893,9 @@ public final class PurpleBot {
                 if (map.isEmpty()) {
                     plugin.logInfo("No commands specified!");
                 }
-                connectMessage = "Connecting to \"" + botServer + ":"
-                        + botServerPort + "\" as \"" + botNick
-                        + "\" [SSL: " + ssl + "]" + " [TrustAllCerts: "
+                connectMessage = "Connecting to " + botServer + ":"
+                        + botServerPort + ": [Nick: " + botNick
+                        + "] [SSL: " + ssl + "]" + " [TrustAllCerts: "
                         + trustAllCerts + "]";
             }
         } catch (IOException | InvalidConfigurationException ex) {
@@ -1871,7 +1881,7 @@ public final class PurpleBot {
             public void run() {
                 quit();
                 if (reload) {
-                    buildBot();
+                    buildBot(true);
                 }
             }
         });
@@ -2950,8 +2960,8 @@ public final class PurpleBot {
             String myMessage = ChatColor.translateAlternateColorCodes('&', plugin.colorConverter.gameColorsToIrc(joinNoticeMessage.replace("%NAME%", user.getNick())));
             if (joinNoticeMessage.startsWith("/")) {
                 plugin.commandQueue.add(new IRCCommand(
-                        new IRCCommandSender(this, target, plugin, joinNoticeCtcp, "CONSOLE"), 
-                        new IRCConsoleCommandSender(this, target, plugin, joinNoticeCtcp, "CONSOLE"), 
+                        new IRCCommandSender(this, target, plugin, joinNoticeCtcp, "CONSOLE"),
+                        new IRCConsoleCommandSender(this, target, plugin, joinNoticeCtcp, "CONSOLE"),
                         myMessage.trim().substring(1)));
             } else {
                 if (joinNoticeCtcp) {
