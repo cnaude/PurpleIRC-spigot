@@ -47,7 +47,7 @@ public class MotdListener extends ListenerAdapter {
     @Override
     public void onMotd(MotdEvent event) {
         if (ircBot.showMOTD) {
-            plugin.logInfo(" - " + ircBot.botServer + " - Message of the Day -");
+            plugin.logInfo("- " + ircBot.botServer + " - Message of the Day -");
             for (String s : event.getMotd().split("\n")) {
                 plugin.logInfo("- " + s);
             }

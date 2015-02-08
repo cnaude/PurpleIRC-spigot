@@ -826,7 +826,7 @@ public class PurpleIRC extends JavaPlugin {
     public void logInfo(String message) {
         log.log(Level.INFO, String.format("%s %s", LOG_HEADER, message));
     }
-
+    
     /**
      *
      * @param message

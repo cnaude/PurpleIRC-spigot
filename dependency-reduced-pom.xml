@@ -45,6 +45,7 @@
               <minimizeJar>true</minimizeJar>
               <artifactSet>
                 <includes>
+                  <include>com.cnaude.pircbotx</include>
                   <include>org.pircbotx</include>
                   <include>org.slf4j</include>
                   <include>org.apache.commons</include>
@@ -52,6 +53,10 @@
               </artifactSet>
               <filters />
               <relocations>
+                <relocation>
+                  <pattern>com.cnaude.pircbotx</pattern>
+                  <shadedPattern>com.cnaude.pircbotx</shadedPattern>
+                </relocation>
                 <relocation>
                   <pattern>org.pircbotx</pattern>
                   <shadedPattern>org.pircbotx</shadedPattern>

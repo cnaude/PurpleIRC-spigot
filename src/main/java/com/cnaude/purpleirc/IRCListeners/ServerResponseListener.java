@@ -48,21 +48,21 @@ public class ServerResponseListener extends ListenerAdapter {
     @Override
     public void onServerResponse(ServerResponseEvent event) {
         int serverReply = event.getCode();
-        
+
         if (serverReply == ReplyConstants.ERR_BADCHANNELKEY) {
             plugin.logInfo("Bad channel password.");
         }
-        
+
         if (serverReply == ReplyConstants.ERR_BANNEDFROMCHAN) {
             plugin.logInfo("Banned from the channel.");
         }
-        
+
         if (serverReply == ReplyConstants.ERR_NICKNAMEINUSE) {
             plugin.logInfo("Nickname already in use.");
             ircBot.altNickChange();
         }
-        
+
         //plugin.logDebug("Server response: " + event.getRawLine());
-        
+
+        }
     }
-}
