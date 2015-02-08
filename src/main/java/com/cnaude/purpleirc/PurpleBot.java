@@ -154,6 +154,7 @@ public final class PurpleBot {
     String joinNoticeMessage;
     String version;
     String finger;
+    private int reconnectCount;
 
     /**
      *
@@ -201,6 +202,7 @@ public final class PurpleBot {
         this.enableMessageFiltering = new CaseInsensitiveMap<>();
         this.plugin = plugin;
         this.file = file;
+        this.reconnectCount = 0;
         whoisSenders = new ArrayList<>();
         config = new YamlConfiguration();
         loadConfig();
@@ -248,7 +250,7 @@ public final class PurpleBot {
             socketFactory.disableDiffieHellman();
             if (trustAllCerts) {
                 socketFactory.trustAllCertificates();
-            } 
+            }
             configBuilder.setSocketFactory(socketFactory);
         }
         if (charSet.isEmpty()) {
@@ -437,9 +439,13 @@ public final class PurpleBot {
                         plugin.logInfo(connectMessage);
                     }
                     bot.startBot();
+                    reconnectCount = 0;
                 } catch (IOException | IrcException ex) {
-                    plugin.logError("Problem connecting to " + botServer
-                            + " [Nick: " + botNick + "] [Error: " + ex.getMessage() + "]");
+                    if (reconnectCount <= plugin.reconnectSuppression) {
+                        plugin.logError("Problem connecting to " + botServer
+                                + " [Nick: " + botNick + "] [Error: " + ex.getMessage() + "]");
+                    }
+                    reconnectCount++;
                 }
             }
         });

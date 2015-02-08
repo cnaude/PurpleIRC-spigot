@@ -6,6 +6,8 @@ update-checker: true
 update-checker-mode: stable
 # How often we check to see if a bot is connected to the IRC server. This is in server ticks (There 20 ticks in one sec).
 conn-check-interval: 1000
+# Suppress connection failure messages after this many reconnect attempts
+reconnect-fail-message-count: 10
 # Startup an ident server
 enable-ident-server: false
 # How often we check the channel user list

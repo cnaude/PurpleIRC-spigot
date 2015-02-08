@@ -188,6 +188,7 @@ public class PurpleIRC extends JavaPlugin {
     private YamlConfiguration heroConfig;
     private final File cacheFile;
     private final File uuidCacheFile;
+    public int reconnectSuppression;
 
     public PurpleIRC() {
         this.MAINCONFIG = "MAIN-CONFIG";
@@ -205,6 +206,7 @@ public class PurpleIRC extends JavaPlugin {
         this.hostCache = new HashMap<>();
         this.cacheFile = new File("plugins/PurpleIRC/displayName.cache");
         this.uuidCacheFile = new File("plugins/PurpleIRC/uuid.cache");
+        this.reconnectSuppression = 0;
     }
 
     /**
@@ -691,6 +693,7 @@ public class PurpleIRC extends JavaPlugin {
         listSortByName = getConfig().getBoolean("list-sort-by-name", true);
 
         ircConnCheckInterval = getConfig().getLong("conn-check-interval");
+        reconnectSuppression = getConfig().getInt("reconnect-fail-message-count", 10);
         ircChannelCheckInterval = getConfig().getLong("channel-check-interval");
 
         customTabGamemode = getConfig().getString("custom-tab-gamemode", "SPECTATOR");
