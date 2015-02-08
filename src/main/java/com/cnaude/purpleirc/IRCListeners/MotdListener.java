@@ -26,7 +26,7 @@ import org.pircbotx.hooks.events.MotdEvent;
  * @author cnaude
  */
 public class MotdListener extends ListenerAdapter {
-    
+
     PurpleIRC plugin;
     PurpleBot ircBot;
 
@@ -39,7 +39,7 @@ public class MotdListener extends ListenerAdapter {
         this.plugin = plugin;
         this.ircBot = ircBot;
     }
-    
+
     /**
      *
      * @param event
@@ -47,7 +47,11 @@ public class MotdListener extends ListenerAdapter {
     @Override
     public void onMotd(MotdEvent event) {
         if (ircBot.showMOTD) {
-            plugin.logInfo(event.getMotd());
+            plugin.logInfo(" - " + ircBot.botServer + " - Message of the Day -");
+            for (String s : event.getMotd().split("\n")) {
+                plugin.logInfo("- " + s);
+            }
+            plugin.logInfo("- End of MOTD command.");
         }
     }
 }
