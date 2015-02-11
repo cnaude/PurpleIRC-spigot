@@ -84,6 +84,13 @@
             <type>jar</type>
             <scope>provided</scope>
         </dependency>
+        
+        <!-- PircBotX -->
+        <dependency>
+            <groupId>com.cnaude.pircbotx</groupId>
+            <artifactId>pircbotx</artifactId>
+            <version>2.0.3</version>
+        </dependency>
 
         <!-- Following dependency is provided by CraftBukkit -->
         <dependency>
@@ -232,14 +239,7 @@
             <artifactId>ProtocolLib</artifactId>
             <version>3.6.3</version>
         </dependency>
-        
-        <!-- PircBotX -->
-        <dependency>
-            <groupId>com.cnaude.pircbotx</groupId>
-            <artifactId>pircbotx</artifactId>
-            <version>2.0.2</version>
-        </dependency>
-                
+                        
         <!-- CleverNotch -->
         <dependency>
             <groupId>com.cnaude.clevernotch</groupId>
