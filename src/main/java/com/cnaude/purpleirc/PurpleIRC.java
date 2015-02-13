@@ -38,6 +38,7 @@ import com.cnaude.purpleirc.GameListeners.RedditStreamListener;
 import com.cnaude.purpleirc.GameListeners.ReportRTSListener;
 import com.cnaude.purpleirc.GameListeners.TitanChatListener;
 import com.cnaude.purpleirc.GameListeners.TownyChatListener;
+import com.cnaude.purpleirc.GameListeners.VanishNoPacketListener;
 import com.cnaude.purpleirc.Hooks.AdminPrivateChatHook;
 import com.cnaude.purpleirc.Hooks.DynmapHook;
 import com.cnaude.purpleirc.Hooks.FactionChatHook;
@@ -247,7 +248,7 @@ public class PurpleIRC extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new GamePlayerJoinListener(this), this);
         getServer().getPluginManager().registerEvents(new GamePlayerKickListener(this), this);
         getServer().getPluginManager().registerEvents(new GamePlayerQuitListener(this), this);
-        getServer().getPluginManager().registerEvents(new GameServerCommandListener(this), this);
+        getServer().getPluginManager().registerEvents(new GameServerCommandListener(this), this);        
         if (isPluginEnabled("Herochat")) {
             logInfo("Enabling HeroChat support.");
             getServer().getPluginManager().registerEvents(new HeroChatListener(this), this);
@@ -365,7 +366,13 @@ public class PurpleIRC extends JavaPlugin {
         } else {
             logInfo("OreBroadcast not detected.");
         }
-        vanishHook = new VanishHook(this);
+        vanishHook = new VanishHook(this);        
+        if (isPluginEnabled("VanishNoPacket")) {
+            logInfo("Enabling VanishNoPacket support.");
+            getServer().getPluginManager().registerEvents(new VanishNoPacketListener(this), this);
+        } else {
+            logInfo("VanishNoPacket not detected.");
+        }
         if (isPluginEnabled("SuperVanish")) {
             logInfo("Enabling SuperVanish support.");
             superVanishHook = new SuperVanishHook(this);

@@ -92,6 +92,8 @@ message-format:
   game-kick: '[&2%WORLD%&r] %MESSAGE%: %REASON%'
   game-join: '[&2%WORLD%&r] %NAME% joined the game.'
   game-quit: '[&2%WORLD%&r] %NAME% left the game.'
+  fake-join: '[&2%WORLD%&r] %NAME% joined the game.'
+  fake-quit: '[&2%WORLD%&r] %NAME% left the game.'
   game-command: '[&2%WORLD%&r] Command detected by %NAME%: %COMMAND% %PARAMS%'
   # Message template for "/irc send" to IRC message
   game-send: '[&2%WORLD%&r]<%NAME%> %MESSAGE%' 

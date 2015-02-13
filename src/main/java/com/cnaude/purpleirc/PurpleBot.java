@@ -1459,6 +1459,50 @@ public final class PurpleBot {
             }
         }
     }
+    
+    /**
+     *
+     * @param player
+     * @param message
+     */
+    public void gameFakeJoin(Player player, String message) {
+        if (!this.isConnected()) {
+            return;
+        }
+        for (String channelName : botChannels) {
+            if (isMessageEnabled(channelName, TemplateName.FAKE_JOIN)) {
+                if (!isPlayerInValidWorld(player, channelName)) {
+                    return;
+                }
+                asyncIRCMessage(channelName, plugin.tokenizer
+                        .gameChatToIRCTokenizer(player, plugin.getMsgTemplate(
+                                        botNick, TemplateName.FAKE_JOIN), message));
+            } else {
+                plugin.logDebug("Not sending join message due to " + TemplateName.FAKE_JOIN + " being disabled");
+            }
+        }
+    }
+
+    /**
+     *
+     * @param player
+     * @param message
+     */
+    public void gameFakeQuit(Player player, String message) {
+        if (!this.isConnected()) {
+            return;
+        }
+        for (String channelName : botChannels) {
+            if (isMessageEnabled(channelName, TemplateName.FAKE_QUIT)) {
+                if (!isPlayerInValidWorld(player, channelName)) {
+                    return;
+                }
+                asyncIRCMessage(channelName, plugin.tokenizer
+                        .gameChatToIRCTokenizer(player, plugin.getMsgTemplate(
+                                        botNick, TemplateName.FAKE_QUIT), message));
+            }
+        }
+    }
 
     /**
      *

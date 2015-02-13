@@ -21,6 +21,7 @@ softdepend:
 - RedditStream
 - AdminPrivateChat
 - SuperVanish
+- VanishNoPacket
 commands:
     irc:
         description: Various irc commands

@@ -105,6 +105,8 @@ channels:
     - game-kick
     - game-join
     - game-quit
+    - fake-join
+    - fake-quit
     - game-mode
     # Essentials helpop messages (/helpop /amsg /ac)   
     - ess-helpop
