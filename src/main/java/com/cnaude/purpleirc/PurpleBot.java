@@ -76,6 +76,7 @@ public final class PurpleBot {
 
     private PircBotX bot;
 
+    protected boolean goodBot;
     public final PurpleIRC plugin;
     private final File file;
     private YamlConfiguration config;
@@ -205,18 +206,22 @@ public final class PurpleBot {
         this.reconnectCount = 0;
         whoisSenders = new ArrayList<>();
         config = new YamlConfiguration();
-        loadConfig();
-        addListeners();
-        version = plugin.getDescription().getFullName() + ", "
-                + plugin.getDescription().getDescription() + " - "
-                + plugin.getDescription().getWebsite();
+        goodBot = loadConfig();
+        if (goodBot) {
+            addListeners();
+            version = plugin.getDescription().getFullName() + ", "
+                    + plugin.getDescription().getDescription() + " - "
+                    + plugin.getDescription().getWebsite();
 
-        plugin.getServer().getScheduler().runTaskAsynchronously(plugin, new Runnable() {
-            @Override
-            public void run() {
-                buildBot(false);
-            }
-        });
+            plugin.getServer().getScheduler().runTaskAsynchronously(plugin, new Runnable() {
+                @Override
+                public void run() {
+                    buildBot(false);
+                }
+            });
+        } else {
+            plugin.logError("Error loading " + this.fileName);
+        }
 
         messageQueue = new IRCMessageQueueWatcher(this, plugin);
 
@@ -363,8 +368,12 @@ public final class PurpleBot {
      */
     public void reloadConfig(CommandSender sender) {
         config = new YamlConfiguration();
-        loadConfig();
-        sender.sendMessage("[PurpleIRC] [" + botNick + "] IRC bot configuration reloaded.");
+        goodBot = loadConfig();
+        if (goodBot) {
+            sender.sendMessage("[PurpleIRC] [" + botNick + "] IRC bot configuration reloaded.");
+        } else {
+            sender.sendMessage("[PurpleIRC] [" + botNick + "] " + ChatColor.RED + "Error loading bot configuration!");
+        }
     }
 
     /**
@@ -505,13 +514,18 @@ public final class PurpleBot {
      * @param sender
      */
     public void saveConfig(CommandSender sender) {
-        try {
-            config.save(file);
+        if (goodBot) {
+            try {
+                config.save(file);
+                sender.sendMessage(plugin.LOG_HEADER_F
+                        + " Saving bot \"" + botNick + "\" to " + file.getName());
+            } catch (IOException ex) {
+                plugin.logError(ex.getMessage());
+                sender.sendMessage(ex.getMessage());
+            }
+        } else {
             sender.sendMessage(plugin.LOG_HEADER_F
-                    + " Saving bot \"" + botNick + "\" to " + file.getName());
-        } catch (IOException ex) {
-            plugin.logError(ex.getMessage());
-            sender.sendMessage(ex.getMessage());
+                    + ChatColor.RED + " Not saving bot \"" + botNick + "\" to " + file.getName());
         }
     }
 
@@ -613,7 +627,7 @@ public final class PurpleBot {
         saveConfig();
     }
 
-    private void loadConfig() {
+    private boolean loadConfig() {
         try {
             config.load(file);
             autoConnect = config.getBoolean("autoconnect", true);
@@ -698,215 +712,222 @@ public final class PurpleBot {
                 plugin.logInfo(" No command-notify ignores defined.");
             }
 
-            for (String enChannelName : config.getConfigurationSection("channels").getKeys(false)) {
-                String channelName = decodeChannel(enChannelName);
-                if (isValidChannel(channelName)) {
-                    plugin.logError("Ignoring duplicate channel: " + channelName);
-                    continue;
-                }
-                plugin.logDebug("Channel  => " + channelName);
-                botChannels.add(channelName);
-
-                channelAutoJoin.put(channelName, config.getBoolean("channels." + enChannelName + ".autojoin", true));
-                plugin.logDebug("  Autojoin => " + channelAutoJoin.get(channelName));
-
-                channelPassword.put(channelName, config.getString("channels." + enChannelName + ".password", ""));
-
-                channelTopic.put(channelName, config.getString("channels." + enChannelName + ".topic", ""));
-                plugin.logDebug("  Topic => " + channelTopic.get(channelName));
-
-                channelModes.put(channelName, config.getString("channels." + enChannelName + ".modes", ""));
-                plugin.logDebug("  Channel Modes => " + channelModes.get(channelName));
-
-                channelTopicProtected.put(channelName, config.getBoolean("channels." + enChannelName + ".topic-protect", false));
-                plugin.logDebug("  Topic Protected => " + channelTopicProtected.get(channelName).toString());
-
-                channelTopicChanserv.put(channelName, config.getBoolean("channels." + enChannelName + ".topic-chanserv", false));
-                plugin.logDebug("  Topic Chanserv Mode => " + channelTopicChanserv.get(channelName).toString());
-
-                heroChannel.put(channelName, config.getString("channels." + enChannelName + ".hero-channel", ""));
-                plugin.logDebug("  HeroChannel => " + heroChannel.get(channelName));
-
-                townyChannel.put(channelName, config.getString("channels." + enChannelName + ".towny-channel", ""));
-                plugin.logDebug("  TownyChannel => " + townyChannel.get(channelName));
-
-                logIrcToHeroChat.put(channelName, config.getBoolean("channels." + enChannelName + ".log-irc-to-hero-chat", false));
-                plugin.logDebug("  LogIrcToHeroChat => " + logIrcToHeroChat.get(channelName));
-
-                ignoreIRCChat.put(channelName, config.getBoolean("channels." + enChannelName + ".ignore-irc-chat", false));
-                plugin.logDebug("  IgnoreIRCChat => " + ignoreIRCChat.get(channelName));
-
-                hideJoinWhenVanished.put(channelName, config.getBoolean("channels." + enChannelName + ".hide-join-when-vanished", true));
-                plugin.logDebug("  HideJoinWhenVanished => " + hideJoinWhenVanished.get(channelName));
-
-                hideListWhenVanished.put(channelName, config.getBoolean("channels." + enChannelName + ".hide-list-when-vanished", true));
-                plugin.logDebug("  HideListWhenVanished => " + hideListWhenVanished.get(channelName));
-
-                hideQuitWhenVanished.put(channelName, config.getBoolean("channels." + enChannelName + ".hide-quit-when-vanished", true));
-                plugin.logDebug("  HideQuitWhenVanished => " + hideQuitWhenVanished.get(channelName));
-
-                invalidCommandPrivate.put(channelName, config.getBoolean("channels." + enChannelName + ".invalid-command.private", false));
-                plugin.logDebug("  InvalidCommandPrivate => " + invalidCommandPrivate.get(channelName));
-
-                invalidCommandCTCP.put(channelName, config.getBoolean("channels." + enChannelName + ".invalid-command.ctcp", false));
-                plugin.logDebug("  InvalidCommandCTCP => " + invalidCommandCTCP.get(channelName));
-
-                shortify.put(channelName, config.getBoolean("channels." + enChannelName + ".shortify", true));
-                plugin.logDebug("  Shortify => " + shortify.get(channelName));
-
-                joinMsg.put(channelName, config.getString("channels." + enChannelName + ".raw-message", ""));
-                plugin.logDebug("  JoinMessage => " + joinMsg.get(channelName));
-
-                msgOnJoin.put(channelName, config.getBoolean("channels." + enChannelName + ".raw-message-on-join", false));
-                plugin.logDebug("  SendMessageOnJoin => " + msgOnJoin.get(channelName));
-
-                enableMessageFiltering.put(channelName, config.getBoolean("channels." + enChannelName + ".enable-filtering", false));
-                plugin.logDebug("  EnableMessageFiltering => " + enableMessageFiltering.get(channelName));
-
-                // build channel op list
-                Collection<String> cOps = new ArrayList<>();
-                for (String channelOper : config.getStringList("channels." + enChannelName + ".ops")) {
-                    if (!cOps.contains(channelOper)) {
-                        cOps.add(channelOper);
+            if (config.getConfigurationSection("channels") == null) {
+                plugin.logError("No channels found!");
+                return false;
+            } else {
+                for (String enChannelName : config.getConfigurationSection("channels").getKeys(false)) {
+                    String channelName = decodeChannel(enChannelName);
+                    if (isValidChannel(channelName)) {
+                        plugin.logError("Ignoring duplicate channel: " + channelName);
+                        continue;
                     }
-                    plugin.logDebug("  Channel Op => " + channelOper);
-                }
-                opsList.put(channelName, cOps);
-                if (opsList.isEmpty()) {
-                    plugin.logInfo("No channel ops defined.");
-                }
+                    plugin.logDebug("Channel  => " + channelName);
+                    botChannels.add(channelName);
 
-                // build channel voice list
-                Collection<String> cVoices = new ArrayList<>();
-                for (String channelVoice : config.getStringList("channels." + enChannelName + ".voices")) {
-                    if (!cVoices.contains(channelVoice)) {
-                        cVoices.add(channelVoice);
-                    }
-                    plugin.logDebug("  Channel Voice => " + channelVoice);
-                }
-                voicesList.put(channelName, cVoices);
-                if (voicesList.isEmpty()) {
-                    plugin.logInfo("No channel voices defined.");
-                }
+                    channelAutoJoin.put(channelName, config.getBoolean("channels." + enChannelName + ".autojoin", true));
+                    plugin.logDebug("  Autojoin => " + channelAutoJoin.get(channelName));
 
-                // build mute list
-                Collection<String> m = new ArrayList<>();
-                for (String mutedUser : config.getStringList("channels." + enChannelName + ".muted")) {
-                    if (!m.contains(mutedUser)) {
-                        m.add(mutedUser);
-                    }
-                    plugin.logDebug("  Channel Mute => " + mutedUser);
-                }
-                muteList.put(channelName, m);
-                if (muteList.isEmpty()) {
-                    plugin.logInfo("IRC mute list is empty.");
-                }
+                    channelPassword.put(channelName, config.getString("channels." + enChannelName + ".password", ""));
 
-                // build valid chat list
-                Collection<String> c = new ArrayList<>();
-                for (String validChat : config.getStringList("channels." + enChannelName + ".enabled-messages")) {
-                    if (!c.contains(validChat)) {
-                        c.add(validChat);
-                    }
-                    plugin.logDebug("  Enabled Message => " + validChat);
-                }
-                enabledMessages.put(channelName, c);
-                if (enabledMessages.isEmpty()) {
-                    plugin.logInfo("There are no enabled messages!");
-                }
+                    channelTopic.put(channelName, config.getString("channels." + enChannelName + ".topic", ""));
+                    plugin.logDebug("  Topic => " + channelTopic.get(channelName));
 
-                // build valid world list
-                Collection<String> w = new ArrayList<>();
-                for (String validWorld : config.getStringList("channels." + enChannelName + ".worlds")) {
-                    if (!w.contains(validWorld)) {
-                        w.add(validWorld);
-                    }
-                    plugin.logDebug("  Enabled World => " + validWorld);
-                }
-                worldList.put(channelName, w);
-                if (worldList.isEmpty()) {
-                    plugin.logInfo("World list is empty!");
-                }
+                    channelModes.put(channelName, config.getString("channels." + enChannelName + ".modes", ""));
+                    plugin.logDebug("  Channel Modes => " + channelModes.get(channelName));
 
-                // build valid world list
-                Collection<String> t = new ArrayList<>();
-                for (String name : config.getStringList("channels." + enChannelName + ".custom-tab-ignore-list")) {
-                    if (!t.contains(name)) {
-                        t.add(name);
-                    }
-                    plugin.logDebug("  Tab Ignore => " + name);
-                }
-                tabIgnoreNicks.put(channelName, t);
-                if (tabIgnoreNicks.isEmpty()) {
-                    plugin.logInfo("World list is empty!");
-                }
+                    channelTopicProtected.put(channelName, config.getBoolean("channels." + enChannelName + ".topic-protect", false));
+                    plugin.logDebug("  Topic Protected => " + channelTopicProtected.get(channelName).toString());
 
-                // build valid world list
-                Collection<String> f = new ArrayList<>();
-                for (String word : config.getStringList("channels." + enChannelName + ".filter-list")) {
-                    if (!f.contains(word)) {
-                        f.add(word);
-                    }
-                    plugin.logDebug("  Filtered From IRC => " + word);
-                }
-                filters.put(channelName, f);
-                if (filters.isEmpty()) {
-                    plugin.logInfo("World list is empty!");
-                }
+                    channelTopicChanserv.put(channelName, config.getBoolean("channels." + enChannelName + ".topic-chanserv", false));
+                    plugin.logDebug("  Topic Chanserv Mode => " + channelTopicChanserv.get(channelName).toString());
 
-                // build join notice
-                joinNoticeCoolDown = config.getInt("channels." + enChannelName + ".join-notice.cooldown", 60);
-                joinNoticeEnabled = config.getBoolean("channels." + enChannelName + ".join-notice.enabled", false);
-                joinNoticePrivate = config.getBoolean("channels." + enChannelName + ".join-notice.private", true);
-                joinNoticeCtcp = config.getBoolean("channels." + enChannelName + ".join-notice.ctcp", true);
-                joinNoticeMessage = config.getString("channels." + enChannelName + ".join-notice.message", "");
-                plugin.logDebug("join-notice.cooldown: " + joinNoticeCoolDown);
-                plugin.logDebug("join-notice.enabled: " + joinNoticeEnabled);
-                plugin.logDebug("join-notice.private: " + joinNoticePrivate);
-                plugin.logDebug("join-notice.ctcp: " + joinNoticeCtcp);
-                plugin.logDebug("join-notice.message: " + joinNoticeMessage);
+                    heroChannel.put(channelName, config.getString("channels." + enChannelName + ".hero-channel", ""));
+                    plugin.logDebug("  HeroChannel => " + heroChannel.get(channelName));
 
-                // build command map
-                CaseInsensitiveMap<CaseInsensitiveMap<String>> map = new CaseInsensitiveMap<>();
-                CaseInsensitiveMap<List<String>> extraMap = new CaseInsensitiveMap<>();
-                try {
-                    for (String command : config.getConfigurationSection("channels." + enChannelName + ".commands").getKeys(false)) {
-                        plugin.logDebug("  Command => " + command);
-                        CaseInsensitiveMap<String> optionPair = new CaseInsensitiveMap<>();
-                        List<String> extraCommands = new ArrayList<>();
-                        String commandKey = "channels." + enChannelName + ".commands." + command + ".";
-                        optionPair.put("modes", config.getString(commandKey + "modes", "*"));
-                        optionPair.put("private", config.getString(commandKey + "private", "false"));
-                        optionPair.put("ctcp", config.getString(commandKey + "ctcp", "false"));
-                        optionPair.put("game_command", config.getString(commandKey + "game_command", ""));
-                        optionPair.put("sender", config.getString(commandKey + "sender", "CONSOLE"));
-                        extraCommands.addAll(config.getStringList(commandKey + "extra_commands"));
-                        plugin.logDebug("extra_commands: " + extraCommands.toString());
-                        optionPair.put("private_listen", config.getString(commandKey + "private_listen", "true"));
-                        optionPair.put("channel_listen", config.getString(commandKey + "channel_listen", "true"));
-                        optionPair.put("perm", config.getString(commandKey + "perm", ""));
-                        for (String s : optionPair.keySet()) {
-                            config.set(commandKey + s, optionPair.get(s));
+                    townyChannel.put(channelName, config.getString("channels." + enChannelName + ".towny-channel", ""));
+                    plugin.logDebug("  TownyChannel => " + townyChannel.get(channelName));
+
+                    logIrcToHeroChat.put(channelName, config.getBoolean("channels." + enChannelName + ".log-irc-to-hero-chat", false));
+                    plugin.logDebug("  LogIrcToHeroChat => " + logIrcToHeroChat.get(channelName));
+
+                    ignoreIRCChat.put(channelName, config.getBoolean("channels." + enChannelName + ".ignore-irc-chat", false));
+                    plugin.logDebug("  IgnoreIRCChat => " + ignoreIRCChat.get(channelName));
+
+                    hideJoinWhenVanished.put(channelName, config.getBoolean("channels." + enChannelName + ".hide-join-when-vanished", true));
+                    plugin.logDebug("  HideJoinWhenVanished => " + hideJoinWhenVanished.get(channelName));
+
+                    hideListWhenVanished.put(channelName, config.getBoolean("channels." + enChannelName + ".hide-list-when-vanished", true));
+                    plugin.logDebug("  HideListWhenVanished => " + hideListWhenVanished.get(channelName));
+
+                    hideQuitWhenVanished.put(channelName, config.getBoolean("channels." + enChannelName + ".hide-quit-when-vanished", true));
+                    plugin.logDebug("  HideQuitWhenVanished => " + hideQuitWhenVanished.get(channelName));
+
+                    invalidCommandPrivate.put(channelName, config.getBoolean("channels." + enChannelName + ".invalid-command.private", false));
+                    plugin.logDebug("  InvalidCommandPrivate => " + invalidCommandPrivate.get(channelName));
+
+                    invalidCommandCTCP.put(channelName, config.getBoolean("channels." + enChannelName + ".invalid-command.ctcp", false));
+                    plugin.logDebug("  InvalidCommandCTCP => " + invalidCommandCTCP.get(channelName));
+
+                    shortify.put(channelName, config.getBoolean("channels." + enChannelName + ".shortify", true));
+                    plugin.logDebug("  Shortify => " + shortify.get(channelName));
+
+                    joinMsg.put(channelName, config.getString("channels." + enChannelName + ".raw-message", ""));
+                    plugin.logDebug("  JoinMessage => " + joinMsg.get(channelName));
+
+                    msgOnJoin.put(channelName, config.getBoolean("channels." + enChannelName + ".raw-message-on-join", false));
+                    plugin.logDebug("  SendMessageOnJoin => " + msgOnJoin.get(channelName));
+
+                    enableMessageFiltering.put(channelName, config.getBoolean("channels." + enChannelName + ".enable-filtering", false));
+                    plugin.logDebug("  EnableMessageFiltering => " + enableMessageFiltering.get(channelName));
+
+                    // build channel op list
+                    Collection<String> cOps = new ArrayList<>();
+                    for (String channelOper : config.getStringList("channels." + enChannelName + ".ops")) {
+                        if (!cOps.contains(channelOper)) {
+                            cOps.add(channelOper);
                         }
-                        map.put(command, optionPair);
-                        extraMap.put(command, extraCommands);
+                        plugin.logDebug("  Channel Op => " + channelOper);
                     }
-                } catch (Exception ex) {
-                    plugin.logError("No commands found for channel " + enChannelName);
+                    opsList.put(channelName, cOps);
+                    if (opsList.isEmpty()) {
+                        plugin.logInfo("No channel ops defined.");
+                    }
+
+                    // build channel voice list
+                    Collection<String> cVoices = new ArrayList<>();
+                    for (String channelVoice : config.getStringList("channels." + enChannelName + ".voices")) {
+                        if (!cVoices.contains(channelVoice)) {
+                            cVoices.add(channelVoice);
+                        }
+                        plugin.logDebug("  Channel Voice => " + channelVoice);
+                    }
+                    voicesList.put(channelName, cVoices);
+                    if (voicesList.isEmpty()) {
+                        plugin.logInfo("No channel voices defined.");
+                    }
+
+                    // build mute list
+                    Collection<String> m = new ArrayList<>();
+                    for (String mutedUser : config.getStringList("channels." + enChannelName + ".muted")) {
+                        if (!m.contains(mutedUser)) {
+                            m.add(mutedUser);
+                        }
+                        plugin.logDebug("  Channel Mute => " + mutedUser);
+                    }
+                    muteList.put(channelName, m);
+                    if (muteList.isEmpty()) {
+                        plugin.logInfo("IRC mute list is empty.");
+                    }
+
+                    // build valid chat list
+                    Collection<String> c = new ArrayList<>();
+                    for (String validChat : config.getStringList("channels." + enChannelName + ".enabled-messages")) {
+                        if (!c.contains(validChat)) {
+                            c.add(validChat);
+                        }
+                        plugin.logDebug("  Enabled Message => " + validChat);
+                    }
+                    enabledMessages.put(channelName, c);
+                    if (enabledMessages.isEmpty()) {
+                        plugin.logInfo("There are no enabled messages!");
+                    }
+
+                    // build valid world list
+                    Collection<String> w = new ArrayList<>();
+                    for (String validWorld : config.getStringList("channels." + enChannelName + ".worlds")) {
+                        if (!w.contains(validWorld)) {
+                            w.add(validWorld);
+                        }
+                        plugin.logDebug("  Enabled World => " + validWorld);
+                    }
+                    worldList.put(channelName, w);
+                    if (worldList.isEmpty()) {
+                        plugin.logInfo("World list is empty!");
+                    }
+
+                    // build valid world list
+                    Collection<String> t = new ArrayList<>();
+                    for (String name : config.getStringList("channels." + enChannelName + ".custom-tab-ignore-list")) {
+                        if (!t.contains(name)) {
+                            t.add(name);
+                        }
+                        plugin.logDebug("  Tab Ignore => " + name);
+                    }
+                    tabIgnoreNicks.put(channelName, t);
+                    if (tabIgnoreNicks.isEmpty()) {
+                        plugin.logInfo("World list is empty!");
+                    }
+
+                    // build valid world list
+                    Collection<String> f = new ArrayList<>();
+                    for (String word : config.getStringList("channels." + enChannelName + ".filter-list")) {
+                        if (!f.contains(word)) {
+                            f.add(word);
+                        }
+                        plugin.logDebug("  Filtered From IRC => " + word);
+                    }
+                    filters.put(channelName, f);
+                    if (filters.isEmpty()) {
+                        plugin.logInfo("World list is empty!");
+                    }
+
+                    // build join notice
+                    joinNoticeCoolDown = config.getInt("channels." + enChannelName + ".join-notice.cooldown", 60);
+                    joinNoticeEnabled = config.getBoolean("channels." + enChannelName + ".join-notice.enabled", false);
+                    joinNoticePrivate = config.getBoolean("channels." + enChannelName + ".join-notice.private", true);
+                    joinNoticeCtcp = config.getBoolean("channels." + enChannelName + ".join-notice.ctcp", true);
+                    joinNoticeMessage = config.getString("channels." + enChannelName + ".join-notice.message", "");
+                    plugin.logDebug("join-notice.cooldown: " + joinNoticeCoolDown);
+                    plugin.logDebug("join-notice.enabled: " + joinNoticeEnabled);
+                    plugin.logDebug("join-notice.private: " + joinNoticePrivate);
+                    plugin.logDebug("join-notice.ctcp: " + joinNoticeCtcp);
+                    plugin.logDebug("join-notice.message: " + joinNoticeMessage);
+
+                    // build command map
+                    CaseInsensitiveMap<CaseInsensitiveMap<String>> map = new CaseInsensitiveMap<>();
+                    CaseInsensitiveMap<List<String>> extraMap = new CaseInsensitiveMap<>();
+                    try {
+                        for (String command : config.getConfigurationSection("channels." + enChannelName + ".commands").getKeys(false)) {
+                            plugin.logDebug("  Command => " + command);
+                            CaseInsensitiveMap<String> optionPair = new CaseInsensitiveMap<>();
+                            List<String> extraCommands = new ArrayList<>();
+                            String commandKey = "channels." + enChannelName + ".commands." + command + ".";
+                            optionPair.put("modes", config.getString(commandKey + "modes", "*"));
+                            optionPair.put("private", config.getString(commandKey + "private", "false"));
+                            optionPair.put("ctcp", config.getString(commandKey + "ctcp", "false"));
+                            optionPair.put("game_command", config.getString(commandKey + "game_command", ""));
+                            optionPair.put("sender", config.getString(commandKey + "sender", "CONSOLE"));
+                            extraCommands.addAll(config.getStringList(commandKey + "extra_commands"));
+                            plugin.logDebug("extra_commands: " + extraCommands.toString());
+                            optionPair.put("private_listen", config.getString(commandKey + "private_listen", "true"));
+                            optionPair.put("channel_listen", config.getString(commandKey + "channel_listen", "true"));
+                            optionPair.put("perm", config.getString(commandKey + "perm", ""));
+                            for (String s : optionPair.keySet()) {
+                                config.set(commandKey + s, optionPair.get(s));
+                            }
+                            map.put(command, optionPair);
+                            extraMap.put(command, extraCommands);
+                        }
+                    } catch (Exception ex) {
+                        plugin.logError("No commands found for channel " + enChannelName);
+                    }
+                    commandMap.put(channelName, map);
+                    extraCommandMap.put(channelName, extraMap);
+                    if (map.isEmpty()) {
+                        plugin.logInfo("No commands specified!");
+                    }
+                    connectMessage = "Connecting to " + botServer + ":"
+                            + botServerPort + ": [Nick: " + botNick
+                            + "] [SSL: " + ssl + "]" + " [TrustAllCerts: "
+                            + trustAllCerts + "]";
                 }
-                commandMap.put(channelName, map);
-                extraCommandMap.put(channelName, extraMap);
-                if (map.isEmpty()) {
-                    plugin.logInfo("No commands specified!");
-                }
-                connectMessage = "Connecting to " + botServer + ":"
-                        + botServerPort + ": [Nick: " + botNick
-                        + "] [SSL: " + ssl + "]" + " [TrustAllCerts: "
-                        + trustAllCerts + "]";
             }
         } catch (IOException | InvalidConfigurationException ex) {
             plugin.logError(ex.getMessage());
+            return false;
         }
+        return true;
     }
 
     /**
@@ -1459,7 +1480,7 @@ public final class PurpleBot {
             }
         }
     }
-    
+
     /**
      *
      * @param player

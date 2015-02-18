@@ -717,8 +717,13 @@ public class PurpleIRC extends JavaPlugin {
             for (final File file : botsFolder.listFiles()) {
                 if (file.getName().toLowerCase().endsWith(".yml")) {
                     logInfo("Loading bot file: " + file.getName());
-                    ircBots.put(file.getName(), new PurpleBot(file, this));
-                    logInfo("Loaded bot: " + file.getName() + "[" + ircBots.get(file.getName()).botNick + "]");
+                    PurpleBot ircBot = new PurpleBot(file, this);
+                    if (ircBot.goodBot) {
+                        ircBots.put(file.getName(), ircBot);
+                        logInfo("Loaded bot: " + file.getName() + " [" + ircBot.botNick + "]");
+                    } else {
+                        logError("Bot not loaded: " + file.getName());
+                    }                    
                 }
             }
         }
