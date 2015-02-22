@@ -2285,6 +2285,9 @@ public final class PurpleBot {
     public void broadcastChat(User user, org.pircbotx.Channel channel, String target, String message, boolean override, boolean ctcpResponse) {
         boolean messageSent = false;
         String myChannel = channel.getName();
+        /*
+         Send messages to Dynmap if enabled
+         */
         if (plugin.dynmapHook != null) {
             plugin.logDebug("Checking if " + TemplateName.IRC_DYNMAP_WEB_CHAT + " is enabled ...");
             if (enabledMessages.get(myChannel).contains(TemplateName.IRC_DYNMAP_WEB_CHAT)) {
@@ -2301,6 +2304,10 @@ public final class PurpleBot {
                 plugin.logDebug("Nope, " + TemplateName.IRC_DYNMAP_WEB_CHAT + " is NOT enabled...");
             }
         }
+
+        /*
+         Send messages to TownyChat if enabled
+         */
         if (plugin.tcHook != null) {
             plugin.logDebug("Checking if " + TemplateName.IRC_TOWNY_CHAT + " is enabled ...");
             if (enabledMessages.get(myChannel).contains(TemplateName.IRC_TOWNY_CHAT)) {
@@ -2321,6 +2328,9 @@ public final class PurpleBot {
             }
         }
 
+        /*
+         Send messages to players if enabled
+         */
         plugin.logDebug("Checking if " + TemplateName.IRC_CHAT + " is enabled before broadcasting chat from IRC");
         if (enabledMessages.get(myChannel).contains(TemplateName.IRC_CHAT) || override) {
             plugin.logDebug("Yup we can broadcast due to " + TemplateName.IRC_CHAT + " enabled");
@@ -2335,6 +2345,9 @@ public final class PurpleBot {
             plugin.logDebug("NOPE we can't broadcast due to " + TemplateName.IRC_CHAT + " disabled");
         }
 
+        /*
+         Send messages to console if enabled
+         */
         if (enabledMessages.get(myChannel).contains(TemplateName.IRC_CONSOLE_CHAT)) {
             String tmpl = plugin.getMsgTemplate(botNick, TemplateName.IRC_CONSOLE_CHAT);
             plugin.logDebug("broadcastChat [Console]: " + tmpl);
@@ -2343,6 +2356,9 @@ public final class PurpleBot {
             messageSent = true;
         }
 
+        /*
+         Send messages to Herochat if enabled
+         */
         plugin.logDebug("Checking if " + TemplateName.IRC_HERO_CHAT + " is enabled before broadcasting chat from IRC to HeroChat");
         if (enabledMessages.get(myChannel).contains(TemplateName.IRC_HERO_CHAT)) {
             String hChannel = heroChannel.get(myChannel);
@@ -2361,7 +2377,11 @@ public final class PurpleBot {
             }
         } else {
             plugin.logDebug("NOPE we can't broadcast to HeroChat due to " + TemplateName.IRC_HERO_CHAT + " disabled");
-        }        
+        }
+
+        /*
+         Send messages to Essentials if enabled
+         */
         if (plugin.isPluginEnabled("Essentials")) {
             plugin.logDebug("Checking if " + TemplateName.IRC_ESS_HELPOP + " is enabled before broadcasting chat from IRC");
             if (enabledMessages.get(myChannel).contains(TemplateName.IRC_ESS_HELPOP) || override) {
@@ -2379,6 +2399,9 @@ public final class PurpleBot {
             }
         }
 
+        /*
+         Send messages to AdminPrivateChat if enabled
+         */
         if (plugin.adminPrivateChatHook != null) {
             plugin.logDebug("Checking if " + TemplateName.IRC_A_CHAT + " is enabled before broadcasting chat from IRC");
             if (enabledMessages.get(myChannel).contains(TemplateName.IRC_A_CHAT) || override) {
@@ -2395,6 +2418,9 @@ public final class PurpleBot {
             }
         }
 
+        /*
+         Notify IRC user that message was sent.
+         */
         if (enabledMessages.get(myChannel).contains(TemplateName.IRC_CHAT_RESPONSE) && messageSent && target != null) {
             // Let the sender know the message was sent
             String responseTemplate = plugin.getMsgTemplate(botNick, TemplateName.IRC_CHAT_RESPONSE);
