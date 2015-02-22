@@ -123,8 +123,10 @@ message-format:
   irc-notice: '[&4IRC&r] [notice(%CHANNEL%)] %NOTICE% '
   # AdminPrivateChat response message in IRC. Set to '' to disable.
   irc-a-response: ' &6-> &7[AdminChat]: %MESSAGE%'
-  # AdinPrivateChat message from game to IRC
+  # AdminPrivateChat message from game to IRC
   game-a-chat: '[%WORLD%] <%NAME%> -> [AdminChat]: %MESSAGE%'
+  # AdminPrivateChat message from IRC to game
+  irc-a-chat: '[&4IRC&r] %MESSAGE%'
   # Message template for Clevernotch bot to IRC messages
   clever-send: '[&4BOT]<%NAME%> %MESSAGE%' 
   # Message templates for mcMMO to IRC messages

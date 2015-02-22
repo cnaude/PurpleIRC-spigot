@@ -181,8 +181,10 @@ channels:
     #- broadcast-message
     # RedditStream
     #- reddit-messages
-    # AdminPrivateChat messages
+    # AdminPrivateChat messages game to IRC
     #- game-a-chat
+    # AdminPrivateChat messages IRC to game
+    #- irc-a-chat
     # Hero channel destination for IRC messages    
     hero-channel: admin
     # Towny channel destination for IRC messages

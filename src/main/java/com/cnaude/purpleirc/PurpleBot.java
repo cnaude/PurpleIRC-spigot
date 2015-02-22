@@ -2361,7 +2361,7 @@ public final class PurpleBot {
             }
         } else {
             plugin.logDebug("NOPE we can't broadcast to HeroChat due to " + TemplateName.IRC_HERO_CHAT + " disabled");
-        }
+        }        
         if (plugin.isPluginEnabled("Essentials")) {
             plugin.logDebug("Checking if " + TemplateName.IRC_ESS_HELPOP + " is enabled before broadcasting chat from IRC");
             if (enabledMessages.get(myChannel).contains(TemplateName.IRC_ESS_HELPOP) || override) {
@@ -2378,6 +2378,23 @@ public final class PurpleBot {
                         + " disabled");
             }
         }
+
+        if (plugin.adminPrivateChatHook != null) {
+            plugin.logDebug("Checking if " + TemplateName.IRC_A_CHAT + " is enabled before broadcasting chat from IRC");
+            if (enabledMessages.get(myChannel).contains(TemplateName.IRC_A_CHAT) || override) {
+                plugin.logDebug("Yup we can broadcast due to " + TemplateName.IRC_A_CHAT + " enabled");
+                String newMessage = filterMessage(
+                        plugin.tokenizer.ircChatToGameTokenizer(this, user, channel, plugin.getMsgTemplate(
+                                        botNick, TemplateName.IRC_A_CHAT), message), myChannel);
+                if (!newMessage.isEmpty()) {
+                    plugin.adminPrivateChatHook.sendMessage(newMessage, user.getNick());
+                    messageSent = true;
+                }
+            } else {
+                plugin.logDebug("NOPE we can't broadcast due to " + TemplateName.IRC_A_CHAT + " disabled");
+            }
+        }
+
         if (enabledMessages.get(myChannel).contains(TemplateName.IRC_CHAT_RESPONSE) && messageSent && target != null) {
             // Let the sender know the message was sent
             String responseTemplate = plugin.getMsgTemplate(botNick, TemplateName.IRC_CHAT_RESPONSE);
@@ -2389,6 +2406,7 @@ public final class PurpleBot {
                 }
             }
         }
+
     }
 
 // Broadcast chat messages from IRC to specific hero channel
