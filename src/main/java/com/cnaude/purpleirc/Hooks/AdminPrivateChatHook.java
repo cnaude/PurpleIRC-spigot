@@ -40,6 +40,6 @@ public class AdminPrivateChatHook {
 
     public void sendMessage(String message, String playername) {
         plugin.logDebug("AdminPrivateChatHook: " + message);
-        ac.methods.MessageBuild(message, playername, "");
+        ac.methods.SendRawMessage(message, playername, "");
     }
 }
