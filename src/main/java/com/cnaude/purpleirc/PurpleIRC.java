@@ -1291,11 +1291,13 @@ public class PurpleIRC extends JavaPlugin {
      */
     public String getGroupSuffix(String worldName, String player) {
         String suffix = "";
+        UUID uuid = getPlayerUuid(player);
         if (vaultHelpers != null) {
             if (vaultHelpers.chat != null) {
                 String group = "";
+                OfflinePlayer offlinePlayer = getServer().getOfflinePlayer(uuid);
                 try {
-                    group = vaultHelpers.permission.getPrimaryGroup(worldName, player);
+                    group = vaultHelpers.permission.getPrimaryGroup(worldName, offlinePlayer);
                 } catch (Exception ex) {
                     logDebug("Problem with primary group (" + player + "): " + ex.getMessage());
                 }
