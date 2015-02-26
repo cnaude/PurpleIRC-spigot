@@ -275,6 +275,13 @@
             <version>1.7-SNAPSHOT</version>
         </dependency>
         
+        <!-- CommandBook -->
+        <dependency>
+            <groupId>com.cnaude.commandbook</groupId>
+            <artifactId>CommandBook</artifactId>
+            <version>2.5-SNAPSHOT</version>
+        </dependency>
+        
         <!-- DynmapAPI -->
         <dependency>
             <groupId>com.cnaude.dynmap</groupId>

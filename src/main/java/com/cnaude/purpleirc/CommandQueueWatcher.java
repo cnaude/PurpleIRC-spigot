@@ -56,7 +56,14 @@ public class CommandQueueWatcher {
         if (ircCommand != null) {
             try {
                 String cmd = ircCommand.getGameCommand().split(" ")[0];
-                if (plugin.getServer().getVersion().contains("MC: 1.8") && plugin.getServer().getPluginCommand(cmd) == null) {
+                boolean isCommandBookCommand = false;
+                plugin.logDebug("CMD: " + cmd);
+                if (plugin.commandBookHook != null) {
+                    isCommandBookCommand = plugin.commandBookHook.isCommandBookCommand(cmd);
+                    plugin.logDebug("Is this is a CommandBook command? " + Boolean.toString(isCommandBookCommand));
+                }
+                if (plugin.getServer().getVersion().contains("MC: 1.8") && plugin.getServer().getPluginCommand(cmd) == null
+                        && !isCommandBookCommand) {
                     plugin.logDebug("Dispatching command as ConsoleSender: " + ircCommand.getGameCommand());                    
 
                     plugin.getServer().dispatchCommand(ircCommand.getIRCConsoleCommandSender(), ircCommand.getGameCommand());

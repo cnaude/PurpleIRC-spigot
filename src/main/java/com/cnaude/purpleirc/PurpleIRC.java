@@ -40,6 +40,7 @@ import com.cnaude.purpleirc.GameListeners.TitanChatListener;
 import com.cnaude.purpleirc.GameListeners.TownyChatListener;
 import com.cnaude.purpleirc.GameListeners.VanishNoPacketListener;
 import com.cnaude.purpleirc.Hooks.AdminPrivateChatHook;
+import com.cnaude.purpleirc.Hooks.CommandBookHook;
 import com.cnaude.purpleirc.Hooks.DynmapHook;
 import com.cnaude.purpleirc.Hooks.FactionChatHook;
 import com.cnaude.purpleirc.Hooks.JobsHook;
@@ -173,6 +174,7 @@ public class PurpleIRC extends JavaPlugin {
     public AdminPrivateChatHook adminPrivateChatHook;
     public ShortifyHook shortifyHook;
     public ReportRTSHook reportRTSHook;
+    public CommandBookHook commandBookHook;
     public NetPackets netPackets;
     public CommandHandlers commandHandlers;
     public PurpleTabCompleter ircTabCompleter;
@@ -320,6 +322,12 @@ public class PurpleIRC extends JavaPlugin {
             getServer().getPluginManager().registerEvents(new AdminChatListener(this), this);
         } else {
             logInfo("AdminPrivateChat not detected.");
+        }
+        if (isPluginEnabled("CommandBook")) {
+            logInfo("Enabling CommandBook support.");
+            commandBookHook = new CommandBookHook(this);            
+        } else {
+            logInfo("CommandBook not detected.");
         }
         if (isPluginEnabled("Jobs")) {
             String m = getServer().getPluginManager().getPlugin("Jobs").getDescription().getMain();
