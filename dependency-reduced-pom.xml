@@ -289,6 +289,12 @@
       <scope>compile</scope>
     </dependency>
     <dependency>
+      <groupId>com.cnaude.shortify</groupId>
+      <artifactId>Shortify-Universal</artifactId>
+      <version>1.7-SNAPSHOT</version>
+      <scope>compile</scope>
+    </dependency>
+    <dependency>
       <groupId>com.cnaude.dynmap</groupId>
       <artifactId>DynmapAPI</artifactId>
       <version>2.1</version>
