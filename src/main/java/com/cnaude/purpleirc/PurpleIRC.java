@@ -1300,7 +1300,7 @@ public class PurpleIRC extends JavaPlugin {
     public String getGroupSuffix(String worldName, String player) {
         String suffix = "";
         UUID uuid = getPlayerUuid(player);
-        if (vaultHelpers != null) {
+        if (vaultHelpers != null && uuid != null) {
             if (vaultHelpers.chat != null) {
                 String group = "";
                 OfflinePlayer offlinePlayer = getServer().getOfflinePlayer(uuid);
