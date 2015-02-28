@@ -54,7 +54,6 @@ import com.cnaude.purpleirc.Hooks.VaultHook;
 import com.cnaude.purpleirc.Utilities.CaseInsensitiveMap;
 import com.cnaude.purpleirc.Utilities.ChatTokenizer;
 import com.cnaude.purpleirc.Utilities.ColorConverter;
-import com.cnaude.purpleirc.Utilities.IRCMessageHandler;
 import com.cnaude.purpleirc.Utilities.NetPackets;
 import com.cnaude.purpleirc.Utilities.Query;
 import com.cnaude.purpleirc.Utilities.RegexGlobber;
