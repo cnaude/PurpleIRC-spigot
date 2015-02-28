@@ -686,7 +686,7 @@ public final class PurpleBot {
                     plugin.logDebug("CustomPrefix: " + pair[0] + " => " + pair[1]);
                 }
             }
-            defaultCustomPrefix = config.getString("custom-prefix-deault", "[IRC]");
+            defaultCustomPrefix = config.getString("custom-prefix-default", "[IRC]");
 
             // build command notify recipient list            
             for (String recipient : config.getStringList("command-notify.recipients")) {
