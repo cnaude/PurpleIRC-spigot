@@ -66,6 +66,13 @@ part-invalid-channels: false
 part-invalid-channels-message: 'I should not be here! Bye!'
 # Channel auto join delay in server ticks (20 ticks = 1 second)
 channel-auto-join-delay: 20
+# If your irc-chat message has a %CUSTOMPREFIX% the these custom prefixes can replace them.
+# Can match either nick or hostmask
+custom-prefixes:
+- 'AwesomeNick [AwesomePrefix]'
+- '*!*sarah@example.com [Owner]'
+# Default if no match is found
+custom-prefix-deault: '[IRC]'
 # channels - List the channels your bot will join here
 channels:
   # Channel name must be surrounded by sing quotes to be YAML compliant.

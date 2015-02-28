@@ -139,6 +139,8 @@ public final class PurpleBot {
     public CaseInsensitiveMap<Collection<String>> worldList;
     public CaseInsensitiveMap<Collection<String>> muteList;
     public CaseInsensitiveMap<Collection<String>> enabledMessages;
+    public CaseInsensitiveMap<String> userPrefixes;
+    public String defaultCustomPrefix;
     public CaseInsensitiveMap<CaseInsensitiveMap<CaseInsensitiveMap<String>>> commandMap;
     public CaseInsensitiveMap<CaseInsensitiveMap<List<String>>> extraCommandMap;
     public CaseInsensitiveMap<Long> joinNoticeCooldownMap;
@@ -174,6 +176,7 @@ public final class PurpleBot {
         this.extraCommandMap = new CaseInsensitiveMap<>();
         this.joinNoticeCooldownMap = new CaseInsensitiveMap<>();
         this.enabledMessages = new CaseInsensitiveMap<>();
+        this.userPrefixes = new CaseInsensitiveMap<>();
         this.muteList = new CaseInsensitiveMap<>();
         this.worldList = new CaseInsensitiveMap<>();
         this.opsList = new CaseInsensitiveMap<>();
@@ -315,21 +318,6 @@ public final class PurpleBot {
         ircListeners.add(new ServerResponseListener(plugin, this));
     }
 
-    /*
-     private void addAutoJoinChannels(Configuration.Builder configBuilder) {
-     for (String channelName : botChannels) {
-     if (channelAutoJoin.containsKey(channelName)) {
-     if (channelAutoJoin.get(channelName)) {
-     if (channelPassword.get(channelName).isEmpty()) {
-     configBuilder.addAutoJoinChannel(channelName);
-     } else {
-     configBuilder.addAutoJoinChannel(channelName, channelPassword.get(channelName));
-     }
-     }
-     }
-     }
-     }
-     */
     public void autoJoinChannels() {
         plugin.getServer().getScheduler().runTaskLaterAsynchronously(plugin, new Runnable() {
             @Override
@@ -680,6 +668,7 @@ public final class PurpleBot {
             voicesList.clear();
             muteList.clear();
             enabledMessages.clear();
+            userPrefixes.clear();
             worldList.clear();
             commandMap.clear();
             extraCommandMap.clear();
@@ -689,6 +678,15 @@ public final class PurpleBot {
 
             channelCmdNotifyMode = config.getString("command-notify.mode", "msg");
             plugin.logDebug(" channelCmdNotifyMode => " + channelCmdNotifyMode);
+            
+            for (String s : config.getStringList("custom-prefixes")) {
+                String pair[] = s.split(" ", 2);
+                if (pair.length > 0) {
+                    userPrefixes.put(pair[0], pair[1]);
+                    plugin.logDebug("CustomPrefix: " + pair[0] + " => " + pair[1]);
+                }
+            }
+            defaultCustomPrefix = config.getString("custom-prefix-deault", "[IRC]");
 
             // build command notify recipient list            
             for (String recipient : config.getStringList("command-notify.recipients")) {
@@ -831,7 +829,7 @@ public final class PurpleBot {
                     enabledMessages.put(channelName, c);
                     if (enabledMessages.isEmpty()) {
                         plugin.logInfo("There are no enabled messages!");
-                    }
+                    }                    
 
                     // build valid world list
                     Collection<String> w = new ArrayList<>();
