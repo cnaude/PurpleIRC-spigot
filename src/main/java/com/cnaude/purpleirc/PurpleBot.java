@@ -140,6 +140,7 @@ public final class PurpleBot {
     public CaseInsensitiveMap<Collection<String>> muteList;
     public CaseInsensitiveMap<Collection<String>> enabledMessages;
     public CaseInsensitiveMap<String> userPrefixes;
+    public CaseInsensitiveMap<CaseInsensitiveMap<String>> firstOccurenceReplacements;    
     public String defaultCustomPrefix;
     public CaseInsensitiveMap<CaseInsensitiveMap<CaseInsensitiveMap<String>>> commandMap;
     public CaseInsensitiveMap<CaseInsensitiveMap<List<String>>> extraCommandMap;
@@ -176,6 +177,7 @@ public final class PurpleBot {
         this.extraCommandMap = new CaseInsensitiveMap<>();
         this.joinNoticeCooldownMap = new CaseInsensitiveMap<>();
         this.enabledMessages = new CaseInsensitiveMap<>();
+        this.firstOccurenceReplacements = new CaseInsensitiveMap<>();
         this.userPrefixes = new CaseInsensitiveMap<>();
         this.muteList = new CaseInsensitiveMap<>();
         this.worldList = new CaseInsensitiveMap<>();
@@ -669,6 +671,7 @@ public final class PurpleBot {
             muteList.clear();
             enabledMessages.clear();
             userPrefixes.clear();
+            firstOccurenceReplacements.clear();
             worldList.clear();
             commandMap.clear();
             extraCommandMap.clear();
@@ -682,11 +685,22 @@ public final class PurpleBot {
             for (String s : config.getStringList("custom-prefixes")) {
                 String pair[] = s.split(" ", 2);
                 if (pair.length > 0) {
-                    userPrefixes.put(pair[0], pair[1]);
-                    plugin.logDebug("CustomPrefix: " + pair[0] + " => " + pair[1]);
+                    String token = ChatColor.translateAlternateColorCodes('&', pair[1]);
+                    userPrefixes.put(pair[0], token);
+                    plugin.logDebug("CustomPrefix: " + pair[0] + " => " + token);
                 }
             }
-            defaultCustomPrefix = config.getString("custom-prefix-default", "[IRC]");
+            defaultCustomPrefix = ChatColor.translateAlternateColorCodes('&',config.getString("custom-prefix-default", "[IRC]"));
+            
+            for (String s : config.getStringList("replace-first-occurrences")) {
+                String pair[] = s.split(" ", 3);
+                if (pair.length > 2) {
+                    CaseInsensitiveMap rfo = new CaseInsensitiveMap<>();
+                    rfo.put(pair[1], pair[2]);
+                    firstOccurenceReplacements.put(pair[0], rfo);
+                    plugin.logDebug("ReplaceFirstOccurence: " + pair[0] + " => " + pair[1] + " => " + pair[2]);
+                }
+            }
 
             // build command notify recipient list            
             for (String recipient : config.getStringList("command-notify.recipients")) {
@@ -2268,6 +2282,14 @@ public final class PurpleBot {
             }
         }
         return message;
+    }
+    
+    protected String replaceFirstOccurences(String message) {
+        String newMessage = message;
+        
+        
+        
+        return newMessage;
     }
 
     // Broadcast chat messages from IRC

@@ -69,10 +69,14 @@ channel-auto-join-delay: 20
 # If your irc-chat message has a %CUSTOMPREFIX% then these custom prefixes can replace them.
 # Can match either nick or hostmask
 custom-prefixes:
-- 'AwesomeNick [AwesomePrefix]'
-- '*!*sarah@example.com [Owner]'
+    - 'AwesomeNick [AwesomePrefix]'
+    - '*!*sarah@example.com [Owner]'
 # Default if no match is found
 custom-prefix-default: '[IRC]'
+# Similar to custom-prefixe above. Search and replace first occurrence of : and replace with &r:
+replace-first-occurrences:
+    - 'AwesomeNick : &r:'
+    - '*!*sarah@example.com : &r:'
 # channels - List the channels your bot will join here
 channels:
   # Channel name must be surrounded by sing quotes to be YAML compliant.

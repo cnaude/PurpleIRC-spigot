@@ -75,27 +75,26 @@ public class ChatTokenizer {
         if (away == null) {
             away = "";
         }
+        plugin.logDebug("customPrefix before: " + customPrefix);
         if (!ircBot.userPrefixes.isEmpty()) {
             for (String key : ircBot.userPrefixes.keySet()) {
-                plugin.logDebug("Does " + key + " match " + user.getNick() + "?");
                 if (ircBot.userPrefixes.containsKey(user.getNick())) {
-                    plugin.logDebug("YES");
+                    plugin.logDebug("Comparing [" + key + "] to [" + user.getNick() + "] MATCH!");
                     customPrefix = ircBot.userPrefixes.get(key);
                     break;
                 } else {
-                    plugin.logDebug("NO");
+                    plugin.logDebug("Comparing [" + key + "] to [" + user.getNick() + "] NOPE!");
                 }
-                plugin.logDebug("Does " + key + " match " + user.getHostmask() + "?");
                 if (ircBot.checkUserMask(user, key)) {
                     customPrefix = ircBot.userPrefixes.get(key);
-                    plugin.logDebug("YES");
+                    plugin.logDebug("Comparing [" + key + "] to [" + user.getHostmask() + "] MATCH");
                     break;
                 } else {
-                    plugin.logDebug("NO");
+                    plugin.logDebug("Comparing [" + key + "] to [" + user.getHostmask() + "] NOPE!");
                 }
             }
         }
-        plugin.logDebug("customPrefix: " + customPrefix);
+        plugin.logDebug("customPrefix after: " + customPrefix);
         return template.replace("%HOST%", host)
                 .replace("%CUSTOMPREFIX%", customPrefix)
                 .replace("%NAME%", ircNick)

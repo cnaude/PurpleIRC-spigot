@@ -16,12 +16,6 @@
  */
 package com.cnaude.purpleirc;
 
-import com.cnaude.purpleirc.IRCCommand;
-import com.cnaude.purpleirc.IRCCommandSender;
-import com.cnaude.purpleirc.IRCConsoleCommandSender;
-import com.cnaude.purpleirc.PurpleBot;
-import com.cnaude.purpleirc.PurpleIRC;
-import com.cnaude.purpleirc.TemplateName;
 import com.cnaude.purpleirc.Utilities.CaseInsensitiveMap;
 import com.google.common.base.Joiner;
 import java.text.Collator;
