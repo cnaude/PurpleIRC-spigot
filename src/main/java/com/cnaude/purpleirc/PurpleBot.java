@@ -50,6 +50,7 @@ import java.text.Collator;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
 import me.botsko.prism.actionlibs.QueryParameters;
 import me.botsko.prism.events.BlockStateChange;
@@ -140,7 +141,7 @@ public final class PurpleBot {
     public CaseInsensitiveMap<Collection<String>> muteList;
     public CaseInsensitiveMap<Collection<String>> enabledMessages;
     public CaseInsensitiveMap<String> userPrefixes;
-    public CaseInsensitiveMap<CaseInsensitiveMap<String>> firstOccurenceReplacements;    
+    public CaseInsensitiveMap<CaseInsensitiveMap<String>> firstOccurrenceReplacements;
     public String defaultCustomPrefix;
     public CaseInsensitiveMap<CaseInsensitiveMap<CaseInsensitiveMap<String>>> commandMap;
     public CaseInsensitiveMap<CaseInsensitiveMap<List<String>>> extraCommandMap;
@@ -177,7 +178,7 @@ public final class PurpleBot {
         this.extraCommandMap = new CaseInsensitiveMap<>();
         this.joinNoticeCooldownMap = new CaseInsensitiveMap<>();
         this.enabledMessages = new CaseInsensitiveMap<>();
-        this.firstOccurenceReplacements = new CaseInsensitiveMap<>();
+        this.firstOccurrenceReplacements = new CaseInsensitiveMap<>();
         this.userPrefixes = new CaseInsensitiveMap<>();
         this.muteList = new CaseInsensitiveMap<>();
         this.worldList = new CaseInsensitiveMap<>();
@@ -671,7 +672,7 @@ public final class PurpleBot {
             muteList.clear();
             enabledMessages.clear();
             userPrefixes.clear();
-            firstOccurenceReplacements.clear();
+            firstOccurrenceReplacements.clear();
             worldList.clear();
             commandMap.clear();
             extraCommandMap.clear();
@@ -681,7 +682,7 @@ public final class PurpleBot {
 
             channelCmdNotifyMode = config.getString("command-notify.mode", "msg");
             plugin.logDebug(" channelCmdNotifyMode => " + channelCmdNotifyMode);
-            
+
             for (String s : config.getStringList("custom-prefixes")) {
                 String pair[] = s.split(" ", 2);
                 if (pair.length > 0) {
@@ -690,14 +691,14 @@ public final class PurpleBot {
                     plugin.logDebug("CustomPrefix: " + pair[0] + " => " + token);
                 }
             }
-            defaultCustomPrefix = ChatColor.translateAlternateColorCodes('&',config.getString("custom-prefix-default", "[IRC]"));
-            
+            defaultCustomPrefix = ChatColor.translateAlternateColorCodes('&', config.getString("custom-prefix-default", "[IRC]"));
+
             for (String s : config.getStringList("replace-first-occurrences")) {
                 String pair[] = s.split(" ", 3);
                 if (pair.length > 2) {
                     CaseInsensitiveMap rfo = new CaseInsensitiveMap<>();
                     rfo.put(pair[1], pair[2]);
-                    firstOccurenceReplacements.put(pair[0], rfo);
+                    firstOccurrenceReplacements.put(pair[0], rfo);
                     plugin.logDebug("ReplaceFirstOccurence: " + pair[0] + " => " + pair[1] + " => " + pair[2]);
                 }
             }
@@ -843,7 +844,7 @@ public final class PurpleBot {
                     enabledMessages.put(channelName, c);
                     if (enabledMessages.isEmpty()) {
                         plugin.logInfo("There are no enabled messages!");
-                    }                    
+                    }
 
                     // build valid world list
                     Collection<String> w = new ArrayList<>();
@@ -2283,14 +2284,6 @@ public final class PurpleBot {
         }
         return message;
     }
-    
-    protected String replaceFirstOccurences(String message) {
-        String newMessage = message;
-        
-        
-        
-        return newMessage;
-    }
 
     // Broadcast chat messages from IRC
     /**
@@ -2305,6 +2298,21 @@ public final class PurpleBot {
     public void broadcastChat(User user, org.pircbotx.Channel channel, String target, String message, boolean override, boolean ctcpResponse) {
         boolean messageSent = false;
         String myChannel = channel.getName();
+
+        /*
+         First occurrence replacements
+         */
+        if (!firstOccurrenceReplacements.isEmpty()) {
+            for (String key : firstOccurrenceReplacements.keySet()) {
+                if (user.getNick().equalsIgnoreCase(key) || checkUserMask(user, key)) {
+                    CaseInsensitiveMap cm = firstOccurrenceReplacements.get(key);
+                    for (Object obj : cm.keySet()) {
+                        message = message.replaceFirst((String)obj, ChatColor.translateAlternateColorCodes('&',(String)cm.get(obj)));
+                    }
+                }
+            }
+        }
+
         /*
          Send messages to Dynmap if enabled
          */

@@ -78,20 +78,10 @@ public class ChatTokenizer {
         plugin.logDebug("customPrefix before: " + customPrefix);
         if (!ircBot.userPrefixes.isEmpty()) {
             for (String key : ircBot.userPrefixes.keySet()) {
-                if (ircBot.userPrefixes.containsKey(user.getNick())) {
-                    plugin.logDebug("Comparing [" + key + "] to [" + user.getNick() + "] MATCH!");
+                if (ircBot.userPrefixes.containsKey(user.getNick()) || ircBot.checkUserMask(user, key)) {
                     customPrefix = ircBot.userPrefixes.get(key);
                     break;
-                } else {
-                    plugin.logDebug("Comparing [" + key + "] to [" + user.getNick() + "] NOPE!");
-                }
-                if (ircBot.checkUserMask(user, key)) {
-                    customPrefix = ircBot.userPrefixes.get(key);
-                    plugin.logDebug("Comparing [" + key + "] to [" + user.getHostmask() + "] MATCH");
-                    break;
-                } else {
-                    plugin.logDebug("Comparing [" + key + "] to [" + user.getHostmask() + "] NOPE!");
-                }
+                }              
             }
         }
         plugin.logDebug("customPrefix after: " + customPrefix);
