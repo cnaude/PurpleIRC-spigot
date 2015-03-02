@@ -78,7 +78,7 @@ public class ChatTokenizer {
         plugin.logDebug("customPrefix before: " + customPrefix);
         if (!ircBot.userPrefixes.isEmpty()) {
             for (String key : ircBot.userPrefixes.keySet()) {
-                if (ircBot.userPrefixes.containsKey(user.getNick()) || ircBot.checkUserMask(user, key)) {
+                if (key.equalsIgnoreCase(user.getNick()) || ircBot.checkUserMask(user, key)) {
                     customPrefix = ircBot.userPrefixes.get(key);
                     break;
                 }              

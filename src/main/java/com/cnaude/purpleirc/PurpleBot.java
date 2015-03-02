@@ -50,7 +50,6 @@ import java.text.Collator;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.Iterator;
 import java.util.List;
 import me.botsko.prism.actionlibs.QueryParameters;
 import me.botsko.prism.events.BlockStateChange;
@@ -686,10 +685,11 @@ public final class PurpleBot {
             for (String s : config.getStringList("custom-prefixes")) {
                 String pair[] = s.split(" ", 2);
                 if (pair.length > 0) {
-                    String token = ChatColor.translateAlternateColorCodes('&', pair[1]);
-                    userPrefixes.put(pair[0], token);
-                    plugin.logDebug("CustomPrefix: " + pair[0] + " => " + token);
+                    userPrefixes.put(pair[0], ChatColor.translateAlternateColorCodes('&', pair[1]));  
                 }
+            }
+            for (String key : userPrefixes.keySet()) {
+                plugin.logDebug(" CustomPrefix: " + key + " => " + userPrefixes.get(key));
             }
             defaultCustomPrefix = ChatColor.translateAlternateColorCodes('&', config.getString("custom-prefix-default", "[IRC]"));
 
@@ -2307,7 +2307,7 @@ public final class PurpleBot {
                 if (user.getNick().equalsIgnoreCase(key) || checkUserMask(user, key)) {
                     CaseInsensitiveMap cm = firstOccurrenceReplacements.get(key);
                     for (Object obj : cm.keySet()) {
-                        message = message.replaceFirst((String)obj, ChatColor.translateAlternateColorCodes('&',(String)cm.get(obj)));
+                        message = message.replaceFirst((String) obj, ChatColor.translateAlternateColorCodes('&', (String) cm.get(obj)));
                     }
                 }
             }
