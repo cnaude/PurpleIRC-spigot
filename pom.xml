@@ -6,7 +6,7 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <!-- Bukkit API Version, change if out dated -->
-        <bukkit.version>1.8</bukkit.version>
+        <bukkit.version>1.8.3</bukkit.version>
         <build.number>SNAPSHOT</build.number>
     </properties>
 

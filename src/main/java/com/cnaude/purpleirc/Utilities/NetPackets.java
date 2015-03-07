@@ -19,11 +19,9 @@ package com.cnaude.purpleirc.Utilities;
 import com.cnaude.purpleirc.PurpleBot;
 import com.cnaude.purpleirc.PurpleIRC;
 import com.comphenix.protocol.PacketType;
-import com.comphenix.protocol.Packets;
 import com.comphenix.protocol.ProtocolLibrary;
 import com.comphenix.protocol.ProtocolManager;
 import com.comphenix.protocol.events.PacketContainer;
-import com.comphenix.protocol.injector.PacketConstructor;
 import com.comphenix.protocol.reflect.FieldAccessException;
 import com.comphenix.protocol.wrappers.EnumWrappers.NativeGameMode;
 import com.comphenix.protocol.wrappers.PlayerInfoData;
@@ -130,13 +128,15 @@ public class NetPackets {
                     packet.getPlayerInfoDataLists().write(0, Arrays.asList(pid));
                 } else {
                     plugin.logDebug("T: Removing: " + name);
-                    net.minecraft.server.v1_8_R1.EntityPlayer pl = new net.minecraft.server.v1_8_R1.EntityPlayer(
-                            net.minecraft.server.v1_8_R1.MinecraftServer.getServer(),
-                            net.minecraft.server.v1_8_R1.MinecraftServer.getServer().getWorldServer(0),
+                    net.minecraft.server.v1_8_R2.EntityPlayer pl = new net.minecraft.server.v1_8_R2.EntityPlayer(
+                            net.minecraft.server.v1_8_R2.MinecraftServer.getServer(),
+                            net.minecraft.server.v1_8_R2.MinecraftServer.getServer().getWorldServer(0),
                             (GameProfile) (new WrappedGameProfile(uuid, displayName)).getHandle(),
-                            new net.minecraft.server.v1_8_R1.PlayerInteractManager(net.minecraft.server.v1_8_R1.MinecraftServer.getServer().getWorldServer(0))
+                            new net.minecraft.server.v1_8_R2.PlayerInteractManager(net.minecraft.server.v1_8_R2.MinecraftServer.getServer().getWorldServer(0))
                     );
-                    net.minecraft.server.v1_8_R1.PacketPlayOutPlayerInfo pi = new net.minecraft.server.v1_8_R1.PacketPlayOutPlayerInfo(net.minecraft.server.v1_8_R1.EnumPlayerInfoAction.REMOVE_PLAYER, pl);
+                    net.minecraft.server.v1_8_R2.PacketPlayOutPlayerInfo pi = 
+                            new net.minecraft.server.v1_8_R2.PacketPlayOutPlayerInfo(
+                                    net.minecraft.server.v1_8_R2.PacketPlayOutPlayerInfo.EnumPlayerInfoAction.REMOVE_PLAYER, pl);
                     return PacketContainer.fromPacket(pi);
 
                 }
