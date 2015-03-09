@@ -18,9 +18,6 @@ package com.cnaude.purpleirc.Hooks;
 
 import com.cnaude.purpleirc.TemplateName;
 import com.cnaude.purpleirc.PurpleIRC;
-import com.gamingmesh.jobs.Jobs;
-import com.gamingmesh.jobs.PlayerManager;
-import com.gamingmesh.jobs.container.Job;
 import com.google.common.base.Joiner;
 import java.util.ArrayList;
 import org.bukkit.entity.Player;
@@ -32,7 +29,6 @@ import org.bukkit.entity.Player;
 public class JobsHook {
 
     private final PurpleIRC plugin;
-    private PlayerManager playerManager = null;
 
     /**
      *
@@ -40,32 +36,49 @@ public class JobsHook {
      */
     public JobsHook(PurpleIRC plugin) {
         this.plugin = plugin;
-        try {
-            this.playerManager = Jobs.getPlayerManager();
-        } catch (Exception ex) {
-            plugin.logError("Jobs: " + ex.getMessage());
-        }
     }
 
     public String getPlayerJob(Player player, boolean shortName) {
-        if (playerManager == null) {
-            return "";
-        }
         if (player != null) {
-            ArrayList<String> j = new ArrayList<>();
-            if (plugin.isPluginEnabled("Jobs")) {
-                for (Job job : Jobs.getJobs()) {
-                    if (playerManager.getJobsPlayer(player).isInJob(job)) {
-                        if (shortName) {
-                            j.add(job.getShortName());
-                        } else {
-                            j.add(job.getName());
+            try {
+                if (plugin.isPluginEnabled("Jobs")) {
+                    ArrayList<String> j = new ArrayList<>();
+                    String m = plugin.getServer().getPluginManager().getPlugin("Jobs").getDescription().getMain();
+                    if (m.contains("me.zford")) {
+                        me.zford.jobs.PlayerManager playerManager = me.zford.jobs.Jobs.getPlayerManager();
+                        if (playerManager == null) {
+                            return "";
+                        }
+                        for (me.zford.jobs.container.Job job : me.zford.jobs.Jobs.getJobs()) {
+                            if (playerManager.getJobsPlayer(player).isInJob(job)) {
+                                if (shortName) {
+                                    j.add(job.getShortName());
+                                } else {
+                                    j.add(job.getName());
+                                }
+                            }
+                        }
+                    } else if (m.contains("com.gamingmesh")) {
+                        com.gamingmesh.jobs.PlayerManager playerManager = com.gamingmesh.jobs.Jobs.getPlayerManager();
+                        if (playerManager == null) {
+                            return "";
+                        }
+                        for (com.gamingmesh.jobs.container.Job job : com.gamingmesh.jobs.Jobs.getJobs()) {
+                            if (playerManager.getJobsPlayer(player).isInJob(job)) {
+                                if (shortName) {
+                                    j.add(job.getShortName());
+                                } else {
+                                    j.add(job.getName());
+                                }
+                            }
                         }
                     }
+                    if (!j.isEmpty()) {
+                        return Joiner.on(plugin.getMsgTemplate(TemplateName.JOBS_SEPARATOR)).join(j);
+                    }
                 }
-                if (!j.isEmpty()) {
-                    return Joiner.on(plugin.getMsgTemplate(TemplateName.JOBS_SEPARATOR)).join(j);
-                }
+            } catch (Exception ex) {
+                plugin.logError("getPlayerJob: " + ex.getMessage());
             }
         }
         return "";

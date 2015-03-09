@@ -44,7 +44,6 @@ import com.cnaude.purpleirc.Hooks.CommandBookHook;
 import com.cnaude.purpleirc.Hooks.DynmapHook;
 import com.cnaude.purpleirc.Hooks.FactionChatHook;
 import com.cnaude.purpleirc.Hooks.JobsHook;
-import com.cnaude.purpleirc.Hooks.JobsHookOld;
 import com.cnaude.purpleirc.Hooks.ReportRTSHook;
 import com.cnaude.purpleirc.Hooks.ShortifyHook;
 import com.cnaude.purpleirc.Hooks.SuperVanishHook;
@@ -169,7 +168,6 @@ public class PurpleIRC extends JavaPlugin {
     public TownyChatHook tcHook;
     public DynmapHook dynmapHook;
     public JobsHook jobsHook;
-    public JobsHookOld jobsHookOld;
     public AdminPrivateChatHook adminPrivateChatHook;
     public ShortifyHook shortifyHook;
     public ReportRTSHook reportRTSHook;
@@ -329,17 +327,8 @@ public class PurpleIRC extends JavaPlugin {
             logInfo("CommandBook not detected.");
         }
         if (isPluginEnabled("Jobs")) {
-            String m = getServer().getPluginManager().getPlugin("Jobs").getDescription().getMain();
-            String jobsVersion = getServer().getPluginManager().getPlugin("Jobs").getDescription().getVersion();
-            if (m.contains("me.zford")) {
-                logInfo("Enabling legacy Jobs support: " + jobsVersion);
-                jobsHookOld = new JobsHookOld(this);
-            } else if (m.contains("com.gamingmesh")) {
-                logInfo("Enabling new Jobs support: " + jobsVersion);
-                jobsHook = new JobsHook(this);
-            } else {
-                logError("Unable to hook into Jobs: " + m);
-            }
+            logInfo("Enabling new Jobs support.");
+            jobsHook = new JobsHook(this);
         } else {
             logInfo("Jobs not detected.");
         }
