@@ -189,7 +189,7 @@
     <dependency>
       <groupId>com.cnaude.jobs</groupId>
       <artifactId>Jobs</artifactId>
-      <version>2.16.0</version>
+      <version>2.18.8</version>
       <scope>compile</scope>
     </dependency>
     <dependency>
