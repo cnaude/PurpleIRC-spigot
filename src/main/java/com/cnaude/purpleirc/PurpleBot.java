@@ -51,6 +51,12 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReadWriteLock;
+import java.util.concurrent.locks.ReentrantReadWriteLock;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import me.botsko.prism.actionlibs.QueryParameters;
 import me.botsko.prism.events.BlockStateChange;
 import org.bukkit.Achievement;
@@ -159,6 +165,8 @@ public final class PurpleBot {
     String version;
     String finger;
     private int reconnectCount;
+    private ReadWriteLock rwl;
+    private final Lock wl;
 
     /**
      *
@@ -166,6 +174,8 @@ public final class PurpleBot {
      * @param plugin
      */
     public PurpleBot(File file, PurpleIRC plugin) {
+        this.rwl = new ReentrantReadWriteLock();
+        this.wl = rwl.writeLock();
         fileName = file.getName();
         this.altNicks = new ArrayList<>();
         this.connected = false;
@@ -2139,21 +2149,30 @@ public final class PurpleBot {
             //plugin.logDebug("N: " + user.getNick());
             users.add(user.getNick());
         }
-        // Iterate over previous list and remove from tab list
-        String channelName = channel.getName();
-        if (channelNicks.containsKey(channelName)) {
-            for (String name : channelNicks.get(channelName)) {
-                //plugin.logDebug("O: " + name);
-                if (!users.contains(name)) {
-                    plugin.logDebug("Removing " + name + " from list.");
-                    if (plugin.netPackets != null) {
-                        plugin.netPackets.remFromTabList(name);
+        try {
+            wl.tryLock(10, TimeUnit.MILLISECONDS);
+        } catch (InterruptedException ex) {
+            plugin.logDebug("Lock Error: " + ex.getMessage());
+            return;
+        }
+        try {
+            String channelName = channel.getName();
+            if (channelNicks.containsKey(channelName)) {
+                for (String name : channelNicks.get(channelName)) {
+                    //plugin.logDebug("O: " + name);
+                    if (!users.contains(name)) {
+                        plugin.logDebug("Removing " + name + " from list.");
+                        if (plugin.netPackets != null) {
+                            plugin.netPackets.remFromTabList(name);
+                        }
                     }
                 }
+                channelNicks.remove(channelName);
             }
-            channelNicks.remove(channelName);
+            channelNicks.put(channelName, users);
+        } finally {
+            wl.unlock();
         }
-        channelNicks.put(channelName, users);
     }
 
     /**

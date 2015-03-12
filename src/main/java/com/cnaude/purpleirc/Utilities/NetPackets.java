@@ -18,20 +18,19 @@ package com.cnaude.purpleirc.Utilities;
 
 import com.cnaude.purpleirc.PurpleBot;
 import com.cnaude.purpleirc.PurpleIRC;
-import com.comphenix.protocol.PacketType;
 import com.comphenix.protocol.ProtocolLibrary;
 import com.comphenix.protocol.ProtocolManager;
 import com.comphenix.protocol.events.PacketContainer;
 import com.comphenix.protocol.reflect.FieldAccessException;
-import com.comphenix.protocol.wrappers.EnumWrappers.NativeGameMode;
-import com.comphenix.protocol.wrappers.PlayerInfoData;
-import com.comphenix.protocol.wrappers.WrappedChatComponent;
 import com.comphenix.protocol.wrappers.WrappedGameProfile;
 import com.google.common.base.Charsets;
 import com.mojang.authlib.GameProfile;
 import java.lang.reflect.InvocationTargetException;
-import java.util.Arrays;
 import java.util.UUID;
+import net.minecraft.server.v1_8_R2.EntityPlayer;
+import net.minecraft.server.v1_8_R2.MinecraftServer;
+import net.minecraft.server.v1_8_R2.PacketPlayOutPlayerInfo;
+import net.minecraft.server.v1_8_R2.PlayerInteractManager;
 import org.bukkit.entity.Player;
 import org.pircbotx.Channel;
 import org.pircbotx.User;
@@ -111,13 +110,15 @@ public class NetPackets {
         String displayName = truncateName(plugin.customTabPrefix + name);
         PacketContainer packet = null;
         String version = plugin.getServer().getVersion();
-        if (version.contains("MC: 1.8")) {
+        if (version.contains("MC: 1.8.3")) {
             try {
                 UUID uuid = null; // = plugin.getPlayerUuid(name);
                 if (uuid == null) {
                     uuid = UUID.nameUUIDFromBytes(("OfflinePlayer:" + displayName).getBytes(Charsets.UTF_8));
                 }
                 if (add) {
+                    //plugin.logDebug("T: Adding: " + name);
+                    /*
                     packet = protocolManager.createPacket(PacketType.Play.Server.PLAYER_INFO);
 
                     PlayerInfoData pid = new PlayerInfoData(
@@ -126,21 +127,30 @@ public class NetPackets {
                             NativeGameMode.valueOf(plugin.customTabGamemode.toUpperCase()),
                             WrappedChatComponent.fromJson("{\"text\": \"" + displayName + "\"}"));
                     packet.getPlayerInfoDataLists().write(0, Arrays.asList(pid));
+                    */
+                    EntityPlayer pl = new EntityPlayer(
+                            MinecraftServer.getServer(),
+                            MinecraftServer.getServer().getWorldServer(0),
+                            (GameProfile) (new WrappedGameProfile(uuid, displayName)).getHandle(),
+                            new PlayerInteractManager(MinecraftServer.getServer().getWorldServer(0))
+                    );
+                    PacketPlayOutPlayerInfo pi = 
+                            new PacketPlayOutPlayerInfo(
+                                    PacketPlayOutPlayerInfo.EnumPlayerInfoAction.ADD_PLAYER, pl);
+                    return PacketContainer.fromPacket(pi);
                 } else {
                     plugin.logDebug("T: Removing: " + name);
-                    net.minecraft.server.v1_8_R2.EntityPlayer pl = new net.minecraft.server.v1_8_R2.EntityPlayer(
-                            net.minecraft.server.v1_8_R2.MinecraftServer.getServer(),
-                            net.minecraft.server.v1_8_R2.MinecraftServer.getServer().getWorldServer(0),
+                    EntityPlayer pl = new EntityPlayer(
+                            MinecraftServer.getServer(),
+                            MinecraftServer.getServer().getWorldServer(0),
                             (GameProfile) (new WrappedGameProfile(uuid, displayName)).getHandle(),
-                            new net.minecraft.server.v1_8_R2.PlayerInteractManager(net.minecraft.server.v1_8_R2.MinecraftServer.getServer().getWorldServer(0))
+                            new PlayerInteractManager(MinecraftServer.getServer().getWorldServer(0))
                     );
-                    net.minecraft.server.v1_8_R2.PacketPlayOutPlayerInfo pi = 
-                            new net.minecraft.server.v1_8_R2.PacketPlayOutPlayerInfo(
-                                    net.minecraft.server.v1_8_R2.PacketPlayOutPlayerInfo.EnumPlayerInfoAction.REMOVE_PLAYER, pl);
+                    PacketPlayOutPlayerInfo pi = 
+                            new PacketPlayOutPlayerInfo(
+                                    PacketPlayOutPlayerInfo.EnumPlayerInfoAction.REMOVE_PLAYER, pl);
                     return PacketContainer.fromPacket(pi);
-
                 }
-                return packet;
             } catch (Exception ex) {
                 plugin.logError("tabPacket: " + ex.getMessage());
             }
