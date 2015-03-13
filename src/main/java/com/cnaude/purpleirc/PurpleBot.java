@@ -55,8 +55,6 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReadWriteLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import me.botsko.prism.actionlibs.QueryParameters;
 import me.botsko.prism.events.BlockStateChange;
 import org.bukkit.Achievement;
@@ -165,7 +163,7 @@ public final class PurpleBot {
     String version;
     String finger;
     private int reconnectCount;
-    private ReadWriteLock rwl;
+    private final ReadWriteLock rwl;
     private final Lock wl;
 
     /**

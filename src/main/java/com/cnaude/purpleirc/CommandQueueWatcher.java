@@ -19,6 +19,8 @@ package com.cnaude.purpleirc;
 import com.cnaude.purpleirc.Events.IRCCommandEvent;
 import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedQueue;
+import net.minecraft.server.v1_8_R2.RemoteControlCommandListener;
+import static org.bukkit.Bukkit.getServer;
 import org.bukkit.command.CommandException;
 
 /**
@@ -63,7 +65,7 @@ public class CommandQueueWatcher {
                 }
                 if (plugin.getServer().getVersion().contains("MC: 1.8") && plugin.getServer().getPluginCommand(cmd) == null
                         && !isCommandBookCommand) {
-                    plugin.logDebug("Dispatching command as ConsoleSender: " + ircCommand.getGameCommand());                    
+                    plugin.logDebug("Dispatching command as ConsoleSender: " + ircCommand.getGameCommand());
 
                     plugin.getServer().dispatchCommand(ircCommand.getIRCConsoleCommandSender(), ircCommand.getGameCommand());
                     ircCommand.getIRCConsoleCommandSender().sendMessage("Command sent: " + ircCommand.getGameCommand());

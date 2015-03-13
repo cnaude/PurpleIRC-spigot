@@ -150,7 +150,7 @@ public class IRCConsoleCommandSender implements ConsoleCommandSender {
     public boolean isPermissionSet(final Permission arg0) {
         return true;
     }
-    
+
     @Override
     public void sendRawMessage(String string) {
         plugin.logDebug("sendRawMessage: " + string);

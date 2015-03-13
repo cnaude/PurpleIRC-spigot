@@ -247,7 +247,7 @@ public class PurpleIRC extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new GamePlayerJoinListener(this), this);
         getServer().getPluginManager().registerEvents(new GamePlayerKickListener(this), this);
         getServer().getPluginManager().registerEvents(new GamePlayerQuitListener(this), this);
-        getServer().getPluginManager().registerEvents(new GameServerCommandListener(this), this);        
+        getServer().getPluginManager().registerEvents(new GameServerCommandListener(this), this);
         if (isPluginEnabled("Herochat")) {
             logInfo("Enabling HeroChat support.");
             getServer().getPluginManager().registerEvents(new HeroChatListener(this), this);
@@ -322,7 +322,7 @@ public class PurpleIRC extends JavaPlugin {
         }
         if (isPluginEnabled("CommandBook")) {
             logInfo("Enabling CommandBook support.");
-            commandBookHook = new CommandBookHook(this);            
+            commandBookHook = new CommandBookHook(this);
         } else {
             logInfo("CommandBook not detected.");
         }
@@ -362,7 +362,7 @@ public class PurpleIRC extends JavaPlugin {
         } else {
             logInfo("OreBroadcast not detected.");
         }
-        vanishHook = new VanishHook(this);        
+        vanishHook = new VanishHook(this);
         if (isPluginEnabled("VanishNoPacket")) {
             logInfo("Enabling VanishNoPacket support.");
             getServer().getPluginManager().registerEvents(new VanishNoPacketListener(this), this);
@@ -719,7 +719,7 @@ public class PurpleIRC extends JavaPlugin {
                         logInfo("Loaded bot: " + file.getName() + " [" + ircBot.botNick + "]");
                     } else {
                         logError("Bot not loaded: " + file.getName());
-                    }                    
+                    }
                 }
             }
         }
@@ -837,7 +837,7 @@ public class PurpleIRC extends JavaPlugin {
     public void logInfo(String message) {
         log.log(Level.INFO, String.format("%s %s", LOG_HEADER, message));
     }
-    
+
     /**
      *
      * @param message
@@ -965,14 +965,14 @@ public class PurpleIRC extends JavaPlugin {
      */
     public String getPlayerGroup(Player player) {
         String groupName = "";
-        if (vaultHelpers != null) {
-            if (vaultHelpers.permission != null) {
-                try {
+        try {
+            if (vaultHelpers != null) {
+                if (vaultHelpers.permission != null && vaultHelpers.permission != null) {
                     groupName = vaultHelpers.permission.getPrimaryGroup(player);
-                } catch (Exception ex) {
-                    logDebug("Problem with primary group (" + player.getName() + "): " + ex.getMessage());
                 }
             }
+        } catch (Exception ex) {
+            logDebug("Problem with primary group (" + player.getName() + "): " + ex.getMessage());
         }
         if (groupName == null) {
             groupName = "";
@@ -1000,18 +1000,18 @@ public class PurpleIRC extends JavaPlugin {
      */
     public String getPlayerGroup(String worldName, String player) {
         String groupName = "";
-        UUID uuid = getPlayerUuid(player);
-        if (vaultHelpers != null && uuid != null) {
-            if (vaultHelpers.permission != null) {
-                OfflinePlayer offlinePlayer = getServer().getOfflinePlayer(uuid);
-                if (offlinePlayer != null) {
-                    try {
+        try {
+            UUID uuid = getPlayerUuid(player);
+            if (vaultHelpers != null && uuid != null) {
+                if (vaultHelpers.permission != null && vaultHelpers.permission != null) {
+                    OfflinePlayer offlinePlayer = getServer().getOfflinePlayer(uuid);
+                    if (offlinePlayer != null) {
                         groupName = vaultHelpers.permission.getPrimaryGroup(worldName, offlinePlayer);
-                    } catch (Exception ex) {
-                        logDebug("getPlayerGroup (" + player + "): " + ex.getMessage());
                     }
                 }
             }
+        } catch (Exception ex) {
+            logDebug("getPlayerGroup (" + player + "): " + ex.getMessage());
         }
         if (groupName == null) {
             groupName = "";
@@ -1045,18 +1045,18 @@ public class PurpleIRC extends JavaPlugin {
      */
     public String getPlayerPrefix(String worldName, String player) {
         String prefix = "";
-        UUID uuid = getPlayerUuid(player);
-        if (vaultHelpers != null && uuid != null) {
-            if (vaultHelpers.chat != null) {
-                OfflinePlayer offlinePlayer = getServer().getOfflinePlayer(uuid);
-                if (offlinePlayer != null) {
-                    try {
+        try {
+            UUID uuid = getPlayerUuid(player);
+            if (vaultHelpers != null && uuid != null) {
+                if (vaultHelpers.chat != null) {
+                    OfflinePlayer offlinePlayer = getServer().getOfflinePlayer(uuid);
+                    if (offlinePlayer != null) {
                         prefix = vaultHelpers.chat.getPlayerPrefix(worldName, offlinePlayer);
-                    } catch (Exception ex) {
-                        logDebug("getPlayerPrefix (" + player + "): " + ex.getMessage());
                     }
                 }
             }
+        } catch (Exception ex) {
+            logDebug("getPlayerPrefix (" + player + "): " + ex.getMessage());
         }
         if (prefix == null) {
             prefix = "";
@@ -1090,18 +1090,18 @@ public class PurpleIRC extends JavaPlugin {
      */
     public String getPlayerSuffix(String worldName, String player) {
         String suffix = "";
-        UUID uuid = getPlayerUuid(player);
-        if (vaultHelpers != null && uuid != null) {
-            if (vaultHelpers.chat != null) {
-                OfflinePlayer offlinePlayer = getServer().getOfflinePlayer(uuid);
-                if (offlinePlayer != null) {
-                    try {
+        try {
+            UUID uuid = getPlayerUuid(player);
+            if (vaultHelpers != null && uuid != null) {
+                if (vaultHelpers.chat != null) {
+                    OfflinePlayer offlinePlayer = getServer().getOfflinePlayer(uuid);
+                    if (offlinePlayer != null) {
                         suffix = vaultHelpers.chat.getPlayerSuffix(worldName, offlinePlayer);
-                    } catch (Exception ex) {
-                        logDebug("getPlayerSuffix (" + player + "): " + ex.getMessage());
                     }
                 }
             }
+        } catch (Exception ex) {
+            logDebug("getPlayerSuffix (" + player + "): " + ex.getMessage());
         }
         if (suffix == null) {
             suffix = "";
@@ -1178,7 +1178,7 @@ public class PurpleIRC extends JavaPlugin {
     public String getGroupPrefix(Player player) {
         String prefix = "";
         if (vaultHelpers != null) {
-            if (vaultHelpers.chat != null) {
+            if (vaultHelpers.chat != null && vaultHelpers.permission != null) {
                 String group = "";
                 try {
                     group = vaultHelpers.permission.getPrimaryGroup(player);
@@ -1205,26 +1205,26 @@ public class PurpleIRC extends JavaPlugin {
      */
     public String getGroupPrefix(String worldName, String player) {
         String prefix = "";
-        UUID uuid = getPlayerUuid(player);
-        if (vaultHelpers != null && uuid != null) {
-            if (vaultHelpers.chat != null) {
-                String group = "";
-                OfflinePlayer offlinePlayer = getServer().getOfflinePlayer(uuid);
-                if (offlinePlayer != null) {
-                    try {
+        try {
+            UUID uuid = getPlayerUuid(player);
+            if (vaultHelpers != null && uuid != null) {
+                if (vaultHelpers.chat != null && vaultHelpers.permission != null) {
+                    String group = "";
+                    OfflinePlayer offlinePlayer = getServer().getOfflinePlayer(uuid);
+                    if (offlinePlayer != null) {
                         group = vaultHelpers.permission.getPrimaryGroup(worldName, offlinePlayer);
-                    } catch (Exception ex) {
-                        logDebug("getGroupPrefix (" + player + "): " + ex.getMessage());
                     }
+                    if (group == null) {
+                        group = "";
+                    }
+                    prefix = vaultHelpers.chat.getGroupPrefix(worldName, group);
                 }
-                if (group == null) {
-                    group = "";
-                }
-                prefix = vaultHelpers.chat.getGroupPrefix(worldName, group);
             }
-        }
-        if (prefix == null) {
-            prefix = "";
+            if (prefix == null) {
+                prefix = "";
+            }
+        } catch (Exception ex) {
+            logDebug("getGroupPrefix (" + player + "): " + ex.getMessage());
         }
         return ChatColor.translateAlternateColorCodes('&', prefix);
     }
@@ -1260,7 +1260,7 @@ public class PurpleIRC extends JavaPlugin {
     public String getGroupSuffix(Player player) {
         String suffix = "";
         if (vaultHelpers != null) {
-            if (vaultHelpers.chat != null) {
+            if (vaultHelpers.chat != null && vaultHelpers.permission != null) {
                 String group = "";
                 try {
                     group = vaultHelpers.permission.getPrimaryGroup(player);
@@ -1289,7 +1289,7 @@ public class PurpleIRC extends JavaPlugin {
         String suffix = "";
         UUID uuid = getPlayerUuid(player);
         if (vaultHelpers != null && uuid != null) {
-            if (vaultHelpers.chat != null) {
+            if (vaultHelpers.chat != null && vaultHelpers.permission != null) {
                 String group = "";
                 OfflinePlayer offlinePlayer = getServer().getOfflinePlayer(uuid);
                 try {
