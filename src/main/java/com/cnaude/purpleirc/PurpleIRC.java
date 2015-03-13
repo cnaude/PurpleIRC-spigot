@@ -972,7 +972,7 @@ public class PurpleIRC extends JavaPlugin {
                 }
             }
         } catch (Exception ex) {
-            logDebug("Problem with primary group (" + player.getName() + "): " + ex.getMessage());
+            logDebug("getPlayerGroup (" + player.getName() + "): " + ex.getMessage());
         }
         if (groupName == null) {
             groupName = "";
@@ -1204,20 +1204,33 @@ public class PurpleIRC extends JavaPlugin {
      * @return
      */
     public String getGroupPrefix(String worldName, String player) {
+        logDebug("getGroupPrefix: 1");
         String prefix = "";
         try {
+            logDebug("getGroupPrefix: 2");
             UUID uuid = getPlayerUuid(player);
+            logDebug("getGroupPrefix: 3");
             if (vaultHelpers != null && uuid != null) {
+                logDebug("getGroupPrefix: 4");
                 if (vaultHelpers.chat != null && vaultHelpers.permission != null) {
+                    logDebug("getGroupPrefix: 5");
                     String group = "";
+                    logDebug("getGroupPrefix: 6");
                     OfflinePlayer offlinePlayer = getServer().getOfflinePlayer(uuid);
+                    logDebug("getGroupPrefix: 7");
                     if (offlinePlayer != null) {
+                        logDebug("getGroupPrefix: 8");
                         group = vaultHelpers.permission.getPrimaryGroup(worldName, offlinePlayer);
+                        logDebug("getGroupPrefix: 9");
                     }
+                    logDebug("getGroupPrefix: 10");
                     if (group == null) {
-                        group = "";
+                        logDebug("getGroupPrefix: 11");
+                        group = "";                        
                     }
+                    logDebug("getGroupPrefix: 12");
                     prefix = vaultHelpers.chat.getGroupPrefix(worldName, group);
+                    logDebug("getGroupPrefix: 13");
                 }
             }
             if (prefix == null) {
@@ -1226,6 +1239,7 @@ public class PurpleIRC extends JavaPlugin {
         } catch (Exception ex) {
             logDebug("getGroupPrefix (" + player + "): " + ex.getMessage());
         }
+        logDebug("getGroupPrefix: 14");
         return ChatColor.translateAlternateColorCodes('&', prefix);
     }
 
