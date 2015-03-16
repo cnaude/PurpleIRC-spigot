@@ -616,17 +616,34 @@ public class ChatTokenizer {
     private String playerTokenizer(String playerName, String message) {
         plugin.logDebug("Tokenizing " + playerName);
         String worldName = plugin.defaultPlayerWorld;
-        plugin.logDebug("playerTokenizer: 1 ");
-        String pSuffix = plugin.getPlayerSuffix(worldName, playerName);
-        plugin.logDebug("playerTokenizer: 2 ");
-        String pPrefix = plugin.getPlayerPrefix(worldName, playerName);
-        plugin.logDebug("playerTokenizer: 3 ");
-        String gPrefix = plugin.getGroupPrefix(worldName, playerName);
-        plugin.logDebug("playerTokenizer: 4 ");
-        String gSuffix = plugin.getGroupSuffix(worldName, playerName);
-        plugin.logDebug("playerTokenizer: 5 ");
-        String group = plugin.getPlayerGroup(worldName, playerName);
-        plugin.logDebug("playerTokenizer: 6 ");
+        
+        String pSuffix = "";
+        String pPrefix = "";
+        String gSuffix = "";
+        String gPrefix = "";
+        String group = "";
+        
+        if (message.contains("%PLAYERSUFFIX%")) {
+            plugin.logDebug("playerTokenizer: %PLAYERSUFFIX%");
+            pSuffix = plugin.getPlayerSuffix(worldName, playerName);
+        }
+        if (message.contains("%PLAYERPREFIX%")) {
+            plugin.logDebug("playerTokenizer: %PLAYERPREFIX%");
+            pPrefix = plugin.getPlayerPrefix(worldName, playerName);
+        }
+        if (message.contains("%GROUPSUFFIX%")) {
+            plugin.logDebug("playerTokenizer: %GROUPSUFFIX%");
+            gSuffix = plugin.getPlayerSuffix(worldName, playerName);
+        }
+        if (message.contains("%GROUPPREFIX%")) {
+            plugin.logDebug("playerTokenizer: %GROUPPREFIX%");
+            gPrefix = plugin.getPlayerPrefix(worldName, playerName);
+        }
+        if (message.contains("%GROUP%")) {
+            plugin.logDebug("playerTokenizer: %GROUP%");
+            group = plugin.getPlayerGroup(worldName, playerName);
+        }
+                
         String displayName = plugin.getDisplayName(playerName);
         plugin.logDebug("playerTokenizer: 7 ");
         String worldAlias = "";
