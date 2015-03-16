@@ -22,6 +22,8 @@ import com.dthielke.herochat.ChannelManager;
 import com.gmail.nossr50.util.player.UserManager;
 import com.nyancraft.reportrts.data.Ticket;
 import com.palmergames.bukkit.TownyChat.channels.Channel;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -81,7 +83,7 @@ public class ChatTokenizer {
                 if (key.equalsIgnoreCase(user.getNick()) || ircBot.checkUserMask(user, key)) {
                     customPrefix = ircBot.userPrefixes.get(key);
                     break;
-                }              
+                }
             }
         }
         plugin.logDebug("customPrefix after: " + customPrefix);
@@ -592,9 +594,11 @@ public class ChatTokenizer {
             worldAlias = plugin.getWorldAlias(worldName);
             worldColor = plugin.getWorldColor(worldName);
         }
-        if (plugin.jobsHook != null) {
-            job = plugin.jobsHook.getPlayerJob(player, false);
-            jobShort = plugin.jobsHook.getPlayerJob(player, true);
+        if (message.contains("%JOBS%") || message.contains("%JOBSSHORT%")) {
+            if (plugin.jobsHook != null) {
+                job = plugin.jobsHook.getPlayerJob(player, false);
+                jobShort = plugin.jobsHook.getPlayerJob(player, true);
+            }
         }
         plugin.logDebug("[P]Raw message: " + message);
         return message.replace("%DISPLAYNAME%", displayName)
@@ -616,34 +620,29 @@ public class ChatTokenizer {
     private String playerTokenizer(String playerName, String message) {
         plugin.logDebug("Tokenizing " + playerName);
         String worldName = plugin.defaultPlayerWorld;
-        
+
         String pSuffix = "";
         String pPrefix = "";
         String gSuffix = "";
         String gPrefix = "";
         String group = "";
-        
+
         if (message.contains("%PLAYERSUFFIX%")) {
-            plugin.logDebug("playerTokenizer: %PLAYERSUFFIX%");
             pSuffix = plugin.getPlayerSuffix(worldName, playerName);
         }
         if (message.contains("%PLAYERPREFIX%")) {
-            plugin.logDebug("playerTokenizer: %PLAYERPREFIX%");
             pPrefix = plugin.getPlayerPrefix(worldName, playerName);
         }
         if (message.contains("%GROUPSUFFIX%")) {
-            plugin.logDebug("playerTokenizer: %GROUPSUFFIX%");
             gSuffix = plugin.getPlayerSuffix(worldName, playerName);
         }
         if (message.contains("%GROUPPREFIX%")) {
-            plugin.logDebug("playerTokenizer: %GROUPPREFIX%");
             gPrefix = plugin.getPlayerPrefix(worldName, playerName);
         }
         if (message.contains("%GROUP%")) {
-            plugin.logDebug("playerTokenizer: %GROUP%");
             group = plugin.getPlayerGroup(worldName, playerName);
         }
-                
+
         String displayName = plugin.getDisplayName(playerName);
         plugin.logDebug("playerTokenizer: 7 ");
         String worldAlias = "";
@@ -676,11 +675,13 @@ public class ChatTokenizer {
             group = plugin.defaultPlayerGroup;
         }
         plugin.logDebug("playerTokenizer: 14 ");
-        Player player = getPlayer(playerName);
-        if (player != null) {
-            if (plugin.jobsHook != null) {
-                job = plugin.jobsHook.getPlayerJob(player, false);
-                jobShort = plugin.jobsHook.getPlayerJob(player, true);
+        if (message.contains("%JOBS%") || message.contains("%JOBSSHORT%")) {
+            Player player = getPlayer(playerName);
+            if (player != null) {
+                if (plugin.jobsHook != null) {
+                    job = plugin.jobsHook.getPlayerJob(player, false);
+                    jobShort = plugin.jobsHook.getPlayerJob(player, true);
+                }
             }
         }
         plugin.logDebug("[S]Raw message: " + message);
