@@ -28,7 +28,7 @@ public class UpdateCheck implements IRCCommandInterface {
 
     private final PurpleIRC plugin;
     private final String usage = "[stable|dev]";
-    private final String desc = "Ceck for latest updates.";
+    private final String desc = "Check for the latest updates.";
     private final String name = "updatecheck";
     private final String fullUsage = ChatColor.WHITE + "Usage: " + ChatColor.GOLD + "/irc " + name + " " + usage;
 
