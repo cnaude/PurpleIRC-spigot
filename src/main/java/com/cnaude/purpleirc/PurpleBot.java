@@ -55,8 +55,6 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReadWriteLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
-import javax.net.SocketFactory;
-import javax.net.ssl.SSLSocketFactory;
 import me.botsko.prism.actionlibs.QueryParameters;
 import me.botsko.prism.events.BlockStateChange;
 import org.bukkit.Achievement;
@@ -267,7 +265,7 @@ public final class PurpleBot {
             }
             configBuilder.setNickservPassword(botIdentPassword);
         }
-        if (ssl) {
+        if (ssl || tls) {
             UtilSSLSocketFactory socketFactory = new UtilSSLSocketFactory();
             socketFactory.disableDiffieHellman();
             if (trustAllCerts) {
