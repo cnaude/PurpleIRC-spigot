@@ -87,6 +87,8 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
+import org.bukkit.permissions.PermissionAttachment;
+import org.bukkit.permissions.PermissionAttachmentInfo;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.pircbotx.IdentServer;
@@ -412,7 +414,7 @@ public class PurpleIRC extends JavaPlugin {
         botWatcher = new BotWatcher(this);
         ircMessageHandler = new IRCMessageHandler(this);
         commandQueue = new CommandQueueWatcher(this);
-        updateChecker = new UpdateChecker(this);
+        updateChecker = new UpdateChecker(this);        
     }
 
     /**
@@ -968,6 +970,7 @@ public class PurpleIRC extends JavaPlugin {
         try {
             if (vaultHelpers != null) {
                 if (vaultHelpers.permission != null && vaultHelpers.permission != null) {
+                    logDebug("getPlayerGroup: " + player.getName());
                     groupName = vaultHelpers.permission.getPrimaryGroup(player);
                 }
             }
@@ -1006,6 +1009,7 @@ public class PurpleIRC extends JavaPlugin {
                 if (vaultHelpers.permission != null && vaultHelpers.permission != null) {
                     OfflinePlayer offlinePlayer = getServer().getOfflinePlayer(uuid);
                     if (offlinePlayer != null) {
+                        logDebug("getPlayerGroup: " + worldName + " " + player);
                         groupName = vaultHelpers.permission.getPrimaryGroup(worldName, offlinePlayer);
                     }
                 }
@@ -1051,6 +1055,7 @@ public class PurpleIRC extends JavaPlugin {
                 if (vaultHelpers.chat != null) {
                     OfflinePlayer offlinePlayer = getServer().getOfflinePlayer(uuid);
                     if (offlinePlayer != null) {
+                        logDebug("getPlayerPrefix: " + worldName + " " + player);
                         prefix = vaultHelpers.chat.getPlayerPrefix(worldName, offlinePlayer);
                     }
                 }
@@ -1096,6 +1101,7 @@ public class PurpleIRC extends JavaPlugin {
                 if (vaultHelpers.chat != null) {
                     OfflinePlayer offlinePlayer = getServer().getOfflinePlayer(uuid);
                     if (offlinePlayer != null) {
+                        logDebug("getPlayerSuffix: " + worldName + " " + offlinePlayer.getName());
                         suffix = vaultHelpers.chat.getPlayerSuffix(worldName, offlinePlayer);
                     }
                 }

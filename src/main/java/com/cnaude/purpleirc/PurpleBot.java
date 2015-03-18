@@ -55,6 +55,8 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReadWriteLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
+import javax.net.SocketFactory;
+import javax.net.ssl.SSLSocketFactory;
 import me.botsko.prism.actionlibs.QueryParameters;
 import me.botsko.prism.events.BlockStateChange;
 import org.bukkit.Achievement;
@@ -69,6 +71,7 @@ import org.pircbotx.Configuration;
 import org.pircbotx.PircBotX;
 import org.pircbotx.User;
 import org.pircbotx.UtilSSLSocketFactory;
+import org.pircbotx.cap.TLSCapHandler;
 import org.pircbotx.exception.IrcException;
 import org.pircbotx.hooks.ListenerAdapter;
 
@@ -87,6 +90,7 @@ public final class PurpleBot {
     private boolean connected;
     public boolean autoConnect;
     public boolean ssl;
+    public boolean tls;
     public boolean trustAllCerts;
     public boolean sendRawMessageOnConnect;
     public boolean showMOTD;
@@ -270,6 +274,9 @@ public final class PurpleBot {
                 socketFactory.trustAllCertificates();
             }
             configBuilder.setSocketFactory(socketFactory);
+            if (tls) {
+                configBuilder.addCapHandler(new TLSCapHandler(socketFactory, true));
+            }
         }
         if (charSet.isEmpty()) {
             if (!reload) {
@@ -630,6 +637,7 @@ public final class PurpleBot {
             config.load(file);
             autoConnect = config.getBoolean("autoconnect", true);
             ssl = config.getBoolean("ssl", false);
+            tls = config.getBoolean("tls", false);
             trustAllCerts = config.getBoolean("trust-all-certs", false);
             sendRawMessageOnConnect = config.getBoolean("raw-message-on-connect", false);
             rawMessage = config.getString("raw-message", "");
@@ -668,6 +676,7 @@ public final class PurpleBot {
             plugin.logDebug("Channel Auto Join Delay => " + channelAutoJoinDelay);
             plugin.logDebug(("Bind => ") + bindAddress);
             plugin.logDebug("SSL => " + ssl);
+            plugin.logDebug("TLS => " + tls);
             plugin.logDebug("Trust All Certs => " + trustAllCerts);
             plugin.logDebug("Port => " + botServerPort);
             plugin.logDebug("Command Prefix => " + commandPrefix);
@@ -693,7 +702,7 @@ public final class PurpleBot {
             for (String s : config.getStringList("custom-prefixes")) {
                 String pair[] = s.split(" ", 2);
                 if (pair.length > 0) {
-                    userPrefixes.put(pair[0], ChatColor.translateAlternateColorCodes('&', pair[1]));  
+                    userPrefixes.put(pair[0], ChatColor.translateAlternateColorCodes('&', pair[1]));
                 }
             }
             for (String key : userPrefixes.keySet()) {
@@ -941,7 +950,7 @@ public final class PurpleBot {
                     connectMessage = "Connecting to " + botServer + ":"
                             + botServerPort + ": [Nick: " + botNick
                             + "] [SSL: " + ssl + "]" + " [TrustAllCerts: "
-                            + trustAllCerts + "]";
+                            + trustAllCerts + "] [TLS: " + tls + "]";
                 }
             }
         } catch (IOException | InvalidConfigurationException ex) {

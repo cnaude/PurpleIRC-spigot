@@ -19,6 +19,8 @@ server: irc.excample.com
 port: 6667
 # Attempt ssl connection to IRC server
 ssl: false
+# Enable TLS support
+tls: false
 # Trust all SSL certs
 trust-all-certs: false
 # Bind address

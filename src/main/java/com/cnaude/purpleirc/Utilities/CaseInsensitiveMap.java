@@ -34,7 +34,7 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 public class CaseInsensitiveMap<V> extends AbstractMap<String, V> {
 
-    private final Map<CaseInsensitiveKey, V> map = new ConcurrentHashMap<CaseInsensitiveKey, V>();
+    private final Map<CaseInsensitiveKey, V> map = new ConcurrentHashMap<>();
 
     private static final class KeySet extends AbstractSet<String> {
 
@@ -201,7 +201,7 @@ public class CaseInsensitiveMap<V> extends AbstractMap<String, V> {
              */
             @Override
             public Entry<String, V> next() {
-                return new MapEntry<V>(this.iterator.next());
+                return new MapEntry<>(this.iterator.next());
             }
 
             /**
@@ -265,7 +265,7 @@ public class CaseInsensitiveMap<V> extends AbstractMap<String, V> {
          */
         @Override
         public Iterator<Entry<String, V>> iterator() {
-            return new EntrySetIterator<V>(this.entrySet.iterator());
+            return new EntrySetIterator<>(this.entrySet.iterator());
         }
 
         /**
@@ -397,7 +397,7 @@ public class CaseInsensitiveMap<V> extends AbstractMap<String, V> {
      */
     @Override
     public Set<Entry<String, V>> entrySet() {
-        return new EntrySet<V>(this.map.entrySet(), this);
+        return new EntrySet<>(this.map.entrySet(), this);
     }
 
     /**
