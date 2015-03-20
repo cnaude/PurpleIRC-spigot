@@ -17,10 +17,10 @@ realname: ''
 server: irc.excample.com
 # port - IRC server port
 port: 6667
+# Enable TLS support via STARTTLS. Must connect to non-SSL port to use this.
+tls: false
 # Attempt ssl connection to IRC server
 ssl: false
-# Enable TLS support
-tls: false
 # Trust all SSL certs
 trust-all-certs: false
 # Bind address

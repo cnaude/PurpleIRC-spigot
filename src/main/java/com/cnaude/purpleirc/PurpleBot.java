@@ -55,6 +55,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReadWriteLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
+import javax.net.ssl.SSLSocketFactory;
 import me.botsko.prism.actionlibs.QueryParameters;
 import me.botsko.prism.events.BlockStateChange;
 import org.bukkit.Achievement;
@@ -265,17 +266,21 @@ public final class PurpleBot {
             }
             configBuilder.setNickservPassword(botIdentPassword);
         }
-        if (ssl || tls) {
+        if (tls) {
+            plugin.logInfo("Enabling TLS ...");
+            configBuilder.addCapHandler(new TLSCapHandler());
+        } else if (ssl) {
             UtilSSLSocketFactory socketFactory = new UtilSSLSocketFactory();
             socketFactory.disableDiffieHellman();
             if (trustAllCerts) {
+                plugin.logInfo("Enabling SSL and trusting all certificates ...");
                 socketFactory.trustAllCertificates();
+            } else {
+                plugin.logInfo("Enabling SSL ...");
             }
             configBuilder.setSocketFactory(socketFactory);
-            if (tls) {
-                configBuilder.addCapHandler(new TLSCapHandler(socketFactory, true));
-            }
         }
+
         if (charSet.isEmpty()) {
             if (!reload) {
                 plugin.logInfo("Using default character set: " + Charset.defaultCharset());
@@ -634,8 +639,8 @@ public final class PurpleBot {
         try {
             config.load(file);
             autoConnect = config.getBoolean("autoconnect", true);
-            ssl = config.getBoolean("ssl", false);
             tls = config.getBoolean("tls", false);
+            ssl = config.getBoolean("ssl", false);
             trustAllCerts = config.getBoolean("trust-all-certs", false);
             sendRawMessageOnConnect = config.getBoolean("raw-message-on-connect", false);
             rawMessage = config.getString("raw-message", "");
