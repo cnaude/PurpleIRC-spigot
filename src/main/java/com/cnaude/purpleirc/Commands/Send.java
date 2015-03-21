@@ -54,7 +54,7 @@ public class Send implements IRCCommandInterface {
         if (args.length >= 2) {
             int msgIdx = 1;
             String channelName = null;
-            List<PurpleBot> myBots = new ArrayList<PurpleBot>();
+            List<PurpleBot> myBots = new ArrayList<>();
             if (plugin.ircBots.containsKey(args[1])) {
                 myBots.add(plugin.ircBots.get(args[1]));
                 msgIdx = 2;

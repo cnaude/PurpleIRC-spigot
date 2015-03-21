@@ -52,6 +52,7 @@ public class CommandHandlers implements CommandExecutor {
         commands.put("devoice", new DeVoice(plugin));
         commands.put("debug", new Debug(plugin));
         commands.put("disconnect", new Disconnect(plugin));
+        commands.put("hooks", new Hooks(plugin));
         commands.put("join", new Join(plugin));
         commands.put("kick", new Kick(plugin));
         commands.put("leave", new Leave(plugin));

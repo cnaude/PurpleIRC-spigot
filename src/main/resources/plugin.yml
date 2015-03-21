@@ -108,3 +108,6 @@ permissions:
   'irc.unload':
     description: Gives player access to the /irc unload command.
     default: op  
+  'irc.hooks':
+    description: Gives player access to the /irc hooks command.
+    default: op  

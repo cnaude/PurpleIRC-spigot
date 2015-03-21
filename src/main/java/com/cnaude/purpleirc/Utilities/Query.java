@@ -156,7 +156,7 @@ public class Query {
                 }
             }
             readString(receiveData, cursor);
-            final Set<String> players = new HashSet<String>();
+            final Set<String> players = new HashSet<>();
             while (cursor.get() < length) {
                 final String name = readString(receiveData, cursor);
                 if (name.length() > 0) {

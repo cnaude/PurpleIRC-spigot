@@ -47,7 +47,7 @@ public class Motd implements IRCCommandInterface {
      */
     @Override
     public void dispatch(CommandSender sender, String[] args) {
-        java.util.List<PurpleBot> myBots = new ArrayList<PurpleBot>();
+        java.util.List<PurpleBot> myBots = new ArrayList<>();
         if (args.length >= 2) {
             if (plugin.ircBots.containsKey(args[1])) {
                 myBots.add(plugin.ircBots.get(args[1]));

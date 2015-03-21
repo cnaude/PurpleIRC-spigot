@@ -52,7 +52,7 @@ public class CTCP implements IRCCommandInterface {
             plugin.logDebug("Dispatching ctcp command...");
             int msgIdx = 2;
             String target;
-            java.util.List<PurpleBot> myBots = new ArrayList<PurpleBot>();
+            java.util.List<PurpleBot> myBots = new ArrayList<>();
             if (plugin.ircBots.containsKey(args[1])) {
                 myBots.add(plugin.ircBots.get(args[1]));
                 msgIdx = 3;

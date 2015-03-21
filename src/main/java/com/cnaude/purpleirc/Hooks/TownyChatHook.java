@@ -42,7 +42,7 @@ public class TownyChatHook {
     public TownyChatHook(PurpleIRC plugin) {
         this.plugin = plugin;
         chat = (Chat) plugin.getServer().getPluginManager().getPlugin("TownyChat");
-        townyChannelTypes = new ArrayList<channelTypes>();
+        townyChannelTypes = new ArrayList<>();
         townyChannelTypes.add(channelTypes.TOWN);
         townyChannelTypes.add(channelTypes.GLOBAL);
         townyChannelTypes.add(channelTypes.NATION);
