@@ -61,7 +61,7 @@ public class TopicListener extends ListenerAdapter {
                             .replace("%NAME%", user.getNick())
                             .replace("%TOPIC%", event.getTopic())
                             .replace("%CHANNEL%", channel.getName()));
-                    plugin.logDebug("Sending topic notification due to " 
+                    plugin.logDebug("Sending topic notification due to "
                             + TemplateName.IRC_TOPIC + " being true: " + message);
                     plugin.getServer().broadcast(message, "irc.message.topic");
                 }

@@ -61,12 +61,11 @@ public class Topic implements IRCCommandInterface {
             bac = new BotsAndChannels(plugin, sender);
             for (String botName : bac.bot) {
                 for (String channelName : bac.channel) {
-                    sender.sendMessage(ChatColor.WHITE + "[" + ChatColor.DARK_PURPLE 
-                            + botName + ChatColor.WHITE 
-                            + "/" + ChatColor.DARK_PURPLE + channelName 
+                    sender.sendMessage(ChatColor.WHITE + "[" + ChatColor.DARK_PURPLE
+                            + botName + ChatColor.WHITE
+                            + "/" + ChatColor.DARK_PURPLE + channelName
                             + ChatColor.WHITE + "]"
-                            + " Topic: " + plugin.ircBots.get(botName)
-                                    .channelTopic.get(channelName));
+                            + " Topic: " + plugin.ircBots.get(botName).channelTopic.get(channelName));
                 }
             }
             sender.sendMessage(fullUsage);
@@ -77,7 +76,7 @@ public class Topic implements IRCCommandInterface {
                 for (String channelName : bac.channel) {
                     String topic = "";
                     for (int i = idx; i < args.length; i++) {
-                        topic = topic + " " + args[i];                        
+                        topic = topic + " " + args[i];
                     }
                     plugin.ircBots.get(botName).changeTopic(channelName,
                             topic.substring(1), sender);

@@ -58,7 +58,7 @@ public class NickChangeListener extends ListenerAdapter {
             if (channel != null) {
                 if (ircBot.enabledMessages.get(channelName).contains(TemplateName.IRC_NICK_CHANGE)) {
                     plugin.getServer().broadcast(plugin.colorConverter.ircColorsToGame(
-                            plugin.getMsgTemplate(ircBot.botNick, TemplateName.IRC_NICK_CHANGE)                            
+                            plugin.getMsgTemplate(ircBot.botNick, TemplateName.IRC_NICK_CHANGE)
                             .replace("%NEWNICK%", newNick)
                             .replace("%OLDNICK%", oldNick)
                             .replace("%CHANNEL%", channelName)), "irc.message.nickchange");

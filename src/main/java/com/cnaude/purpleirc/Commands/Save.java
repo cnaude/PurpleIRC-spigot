@@ -31,7 +31,7 @@ public class Save implements IRCCommandInterface {
     private final String usage = "([bot])";
     private final String desc = "Save bot configuration.";
     private final String name = "save";
-    private final String fullUsage = ChatColor.WHITE + "Usage: " + ChatColor.GOLD + "/irc " + name + " " + usage; 
+    private final String fullUsage = ChatColor.WHITE + "Usage: " + ChatColor.GOLD + "/irc " + name + " " + usage;
 
     /**
      *

@@ -1,16 +1,14 @@
-/*******************************************************************************
- * Copyright (c) 2008, 2010 VMware Inc.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
+/**
+ * *****************************************************************************
+ * Copyright (c) 2008, 2010 VMware Inc. All rights reserved. This program and
+ * the accompanying materials are made available under the terms of the Eclipse
+ * Public License v1.0 which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
  *
- * Contributors:
- *   VMware Inc. - initial contribution
- *******************************************************************************/
-
+ * Contributors: VMware Inc. - initial contribution
+ ******************************************************************************
+ */
 // http://underlap.blogspot.com/2009/04/caseinsensitivemapv.html
-
 package com.cnaude.purpleirc.Utilities;
 
 import java.util.AbstractMap;
@@ -22,14 +20,15 @@ import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
- * {@link CaseInsensitiveMap} is a {@link Map} from <code>String</code> keys to values which is case-insensitive and
- * case-preserving with respect to the keys in the map.
+ * {@link CaseInsensitiveMap} is a {@link Map} from <code>String</code> keys to
+ * values which is case-insensitive and case-preserving with respect to the keys
+ * in the map.
  * <p />
- * 
+ *
  * <strong>Concurrent Semantics</strong><br />
- * 
+ *
  * This class is not necessarily thread safe.
- * 
+ *
  * @param <V> range type parameter
  */
 public class CaseInsensitiveMap<V> extends AbstractMap<String, V> {
@@ -172,7 +171,7 @@ public class CaseInsensitiveMap<V> extends AbstractMap<String, V> {
 
             /**
              * Get the underlying {@link Map.Entry}.
-             * 
+             *
              * @return the underlying <code>Entry</code>
              */
             public Entry<CaseInsensitiveMap.CaseInsensitiveKey, V> getEntry() {
@@ -214,8 +213,8 @@ public class CaseInsensitiveMap<V> extends AbstractMap<String, V> {
         }
 
         private final Set<Entry<CaseInsensitiveKey, V>> entrySet;
-        
-        private final  CaseInsensitiveMap<V> map;
+
+        private final CaseInsensitiveMap<V> map;
 
         public EntrySet(Set<Entry<CaseInsensitiveKey, V>> entrySet, CaseInsensitiveMap<V> map) {
             this.entrySet = entrySet;
@@ -344,12 +343,14 @@ public class CaseInsensitiveMap<V> extends AbstractMap<String, V> {
         }
 
         /**
-         * Convert the given key <code>Object</code> to a {@link CaseInsensitiveKey}.
+         * Convert the given key <code>Object</code> to a
+         * {@link CaseInsensitiveKey}.
          * <p/>
          * Pre-condition: <code>key</code> instanceof <code>String</code>
-         * 
+         *
          * @param key the key to be converted
-         * @return the <code>CaseInsensitiveKey</code> corresponding to the given key
+         * @return the <code>CaseInsensitiveKey</code> corresponding to the
+         * given key
          */
         public static CaseInsensitiveKey objectToKey(Object key) {
             return new CaseInsensitiveKey((String) key);
@@ -363,6 +364,7 @@ public class CaseInsensitiveMap<V> extends AbstractMap<String, V> {
     public CaseInsensitiveMap(CaseInsensitiveMap<? extends V> map) {
         this.map.putAll(map.map);
     }
+
     /**
      * {@inheritDoc}
      */
@@ -373,8 +375,9 @@ public class CaseInsensitiveMap<V> extends AbstractMap<String, V> {
 
     /**
      * {@inheritDoc}
+     *
      * @param key
-     * @return 
+     * @return
      */
     @Override
     public boolean containsKey(Object key) {
@@ -383,8 +386,9 @@ public class CaseInsensitiveMap<V> extends AbstractMap<String, V> {
 
     /**
      * {@inheritDoc}
+     *
      * @param value
-     * @return 
+     * @return
      */
     @Override
     public boolean containsValue(Object value) {
@@ -393,7 +397,8 @@ public class CaseInsensitiveMap<V> extends AbstractMap<String, V> {
 
     /**
      * {@inheritDoc}
-     * @return 
+     *
+     * @return
      */
     @Override
     public Set<Entry<String, V>> entrySet() {
@@ -402,8 +407,9 @@ public class CaseInsensitiveMap<V> extends AbstractMap<String, V> {
 
     /**
      * {@inheritDoc}
+     *
      * @param key
-     * @return 
+     * @return
      */
     @Override
     public V get(Object key) {
@@ -412,7 +418,8 @@ public class CaseInsensitiveMap<V> extends AbstractMap<String, V> {
 
     /**
      * {@inheritDoc}
-     * @return 
+     *
+     * @return
      */
     @Override
     public Set<String> keySet() {
@@ -421,9 +428,10 @@ public class CaseInsensitiveMap<V> extends AbstractMap<String, V> {
 
     /**
      * {@inheritDoc}
+     *
      * @param key
      * @param value
-     * @return 
+     * @return
      */
     @Override
     public V put(String key, V value) {
@@ -435,8 +443,9 @@ public class CaseInsensitiveMap<V> extends AbstractMap<String, V> {
 
     /**
      * {@inheritDoc}
+     *
      * @param key
-     * @return 
+     * @return
      */
     @Override
     public V remove(Object key) {
@@ -445,7 +454,8 @@ public class CaseInsensitiveMap<V> extends AbstractMap<String, V> {
 
     /**
      * {@inheritDoc}
-     * @return 
+     *
+     * @return
      */
     @Override
     public int size() {
@@ -454,7 +464,8 @@ public class CaseInsensitiveMap<V> extends AbstractMap<String, V> {
 
     /**
      * {@inheritDoc}
-     * @return 
+     *
+     * @return
      */
     @Override
     public Collection<V> values() {

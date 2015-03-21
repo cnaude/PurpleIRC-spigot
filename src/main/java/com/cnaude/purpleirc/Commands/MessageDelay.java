@@ -24,13 +24,13 @@ import org.bukkit.command.CommandSender;
  *
  * @author cnaude
  */
-public class MessageDelay implements IRCCommandInterface  {
+public class MessageDelay implements IRCCommandInterface {
 
     private final PurpleIRC plugin;
     private final String usage = "[bot] [milliseconds]";
     private final String desc = "Change IRC message delay.";
     private final String name = "messagedelay";
-    private final String fullUsage = ChatColor.WHITE + "Usage: " + ChatColor.GOLD + "/irc " + name + " " + usage; 
+    private final String fullUsage = ChatColor.WHITE + "Usage: " + ChatColor.GOLD + "/irc " + name + " " + usage;
 
     /**
      *

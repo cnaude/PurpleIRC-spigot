@@ -48,7 +48,7 @@ public class ServerResponseListener extends ListenerAdapter {
     @Override
     public void onServerResponse(ServerResponseEvent event) {
         int serverReply = event.getCode();
-        
+
         if (serverReply == ReplyConstants.ERR_BADCHANNELKEY) {
             plugin.logInfo("Bad channel password.");
         }
@@ -63,6 +63,5 @@ public class ServerResponseListener extends ListenerAdapter {
         }
 
         //plugin.logDebug("Server response: " + event.getRawLine());
-
-        }
     }
+}

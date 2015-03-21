@@ -18,16 +18,17 @@ package com.cnaude.purpleirc;
 
 import org.bukkit.scheduler.BukkitTask;
 
-/** This thread checks each bot for connectivity and reconnects when appropriate.
+/**
+ * This thread checks each bot for connectivity and reconnects when appropriate.
  *
  * @author Chris Naude
- * 
+ *
  */
 public class BotWatcher {
-    
+
     private final PurpleIRC plugin;
     private final BukkitTask bt;
-    
+
     /**
      *
      * @param plugin
@@ -54,7 +55,7 @@ public class BotWatcher {
             }
         }, plugin.ircConnCheckInterval, plugin.ircConnCheckInterval);
     }
-    
+
     /**
      *
      */

@@ -21,10 +21,11 @@ package com.cnaude.purpleirc;
  * @author cnaude
  */
 public class IRCCommand {
+
     private final IRCCommandSender sender;
     private final IRCConsoleCommandSender consoleSender;
     private final String command;
-    
+
     /**
      *
      * @param sender
@@ -36,7 +37,7 @@ public class IRCCommand {
         this.consoleSender = consoleSender;
         this.command = command;
     }
-    
+
     /**
      *
      * @return
@@ -44,7 +45,7 @@ public class IRCCommand {
     public IRCCommandSender getIRCCommandSender() {
         return sender;
     }
-    
+
     /**
      *
      * @return
@@ -52,7 +53,7 @@ public class IRCCommand {
     public IRCConsoleCommandSender getIRCConsoleCommandSender() {
         return consoleSender;
     }
-    
+
     /**
      *
      * @return

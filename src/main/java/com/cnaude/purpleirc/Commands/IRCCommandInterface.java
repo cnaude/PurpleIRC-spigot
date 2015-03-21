@@ -23,8 +23,12 @@ import org.bukkit.command.CommandSender;
  * @author cnaude
  */
 public interface IRCCommandInterface {
+
     void dispatch(CommandSender sender, String[] args);
+
     String name();
+
     String desc();
-    String usage();    
+
+    String usage();
 }

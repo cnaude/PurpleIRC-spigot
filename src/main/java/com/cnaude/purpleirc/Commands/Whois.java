@@ -31,7 +31,7 @@ public class Whois implements IRCCommandInterface {
     private final String usage = "([bot]) [nick]";
     private final String desc = "Get whois info for IRC user.";
     private final String name = "whois";
-    private final String fullUsage = ChatColor.WHITE + "Usage: " + ChatColor.GOLD + "/irc " + name + " " + usage; 
+    private final String fullUsage = ChatColor.WHITE + "Usage: " + ChatColor.GOLD + "/irc " + name + " " + usage;
 
     /**
      *

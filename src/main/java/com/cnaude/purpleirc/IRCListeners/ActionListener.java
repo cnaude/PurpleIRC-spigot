@@ -48,7 +48,7 @@ public class ActionListener extends ListenerAdapter {
     @Override
     public void onAction(ActionEvent event) {
         Channel channel = event.getChannel();
-        if (ircBot.isValidChannel(channel.getName())) {         
+        if (ircBot.isValidChannel(channel.getName())) {
             ircBot.broadcastAction(event.getUser(), channel, event.getAction());
         }
     }

@@ -19,7 +19,6 @@ package com.cnaude.purpleirc.Hooks;
 import com.ammaraskar.adminonly.AdminChat;
 import com.cnaude.purpleirc.PurpleIRC;
 
-
 /**
  *
  * @author cnaude

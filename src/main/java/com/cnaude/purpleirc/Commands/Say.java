@@ -30,7 +30,7 @@ public class Say implements IRCCommandInterface {
     private final String usage = "[bot] [channel] [message]";
     private final String desc = "Make the bot speak.";
     private final String name = "say";
-    private final String fullUsage = ChatColor.WHITE + "Usage: " + ChatColor.GOLD + "/irc " + name + " " + usage; 
+    private final String fullUsage = ChatColor.WHITE + "Usage: " + ChatColor.GOLD + "/irc " + name + " " + usage;
 
     /**
      *

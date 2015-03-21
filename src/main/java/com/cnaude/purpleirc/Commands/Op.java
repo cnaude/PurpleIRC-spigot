@@ -30,7 +30,7 @@ public class Op implements IRCCommandInterface {
     private final String usage = "[bot] [channel] [user(s)]";
     private final String desc = "Op an IRC user in a channel.";
     private final String name = "op";
-    private final String fullUsage = ChatColor.WHITE + "Usage: " + ChatColor.GOLD + "/irc " + name + " " + usage; 
+    private final String fullUsage = ChatColor.WHITE + "Usage: " + ChatColor.GOLD + "/irc " + name + " " + usage;
 
     /**
      *
@@ -54,9 +54,9 @@ public class Op implements IRCCommandInterface {
                 for (int i = 3; i < args.length; i++) {
                     // #channel, user
                     plugin.ircBots.get(bot).op(channelName, args[i]);
-                    sender.sendMessage("Giving operator status to " 
-                            + ChatColor.WHITE + args[i] 
-                            + ChatColor.RESET + " on " 
+                    sender.sendMessage("Giving operator status to "
+                            + ChatColor.WHITE + args[i]
+                            + ChatColor.RESET + " on "
                             + ChatColor.WHITE + channelName);
                 }
             } else {

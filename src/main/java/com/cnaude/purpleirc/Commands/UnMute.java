@@ -31,7 +31,7 @@ public class UnMute implements IRCCommandInterface {
     private final String usage = "([bot]) ([channel]) [user(s)]";
     private final String desc = "Unmute IRC user(s) in a channel.";
     private final String name = "unmute";
-    private final String fullUsage = ChatColor.WHITE + "Usage: " + ChatColor.GOLD + "/irc " + name + " " + usage; 
+    private final String fullUsage = ChatColor.WHITE + "Usage: " + ChatColor.GOLD + "/irc " + name + " " + usage;
 
     /**
      *
@@ -64,12 +64,12 @@ public class UnMute implements IRCCommandInterface {
         if (bac.bot.size() > 0 && bac.channel.size() > 0) {
             for (String botName : bac.bot) {
                 for (String channelName : bac.channel) {
-                    for (int i = idx; i < args.length; i++) {                        
+                    for (int i = idx; i < args.length; i++) {
                         plugin.ircBots.get(botName).unMute(channelName, sender, args[i]);
                     }
                 }
             }
-        }        
+        }
     }
 
     @Override

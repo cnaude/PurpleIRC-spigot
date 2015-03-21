@@ -30,8 +30,8 @@ public class Debug implements IRCCommandInterface {
     private final String usage = "([t|f])";
     private final String desc = "Enable or disable debug mode.";
     private final String name = "debug";
-    private final String fullUsage = ChatColor.WHITE + "Usage: " + ChatColor.GOLD + "/irc " + name + " " + usage; 
-    
+    private final String fullUsage = ChatColor.WHITE + "Usage: " + ChatColor.GOLD + "/irc " + name + " " + usage;
+
     /**
      *
      * @param plugin
@@ -46,7 +46,7 @@ public class Debug implements IRCCommandInterface {
      * @param args
      */
     @Override
-    public void dispatch(CommandSender sender, String[] args) {        
+    public void dispatch(CommandSender sender, String[] args) {
         if (args.length == 1) {
             sender.sendMessage(ChatColor.DARK_PURPLE + "Debug mode is currently "
                     + ChatColor.WHITE + plugin.debugMode());

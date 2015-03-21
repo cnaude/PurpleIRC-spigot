@@ -30,7 +30,7 @@ public class ReloadBotConfig implements IRCCommandInterface {
     private final String usage = "[bot]";
     private final String desc = "Reload a bot's configuration.";
     private final String name = "reloadbotconfig";
-    private final String fullUsage = ChatColor.WHITE + "Usage: " + ChatColor.GOLD + "/irc " + name + " " + usage; 
+    private final String fullUsage = ChatColor.WHITE + "Usage: " + ChatColor.GOLD + "/irc " + name + " " + usage;
 
     /**
      *

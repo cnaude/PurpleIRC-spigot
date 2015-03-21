@@ -30,7 +30,7 @@ public class RemoveVoice implements IRCCommandInterface {
     private final String usage = "[bot] [channel] [user mask]";
     private final String desc = "Remove a user mask from the auto-voice list.";
     private final String name = "removevoice";
-    private final String fullUsage = ChatColor.WHITE + "Usage: " + ChatColor.GOLD + "/irc " + name + " " + usage; 
+    private final String fullUsage = ChatColor.WHITE + "Usage: " + ChatColor.GOLD + "/irc " + name + " " + usage;
 
     /**
      *

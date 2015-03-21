@@ -50,11 +50,11 @@ public class PrismListener implements Listener {
     public void onPrismBlocksRollbackEvent(PrismBlocksRollbackEvent event) {
         plugin.logDebug("onPrismBlocksRollbackEvent caught");
         for (PurpleBot ircBot : plugin.ircBots.values()) {
-            ircBot.gamePrismRollback(event.onBehalfOf(), event.getQueryParameters(), event.getResult().getBlockStateChanges());            
+            ircBot.gamePrismRollback(event.onBehalfOf(), event.getQueryParameters(), event.getResult().getBlockStateChanges());
         }
     }
-    
-     /**
+
+    /**
      *
      * @param event
      */
@@ -65,8 +65,8 @@ public class PrismListener implements Listener {
             ircBot.gamePrismDrainOrExtinguish(TemplateName.PRISM_DRAIN, event.onBehalfOf(), event.getRadius(), event.getBlockStateChanges());
         }
     }
-    
-     /**
+
+    /**
      *
      * @param event
      */
@@ -77,7 +77,7 @@ public class PrismListener implements Listener {
             ircBot.gamePrismDrainOrExtinguish(TemplateName.PRISM_EXTINGUISH, event.onBehalfOf(), event.getRadius(), event.getBlockStateChanges());
         }
     }
-    
+
     /**
      *
      * @param event
@@ -86,7 +86,7 @@ public class PrismListener implements Listener {
     public void onPrismCustomPlayerActionEvent(PrismCustomPlayerActionEvent event) {
         plugin.logDebug("onPrismCustomPlayerActionEvent caught");
         for (PurpleBot ircBot : plugin.ircBots.values()) {
-            ircBot.gamePrismCustom(event.getPlayer(), event.getActionTypeName(), 
+            ircBot.gamePrismCustom(event.getPlayer(), event.getActionTypeName(),
                     event.getMessage(), event.getPluginName());
         }
     }

@@ -35,7 +35,7 @@ public class CommandHandlers implements CommandExecutor {
     public HashMap<String, IRCCommandInterface> commands = new HashMap<>();
     public ArrayList<String> sortedCommands = new ArrayList<>();
     private final PurpleIRC plugin;
-    
+
     /**
      *
      * @param plugin

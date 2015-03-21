@@ -30,7 +30,7 @@ public class Login implements IRCCommandInterface {
     private final String usage = "[bot] [login]";
     private final String desc = "Change bot's IRC login name.";
     private final String name = "login";
-    private final String fullUsage = ChatColor.WHITE + "Usage: " + ChatColor.GOLD + "/irc " + name + " " + usage; 
+    private final String fullUsage = ChatColor.WHITE + "Usage: " + ChatColor.GOLD + "/irc " + name + " " + usage;
 
     /**
      *

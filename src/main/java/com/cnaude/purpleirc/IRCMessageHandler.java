@@ -177,7 +177,7 @@ public class IRCMessageHandler {
                                 plugin.logDebug("GM: \"" + gameCommand.trim() + "\"");
                                 try {
                                     plugin.commandQueue.add(new IRCCommand(
-                                            new IRCCommandSender(ircBot, target, plugin, ctcpResponse, senderName), 
+                                            new IRCCommandSender(ircBot, target, plugin, ctcpResponse, senderName),
                                             new IRCConsoleCommandSender(ircBot, target, plugin, ctcpResponse, senderName),
                                             gameCommand.trim()));
                                 } catch (Exception ex) {

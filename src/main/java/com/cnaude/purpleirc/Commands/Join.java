@@ -30,7 +30,7 @@ public class Join implements IRCCommandInterface {
     private final String usage = "[bot] [channel] ([password])";
     private final String desc = "Join IRC channel.";
     private final String name = "join";
-    private final String fullUsage = ChatColor.WHITE + "Usage: " + ChatColor.GOLD + "/irc " + name + " " + usage; 
+    private final String fullUsage = ChatColor.WHITE + "Usage: " + ChatColor.GOLD + "/irc " + name + " " + usage;
 
     /**
      *

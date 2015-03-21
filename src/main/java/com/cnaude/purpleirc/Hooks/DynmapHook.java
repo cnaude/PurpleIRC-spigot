@@ -34,15 +34,15 @@ public class DynmapHook {
      */
     public DynmapHook(PurpleIRC plugin) {
         this.plugin = plugin;
-        this.dynmapAPI = (DynmapCommonAPI)plugin.getServer().getPluginManager().getPlugin("dynmap");
+        this.dynmapAPI = (DynmapCommonAPI) plugin.getServer().getPluginManager().getPlugin("dynmap");
     }
-    
+
     /**
      *
      * @param nick
      * @param message
      */
     public void sendMessage(String nick, String message) {
-         dynmapAPI.sendBroadcastToWeb(nick, message);
+        dynmapAPI.sendBroadcastToWeb(nick, message);
     }
 }

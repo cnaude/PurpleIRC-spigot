@@ -52,7 +52,7 @@ public class ListBots implements IRCCommandInterface {
                 + ChatColor.DARK_PURPLE + "   ]-----");
         for (PurpleBot ircBot : plugin.ircBots.values()) {
             sender.sendMessage(ChatColor.DARK_PURPLE + "* " + ChatColor.WHITE + ircBot.getFileName()
-            + ChatColor.DARK_PURPLE + " [" + ChatColor.WHITE + ircBot.botNick + ChatColor.DARK_PURPLE + "]");
+                    + ChatColor.DARK_PURPLE + " [" + ChatColor.WHITE + ircBot.botNick + ChatColor.DARK_PURPLE + "]");
             if (ircBot.isConnected()) {
                 for (Channel channel : ircBot.getChannels()) {
                     sender.sendMessage(ChatColor.DARK_PURPLE + "  - " + ChatColor.WHITE + channel.getName());

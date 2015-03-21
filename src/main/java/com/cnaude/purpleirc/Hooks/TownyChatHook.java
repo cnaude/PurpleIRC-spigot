@@ -108,13 +108,13 @@ public class TownyChatHook {
                 plugin.logDebug("CT: " + ct.name());
                 String townyChannelName = chat.getChannelsHandler().getActiveChannel(player, ct).getName();
                 if (townyChannel.equalsIgnoreCase(townyChannelName)) {
-                    plugin.logDebug("TC ["+townyChannelName+"]: Sending message to " + player + ": " + message);
+                    plugin.logDebug("TC [" + townyChannelName + "]: Sending message to " + player + ": " + message);
                     player.sendMessage(message);
                     break;
                 } else {
-                    plugin.logDebug("TC "+townyChannelName+"]: invalid TC channel name for " + player);
+                    plugin.logDebug("TC " + townyChannelName + "]: invalid TC channel name for " + player);
                 }
-                    
+
             }
         }
     }

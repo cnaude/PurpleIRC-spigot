@@ -30,7 +30,7 @@ public class Voice implements IRCCommandInterface {
     private final String usage = "[bot] [channel] [user(s)]";
     private final String desc = "Voice an IRC user in a channel.";
     private final String name = "voice";
-    private final String fullUsage = ChatColor.WHITE + "Usage: " + ChatColor.GOLD + "/irc " + name + " " + usage; 
+    private final String fullUsage = ChatColor.WHITE + "Usage: " + ChatColor.GOLD + "/irc " + name + " " + usage;
 
     /**
      *
@@ -54,9 +54,9 @@ public class Voice implements IRCCommandInterface {
                 for (int i = 3; i < args.length; i++) {
                     // #channel, user
                     plugin.ircBots.get(bot).voice(channelName, args[i]);
-                    sender.sendMessage("Giving voice status to " 
-                            + ChatColor.WHITE + args[i] 
-                            + ChatColor.RESET + " on " 
+                    sender.sendMessage("Giving voice status to "
+                            + ChatColor.WHITE + args[i]
+                            + ChatColor.RESET + " on "
                             + ChatColor.WHITE + channelName);
                 }
             } else {

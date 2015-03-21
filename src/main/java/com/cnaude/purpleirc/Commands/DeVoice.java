@@ -73,7 +73,7 @@ public class DeVoice implements IRCCommandInterface {
                     }
                 }
             }
-        }    
+        }
     }
 
     @Override

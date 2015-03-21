@@ -22,12 +22,12 @@ import org.bukkit.event.HandlerList;
 
 /**
  *
- * @author cnaude
- * Event listener for plugins that want to catch command events from PurpleIRC
+ * @author cnaude Event listener for plugins that want to catch command events
+ * from PurpleIRC
  */
 public class IRCCommandEvent extends Event {
 
-    private static final HandlerList handlers = new HandlerList();    
+    private static final HandlerList handlers = new HandlerList();
     private final IRCCommand ircCommand;
 
     /**
@@ -35,9 +35,9 @@ public class IRCCommandEvent extends Event {
      * @param ircCommand
      */
     public IRCCommandEvent(IRCCommand ircCommand) {
-        this.ircCommand = ircCommand;             
+        this.ircCommand = ircCommand;
     }
-    
+
     /**
      *
      * @return

@@ -30,7 +30,7 @@ public class Kick implements IRCCommandInterface {
     private final String usage = "[bot] [channel] [user(s)]";
     private final String desc = "Kick user(s) from IRC channel.";
     private final String name = "kick";
-    private final String fullUsage = ChatColor.WHITE + "Usage: " + ChatColor.GOLD + "/irc " + name + " " + usage; 
+    private final String fullUsage = ChatColor.WHITE + "Usage: " + ChatColor.GOLD + "/irc " + name + " " + usage;
 
     /**
      *

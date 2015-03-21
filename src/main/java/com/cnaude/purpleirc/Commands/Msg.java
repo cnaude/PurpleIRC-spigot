@@ -79,29 +79,28 @@ public class Msg implements IRCCommandInterface {
                     ircBot.msgPlayer((Player) sender, nick, msg.substring(1));
                 } else {
                     ircBot.consoleMsgPlayer(nick, msg.substring(1));
-                }                
+                }
                 if (!template.isEmpty()) {
                     sender.sendMessage(plugin.tokenizer.msgChatResponseTokenizer(nick, msg.substring(1), template));
                 }
             }
-        }
-        else {
+        } else {
             sender.sendMessage(fullUsage);
+        }
     }
-}
 
-@Override
-        public String name() {
+    @Override
+    public String name() {
         return name;
     }
 
     @Override
-        public String desc() {
+    public String desc() {
         return desc;
     }
 
     @Override
-        public String usage() {
+    public String usage() {
         return usage;
     }
 }

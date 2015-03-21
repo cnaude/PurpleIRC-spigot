@@ -20,7 +20,6 @@ import com.cnaude.purpleirc.PurpleIRC;
 import com.sk89q.commandbook.CommandBook;
 import com.zachsthings.libcomponents.bukkit.BukkitComponent;
 
-
 /**
  *
  * @author cnaude
@@ -39,8 +38,8 @@ public class CommandBookHook {
         this.commandBook = (CommandBook) plugin.getServer().getPluginManager().getPlugin("CommandBook");
     }
 
-    public boolean isCommandBookCommand(String command) {        
-        for (BukkitComponent bc: commandBook.getComponentManager().getComponents()) {
+    public boolean isCommandBookCommand(String command) {
+        for (BukkitComponent bc : commandBook.getComponentManager().getComponents()) {
             for (String s : bc.getCommands().keySet()) {
                 if (s.equals(command)) {
                     return true;
@@ -49,5 +48,5 @@ public class CommandBookHook {
         }
         return false;
     }
-    
+
 }

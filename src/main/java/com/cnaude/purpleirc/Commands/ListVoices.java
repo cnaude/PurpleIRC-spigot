@@ -30,7 +30,7 @@ public class ListVoices implements IRCCommandInterface {
     private final String usage = "[bot] [channel]";
     private final String desc = "List IRC user mask in auto-voice list.";
     private final String name = "listvoices";
-    private final String fullUsage = ChatColor.WHITE + "Usage: " + ChatColor.GOLD + "/irc " + name + " " + usage; 
+    private final String fullUsage = ChatColor.WHITE + "Usage: " + ChatColor.GOLD + "/irc " + name + " " + usage;
 
     /**
      *

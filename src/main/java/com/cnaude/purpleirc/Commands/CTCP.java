@@ -31,7 +31,7 @@ public class CTCP implements IRCCommandInterface {
     private final String usage = "([bot]) [target] [command]";
     private final String desc = "Send CTCP command to the user or channel.";
     private final String name = "ctcp";
-    private final String fullUsage = ChatColor.WHITE + "Usage: " + ChatColor.GOLD + "/irc " + name + " " + usage;    
+    private final String fullUsage = ChatColor.WHITE + "Usage: " + ChatColor.GOLD + "/irc " + name + " " + usage;
 
     /**
      *

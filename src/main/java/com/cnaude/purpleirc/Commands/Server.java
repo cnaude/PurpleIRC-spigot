@@ -30,7 +30,7 @@ public class Server implements IRCCommandInterface {
     private final String usage = "[bot] [server] ([true|false])";
     private final String desc = "Set IRC server hostname. Optionally set autoconnect.";
     private final String name = "server";
-    private final String fullUsage = ChatColor.WHITE + "Usage: " + ChatColor.GOLD + "/irc " + name + " " + usage; 
+    private final String fullUsage = ChatColor.WHITE + "Usage: " + ChatColor.GOLD + "/irc " + name + " " + usage;
 
     /**
      *

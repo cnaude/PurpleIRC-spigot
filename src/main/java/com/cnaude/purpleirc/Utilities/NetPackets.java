@@ -119,23 +119,23 @@ public class NetPackets {
                 if (add) {
                     //plugin.logDebug("T: Adding: " + name);
                     /*
-                    packet = protocolManager.createPacket(PacketType.Play.Server.PLAYER_INFO);
+                     packet = protocolManager.createPacket(PacketType.Play.Server.PLAYER_INFO);
 
-                    PlayerInfoData pid = new PlayerInfoData(
-                            new WrappedGameProfile(uuid, displayName),
-                            0,
-                            NativeGameMode.valueOf(plugin.customTabGamemode.toUpperCase()),
-                            WrappedChatComponent.fromJson("{\"text\": \"" + displayName + "\"}"));
-                    packet.getPlayerInfoDataLists().write(0, Arrays.asList(pid));
-                    */
+                     PlayerInfoData pid = new PlayerInfoData(
+                     new WrappedGameProfile(uuid, displayName),
+                     0,
+                     NativeGameMode.valueOf(plugin.customTabGamemode.toUpperCase()),
+                     WrappedChatComponent.fromJson("{\"text\": \"" + displayName + "\"}"));
+                     packet.getPlayerInfoDataLists().write(0, Arrays.asList(pid));
+                     */
                     EntityPlayer pl = new EntityPlayer(
                             MinecraftServer.getServer(),
                             MinecraftServer.getServer().getWorldServer(0),
                             (GameProfile) (new WrappedGameProfile(uuid, displayName)).getHandle(),
                             new PlayerInteractManager(MinecraftServer.getServer().getWorldServer(0))
                     );
-                    PacketPlayOutPlayerInfo pi = 
-                            new PacketPlayOutPlayerInfo(
+                    PacketPlayOutPlayerInfo pi
+                            = new PacketPlayOutPlayerInfo(
                                     PacketPlayOutPlayerInfo.EnumPlayerInfoAction.ADD_PLAYER, pl);
                     return PacketContainer.fromPacket(pi);
                 } else {
@@ -146,15 +146,15 @@ public class NetPackets {
                             (GameProfile) (new WrappedGameProfile(uuid, displayName)).getHandle(),
                             new PlayerInteractManager(MinecraftServer.getServer().getWorldServer(0))
                     );
-                    PacketPlayOutPlayerInfo pi = 
-                            new PacketPlayOutPlayerInfo(
+                    PacketPlayOutPlayerInfo pi
+                            = new PacketPlayOutPlayerInfo(
                                     PacketPlayOutPlayerInfo.EnumPlayerInfoAction.REMOVE_PLAYER, pl);
                     return PacketContainer.fromPacket(pi);
                 }
             } catch (Exception ex) {
                 plugin.logError("tabPacket: " + ex.getMessage());
             }
-        } 
+        }
         return packet;
     }
 

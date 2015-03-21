@@ -51,7 +51,7 @@ public class Motd implements IRCCommandInterface {
         if (args.length >= 2) {
             if (plugin.ircBots.containsKey(args[1])) {
                 myBots.add(plugin.ircBots.get(args[1]));
-                
+
             } else {
                 sender.sendMessage(plugin.invalidBotName.replace("%BOT%", args[1]));
             }

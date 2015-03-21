@@ -31,7 +31,7 @@ public class Disconnect implements IRCCommandInterface {
     private final String usage = "([bot])";
     private final String desc = "Disconnect from IRC server.";
     private final String name = "disconnect";
-    private final String fullUsage = ChatColor.WHITE + "Usage: " + ChatColor.GOLD + "/irc " + name + " " + usage; 
+    private final String fullUsage = ChatColor.WHITE + "Usage: " + ChatColor.GOLD + "/irc " + name + " " + usage;
 
     /**
      *

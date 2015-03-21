@@ -54,7 +54,7 @@ public class VanishNoPacketListener implements Listener {
             }
         }
     }
-    
+
     /**
      *
      * @param event
@@ -73,7 +73,7 @@ public class VanishNoPacketListener implements Listener {
                         plugin.netPackets.updateTabList(event.getPlayer());
                     }
                 }
-                plugin.updateDisplayNameCache(event.getPlayer()); 
+                plugin.updateDisplayNameCache(event.getPlayer());
                 plugin.updateUuidCache(event.getPlayer());
             }
         }, 20);

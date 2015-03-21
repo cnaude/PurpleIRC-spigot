@@ -68,7 +68,7 @@ public class AddVoice implements IRCCommandInterface {
                     plugin.ircBots.get(bot).addVoice(channelName, mask, sender);
                     plugin.ircBots.get(bot).voiceIrcUsers(channelName);
                 } else {
-                    sender.sendMessage(ChatColor.RED + "Invalid user or mask: " 
+                    sender.sendMessage(ChatColor.RED + "Invalid user or mask: "
                             + ChatColor.WHITE + mask);
                 }
             } else {

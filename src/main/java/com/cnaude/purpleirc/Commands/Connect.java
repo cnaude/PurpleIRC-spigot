@@ -31,7 +31,7 @@ public class Connect implements IRCCommandInterface {
     private final String usage = "([bot])";
     private final String desc = "Connect to configured IRC server.";
     private final String name = "connect";
-    private final String fullUsage = ChatColor.WHITE + "Usage: " + ChatColor.GOLD + "/irc " + name + " " + usage; 
+    private final String fullUsage = ChatColor.WHITE + "Usage: " + ChatColor.GOLD + "/irc " + name + " " + usage;
 
     /**
      *
