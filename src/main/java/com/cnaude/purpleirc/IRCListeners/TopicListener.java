@@ -63,7 +63,7 @@ public class TopicListener extends ListenerAdapter {
                             .replace("%CHANNEL%", channel.getName()));
                     plugin.logDebug("Sending topic notification due to "
                             + TemplateName.IRC_TOPIC + " being true: " + message);
-                    plugin.getServer().broadcast(message, "irc.message.topic");
+                    plugin.broadcastToGame(message, "irc.message.topic");
                 }
             }
             ircBot.activeTopic.put(channel.getName(), event.getTopic());

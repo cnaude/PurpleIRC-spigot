@@ -286,3 +286,5 @@ game-color-map:
 Debug: false
 # Ignore chat cancellation.
 ignore-chat-cancel: false
+# Broadcast IRC chat to console
+broadcast-chat-to-console: true

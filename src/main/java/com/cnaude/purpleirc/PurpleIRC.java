@@ -154,6 +154,7 @@ public class PurpleIRC extends JavaPlugin {
     private boolean stripGameColors;
     private boolean stripIRCColors;
     private boolean stripIRCBackgroundColors;
+    private boolean broadcastChatToConsole;
     public boolean customTabList;
     public String customTabGamemode;
     private boolean listSortByName;
@@ -589,6 +590,7 @@ public class PurpleIRC extends JavaPlugin {
         logDebug("custom-tab-list: " + customTabList);
         logDebug("custom-tab-prefix: " + customTabPrefix);
         logDebug("custom-tab-gamemode: " + customTabGamemode);
+        broadcastChatToConsole = getConfig().getBoolean("broadcast-chat-to-console", true);
     }
 
     private void loadBots() {
@@ -1538,6 +1540,18 @@ public class PurpleIRC extends JavaPlugin {
             sender.sendMessage(footer);
         } else {
             sender.sendMessage(ChatColor.stripColor(footer));
+        }
+    }
+    
+    public void broadcastToGame(final String message, final String permission) {
+        if (broadcastChatToConsole) {
+            getServer().broadcast(message, permission);
+        } else {
+            for (Player player : getServer().getOnlinePlayers()) {
+                if (player.hasPermission(permission)) {
+                    player.sendMessage(message);
+                }
+            }
         }
     }
 
