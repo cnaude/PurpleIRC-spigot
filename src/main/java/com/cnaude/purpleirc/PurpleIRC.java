@@ -1542,11 +1542,13 @@ public class PurpleIRC extends JavaPlugin {
             sender.sendMessage(ChatColor.stripColor(footer));
         }
     }
-    
+
     public void broadcastToGame(final String message, final String permission) {
         if (broadcastChatToConsole) {
+            logDebug("Broadcast All [" + permission + "]: " + message);
             getServer().broadcast(message, permission);
         } else {
+            logDebug("Broadcast Players [" + permission + "]: " + message);
             for (Player player : getServer().getOnlinePlayers()) {
                 if (player.hasPermission(permission)) {
                     player.sendMessage(message);
