@@ -426,6 +426,7 @@ public final class PurpleBot {
         if (muteList.get(channelName).contains(user)) {
             sender.sendMessage("User '" + user + "' is no longer muted.");
             muteList.get(channelName).remove(user);
+            config.set("channels." + encodeChannel(getConfigChannelName(channelName)) + ".muted", muteList.get(channelName));
             saveConfig();
         } else {
             sender.sendMessage("User '" + user + "' is not muted.");
