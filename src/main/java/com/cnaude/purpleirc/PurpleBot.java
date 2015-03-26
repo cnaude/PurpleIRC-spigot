@@ -396,6 +396,7 @@ public final class PurpleBot {
         } else {
             sender.sendMessage("User '" + user + "' is now muted.");
             muteList.get(channelName).add(user);
+            config.set("channels." + encodeChannel(getConfigChannelName(channelName)) + ".muted", muteList.get(channelName));
             saveConfig();
         }
     }
