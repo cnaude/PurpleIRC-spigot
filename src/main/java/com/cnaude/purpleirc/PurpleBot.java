@@ -55,7 +55,6 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReadWriteLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
-import javax.net.ssl.SSLSocketFactory;
 import me.botsko.prism.actionlibs.QueryParameters;
 import me.botsko.prism.events.BlockStateChange;
 import org.bukkit.Achievement;
@@ -383,7 +382,7 @@ public final class PurpleBot {
             sender.sendMessage("[PurpleIRC] [" + botNick + "] " + ChatColor.RED + "Error loading bot configuration!");
         }
     }
-
+    
     /**
      *
      * @param channelName
