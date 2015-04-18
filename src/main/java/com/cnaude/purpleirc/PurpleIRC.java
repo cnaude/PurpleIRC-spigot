@@ -272,7 +272,9 @@ public class PurpleIRC extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new GamePlayerQuitListener(this), this);
         getServer().getPluginManager().registerEvents(new GameServerCommandListener(this), this);
         detectHooks();
-        getPurpleHooks(getServer().getConsoleSender(), false);
+        if (debugEnabled) {
+            getPurpleHooks(getServer().getConsoleSender(), false);
+        }
         commandHandlers = new CommandHandlers(this);
         ircTabCompleter = new PurpleTabCompleter(this);
         getCommand("irc").setExecutor(commandHandlers);

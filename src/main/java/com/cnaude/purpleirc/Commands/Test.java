@@ -49,13 +49,14 @@ public class Test implements IRCCommandInterface {
     public void dispatch(CommandSender sender, String[] args) {
         //irc test <username>
         if (plugin.vaultHelpers == null) {
-            sender.sendMessage(ChatColor.RED + "Vault is no enabled!");
+            sender.sendMessage(ChatColor.RED + "Vault is not enabled!");
             return;
         }
         if (plugin.debugMode()) {
             if (args.length >= 2) {
                 String playername = args[1];
                 sender.sendMessage(ChatColor.LIGHT_PURPLE + "Testing " + playername);
+                sender.sendMessage("displayName     : " + plugin.getDisplayName(name));
                 sender.sendMessage("getGroupPrefix  : " + plugin.getGroupPrefix(plugin.defaultPlayerWorld, playername));
                 sender.sendMessage("getGroupSuffix  : " + plugin.getGroupSuffix(plugin.defaultPlayerWorld, playername));
                 sender.sendMessage("getPlayerPrefix : " + plugin.getPlayerPrefix(plugin.defaultPlayerWorld, playername));
