@@ -85,6 +85,8 @@ channels:
   # Use %2E instead of dots in the channel names.
   # Example: minecraft%2Etest == minecraft.test  
   '#minecraft-test':
+    # message prefix (replaces %CHANNELPREFIX%
+    prefix: ''
     # worlds we listen to for this channel
     worlds:
     - '*'

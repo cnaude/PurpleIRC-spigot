@@ -23,6 +23,7 @@ channel-check-interval: 100
 #  %KICKERSERVER% - Server of IRC kicker
 #  %KICKERAWAY% - IRC kicker away message
 #  %NICKPREFIX% - IRC user's status (see nick-prefixes below)
+#  %CHANNELPREFIX% - Custom prefix per channel (see prefix option in SampleBot.yml)
 #  %DISPLAYNAME% - Player's custom name
 #  %PLAYERIP% - IP address of a player
 #  %CHANNEL% 

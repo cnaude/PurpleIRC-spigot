@@ -55,9 +55,12 @@ public class ChatTokenizer {
      * @return
      */
     public String chatIRCTokenizer(PurpleBot ircBot, User user, org.pircbotx.Channel channel, String template) {
-        return plugin.colorConverter.ircColorsToGame(ircUserTokenizer(template, user, ircBot)
+        return plugin.colorConverter.ircColorsToGame(
+                ircUserTokenizer(template, user, ircBot)
                 .replace("%NICKPREFIX%", ircBot.getNickPrefix(user, channel))
-                .replace("%CHANNEL%", channel.getName()));
+                .replace("%CHANNELPREFIX%", ircBot.getChannelPrefix(channel))
+                .replace("%CHANNEL%", channel.getName())
+        );
     }
 
     public String ircUserTokenizer(String template, User user, PurpleBot ircBot) {
@@ -139,6 +142,7 @@ public class ChatTokenizer {
                 .replace("%HERONICK%", channelManager.getChannel(hChannel).getNick())
                 .replace("%HEROCOLOR%", channelManager.getChannel(hChannel).getColor().toString())
                 .replace("%NICKPREFIX%", ircBot.getNickPrefix(user, channel))
+                .replace("%CHANNELPREFIX%", ircBot.getChannelPrefix(channel))
                 .replace("%CHANNEL%", channel.getName()));
     }
 
@@ -164,6 +168,7 @@ public class ChatTokenizer {
         }
         return plugin.colorConverter.ircColorsToGame(ircUserTokenizer(tmpl, user, ircBot)
                 .replace("%NICKPREFIX%", ircBot.getNickPrefix(user, channel))
+                .replace("%CHANNELPREFIX%", ircBot.getChannelPrefix(channel))
                 .replace("%MESSAGE%", message)
                 .replace("%CHANNEL%", channel.getName()));
     }
@@ -194,6 +199,7 @@ public class ChatTokenizer {
                 .replace("%HERONICK%", channelManager.getChannel(hChannel).getNick())
                 .replace("%HEROCOLOR%", channelManager.getChannel(hChannel).getColor().toString())
                 .replace("%NICKPREFIX%", ircBot.getNickPrefix(user, channel))
+                .replace("%CHANNELPREFIX%", ircBot.getChannelPrefix(channel))
                 .replace("%MESSAGE%", message)
                 .replace("%CHANNEL%", channel.getName()));
     }
@@ -221,6 +227,7 @@ public class ChatTokenizer {
         return plugin.colorConverter.ircColorsToGame(ircUserTokenizer(tmpl, user, ircBot)
                 .replace("%TOWNYCHANNEL%", tChannel)
                 .replace("%NICKPREFIX%", ircBot.getNickPrefix(user, channel))
+                .replace("%CHANNELPREFIX%", ircBot.getChannelPrefix(channel))
                 .replace("%MESSAGE%", message)
                 .replace("%CHANNEL%", channel.getName()));
     }
@@ -239,6 +246,7 @@ public class ChatTokenizer {
     public String ircKickTokenizer(PurpleBot ircBot, User recipient, User kicker, String reason, org.pircbotx.Channel channel, String template) {
         return plugin.colorConverter.ircColorsToGame(ircUserTokenizer(template, recipient, kicker, ircBot)
                 .replace("%NICKPREFIX%", ircBot.getNickPrefix(kicker, channel))
+                .replace("%CHANNELPREFIX%", ircBot.getChannelPrefix(channel))
                 .replace("%REASON%", reason)
                 .replace("%CHANNEL%", channel.getName()));
     }
@@ -262,6 +270,7 @@ public class ChatTokenizer {
                 .replace("%HERONICK%", channelManager.getChannel(hChannel).getNick())
                 .replace("%HEROCOLOR%", channelManager.getChannel(hChannel).getColor().toString())
                 .replace("%NICKPREFIX%", ircBot.getNickPrefix(kicker, channel))
+                .replace("%CHANNELPREFIX%", ircBot.getChannelPrefix(channel))
                 .replace("%REASON%", reason)
                 .replace("%CHANNEL%", channel.getName()));
     }
@@ -280,6 +289,7 @@ public class ChatTokenizer {
         return plugin.colorConverter.ircColorsToGame(ircUserTokenizer(template, user, ircBot)
                 .replace("%MODE%", mode)
                 .replace("%NICKPREFIX%", ircBot.getNickPrefix(user, channel))
+                .replace("%CHANNELPREFIX%", ircBot.getChannelPrefix(channel))
                 .replace("%CHANNEL%", channel.getName()));
     }
 
@@ -297,6 +307,7 @@ public class ChatTokenizer {
     public String ircNoticeTokenizer(PurpleBot ircBot, User user, String message, String notice, org.pircbotx.Channel channel, String template) {
         return plugin.colorConverter.ircColorsToGame(ircUserTokenizer(template, user, ircBot)
                 .replace("%NICKPREFIX%", ircBot.getNickPrefix(user, channel))
+                .replace("%CHANNELPREFIX%", ircBot.getChannelPrefix(channel))
                 .replace("%MESSAGE%", message)
                 .replace("%NOTICE%", notice)
                 .replace("%CHANNEL%", channel.getName()));
