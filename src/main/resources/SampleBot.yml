@@ -14,7 +14,7 @@ login: AwesomeName
 # realname
 realname: ''
 # server - IRC server to join
-server: irc.excample.com
+server: irc.example.com
 # port - IRC server port
 port: 6667
 # Enable TLS support via STARTTLS. Must connect to non-SSL port to use this.
