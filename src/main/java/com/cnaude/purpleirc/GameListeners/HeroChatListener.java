@@ -20,6 +20,7 @@ import com.cnaude.purpleirc.PurpleBot;
 import com.cnaude.purpleirc.PurpleIRC;
 import com.dthielke.herochat.ChannelChatEvent;
 import com.dthielke.herochat.Chatter;
+import com.dthielke.herochat.Chatter.Result;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -50,11 +51,13 @@ public class HeroChatListener implements Listener {
     public void onChannelChatEvent(ChannelChatEvent event) {
         Chatter chatter = event.getSender();
         plugin.logDebug("HC Format: " + event.getFormat());
+        plugin.logDebug("HC Result: " + event.getResult());
 
         ChatColor chatColor = event.getChannel().getColor();
         Player player = chatter.getPlayer();
         if (player.hasPermission("irc.message.gamechat")
-                && chatter.getChannels().contains(event.getChannel())) {
+                && chatter.getChannels().contains(event.getChannel())
+                && event.getResult().equals(Result.ALLOWED)) {
             for (PurpleBot ircBot : plugin.ircBots.values()) {
                 if (plugin.heroChatEmoteFormat.equals(event.getFormat())) {
                     plugin.logDebug("HC Emote: TRUE");
