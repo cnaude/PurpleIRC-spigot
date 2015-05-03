@@ -43,6 +43,12 @@ public class DynmapHook {
      * @param message
      */
     public void sendMessage(String nick, String message) {
+        if (nick == null) {
+            nick = "";
+        }
+        if (message == null) {
+            return;
+        }
         dynmapAPI.sendBroadcastToWeb(nick, message);
     }
 }
