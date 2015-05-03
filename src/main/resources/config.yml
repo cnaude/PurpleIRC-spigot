@@ -213,6 +213,9 @@ message-format:
   default-group-prefix: ''
   default-player-world: 'world'
   default-player-group: ''  
+  # Flood control
+  game-flood-warning: '&3Message not sent to IRC due to spamming. &rCooldown: %COOLDOWN%s'
+  irc-flood-warning: '&3Message not sent to game due to spamming. &rCooldown: %COOLDOWN%s'
 # Format for the @list command in IRC
 list-format: '[&9Minecraft&r] &2Online &r(%COUNT%/%MAX%): %PLAYERS%'
 list-separator: ', '

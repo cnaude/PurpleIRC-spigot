@@ -132,5 +132,8 @@ public class TemplateName {
 
     public final static String FAKE_JOIN = "fake-join";
     public final static String FAKE_QUIT = "fake-quit";
+    
+    public final static String GAME_FLOOD_WARNING = "game-flood-warning";
+    public final static String IRC_FLOOD_WARNING = "irc-flood-warning";
 
 }

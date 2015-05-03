@@ -157,6 +157,11 @@ public final class PurpleBot {
     public List<String> channelCmdNotifyIgnore;
     private final ArrayList<ListenerAdapter> ircListeners;
     public IRCMessageQueueWatcher messageQueue;
+    public FloodChecker floodChecker;
+    protected boolean floodControlEnabled;
+    protected int floodControlMaxMessages;
+    protected long floodControlTimeInterval;
+    protected long floodControlCooldown;
     private final String fileName;
     int joinNoticeCoolDown;
     boolean joinNoticeEnabled;
@@ -241,6 +246,7 @@ public final class PurpleBot {
         }
 
         messageQueue = new IRCMessageQueueWatcher(this, plugin);
+        floodChecker = new FloodChecker(this, plugin);
 
     }
 
@@ -384,7 +390,7 @@ public final class PurpleBot {
             sender.sendMessage("[PurpleIRC] [" + botNick + "] " + ChatColor.RED + "Error loading bot configuration!");
         }
     }
-    
+
     /**
      *
      * @param channelName
@@ -397,7 +403,7 @@ public final class PurpleBot {
         } else {
             sender.sendMessage("User '" + user + "' is now muted.");
             muteList.get(channelName).add(user);
-            saveConfig("channels." + encodeChannel(getConfigChannelName(channelName)) + ".muted", muteList.get(channelName));            
+            saveConfig("channels." + encodeChannel(getConfigChannelName(channelName)) + ".muted", muteList.get(channelName));
         }
     }
 
@@ -425,7 +431,7 @@ public final class PurpleBot {
         if (muteList.get(channelName).contains(user)) {
             sender.sendMessage("User '" + user + "' is no longer muted.");
             muteList.get(channelName).remove(user);
-            saveConfig("channels." + encodeChannel(getConfigChannelName(channelName)) + ".muted", muteList.get(channelName));            
+            saveConfig("channels." + encodeChannel(getConfigChannelName(channelName)) + ".muted", muteList.get(channelName));
         } else {
             sender.sendMessage("User '" + user + "' is not muted.");
         }
@@ -547,7 +553,7 @@ public final class PurpleBot {
             plugin.logError(ex.getMessage());
         }
     }
-    
+
     /**
      *
      * @param section
@@ -577,7 +583,7 @@ public final class PurpleBot {
         });
         sender.sendMessage("Setting nickname to " + newNick);
         saveConfig("nick", newNick);
-        
+
     }
 
     public void asyncJoinChannel(final String channelName, final String password) {
@@ -635,13 +641,13 @@ public final class PurpleBot {
                 + "Login set to " + ChatColor.WHITE
                 + newLogin + ChatColor.DARK_PURPLE
                 + ". Reload the bot for the change to take effect.");
-        saveConfig("login", newLogin);        
+        saveConfig("login", newLogin);
     }
 
     private void sanitizeServerName() {
         botServer = botServer.replace("^.*\\/\\/", "");
         botServer = botServer.replace(":\\d+$", "");
-        saveConfig("server", botServer);        
+        saveConfig("server", botServer);
     }
 
     private boolean loadConfig() {
@@ -732,7 +738,7 @@ public final class PurpleBot {
                 }
             }
 
-            // build command notify recipient list            
+            // build command notify recipient list
             for (String recipient : config.getStringList("command-notify.recipients")) {
                 if (!channelCmdNotifyRecipients.contains(recipient)) {
                     channelCmdNotifyRecipients.add(recipient);
@@ -743,7 +749,7 @@ public final class PurpleBot {
                 plugin.logInfo(" No command recipients defined.");
             }
 
-            // build command notify ignore list            
+            // build command notify ignore list
             for (String command : config.getStringList("command-notify.ignore")) {
                 if (!channelCmdNotifyIgnore.contains(command)) {
                     channelCmdNotifyIgnore.add(command);
@@ -822,7 +828,7 @@ public final class PurpleBot {
 
                     enableMessageFiltering.put(channelName, config.getBoolean("channels." + enChannelName + ".enable-filtering", false));
                     plugin.logDebug("  EnableMessageFiltering => " + enableMessageFiltering.get(channelName));
-                    
+
                     channelPrefix.put(channelName, config.getString("channels." + enChannelName + ".prefix", ""));
                     plugin.logDebug("  ChannelPrefix => " + channelPrefix.get(channelName));
 
@@ -929,6 +935,12 @@ public final class PurpleBot {
                     plugin.logDebug("join-notice.ctcp: " + joinNoticeCtcp);
                     plugin.logDebug("join-notice.message: " + joinNoticeMessage);
 
+                    // flood control setup
+                    floodControlEnabled = config.getBoolean("flood-control.enabled", false);
+                    floodControlMaxMessages = config.getInt("flood-control.max-messages", 2);
+                    floodControlTimeInterval = config.getLong("flood-control.time-interval", 1000L);
+                    floodControlCooldown = config.getLong("flood-control.cooldown", 60000L);
+
                     // build command map
                     CaseInsensitiveMap<CaseInsensitiveMap<String>> map = new CaseInsensitiveMap<>();
                     CaseInsensitiveMap<List<String>> extraMap = new CaseInsensitiveMap<>();
@@ -1010,6 +1022,10 @@ public final class PurpleBot {
         if (!this.isConnected()) {
             return;
         }
+        if (floodChecker.isSpam(player)) {
+            sendFloodWarning(player);
+            return;
+        }
         for (String channelName : botChannels) {
             if (!isPlayerInValidWorld(player, channelName)) {
                 continue;
@@ -1058,6 +1074,15 @@ public final class PurpleBot {
         }
     }
 
+    private void sendFloodWarning(Player player) {
+        String message = plugin.getMsgTemplate(
+                botNick, TemplateName.GAME_FLOOD_WARNING)
+                .replace("%COOLDOWN%", floodChecker.getCoolDown(player));
+        if (!message.isEmpty()) {
+            player.sendMessage(message);
+        }
+    }
+
     // Called from HeroChat listener
     /**
      *
@@ -1070,6 +1095,10 @@ public final class PurpleBot {
             return;
         }
         Player player = chatter.getPlayer();
+        if (floodChecker.isSpam(player)) {
+            sendFloodWarning(player);
+            return;
+        }
         for (String channelName : botChannels) {
             if (!isPlayerInValidWorld(player, channelName)) {
                 continue;
@@ -1094,6 +1123,10 @@ public final class PurpleBot {
         if (!this.isConnected()) {
             return;
         }
+        if (floodChecker.isSpam(player)) {
+            sendFloodWarning(player);
+            return;
+        }
         for (String channelName : botChannels) {
             if (!isPlayerInValidWorld(player, channelName)) {
                 continue;
@@ -1112,6 +1145,10 @@ public final class PurpleBot {
 
     public void mcMMOPartyChat(Player player, String partyName, String message) {
         if (!this.isConnected()) {
+            return;
+        }
+        if (floodChecker.isSpam(player)) {
+            sendFloodWarning(player);
             return;
         }
         for (String channelName : botChannels) {
@@ -1134,6 +1171,10 @@ public final class PurpleBot {
         if (!this.isConnected()) {
             return;
         }
+        if (floodChecker.isSpam(player)) {
+            sendFloodWarning(player);
+            return;
+        }
         for (String channelName : botChannels) {
             if (!isPlayerInValidWorld(player, channelName)) {
                 continue;
@@ -1152,6 +1193,10 @@ public final class PurpleBot {
 
     public void townyChat(Player player, com.palmergames.bukkit.TownyChat.channels.Channel townyChannel, String message) {
         if (!this.isConnected()) {
+            return;
+        }
+        if (floodChecker.isSpam(player)) {
+            sendFloodWarning(player);
             return;
         }
         if (plugin.tcHook != null) {
@@ -1180,6 +1225,10 @@ public final class PurpleBot {
             return;
         }
         Player player = chatter.getPlayer();
+        if (floodChecker.isSpam(player)) {
+            sendFloodWarning(player);
+            return;
+        }
         for (String channelName : botChannels) {
             if (!isPlayerInValidWorld(player, channelName)) {
                 continue;
@@ -1213,6 +1262,10 @@ public final class PurpleBot {
             return;
         }
         Player player = plugin.getServer().getPlayer(participant.getName());
+        if (floodChecker.isSpam(player)) {
+            sendFloodWarning(player);
+            return;
+        }
         for (String channelName : botChannels) {
             if (!isPlayerInValidWorld(player, channelName)) {
                 continue;
@@ -1360,6 +1413,10 @@ public final class PurpleBot {
      */
     public void gameBroadcast(Player player, String message) {
         if (!this.isConnected()) {
+            return;
+        }
+        if (floodChecker.isSpam(player)) {
+            sendFloodWarning(player);
             return;
         }
         for (String channelName : botChannels) {
@@ -1644,6 +1701,10 @@ public final class PurpleBot {
         if (!this.isConnected()) {
             return;
         }
+        if (floodChecker.isSpam(player)) {
+            sendFloodWarning(player);
+            return;
+        }
         for (String channelName : botChannels) {
             if (isMessageEnabled(channelName, TemplateName.GAME_ACTION)) {
                 if (!isPlayerInValidWorld(player, channelName)) {
@@ -1690,7 +1751,7 @@ public final class PurpleBot {
         if (channel != null) {
             setTheTopic(channel, tTopic);
             saveConfig("channels." + encodeChannel(getConfigChannelName(channelName)) + ".topic", topic);
-            channelTopic.put(channelName, topic);            
+            channelTopic.put(channelName, topic);
             sender.sendMessage("IRC topic for " + channelName + " changed to \"" + topic + "\"");
         } else {
             sender.sendMessage("Invalid channel: " + channelName);
@@ -1765,7 +1826,7 @@ public final class PurpleBot {
                     + ChatColor.RESET + " has been added to the ops list.");
             opsList.get(channelName).add(userMask);
         }
-        saveConfig("channels." + encodeChannel(getConfigChannelName(channelName)) + ".ops", opsList.get(channelName));        
+        saveConfig("channels." + encodeChannel(getConfigChannelName(channelName)) + ".ops", opsList.get(channelName));
     }
 
     /**
@@ -1783,7 +1844,7 @@ public final class PurpleBot {
                     + ChatColor.RESET + " has been added to the voices list.");
             voicesList.get(channelName).add(userMask);
         }
-        saveConfig("channels." + encodeChannel(getConfigChannelName(channelName)) + ".voices", voicesList.get(channelName));        
+        saveConfig("channels." + encodeChannel(getConfigChannelName(channelName)) + ".voices", voicesList.get(channelName));
     }
 
     /**
@@ -1801,7 +1862,7 @@ public final class PurpleBot {
             sender.sendMessage("User mask " + ChatColor.WHITE + userMask
                     + ChatColor.RESET + " is not in the ops list.");
         }
-        saveConfig("channels." + encodeChannel(getConfigChannelName(channelName)) + ".ops", opsList.get(channelName));        
+        saveConfig("channels." + encodeChannel(getConfigChannelName(channelName)) + ".ops", opsList.get(channelName));
     }
 
     /**
@@ -1820,7 +1881,7 @@ public final class PurpleBot {
                     + ChatColor.RESET + " is not in the voices list.");
         }
         saveConfig("channels." + encodeChannel(getConfigChannelName(channelName)) + ".voices", voicesList.get(channelName));
-        
+
     }
 
     /**
@@ -2125,7 +2186,7 @@ public final class PurpleBot {
         }
         return "";
     }
-    
+
     public String getChannelPrefix(Channel channel) {
         if (channelPrefix.containsKey(channel.getName())) {
             return channelPrefix.get(channel.getName());
@@ -3170,5 +3231,5 @@ public final class PurpleBot {
         plugin.logInfo("Trying alternate nick " + botNick);
         bot.sendIRC().changeNick(botNick);
     }
-     
+
 }

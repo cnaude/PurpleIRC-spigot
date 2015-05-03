@@ -62,6 +62,16 @@ command-notify:
     - example
   ignore:
     - /example
+# Messaging flood control (game and IRC)
+flood-control:
+    # Enable or disable flood control
+    enabled: false
+    # The maximum number of messages per interval
+    max-messages: 2
+    # Time interval in milliseconds
+    time-interval: 1000
+    # Cooldown in milliseconds. If user is spamming then this cooldown takes effect.
+    cooldown: 60000
 # Automatically part invalid channels
 part-invalid-channels: false
 # Message when leaving invalid channel

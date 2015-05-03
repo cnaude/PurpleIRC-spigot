@@ -41,6 +41,15 @@ public class IRCMessageHandler {
     public IRCMessageHandler(PurpleIRC plugin) {
         this.plugin = plugin;
     }
+    
+    private void sendFloodWarning(User user, PurpleBot ircBot) {
+        String message = plugin.colorConverter.gameColorsToIrc(plugin.getMsgTemplate(
+                ircBot.botNick, TemplateName.IRC_FLOOD_WARNING)
+                .replace("%COOLDOWN%", ircBot.floodChecker.getCoolDown(user)));
+        if (!message.isEmpty()) {
+            user.send().notice(message);
+        }
+    }
 
     /**
      *
@@ -51,6 +60,10 @@ public class IRCMessageHandler {
      * @param privateMessage
      */
     public void processMessage(PurpleBot ircBot, User user, Channel channel, String message, boolean privateMessage) {
+        if (ircBot.floodChecker.isSpam(user)) {
+            sendFloodWarning(user, ircBot);
+            return;
+        }
         plugin.logDebug("processMessage: " + message);
         String myChannel = channel.getName();
         if (ircBot.muteList.get(myChannel).contains(user.getNick())) {
