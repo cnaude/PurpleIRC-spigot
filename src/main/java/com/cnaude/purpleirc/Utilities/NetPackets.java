@@ -65,9 +65,11 @@ public class NetPackets {
         }
         String channelName = channel.getName();
         if (ircBot.tabIgnoreNicks.containsKey(channelName)) {
-            if (ircBot.tabIgnoreNicks.get(channelName).contains(name)) {
-                plugin.logDebug("Not adding " + name + " to tab list.");
-                return;
+            for (String s : ircBot.tabIgnoreNicks.get(channelName)) {
+                if (s.equalsIgnoreCase(name)) {
+                    plugin.logDebug("Not adding " + name + " to tab list.");
+                    return;
+                }
             }
         }
         try {
@@ -117,17 +119,6 @@ public class NetPackets {
                     uuid = UUID.nameUUIDFromBytes(("OfflinePlayer:" + displayName).getBytes(Charsets.UTF_8));
                 }
                 if (add) {
-                    //plugin.logDebug("T: Adding: " + name);
-                    /*
-                     packet = protocolManager.createPacket(PacketType.Play.Server.PLAYER_INFO);
-
-                     PlayerInfoData pid = new PlayerInfoData(
-                     new WrappedGameProfile(uuid, displayName),
-                     0,
-                     NativeGameMode.valueOf(plugin.customTabGamemode.toUpperCase()),
-                     WrappedChatComponent.fromJson("{\"text\": \"" + displayName + "\"}"));
-                     packet.getPlayerInfoDataLists().write(0, Arrays.asList(pid));
-                     */
                     EntityPlayer pl = new EntityPlayer(
                             MinecraftServer.getServer(),
                             MinecraftServer.getServer().getWorldServer(0),
