@@ -50,18 +50,18 @@ public class GamePlayerCommandPreprocessingListener implements Listener {
         }
         String msg = event.getMessage();
         if (event.getPlayer().hasPermission("irc.message.gamechat")) {
-            if (msg.startsWith("/me ")) {
+            if (msg.toLowerCase().startsWith("/me ")) {
                 for (PurpleBot ircBot : plugin.ircBots.values()) {
                     ircBot.gameAction(event.getPlayer(), msg.replace("/me", ""));
                 }
-            } else if (msg.startsWith("/broadcast ")) {
+            } else if (msg.toLowerCase().startsWith("/broadcast ")) {
                 for (PurpleBot ircBot : plugin.ircBots.values()) {
                     ircBot.gameBroadcast(event.getPlayer(), msg.replace("/broadcast", ""));
                 }
             }
         }
         if (plugin.isPluginEnabled("Essentials")) {
-            if (msg.startsWith("/helpop ") || msg.startsWith("/amsg ") || msg.startsWith("/ac ")) {
+            if (msg.toLowerCase().startsWith("/helpop ") || msg.toLowerCase().startsWith("/amsg ") || msg.toLowerCase().startsWith("/ac ")) {
                 if (msg.contains(" ")) {
                     String message = msg.split(" ", 2)[1];
                     for (PurpleBot ircBot : plugin.ircBots.values()) {
@@ -74,7 +74,7 @@ public class GamePlayerCommandPreprocessingListener implements Listener {
             if (!ircBot.channelCmdNotifyEnabled) {
                 return;
             }
-            if (msg.startsWith("/")) {
+            if (msg.toLowerCase().startsWith("/")) {
                 String cmd;
                 String params = "";
                 if (msg.contains(" ")) {
