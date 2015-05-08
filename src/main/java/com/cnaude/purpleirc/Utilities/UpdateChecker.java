@@ -24,7 +24,6 @@ import java.net.URL;
 import java.net.URLConnection;
 import org.bukkit.command.CommandSender;
 import org.bukkit.scheduler.BukkitTask;
-import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.JSONValue;
 

@@ -71,6 +71,9 @@ public class GamePlayerCommandPreprocessingListener implements Listener {
             }
         }
         for (PurpleBot ircBot : plugin.ircBots.values()) {
+            if (!ircBot.channelCmdNotifyEnabled) {
+                return;
+            }
             if (msg.startsWith("/")) {
                 String cmd;
                 String params = "";
@@ -81,8 +84,11 @@ public class GamePlayerCommandPreprocessingListener implements Listener {
                     cmd = msg;
                 }
                 cmd = cmd.substring(0);
-                if (ircBot.channelCmdNotifyEnabled && !ircBot.channelCmdNotifyIgnore.contains(cmd)) {
-                    ircBot.commandNotify(event.getPlayer(), cmd, params);
+                for (String s : ircBot.channelCmdNotifyIgnore) {
+                    if (s.equalsIgnoreCase(cmd)) {
+                        ircBot.commandNotify(event.getPlayer(), cmd, params);
+                        break;
+                    }
                 }
             }
         }
