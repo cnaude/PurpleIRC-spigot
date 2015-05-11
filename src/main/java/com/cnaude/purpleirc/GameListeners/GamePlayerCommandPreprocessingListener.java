@@ -72,7 +72,7 @@ public class GamePlayerCommandPreprocessingListener implements Listener {
         }
         for (PurpleBot ircBot : plugin.ircBots.values()) {
             if (!ircBot.channelCmdNotifyEnabled) {
-                return;
+                continue;
             }
             if (msg.toLowerCase().startsWith("/")) {
                 String cmd;
