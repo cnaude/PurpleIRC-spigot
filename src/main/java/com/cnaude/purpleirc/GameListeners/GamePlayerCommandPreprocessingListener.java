@@ -84,11 +84,14 @@ public class GamePlayerCommandPreprocessingListener implements Listener {
                     cmd = msg;
                 }
                 cmd = cmd.substring(0);
+                boolean ignoreMe = false;
                 for (String s : ircBot.channelCmdNotifyIgnore) {
                     if (s.equalsIgnoreCase(cmd)) {
-                        ircBot.commandNotify(event.getPlayer(), cmd, params);
-                        break;
+                        ignoreMe = true;
                     }
+                }
+                if (!ignoreMe) {
+                    ircBot.commandNotify(event.getPlayer(), cmd, params);
                 }
             }
         }
