@@ -22,6 +22,9 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
+import org.bukkit.event.player.PlayerChatTabCompleteEvent;
+import org.pircbotx.Channel;
+import org.pircbotx.User;
 
 /**
  *
@@ -64,6 +67,26 @@ public class GamePlayerChatListener implements Listener {
             }
         } else {
             plugin.logDebug("Player " + event.getPlayer().getName() + " does not have irc.message.gamechat permission.");
+        }
+    }
+
+    /**
+     *
+     * @param event
+     */
+    @EventHandler
+    public void onPlayerChatTabCompleteEvent(PlayerChatTabCompleteEvent event) {
+        for (PurpleBot ircBot : plugin.ircBots.values()) {
+            for (Channel channel : ircBot.getChannels()) {
+                for (User user : channel.getUsers()) {
+                    String nick = user.getNick();
+                    if (!event.getTabCompletions().contains(nick)) {
+                        if (nick.toLowerCase().startsWith(event.getLastToken().toLowerCase())) {
+                            event.getTabCompletions().add(nick);
+                        }
+                    }
+                }
+            }
         }
     }
 }
