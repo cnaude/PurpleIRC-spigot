@@ -49,7 +49,7 @@ public class TownyChatListener implements Listener {
         Player player = event.getPlayer();
         if (player.hasPermission("irc.message.gamechat")) {
             for (PurpleBot ircBot : plugin.ircBots.values()) {
-                ircBot.townyChat(player, townyChannel, event.getMessage());
+                plugin.tcHook.sendToIrc(ircBot, player, townyChannel, event.getMessage());
             }
         }
         event.getAsyncPlayerChatEvent().setMessage("[[townytag]]" + event.getMessage());

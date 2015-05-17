@@ -59,11 +59,30 @@ public class IRCMessageQueueWatcher {
         if (ircMessage != null) {
             plugin.logDebug("[" + queue.size() + "]: queueAndSend message detected");
             if (ircMessage.ctcpResponse) {
-                ircBot.blockingCTCPMessage(ircMessage.target, ircMessage.message);
+                blockingCTCPMessage(ircMessage.target, ircMessage.message);
             } else {
-                ircBot.blockingIRCMessage(ircMessage.target, ircMessage.message);
+                blockingIRCMessage(ircMessage.target, ircMessage.message);
             }
         }
+    }
+
+    private void blockingIRCMessage(final String target, final String message) {
+        if (!ircBot.isConnected()) {
+            return;
+        }
+        plugin.logDebug("[blockingIRCMessage] About to send IRC message to " + target + ": " + message);
+        ircBot.bot.sendIRC().message(target, message);
+        //ircBot.bot.sendRaw().rawLineNow("PRIVMSG " + target + " :" + message);
+        plugin.logDebug("[blockingIRCMessage] Message sent to " + target + ": " + message);
+    }
+
+    private void blockingCTCPMessage(final String target, final String message) {
+        if (!ircBot.isConnected()) {
+            return;
+        }
+        plugin.logDebug("[blockingCTCPMessage] About to send IRC message to " + target + ": " + message);
+        ircBot.bot.sendIRC().ctcpResponse(target, message);
+        plugin.logDebug("[blockingCTCPMessage] Message sent to " + target + ": " + message);
     }
 
     public void cancel() {

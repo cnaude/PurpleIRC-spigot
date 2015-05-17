@@ -217,7 +217,7 @@ public class IRCMessageHandler {
                         .replace("%CMDPREFIX%", ircBot.commandPrefix);
                 if (!invalidIrcCommand.isEmpty()) {
                     if (ircBot.invalidCommandCTCP.get(myChannel)) {
-                        ircBot.blockingCTCPMessage(target, invalidIrcCommand);
+                        ircBot.asyncCTCPCommand(target, invalidIrcCommand);
                     } else {
                         ircBot.asyncIRCMessage(target, invalidIrcCommand);
                     }

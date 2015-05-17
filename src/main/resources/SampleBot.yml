@@ -227,6 +227,8 @@ channels:
     # ignore list for custom tab list
     custom-tab-ignore-list:
       - AwesomeBot
+    # Don't add IRC users to tab list when a matching player is online.
+    custom-tab-ignore-duplicates: false
     # Hide join message when player is invisible (VanishNoPacket)
     hide-join-when-vanished: true
     # Hide quit message when player is invisible (VanishNoPacket)

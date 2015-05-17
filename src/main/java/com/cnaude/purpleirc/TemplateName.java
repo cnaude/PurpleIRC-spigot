@@ -68,6 +68,7 @@ public class TemplateName {
     public final static String IRC_TITAN_CHAT = "irc-titan-chat";
 
     public final static String TOWNY_CHAT = "towny-chat";
+    public final static String TOWNY_CHANNEL_CHAT = "towny-channel-chat";
     public final static String IRC_TOWNY_CHAT = "irc-towny-chat";
 
     public final static String FACTION_PUBLIC_CHAT = "faction-public-chat";

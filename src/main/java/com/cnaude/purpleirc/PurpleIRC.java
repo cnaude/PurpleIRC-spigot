@@ -385,7 +385,7 @@ public class PurpleIRC extends JavaPlugin {
         if (messageTmpl.get(MAINCONFIG).containsKey(tmpl)) {
             return messageTmpl.get(MAINCONFIG).get(tmpl);
         }
-        return "INVALID TEMPLATE";
+        return "INVALID TEMPLATE: " + botName + ":" + tmpl;
     }
 
     public String getMsgTemplate(String tmpl) {

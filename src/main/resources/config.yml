@@ -168,7 +168,7 @@ message-format:
   # Dynmap Web Chat to IRC
   dynmap-web-chat: '[Dynmap] <%NAME%> %MESSAGE%'
   # IRC to Dynmap Chat
-  irc-dynmap-web-chat: '%MESSAGE%'
+  irc-dynmap-web-chat: '[IRC] %MESSAGE%'
   # IRC acion to Dynmap Chat (/me)
   irc-action-dynmap-web-chat: '[IRC] ***%NAME% %MESSAGE%'
   # IRC to dynmap nick template
