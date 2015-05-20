@@ -479,13 +479,14 @@ public final class PurpleBot {
 
     public void asyncIRCMessage(final String target, final String message) {
         plugin.logDebug("Entering aysncIRCMessage");
-        messageQueue.add(new IRCMessage(target, plugin.colorConverter.
-                gameColorsToIrc(message), false));
+        IRCMessage ircMessage = new IRCMessage(target, plugin.colorConverter.gameColorsToIrc(message), false);
+        messageQueue.add(ircMessage);
     }
 
     public void asyncCTCPMessage(final String target, final String message) {
         plugin.logDebug("Entering asyncCTCPMessage");
-        messageQueue.add(new IRCMessage(target, plugin.colorConverter.gameColorsToIrc(message), true));
+        IRCMessage ircMessage = new IRCMessage(target, plugin.colorConverter.gameColorsToIrc(message), true);
+        messageQueue.add(ircMessage);
     }
 
     public void asyncCTCPCommand(final String target, final String command) {

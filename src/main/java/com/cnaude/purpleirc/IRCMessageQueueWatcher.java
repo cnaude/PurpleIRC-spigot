@@ -31,6 +31,9 @@ public class IRCMessageQueueWatcher {
     private final PurpleBot ircBot;
     private final Timer timer;
     private final BlockingQueue<IRCMessage> queue = new LinkedBlockingQueue<>();
+    private final String REGEX_CLEAN = "^[\\r\\n]|[\\r\\n]$";
+    private final String REGEX_CRLF = "\\r\\n";
+    private final String LF = "\\n";
 
     /**
      *
@@ -58,12 +61,14 @@ public class IRCMessageQueueWatcher {
         IRCMessage ircMessage = queue.poll();
         if (ircMessage != null) {
             plugin.logDebug("[" + queue.size() + "]: queueAndSend message detected");
+            for (String s : cleanupAndSplitMessage(ircMessage.message)) {
             if (ircMessage.ctcpResponse) {
-                blockingCTCPMessage(ircMessage.target, ircMessage.message);
+                    blockingCTCPMessage(ircMessage.target, s);
             } else {
-                blockingIRCMessage(ircMessage.target, ircMessage.message);
+                    blockingIRCMessage(ircMessage.target, s);
             }
         }
+    }
     }
 
     private void blockingIRCMessage(final String target, final String message) {
@@ -72,7 +77,6 @@ public class IRCMessageQueueWatcher {
         }
         plugin.logDebug("[blockingIRCMessage] About to send IRC message to " + target + ": " + message);
         ircBot.bot.sendIRC().message(target, message);
-        //ircBot.bot.sendRaw().rawLineNow("PRIVMSG " + target + " :" + message);
         plugin.logDebug("[blockingIRCMessage] Message sent to " + target + ": " + message);
     }
 
@@ -83,6 +87,10 @@ public class IRCMessageQueueWatcher {
         plugin.logDebug("[blockingCTCPMessage] About to send IRC message to " + target + ": " + message);
         ircBot.bot.sendIRC().ctcpResponse(target, message);
         plugin.logDebug("[blockingCTCPMessage] Message sent to " + target + ": " + message);
+    }
+
+    private String[] cleanupAndSplitMessage(String message) {
+        return message.replaceAll(REGEX_CLEAN, "").replaceAll(REGEX_CRLF, "\n").split(LF);
     }
 
     public void cancel() {
@@ -104,4 +112,5 @@ public class IRCMessageQueueWatcher {
     public void add(IRCMessage ircMessage) {
         queue.offer(ircMessage);
     }
+
 }
