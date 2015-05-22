@@ -21,10 +21,10 @@ import com.comphenix.protocol.wrappers.WrappedGameProfile;
 import com.google.common.base.Charsets;
 import com.mojang.authlib.GameProfile;
 import java.util.UUID;
-import net.minecraft.server.v1_8_R2.EntityPlayer;
-import net.minecraft.server.v1_8_R2.MinecraftServer;
-import net.minecraft.server.v1_8_R2.PacketPlayOutPlayerInfo;
-import net.minecraft.server.v1_8_R2.PlayerInteractManager;
+import net.minecraft.server.v1_8_R3.EntityPlayer;
+import net.minecraft.server.v1_8_R3.MinecraftServer;
+import net.minecraft.server.v1_8_R3.PacketPlayOutPlayerInfo;
+import net.minecraft.server.v1_8_R3.PlayerInteractManager;
 
 /**
  *
