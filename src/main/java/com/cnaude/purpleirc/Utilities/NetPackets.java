@@ -18,19 +18,16 @@ package com.cnaude.purpleirc.Utilities;
 
 import com.cnaude.purpleirc.PurpleBot;
 import com.cnaude.purpleirc.PurpleIRC;
+import com.comphenix.protocol.PacketType;
+import com.comphenix.protocol.Packets;
 import com.comphenix.protocol.ProtocolLibrary;
 import com.comphenix.protocol.ProtocolManager;
 import com.comphenix.protocol.events.PacketContainer;
+import com.comphenix.protocol.injector.PacketConstructor;
 import com.comphenix.protocol.reflect.FieldAccessException;
 import com.comphenix.protocol.wrappers.WrappedGameProfile;
 import com.google.common.base.Charsets;
-import com.mojang.authlib.GameProfile;
 import java.lang.reflect.InvocationTargetException;
-import java.util.UUID;
-import net.minecraft.server.v1_8_R2.EntityPlayer;
-import net.minecraft.server.v1_8_R2.MinecraftServer;
-import net.minecraft.server.v1_8_R2.PacketPlayOutPlayerInfo;
-import net.minecraft.server.v1_8_R2.PlayerInteractManager;
 import org.bukkit.entity.Player;
 import org.pircbotx.Channel;
 import org.pircbotx.User;
@@ -43,6 +40,7 @@ public class NetPackets {
 
     PurpleIRC plugin;
     private final ProtocolManager protocolManager;
+    private PacketConstructor playerListConstructor;
 
     /**
      *
@@ -61,6 +59,9 @@ public class NetPackets {
      */
     public void addToTabList(String name, PurpleBot ircBot, Channel channel) {
         if (!plugin.customTabList) {
+            return;
+        }
+        if (isPlayerOnline(name, ircBot, channel.getName())) {
             return;
         }
         String channelName = channel.getName();
@@ -112,39 +113,43 @@ public class NetPackets {
         String displayName = truncateName(plugin.customTabPrefix + name);
         PacketContainer packet = null;
         String version = plugin.getServer().getVersion();
-        if (version.contains("MC: 1.8.3")) {
+        if (version.contains("MC: 1.7.10")) {
             try {
-                UUID uuid = null; // = plugin.getPlayerUuid(name);
-                if (uuid == null) {
-                    uuid = UUID.nameUUIDFromBytes(("OfflinePlayer:" + displayName).getBytes(Charsets.UTF_8));
-                }
+                packet = protocolManager.createPacket(PacketType.Play.Server.PLAYER_INFO);
+                packet.getIntegers().write(0, (add ? 0 : 4));
+                packet.getGameProfiles().write(0, new WrappedGameProfile(java.util.UUID.nameUUIDFromBytes(("OfflinePlayer:" + name).getBytes(Charsets.UTF_8)), displayName));
+                packet.getIntegers().write(1, 0);
+                packet.getIntegers().write(2, 0);
+                packet.getStrings().write(0, displayName);
+            } catch (Exception ex) {
+                plugin.logError("tabPacket: " + ex.getMessage());
+            }
+        } else if (version.contains("MC: 1.8.3")) {
+            try {
                 if (add) {
-                    EntityPlayer pl = new EntityPlayer(
-                            MinecraftServer.getServer(),
-                            MinecraftServer.getServer().getWorldServer(0),
-                            (GameProfile) (new WrappedGameProfile(uuid, displayName)).getHandle(),
-                            new PlayerInteractManager(MinecraftServer.getServer().getWorldServer(0))
-                    );
-                    PacketPlayOutPlayerInfo pi
-                            = new PacketPlayOutPlayerInfo(
-                                    PacketPlayOutPlayerInfo.EnumPlayerInfoAction.ADD_PLAYER, pl);
-                    return PacketContainer.fromPacket(pi);
+                    return NetPacket_183.add(displayName);
                 } else {
                     plugin.logDebug("T: Removing: " + name);
-                    EntityPlayer pl = new EntityPlayer(
-                            MinecraftServer.getServer(),
-                            MinecraftServer.getServer().getWorldServer(0),
-                            (GameProfile) (new WrappedGameProfile(uuid, displayName)).getHandle(),
-                            new PlayerInteractManager(MinecraftServer.getServer().getWorldServer(0))
-                    );
-                    PacketPlayOutPlayerInfo pi
-                            = new PacketPlayOutPlayerInfo(
-                                    PacketPlayOutPlayerInfo.EnumPlayerInfoAction.REMOVE_PLAYER, pl);
-                    return PacketContainer.fromPacket(pi);
+                    return NetPacket_183.rem(displayName);
                 }
             } catch (Exception ex) {
                 plugin.logError("tabPacket: " + ex.getMessage());
             }
+        } else if (version.contains("MC: 1.8.4")) {
+            try {
+                if (add) {
+                    return NetPacket_184.add(displayName);
+                } else {
+                    plugin.logDebug("T: Removing: " + name);
+                    return NetPacket_184.rem(displayName);
+                }
+            } catch (Exception ex) {
+                plugin.logError("tabPacket: " + ex.getMessage());
+            }
+        } else {
+            plugin.logDebug("tabPacket: deprecated ");
+            playerListConstructor = protocolManager.createPacketConstructor(Packets.Server.PLAYER_INFO, "", false, (int) 0);
+            packet = playerListConstructor.createPacket(displayName, add, 0);
         }
         return packet;
     }
@@ -192,5 +197,19 @@ public class NetPackets {
         } else {
             return name;
         }
+    }
+
+    private boolean isPlayerOnline(String name, PurpleBot ircBot, String channel) {
+        if (ircBot.tabIgnoreDuplicates.containsKey(channel)) {
+            if (ircBot.tabIgnoreDuplicates.get(channel)) {
+                for (Player player : plugin.getServer().getOnlinePlayers()) {
+                    if (name.equalsIgnoreCase(player.getName())) {
+                        plugin.logDebug("Not adidng to tab list due to player with same name.");
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
     }
 }
