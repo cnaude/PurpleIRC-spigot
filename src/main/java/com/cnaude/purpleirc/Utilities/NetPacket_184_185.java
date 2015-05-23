@@ -30,7 +30,7 @@ import net.minecraft.server.v1_8_R3.PlayerInteractManager;
  *
  * @author cnaude
  */
-public class NetPacket_184 {
+public class NetPacket_184_185 {
 
     public static PacketContainer add(String displayName) {
         UUID uuid = UUID.nameUUIDFromBytes(("OfflinePlayer:" + displayName).getBytes(Charsets.UTF_8));

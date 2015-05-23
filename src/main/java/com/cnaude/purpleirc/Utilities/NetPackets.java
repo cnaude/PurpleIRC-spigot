@@ -135,13 +135,13 @@ public class NetPackets {
             } catch (Exception ex) {
                 plugin.logError("tabPacket: " + ex.getMessage());
             }
-        } else if (version.contains("MC: 1.8.4")) {
+        } else if (version.contains("MC: 1.8.4") || version.contains("MC: 1.8.5")) {
             try {
                 if (add) {
-                    return NetPacket_184.add(displayName);
+                    return NetPacket_184_185.add(displayName);
                 } else {
                     plugin.logDebug("T: Removing: " + name);
-                    return NetPacket_184.rem(displayName);
+                    return NetPacket_184_185.rem(displayName);
                 }
             } catch (Exception ex) {
                 plugin.logError("tabPacket: " + ex.getMessage());
