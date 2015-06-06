@@ -19,8 +19,6 @@ package com.cnaude.purpleirc;
 import com.cnaude.purpleirc.Events.IRCCommandEvent;
 import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedQueue;
-import net.minecraft.server.v1_8_R2.RemoteControlCommandListener;
-import static org.bukkit.Bukkit.getServer;
 import org.bukkit.command.CommandException;
 
 /**

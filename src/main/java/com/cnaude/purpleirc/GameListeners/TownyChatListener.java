@@ -52,6 +52,6 @@ public class TownyChatListener implements Listener {
                 plugin.tcHook.sendToIrc(ircBot, player, townyChannel, event.getMessage());
             }
         }
-        event.getAsyncPlayerChatEvent().setMessage("[[townytag]]" + event.getMessage());
+        event.getAsyncPlayerChatEvent().setMessage(PurpleIRC.TOWNYTAG + event.getMessage());
     }
 }

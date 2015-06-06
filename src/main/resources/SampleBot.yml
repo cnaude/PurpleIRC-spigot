@@ -164,8 +164,11 @@ channels:
     - irc-action-dynmap-web-chat
     # mcMMO messages sent to IRC
     - mcmmo-admin-chat
-    - mcmmo-party-chat
+    - mcmmo-party-chat    
     - mcmmo-chat
+    # mcMMO messages sent from IRC. Replace [PARTY] with destination mcMMO party
+    - irc-mcmmo-admin-chat
+    - irc-mcmmo-party-[PARTY]-chat
     # FactionChat messages sent to IRC
     - faction-public-chat
     - faction-ally-chat

@@ -44,6 +44,7 @@ import com.cnaude.purpleirc.Hooks.CommandBookHook;
 import com.cnaude.purpleirc.Hooks.DynmapHook;
 import com.cnaude.purpleirc.Hooks.FactionChatHook;
 import com.cnaude.purpleirc.Hooks.JobsHook;
+import com.cnaude.purpleirc.Hooks.McMMOChatHook;
 import com.cnaude.purpleirc.Hooks.ReportRTSHook;
 import com.cnaude.purpleirc.Hooks.ShortifyHook;
 import com.cnaude.purpleirc.Hooks.SuperVanishHook;
@@ -174,6 +175,7 @@ public class PurpleIRC extends JavaPlugin {
     public ShortifyHook shortifyHook;
     public ReportRTSHook reportRTSHook;
     public CommandBookHook commandBookHook;
+    public McMMOChatHook mcMMOChatHook;
     public NetPackets netPackets;
     public CommandHandlers commandHandlers;
     public PurpleTabCompleter ircTabCompleter;
@@ -212,6 +214,8 @@ public class PurpleIRC extends JavaPlugin {
     final String PL_TITANCHAT = "TitanChat";
     final String PL_HEROCHAT = "Herochat";
     List<String> hookList = new ArrayList<>();
+    public static final String PURPLETAG = "UHVycGxlSVJDCg==";
+    public static final String TOWNYTAG = "VG93bnlDaGF0Cg==";
 
     public PurpleIRC() {
         this.MAINCONFIG = "MAIN-CONFIG";
@@ -1424,6 +1428,7 @@ public class PurpleIRC extends JavaPlugin {
         if (isPluginEnabled(PL_MCMMO)) {
             hookList.add(hookFormat(PL_MCMMO, true));
             getServer().getPluginManager().registerEvents(new McMMOChatListener(this), this);
+            mcMMOChatHook = new McMMOChatHook(this);
         } else {
             hookList.add(hookFormat(PL_MCMMO, false));
         }

@@ -47,6 +47,9 @@ public class TemplateName {
     public final static String MCMMO_ADMIN_CHAT = "mcmmo-admin-chat";
     public final static String MCMMO_PARTY_CHAT = "mcmmo-party-chat";
     public final static String MCMMO_CHAT = "mcmmo-chat";
+    
+    public final static String IRC_MCMMO_ADMIN_CHAT = "irc-mcmmo-admin-chat";
+    public final static String IRC_MCMMO_PARTY_CHAT = "irc-mcmmo-party-chat";
 
     public final static String HERO_ACTION = "hero-action";
     public final static String HERO_CHAT = "hero-chat";

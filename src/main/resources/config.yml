@@ -14,8 +14,8 @@ enable-ident-server: false
 channel-check-interval: 100
 # Chat messages support standard Bukkit color codes using '&#'. See http://minecraft.gamepedia.com/Formatting_codes
 # The following macro tokens are also supported.
-#  %WORLD% 
-#  %NAME% 
+#  %WORLD%
+#  %NAME%
 #  %HOST% - Host of player or IRC user
 #  %SERVER% - Server of IRC user
 #  %AWAY% - IRC user away message
@@ -26,7 +26,7 @@ channel-check-interval: 100
 #  %CHANNELPREFIX% - Custom prefix per channel (see prefix option in SampleBot.yml)
 #  %DISPLAYNAME% - Player's custom name
 #  %PLAYERIP% - IP address of a player
-#  %CHANNEL% 
+#  %CHANNEL%
 #  %MESSAGE%
 #  %KICKER% - IRC kicker name
 #  %TOPIC%
@@ -76,20 +76,20 @@ channel-check-interval: 100
 #   prism-custom:
 #    %ACTION%
 #    %MESSAGE%
-#    %PLUGIN%   
+#    %PLUGIN%
 message-format:
-  # Message templates for game to IRC messages  
-  console-chat: '[&dServer&r] %MESSAGE%' 
+  # Message templates for game to IRC messages
+  console-chat: '[&dServer&r] %MESSAGE%'
   game-achievement: '[&2%WORLD%&r] %NAME% has just earned the achievement [%MESSAGE%]'
   game-mode: '[&2%WORLD%&r] %NAME% has changed game mode: [%MESSAGE%]'
   game-action: '[&2%WORLD%&r]***%NAME% %MESSAGE%'
   game-pchat: '[&2%WORLD%] <%NAME%> %MESSAGE%'
   # death-messages - http://dev.bukkit.org/bukkit-plugins/death-messages
-  death-messages: '[&2%WORLD%&r]%MESSAGE%'  
+  death-messages: '[&2%WORLD%&r]%MESSAGE%'
   # Notification to player when sending a private message to an IRC user
   game-pchat-response: ' &6-> &7%TARGET%: %MESSAGE%'
-  game-chat: '[&2%WORLD%&r] <%NAME%> %MESSAGE%'  
-  game-death: '[&2%WORLD%&r] %MESSAGE%'    
+  game-chat: '[&2%WORLD%&r] <%NAME%> %MESSAGE%'
+  game-death: '[&2%WORLD%&r] %MESSAGE%'
   game-kick: '[&2%WORLD%&r] %MESSAGE%: %REASON%'
   game-join: '[&2%WORLD%&r] %NAME% joined the game.'
   game-quit: '[&2%WORLD%&r] %NAME% left the game.'
@@ -97,28 +97,28 @@ message-format:
   fake-quit: '[&2%WORLD%&r] %NAME% left the game.'
   game-command: '[&2%WORLD%&r] Command detected by %NAME%: %COMMAND% %PARAMS%'
   # Message template for "/irc send" to IRC message
-  game-send: '[&2%WORLD%&r]<%NAME%> %MESSAGE%' 
+  game-send: '[&2%WORLD%&r]<%NAME%> %MESSAGE%'
   # Essentials messages
-  ess-player-afk: '[&2%WORLD%&r] %NAME% is now AFK' 
-  ess-player-not-afk: '[&2%WORLD%&r] %NAME% is no longer AFK' 
+  ess-player-afk: '[&2%WORLD%&r] %NAME% is now AFK'
+  ess-player-not-afk: '[&2%WORLD%&r] %NAME% is no longer AFK'
   ess-helpop: '&4[HelpOp] %DISPLAYNAME%&r: %MESSAGE%'
   irc-ess-helpop: '&4[HelpOp] %DISPLAYNAME%&r: %MESSAGE%'
   # Message templates for IRC to game messages
   irc-action: '[&4IRC&r] ***%NAME% %MESSAGE%'
-  irc-chat: '[&4IRC&r]<%NAME%> %MESSAGE%'  
+  irc-chat: '[&4IRC&r]<%NAME%> %MESSAGE%'
   # Response message when using @chat or @ochat
   irc-chat-response: ' &6-> &7Minecraft: %MESSAGE%'
-  irc-pchat: '&dPrivate message: [&4IRC&r]<%NAME%> %MESSAGE%' 
+  irc-pchat: '&dPrivate message: [&4IRC&r]<%NAME%> %MESSAGE%'
   # Notification to user when sending a private message to a player
   irc-pchat-response: ' &6-> &7%TARGET%: %MESSAGE%'
   # Notification to user when sending a message to a specific hero channel
   irc-hchat-response: ' &6-> &7%TARGET%: %MESSAGE%'
   irc-join: '[&4IRC&r] %NAME% has joined %CHANNEL%.'
   irc-kick: '[&4IRC&r] %NAME% was kicked from %CHANNEL% by %KICKER%. (Reason- %REASON%)'
-  irc-part: '[&4IRC&r] %NAME% has left %CHANNEL%.'  
-  irc-quit: '[&4IRC&r] %NAME% has left %CHANNEL%. (Reason: %REASON%)'  
-  irc-topic: '[&4IRC&r] Topic changed by %NAME%: %TOPIC%.'  
-  irc-nickchange: '[&4IRC&r] %OLDNICK% is now known as %NEWNICK%.'  
+  irc-part: '[&4IRC&r] %NAME% has left %CHANNEL%.'
+  irc-quit: '[&4IRC&r] %NAME% has left %CHANNEL%. (Reason: %REASON%)'
+  irc-topic: '[&4IRC&r] Topic changed by %NAME%: %TOPIC%.'
+  irc-nickchange: '[&4IRC&r] %OLDNICK% is now known as %NEWNICK%.'
   irc-mode: '[&4IRC&r] %NAME% %MODE% on %CHANNEL%'
   irc-console-chat: '&f[&5IRC&f]&r<%NAME%> %MESSAGE%'
   irc-notice: '[&4IRC&r] [notice(%CHANNEL%)] %NOTICE% '
@@ -129,26 +129,29 @@ message-format:
   # AdminPrivateChat message from IRC to game
   irc-a-chat: '[AdminChat] [&4IRC&r] %MESSAGE%'
   # Message template for Clevernotch bot to IRC messages
-  clever-send: '[&4BOT]<%NAME%> %MESSAGE%' 
+  clever-send: '[&4BOT]<%NAME%> %MESSAGE%'
   # Message templates for mcMMO to IRC messages
-  mcmmo-admin-chat: '[admin:%WORLD%]<%NAME%> %MESSAGE%'    
+  mcmmo-admin-chat: '[admin:%WORLD%]<%NAME%> %MESSAGE%'
   mcmmo-party-chat: '[party:%PARTY%]<%NAME%> %MESSAGE%'
   mcmmo-chat: '[mcMMO]<%NAME%> %MESSAGE%'
+  # Message templates for IRC to mcMMO
+  irc-mcmmo-admin-chat: '[&4IRC&r]<%NAME%> %MESSAGE%'
+  irc-mcmmo-party-chat: '[&4IRC&r]<%NAME%> %MESSAGE%'
   # Message templates for FactionChat to IRC messages
-  faction-public-chat: '[%FACTIONMODE%&r][%FACTIONTAG%]<%NAME%> %MESSAGE%'  
-  faction-ally-chat: '[%FACTIONMODE%&r][%FACTIONTAG%]<%NAME%> %MESSAGE%'  
-  faction-enemy-chat: '[%FACTIONMODE%&r][%FACTIONTAG%]<%NAME%> %MESSAGE%'  
+  faction-public-chat: '[%FACTIONMODE%&r][%FACTIONTAG%]<%NAME%> %MESSAGE%'
+  faction-ally-chat: '[%FACTIONMODE%&r][%FACTIONTAG%]<%NAME%> %MESSAGE%'
+  faction-enemy-chat: '[%FACTIONMODE%&r][%FACTIONTAG%]<%NAME%> %MESSAGE%'
   # Message template for Herochat to IRC messages
   hero-chat: '[%CHANNEL%]<%NAME%> %MESSAGE%'
   hero-action: '[&2%CHANNEL%&r]***%NAME% %MESSAGE%'
   # Message templates for IRC to Herochat messages
   irc-hero-action: '[&3IRC&r] ***%NAME% %MESSAGE%'
-  irc-hero-chat: '[&3IRC&r]<%NAME%> %MESSAGE%'  
+  irc-hero-chat: '[&3IRC&r]<%NAME%> %MESSAGE%'
   irc-hero-join: '[&3IRC&r] %NAME% has joined %CHANNEL%.'
   irc-hero-kick: '[&3IRC&r] %NAME% was kicked from %CHANNEL% by %KICKER%. (Reason- %REASON%)'
-  irc-hero-part: '[&3IRC&r] %NAME% has left %CHANNEL%.'  
-  irc-hero-quit: '[&3IRC&r] %NAME% has left %CHANNEL%.'  
-  irc-hero-topic: '[&3IRC&r] Topic changed by %NAME%: %TOPIC%.'  
+  irc-hero-part: '[&3IRC&r] %NAME% has left %CHANNEL%.'
+  irc-hero-quit: '[&3IRC&r] %NAME% has left %CHANNEL%.'
+  irc-hero-topic: '[&3IRC&r] Topic changed by %NAME%: %TOPIC%.'
   # Message template for TitanChat to IRC messages
   titan-chat: '[%CHANNEL%]<%NAME%> %MESSAGE%'
   # Message templates for IRC to TitanChat messages
@@ -213,7 +216,7 @@ message-format:
   default-group-suffix: ''
   default-group-prefix: ''
   default-player-world: 'world'
-  default-player-group: ''  
+  default-player-group: ''
   # Flood control
   game-flood-warning: '&3Message not sent to IRC due to spamming. &rCooldown: %COOLDOWN%s'
   irc-flood-warning: '&3Message not sent to game due to spamming. &rCooldown: %COOLDOWN%s'
@@ -266,16 +269,16 @@ irc-color-map:
     UNDERLINE: UNDERLINE
     YELLOW: YELLOW
     WHITE: WHITE
-    RESET: NORMAL  
+    RESET: NORMAL
 # IRC to game color map: IRC Color Code => Game Color Code
 game-color-map:
     BLACK: BLACK
-    BLUE: BLUE    
+    BLUE: BLUE
     BOLD: BOLD
     BROWN: GRAY
-    CYAN: AQUA            
+    CYAN: AQUA
     DARK_BLUE: DARK_BLUE
-    DARK_GRAY: DARK_GRAY        
+    DARK_GRAY: DARK_GRAY
     DARK_GREEN: DARK_GREEN
     GREEN: GREEN
     LIGHT_GRAY: GRAY

@@ -50,12 +50,12 @@ public class GamePlayerChatListener implements Listener {
     public void onAsyncPlayerChat(AsyncPlayerChatEvent event) {
         String message = event.getMessage();
         plugin.logDebug("ChatFormat [" + event.isCancelled() + "]: " + event.getFormat());
-        if (message.startsWith("[[townytag]]")) {
-            event.setMessage(message.replace("[[townytag]]", ""));
-            plugin.logDebug("Ignoring due to townytag");
+        if (message.startsWith(PurpleIRC.TOWNYTAG)) {
+            event.setMessage(message.replace(PurpleIRC.TOWNYTAG, ""));
+            plugin.logDebug("Ignoring due to TownyChat tag");
             return;
         }
-        event.setMessage(message.replace("[[townytag]]", ""));
+        event.setMessage(message.replace(PurpleIRC.TOWNYTAG, ""));
         if (event.isCancelled() && !plugin.isPluginEnabled("FactionChat") && !plugin.ignoreChatCancel) {
             plugin.logDebug("Ignore chat message due to event cancellation: " + event.getMessage());
             return;
