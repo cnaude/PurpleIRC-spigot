@@ -18,6 +18,7 @@ package com.cnaude.purpleirc.Utilities;
 
 import com.cnaude.purpleirc.PurpleBot;
 import com.cnaude.purpleirc.PurpleIRC;
+import com.cnaude.purpleirc.TemplateName;
 import com.dthielke.herochat.ChannelManager;
 import com.gmail.nossr50.util.player.UserManager;
 import com.nyancraft.reportrts.data.Ticket;
@@ -420,13 +421,13 @@ public class ChatTokenizer {
         String template;
         switch (chatMode) {
             case "public":
-                template = plugin.getMsgTemplate(botNick, "faction-public-chat");
+                template = plugin.getMsgTemplate(botNick, "", TemplateName.FACTION_PUBLIC_CHAT);
                 break;
             case "ally":
-                template = plugin.getMsgTemplate(botNick, "faction-ally-chat");
+                template = plugin.getMsgTemplate(botNick, "", TemplateName.FACTION_ALLY_CHAT);
                 break;
             case "enemy":
-                template = plugin.getMsgTemplate(botNick, "faction-enemy-chat");
+                template = plugin.getMsgTemplate(botNick, "", TemplateName.FACTION_ENEMY_CHAT);
                 break;
             default:
                 return "";

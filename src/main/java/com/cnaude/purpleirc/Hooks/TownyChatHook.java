@@ -137,7 +137,7 @@ public class TownyChatHook {
                         || ircBot.isMessageEnabled(channelName, TemplateName.TOWNY_CHANNEL_CHAT)) {
                     ircBot.asyncIRCMessage(channelName, plugin.tokenizer
                             .chatTownyChannelTokenizer(player, townyChannel, message,
-                                    plugin.getMsgTemplate(ircBot.botNick, TemplateName.TOWNY_CHANNEL_CHAT)));
+                                    plugin.getMsgTemplate(ircBot.botNick, channelName, TemplateName.TOWNY_CHANNEL_CHAT)));
                 }
             }
         }

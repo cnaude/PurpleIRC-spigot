@@ -50,6 +50,7 @@ public class TopicListener extends ListenerAdapter {
     @Override
     public void onTopic(TopicEvent event) {
         Channel channel = event.getChannel();
+        String channelName = channel.getName();
         User user = event.getUser();
 
         if (ircBot.isValidChannel(channel.getName())) {
@@ -57,7 +58,7 @@ public class TopicListener extends ListenerAdapter {
             if (event.isChanged()) {
                 if (ircBot.enabledMessages.get(channel.getName()).contains(TemplateName.IRC_TOPIC)) {
                     String message = plugin.colorConverter.ircColorsToGame(
-                            plugin.getMsgTemplate(ircBot.botNick, TemplateName.IRC_TOPIC)
+                            plugin.getMsgTemplate(ircBot.botNick, channelName, TemplateName.IRC_TOPIC)
                             .replace("%NAME%", user.getNick())
                             .replace("%TOPIC%", event.getTopic())
                             .replace("%CHANNEL%", channel.getName()));

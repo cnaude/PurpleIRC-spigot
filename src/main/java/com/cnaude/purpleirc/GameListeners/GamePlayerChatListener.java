@@ -78,12 +78,19 @@ public class GamePlayerChatListener implements Listener {
     public void onPlayerChatTabCompleteEvent(PlayerChatTabCompleteEvent event) {
         for (PurpleBot ircBot : plugin.ircBots.values()) {
             for (Channel channel : ircBot.getChannels()) {
+                String channelName = channel.getName();
                 for (User user : channel.getUsers()) {
                     String nick = user.getNick();
-                    if (!event.getTabCompletions().contains(nick)) {
-                        if (nick.toLowerCase().startsWith(event.getLastToken().toLowerCase())) {
-                            event.getTabCompletions().add(nick);
+                    if (event.getTabCompletions().contains(nick)) {
+                        continue;
+                    }
+                    if (ircBot.tabIgnoreNicks.containsKey(channelName)) {
+                        if (ircBot.tabIgnoreNicks.get(channelName).contains(nick)) {
+                            continue;
                         }
+                    }
+                    if (nick.toLowerCase().startsWith(event.getLastToken().toLowerCase())) {
+                        event.getTabCompletions().add(nick);
                     }
                 }
             }

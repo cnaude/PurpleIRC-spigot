@@ -380,7 +380,19 @@ public class PurpleIRC extends JavaPlugin {
         return "";
     }
 
-    public String getMsgTemplate(String botName, String tmpl) {
+    /**
+     *
+     * @param botName
+     * @param channelName
+     * @param tmpl
+     * @return
+     */
+    public String getMsgTemplate(String botName, String channelName, String tmpl) {
+        if (messageTmpl.containsKey(botName + "." + channelName)) {
+            if (messageTmpl.get(botName + "." + channelName).containsKey(tmpl)) {
+                return messageTmpl.get(botName + "." + channelName).get(tmpl);
+            }
+        }
         if (messageTmpl.containsKey(botName)) {
             if (messageTmpl.get(botName).containsKey(tmpl)) {
                 return messageTmpl.get(botName).get(tmpl);
@@ -393,7 +405,7 @@ public class PurpleIRC extends JavaPlugin {
     }
 
     public String getMsgTemplate(String tmpl) {
-        return getMsgTemplate(MAINCONFIG, tmpl);
+        return getMsgTemplate(MAINCONFIG, "", tmpl);
     }
 
     public String getHeroTemplate(CaseInsensitiveMap<CaseInsensitiveMap<String>> hc,
@@ -424,7 +436,7 @@ public class PurpleIRC extends JavaPlugin {
     public String getHeroChatChannelTemplate(String botName, String hChannel) {
         String tmpl = getHeroTemplate(heroChannelMessages, botName, hChannel);
         if (tmpl.isEmpty()) {
-            return getMsgTemplate(MAINCONFIG, TemplateName.HERO_CHAT);
+            return getMsgTemplate(MAINCONFIG, "", TemplateName.HERO_CHAT);
         }
         return getHeroTemplate(heroChannelMessages, botName, hChannel);
     }
@@ -432,7 +444,7 @@ public class PurpleIRC extends JavaPlugin {
     public String getHeroActionChannelTemplate(String botName, String hChannel) {
         String tmpl = getHeroTemplate(heroActionChannelMessages, botName, hChannel);
         if (tmpl.isEmpty()) {
-            return getMsgTemplate(MAINCONFIG, TemplateName.HERO_ACTION);
+            return getMsgTemplate(MAINCONFIG, "", TemplateName.HERO_ACTION);
         }
         return getHeroTemplate(heroActionChannelMessages, botName, hChannel);
     }
@@ -440,7 +452,7 @@ public class PurpleIRC extends JavaPlugin {
     public String getIRCHeroChatChannelTemplate(String botName, String hChannel) {
         String tmpl = getHeroTemplate(ircHeroChannelMessages, botName, hChannel);
         if (tmpl.isEmpty()) {
-            return getMsgTemplate(MAINCONFIG, TemplateName.IRC_HERO_CHAT);
+            return getMsgTemplate(MAINCONFIG, "", TemplateName.IRC_HERO_CHAT);
         }
         return getHeroTemplate(ircHeroChannelMessages, botName, hChannel);
     }
@@ -448,7 +460,7 @@ public class PurpleIRC extends JavaPlugin {
     public String getIRCHeroActionChannelTemplate(String botName, String hChannel) {
         String tmpl = getHeroTemplate(ircHeroActionChannelMessages, botName, hChannel);
         if (tmpl.isEmpty()) {
-            return getMsgTemplate(MAINCONFIG, TemplateName.IRC_HERO_ACTION);
+            return getMsgTemplate(MAINCONFIG, "", TemplateName.IRC_HERO_ACTION);
         }
         return getHeroTemplate(ircHeroActionChannelMessages, botName, hChannel);
     }
@@ -456,7 +468,7 @@ public class PurpleIRC extends JavaPlugin {
     public String getIRCTownyChatChannelTemplate(String botName, String tChannel) {
         String tmpl = getHeroTemplate(ircTownyChannelMessages, botName, tChannel);
         if (tmpl.isEmpty()) {
-            return getMsgTemplate(MAINCONFIG, TemplateName.IRC_TOWNY_CHAT);
+            return getMsgTemplate(MAINCONFIG, "", TemplateName.IRC_TOWNY_CHAT);
         }
         return getHeroTemplate(ircTownyChannelMessages, botName, tChannel);
     }
@@ -470,7 +482,7 @@ public class PurpleIRC extends JavaPlugin {
         }
     }
 
-    public void loadTemplates(YamlConfiguration config, String configName) {
+    public void loadTemplates(YamlConfiguration config, String configName, String section) {
         messageTmpl.put(configName, new HashMap<String, String>());
         ircHeroChannelMessages.put(configName, new CaseInsensitiveMap<String>());
         ircHeroActionChannelMessages.put(configName, new CaseInsensitiveMap<String>());
@@ -478,65 +490,65 @@ public class PurpleIRC extends JavaPlugin {
         heroChannelMessages.put(configName, new CaseInsensitiveMap<String>());
         heroActionChannelMessages.put(configName, new CaseInsensitiveMap<String>());
 
-        if (config.contains("message-format")) {
-            for (String t : config.getConfigurationSection("message-format").getKeys(false)) {
+        if (config.contains(section)) {
+            for (String t : config.getConfigurationSection(section).getKeys(false)) {
                 if (!t.startsWith("MemorySection")) {
                     messageTmpl.get(configName).put(t, ChatColor.translateAlternateColorCodes('&',
-                            config.getString("message-format." + t, "")));
-                    logDebug("message-format: " + t + " => " + messageTmpl.get(configName).get(t));
+                            config.getString(section + "." + t, "")));
+                    logDebug(section + ": " + t + " => " + messageTmpl.get(configName).get(t));
                 }
             }
 
-            if (config.contains("message-format.irc-hero-channels")) {
-                for (String hChannelName : config.getConfigurationSection("message-format.irc-hero-channels").getKeys(false)) {
+            if (config.contains(section + ".irc-hero-channels")) {
+                for (String hChannelName : config.getConfigurationSection(section + ".irc-hero-channels").getKeys(false)) {
                     ircHeroChannelMessages.get(configName).put(hChannelName,
                             ChatColor.translateAlternateColorCodes('&',
-                                    config.getString("message-format.irc-hero-channels."
+                                    config.getString(section + ".irc-hero-channels."
                                             + hChannelName)));
-                    logDebug("message-format.irc-hero-channels: " + hChannelName
+                    logDebug(section + ".irc-hero-channels: " + hChannelName
                             + " => " + ircHeroChannelMessages.get(configName).get(hChannelName));
                 }
             }
 
-            if (config.contains("message-format.irc-hero-action-channels")) {
-                for (String hChannelName : config.getConfigurationSection("message-format.irc-hero-action-channels").getKeys(false)) {
+            if (config.contains(section + ".irc-hero-action-channels")) {
+                for (String hChannelName : config.getConfigurationSection(section + ".irc-hero-action-channels").getKeys(false)) {
                     ircHeroActionChannelMessages.get(configName).put(hChannelName,
                             ChatColor.translateAlternateColorCodes('&',
-                                    config.getString("message-format.irc-hero-action-channels."
+                                    config.getString(section + ".irc-hero-action-channels."
                                             + hChannelName)));
-                    logDebug("message-format.irc-hero-action-channels: " + hChannelName
+                    logDebug(section + ".irc-hero-action-channels: " + hChannelName
                             + " => " + ircHeroActionChannelMessages.get(configName).get(hChannelName));
                 }
             }
 
-            if (config.contains("message-format.irc-towny-channels")) {
-                for (String tChannelName : config.getConfigurationSection("message-format.irc-towny-channels").getKeys(false)) {
+            if (config.contains(section + ".irc-towny-channels")) {
+                for (String tChannelName : config.getConfigurationSection(section + ".irc-towny-channels").getKeys(false)) {
                     ircTownyChannelMessages.get(configName).put(tChannelName,
                             ChatColor.translateAlternateColorCodes('&',
-                                    config.getString("message-format.irc-towny-channels."
+                                    config.getString(section + ".irc-towny-channels."
                                             + tChannelName)));
-                    logDebug("message-format.irc-towny-channels: " + tChannelName
+                    logDebug(section + ".irc-towny-channels: " + tChannelName
                             + " => " + ircTownyChannelMessages.get(configName).get(tChannelName));
                 }
             }
 
-            if (config.contains("message-format.hero-channels")) {
-                for (String hChannelName : config.getConfigurationSection("message-format.hero-channels").getKeys(false)) {
+            if (config.contains(section + ".hero-channels")) {
+                for (String hChannelName : config.getConfigurationSection(section + ".hero-channels").getKeys(false)) {
                     heroChannelMessages.get(configName).put(hChannelName,
                             ChatColor.translateAlternateColorCodes('&',
-                                    config.getString("message-format.hero-channels."
+                                    config.getString(section + ".hero-channels."
                                             + hChannelName)));
-                    logDebug("message-format.hero-channels: " + hChannelName
+                    logDebug(section + ".hero-channels: " + hChannelName
                             + " => " + heroChannelMessages.get(configName).get(hChannelName));
                 }
             }
-            if (config.contains("message-format.hero-action-channels")) {
-                for (String hChannelName : config.getConfigurationSection("message-format.hero-action-channels").getKeys(false)) {
+            if (config.contains(section + ".hero-action-channels")) {
+                for (String hChannelName : config.getConfigurationSection(section + ".hero-action-channels").getKeys(false)) {
                     heroActionChannelMessages.get(configName).put(hChannelName,
                             ChatColor.translateAlternateColorCodes('&',
-                                    config.getString("message-format.hero-action-channels."
+                                    config.getString(section + ".hero-action-channels."
                                             + hChannelName)));
-                    logDebug("message-format.hero-action-channels: " + hChannelName
+                    logDebug(section + ".hero-action-channels: " + hChannelName
                             + " => " + heroActionChannelMessages.get(configName).get(hChannelName));
                 }
             }
@@ -565,15 +577,16 @@ public class PurpleIRC extends JavaPlugin {
         logDebug("strip-game-colors: " + stripGameColors);
         logDebug("strip-irc-colors: " + stripIRCColors);
 
-        loadTemplates((YamlConfiguration) this.getConfig(), MAINCONFIG);
+        String msgFormatSection = "message-format";
+        loadTemplates((YamlConfiguration) this.getConfig(), MAINCONFIG, msgFormatSection);
         loadCustomColors((YamlConfiguration) this.getConfig());
 
-        defaultPlayerSuffix = ChatColor.translateAlternateColorCodes('&', getConfig().getString("message-format.default-player-suffix", ""));
-        defaultPlayerPrefix = ChatColor.translateAlternateColorCodes('&', getConfig().getString("message-format.default-player-prefix", ""));
-        defaultPlayerGroup = ChatColor.translateAlternateColorCodes('&', getConfig().getString("message-format.default-player-group", ""));
-        defaultGroupSuffix = ChatColor.translateAlternateColorCodes('&', getConfig().getString("message-format.default-group-suffix", ""));
-        defaultGroupPrefix = ChatColor.translateAlternateColorCodes('&', getConfig().getString("message-format.default-group-prefix", ""));
-        defaultPlayerWorld = ChatColor.translateAlternateColorCodes('&', getConfig().getString("message-format.default-player-world", ""));
+        defaultPlayerSuffix = ChatColor.translateAlternateColorCodes('&', getConfig().getString(msgFormatSection + ".default-player-suffix", ""));
+        defaultPlayerPrefix = ChatColor.translateAlternateColorCodes('&', getConfig().getString(msgFormatSection + ".default-player-prefix", ""));
+        defaultPlayerGroup = ChatColor.translateAlternateColorCodes('&', getConfig().getString(msgFormatSection + ".default-player-group", ""));
+        defaultGroupSuffix = ChatColor.translateAlternateColorCodes('&', getConfig().getString(msgFormatSection + ".default-group-suffix", ""));
+        defaultGroupPrefix = ChatColor.translateAlternateColorCodes('&', getConfig().getString(msgFormatSection + ".default-group-prefix", ""));
+        defaultPlayerWorld = ChatColor.translateAlternateColorCodes('&', getConfig().getString(msgFormatSection + ".default-player-world", ""));
 
         ircNickPrefixIrcOp = ChatColor.translateAlternateColorCodes('&', getConfig().getString("nick-prefixes.ircop", "~"));
         ircNickPrefixSuperOp = ChatColor.translateAlternateColorCodes('&', getConfig().getString("nick-prefixes.ircsuperop", "&&"));

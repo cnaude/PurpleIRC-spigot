@@ -18,6 +18,7 @@ package com.cnaude.purpleirc.Commands;
 
 import com.cnaude.purpleirc.PurpleBot;
 import com.cnaude.purpleirc.PurpleIRC;
+import com.cnaude.purpleirc.TemplateName;
 import java.util.ArrayList;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
@@ -71,7 +72,7 @@ public class Msg implements IRCCommandInterface {
 
             for (PurpleBot ircBot : myBots) {
                 String msg = "";
-                final String template = plugin.getMsgTemplate(ircBot.botNick, "game-pchat-response");
+                final String template = plugin.getMsgTemplate(ircBot.botNick, "", TemplateName.GAME_PCHAT_RESPONSE);
                 for (int i = msgIdx; i < args.length; i++) {
                     msg = msg + " " + args[i];
                 }
@@ -84,7 +85,8 @@ public class Msg implements IRCCommandInterface {
                     sender.sendMessage(plugin.tokenizer.msgChatResponseTokenizer(nick, msg.substring(1), template));
                 }
             }
-        } else {
+        }
+        else {
             sender.sendMessage(fullUsage);
         }
     }

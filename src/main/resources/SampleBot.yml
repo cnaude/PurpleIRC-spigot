@@ -21,8 +21,12 @@ port: 6667
 tls: false
 # Attempt ssl connection to IRC server
 ssl: false
+# Disable DHE. See: http://bugs.java.com/bugdatabase/view_bug.do?bug_id=7044060
+disable-diffie-hellman: false
 # Trust all SSL certs
 trust-all-certs: false
+# Enabled ciphers - To get a list of available ciphers run "/irc test sslcpihers"
+ciphers: []
 # Bind address
 bind: ''
 # Auto split length for long messages
@@ -89,6 +93,10 @@ custom-prefix-default: '[IRC]'
 replace-first-occurrences:
     - 'AwesomeNick : &r:'
     - '*!*sarah@example.com : &r:'
+# Action commands
+action-commands:
+    - /me
+    - /eme
 # channels - List the channels your bot will join here
 channels:
   # Channel name must be surrounded by sing quotes to be YAML compliant.
