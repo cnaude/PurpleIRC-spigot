@@ -38,19 +38,10 @@ public class McMMOChatListener implements Listener {
     }
 
     @EventHandler
-    public void onMcMMOChatEvent(McMMOChatEvent event) {
-        String message = event.getMessage();
-        message = message.replace(PurpleIRC.TOWNYTAG, "");
-        if (message.contains(PurpleIRC.PURPLETAG)) {
-            message = message.replace(PurpleIRC.PURPLETAG, "");
-            event.setMessage(message);
-            plugin.logDebug("[onMcMMOChatEvent]: PurpleIRC tag detected. Not sending back IRC." );
-            return;
-        }
-        
+    public void onMcMMOChatEvent(McMMOChatEvent event) {      
         String sender = event.getSender();
         Player player = plugin.getServer().getPlayer(sender);
-        plugin.logDebug("McMMOChatEvent caught: " + sender);
+        plugin.logDebug("[onMcMMOChatEvent]: " + sender);
         if (player != null && !sender.isEmpty()) {
             if (player.hasPermission("irc.message.gamechat")) {
                 for (PurpleBot ircBot : plugin.ircBots.values()) {
@@ -61,23 +52,14 @@ public class McMMOChatListener implements Listener {
     }
 
     @EventHandler
-    public void onMcMMOAdminChatEvent(McMMOAdminChatEvent event) {
-        String message = event.getMessage();
-        message = message.replace(PurpleIRC.TOWNYTAG, "");
-        if (message.contains(PurpleIRC.PURPLETAG)) {
-            message = message.replace(PurpleIRC.PURPLETAG, "");
-            event.setMessage(message);
-            plugin.logDebug("[onMcMMOAdminChatEvent]: PurpleIRC tag detected. Not sending back IRC." );
-            return;
-        }
-        
+    public void onMcMMOAdminChatEvent(McMMOAdminChatEvent event) {        
         String sender = event.getSender();
         Player player = plugin.getServer().getPlayer(sender);
-        plugin.logDebug("McMMOAdminChatEvent caught: " + sender);
+        plugin.logDebug("[onMcMMOAdminChatEvent]: " + sender);
         if (player != null && !sender.isEmpty()) {
             if (player.hasPermission("irc.message.gamechat")) {
                 for (PurpleBot ircBot : plugin.ircBots.values()) {
-                    ircBot.mcMMOAdminChat(player, message);
+                    ircBot.mcMMOAdminChat(player, event.getMessage());
                 }
             }
         }
@@ -85,15 +67,6 @@ public class McMMOChatListener implements Listener {
 
     @EventHandler
     public void onMcMMOPartyChatEvent(McMMOPartyChatEvent event) {
-        String message = event.getMessage();
-        message = message.replace(PurpleIRC.TOWNYTAG, "");
-        if (message.contains(PurpleIRC.PURPLETAG)) {
-            message = message.replace(PurpleIRC.PURPLETAG, "");
-            event.setMessage(message);
-            plugin.logDebug("[onMcMMOPartyChatEvent]: PurpleIRC tag detected. Not sending back IRC." );
-            return;
-        }
-        
         String sender = event.getSender();
         Player player = plugin.getServer().getPlayer(sender);
         String party = event.getParty();
