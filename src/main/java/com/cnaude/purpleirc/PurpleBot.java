@@ -2323,17 +2323,27 @@ public final class PurpleBot {
         }
     }
 
+    /**
+     *
+     * @param message
+     * @param channelName
+     * @return
+     */
     public String filterMessage(String message, String channelName) {
-        if (filters.containsKey(channelName)) {
-            if (!filters.get(channelName).isEmpty()) {
-                for (String filter : filters.get(channelName)) {
-                    if (filter.startsWith("/") && filter.endsWith("/")) {
-                        filter = filter.substring(1, filter.length() - 1);
-                        plugin.logDebug("Regex filtering " + filter + " from " + message);
-                        message = message.replaceAll(filter, "");
-                    } else {
-                        plugin.logDebug("Filtering " + filter + " from " + message);
-                        message = message.replace(filter, "");
+        if (enableMessageFiltering.containsKey(channelName)) {
+            if (enableMessageFiltering.get(channelName)) {
+                if (filters.containsKey(channelName)) {
+                    if (!filters.get(channelName).isEmpty()) {
+                        for (String filter : filters.get(channelName)) {
+                            if (filter.startsWith("/") && filter.endsWith("/")) {
+                                filter = filter.substring(1, filter.length() - 1);
+                                plugin.logDebug("Regex filtering " + filter + " from " + message);
+                                message = message.replaceAll(filter, "");
+                            } else {
+                                plugin.logDebug("Filtering " + filter + " from " + message);
+                                message = message.replace(filter, "");
+                            }
+                        }
                     }
                 }
             }
@@ -2950,7 +2960,6 @@ public final class PurpleBot {
                 plugin.getMsgTemplate(botNick, "", TemplateName.GAME_PCHAT), message);
         asyncIRCMessage(nick, msg);
     }
-
 
     /**
      *
