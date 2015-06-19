@@ -430,6 +430,9 @@
                                 <exec dir="../${project.name}/target" executable="scp">
                                     <arg line="PurpleIRC.jar cnaude@h.cnaude.org:spigottest/plugins/PurpleIRC.jar"/>
                                 </exec>
+                                <exec dir="../${project.name}/target" executable="scp">
+                                    <arg line="PurpleIRC.jar cnaude@h.cnaude.org:spigottest2/plugins/PurpleIRC.jar"/>
+                                </exec>
                             </tasks>
                         </configuration>
                         <goals>

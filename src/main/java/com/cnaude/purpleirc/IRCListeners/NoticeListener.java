@@ -18,6 +18,8 @@ package com.cnaude.purpleirc.IRCListeners;
 
 import com.cnaude.purpleirc.PurpleBot;
 import com.cnaude.purpleirc.PurpleIRC;
+import java.util.ArrayList;
+import org.apache.commons.codec.binary.Base64;
 import org.pircbotx.Channel;
 import org.pircbotx.User;
 import org.pircbotx.hooks.ListenerAdapter;
@@ -49,9 +51,83 @@ public class NoticeListener extends ListenerAdapter {
     @Override
     public void onNotice(NoticeEvent event) {
         Channel channel = event.getChannel();
-        String message = event.getMessage();
+        String message = event.getMessage().trim();
         String notice = event.getNotice();
         User user = event.getUser();
+        String nick = user.getNick();
+
+        if (message.startsWith(PurpleIRC.LINK_CMD) && ircBot.botLinkingEnabled) {
+            String encodedText = message.replace(PurpleIRC.LINK_CMD, "");
+            String decodedText = new String(Base64.decodeBase64(encodedText.getBytes()));
+            String splitMsg[] = decodedText.split(":");
+
+            plugin.logDebug("REMOTE LINK COMMAND: " + encodedText + "(" + decodedText + ")");
+
+            if (splitMsg.length >= 2) {
+                String command = splitMsg[0];
+                String code = splitMsg[1];
+
+                if (command.equals("LINK_REQUEST")) {
+                    ircBot.linkRequests.put(user.getNick(), code);
+                    plugin.logInfo("PurpleIRC bot link request from " + user.getNick());
+                    plugin.logInfo("To accept: /irc linkaccept "
+                            + ircBot.getFileName().replace(".yml", "") + " " + user.getNick());
+                    return;
+                }
+
+                plugin.logDebug("Are we linked to " + user.getNick() + "?");
+                if (ircBot.botLinks.containsKey(nick)) {
+                    plugin.logDebug("Yes we are linked. Is thee code correct?");
+                    if (ircBot.botLinks.get(nick).equals(code)) {
+                        plugin.logDebug("Yes the code is correct! Command: " + command);
+
+                        if (command.equals("PRIVATE_MSG") && splitMsg.length >= 5) {
+                            String from = splitMsg[2];
+                            String target = splitMsg[3];
+                            String sMessage = decodedText.split(":", 5)[4];
+
+                            plugin.logDebug(PurpleIRC.LINK_CMD
+                                    + " [CODE:" + code + "]"
+                                    + " [FROM:" + from + "]"
+                                    + " [TO:" + target + "]"
+                                    + " [MSG: " + sMessage + "]");
+                            ircBot.playerCrossChat(user, from, target, sMessage);
+                        } else if (command.equals("PLAYER_JOIN") && splitMsg.length == 3) {
+                            String player = splitMsg[2];
+
+                            plugin.logDebug(PurpleIRC.LINK_CMD
+                                    + " [CODE:" + code + "]"
+                                    + " [PLAYER:" + player + "]");
+                            if (!ircBot.remotePlayers.containsKey(nick)) {
+                                plugin.logDebug("Initializing remote player list for " + nick);
+                                ircBot.remotePlayers.put(nick, new ArrayList<String>());
+                            }
+                            if (!ircBot.remotePlayers.get(nick).contains(player)) {
+                                plugin.logDebug("Adding " + player + " to remote player list for " + nick);
+                                ircBot.remotePlayers.get(nick).add(player);
+                            }
+
+                        } else if (command.equals("PLAYER_QUIT") && splitMsg.length == 3) {
+                            String player = splitMsg[2];
+
+                            plugin.logDebug(PurpleIRC.LINK_CMD
+                                    + " [CODE:" + code + "]"
+                                    + " [PLAYER:" + player + "]");
+                            if (ircBot.remotePlayers.containsKey(nick)) {
+                                if (ircBot.remotePlayers.get(nick).contains(player)) {
+                                    ircBot.remotePlayers.get(nick).remove(player);
+                                }
+                            }
+                        }
+                    } else {
+                        plugin.logDebug("Invalid code from " + nick + "!");
+                    }
+                } else {
+                    plugin.logDebug("We are not linked to " + nick + "!");
+                }
+            }
+            return;
+        }
 
         plugin.logInfo("-" + user.getNick() + "-" + message);
         if (channel != null) {

@@ -82,7 +82,7 @@ public class Test implements IRCCommandInterface {
                     }
                 } else {
                 sender.sendMessage(ChatColor.LIGHT_PURPLE + "Testing " + playername);
-                sender.sendMessage("displayName     : " + plugin.getDisplayName(name));
+                sender.sendMessage("displayName     : " + plugin.getDisplayName(playername));
                 sender.sendMessage("getGroupPrefix  : " + plugin.getGroupPrefix(plugin.defaultPlayerWorld, playername));
                 sender.sendMessage("getGroupSuffix  : " + plugin.getGroupSuffix(plugin.defaultPlayerWorld, playername));
                 sender.sendMessage("getPlayerPrefix : " + plugin.getPlayerPrefix(plugin.defaultPlayerWorld, playername));

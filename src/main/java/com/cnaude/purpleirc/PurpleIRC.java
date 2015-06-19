@@ -83,6 +83,7 @@ import java.util.TreeMap;
 import java.util.UUID;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.apache.commons.codec.binary.Base64;
 import org.bukkit.ChatColor;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandSender;
@@ -215,7 +216,8 @@ public class PurpleIRC extends JavaPlugin {
     final String PL_HEROCHAT = "Herochat";
     List<String> hookList = new ArrayList<>();
     public static final String PURPLETAG = "UHVycGxlSVJDCg==";
-    public static final String TOWNYTAG = "VG93bnlDaGF0Cg==";
+    public static final String TOWNYTAG = "VG93bnlDaGF0Cg==";    
+    public static final String LINK_CMD = "PurpleIRC-Link:";
 
     public PurpleIRC() {
         this.MAINCONFIG = "MAIN-CONFIG";
@@ -1575,6 +1577,17 @@ public class PurpleIRC extends JavaPlugin {
                 }
             }
         }
+    }
+
+    /**
+     *
+     * @param cmd
+     * @param msg
+     * @return
+     */
+    public String encodeLinkMsg(String cmd, String msg) {
+        String encodedText = new String(Base64.encodeBase64(msg.getBytes()));
+        return String.format("%s:%s", cmd, encodedText);
     }
 
 }

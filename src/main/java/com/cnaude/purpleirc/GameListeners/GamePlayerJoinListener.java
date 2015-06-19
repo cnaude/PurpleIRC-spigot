@@ -60,6 +60,7 @@ public class GamePlayerJoinListener implements Listener {
                     if (plugin.netPackets != null) {
                         plugin.netPackets.updateTabList(event.getPlayer());
                     }
+                    ircBot.addRemotePlayer(event.getPlayer().getName());
                 }
                 plugin.updateDisplayNameCache(event.getPlayer());
                 plugin.updateUuidCache(event.getPlayer());

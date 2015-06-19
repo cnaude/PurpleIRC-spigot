@@ -56,6 +56,8 @@ public class CommandHandlers implements CommandExecutor {
         commands.put("join", new Join(plugin));
         commands.put("kick", new Kick(plugin));
         commands.put("leave", new Leave(plugin));
+        commands.put("link", new Link(plugin));
+        commands.put("linkaccept", new LinkAccept(plugin));
         commands.put("list", new List(plugin));
         commands.put("listbots", new ListBots(plugin));
         commands.put("listops", new ListOps(plugin));
@@ -83,6 +85,8 @@ public class CommandHandlers implements CommandExecutor {
         commands.put("send", new Send(plugin));
         commands.put("sendraw", new SendRaw(plugin));
         commands.put("server", new Server(plugin));
+        commands.put("slist", new SList(plugin));
+        commands.put("smsg", new SMsg(plugin));
         commands.put("topic", new Topic(plugin));
         commands.put("unmute", new UnMute(plugin));
         commands.put("updatecheck", new UpdateCheck(plugin));

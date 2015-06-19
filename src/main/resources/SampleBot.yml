@@ -97,6 +97,11 @@ replace-first-occurrences:
 action-commands:
     - /me
     - /eme
+# Bot linking
+bot-linking-enabled: false
+# Map of remote linked bots and codes. Use /irc link and /irc linkaccept
+bot-links:
+#    - remotebot: 249505593790847552435733176657146971496   
 # channels - List the channels your bot will join here
 channels:
   # Channel name must be surrounded by sing quotes to be YAML compliant.

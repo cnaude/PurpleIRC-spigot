@@ -28,19 +28,19 @@ import org.bukkit.entity.Player;
  *
  * @author cnaude
  */
-public class Msg implements IRCCommandInterface {
+public class SMsg implements IRCCommandInterface {
 
     private final PurpleIRC plugin;
-    private final String usage = "([bot]) [user] [message]";
-    private final String desc = "Send a private message to an IRC user.";
-    private final String name = "msg";
+    private final String usage = "([bot]) [(server:)player] [message]";
+    private final String desc = "Send a message to a player on another server.";
+    private final String name = "smsg";
     private final String fullUsage = ChatColor.WHITE + "Usage: " + ChatColor.GOLD + "/irc " + name + " " + usage;
 
     /**
      *
      * @param plugin
      */
-    public Msg(PurpleIRC plugin) {
+    public SMsg(PurpleIRC plugin) {
         this.plugin = plugin;
     }
 
@@ -52,17 +52,17 @@ public class Msg implements IRCCommandInterface {
     @Override
     public void dispatch(CommandSender sender, String[] args) {
         if (args.length >= 3) {
-            plugin.logDebug("Dispatching msg command...");
+            plugin.logDebug("Dispatching smsg command...");
             int msgIdx = 2;
-            String nick;
+            String target;
             java.util.List<PurpleBot> myBots = new ArrayList<>();
             if (plugin.ircBots.containsKey(plugin.botify(args[1]))) {
                 myBots.add(plugin.ircBots.get(plugin.botify(args[1])));
                 msgIdx = 3;
-                nick = args[2];
+                target = args[2];
             } else {
                 myBots.addAll(plugin.ircBots.values());
-                nick = args[1];
+                target = args[1];
             }
 
             if (msgIdx == 3 && args.length <= 3) {
@@ -71,22 +71,49 @@ public class Msg implements IRCCommandInterface {
             }
 
             for (PurpleBot ircBot : myBots) {
-                String msg = "";
-                final String template = plugin.getMsgTemplate(ircBot.botNick, "", TemplateName.GAME_PCHAT_RESPONSE);
-                for (int i = msgIdx; i < args.length; i++) {
-                    msg = msg + " " + args[i];
-                }
-                if (sender instanceof Player) {
-                    ircBot.msgPlayer((Player) sender, nick, msg.substring(1));
+                String remoteBot = "";
+                String remotePlayer = "";
+                if (target.contains(":")) {
+                    remoteBot = target.split(":", 2)[0];
+                    remotePlayer = target.split(":", 2)[1];
                 } else {
-                    ircBot.consoleMsgPlayer(nick, msg.substring(1));
+                    for (String s : ircBot.remotePlayers.keySet()) {
+                        plugin.logDebug("RB: " + s);
+                        for (String rp : ircBot.remotePlayers.get(s)) {
+                            plugin.logDebug("RP: " + rp);
+                            if (target.equalsIgnoreCase(rp)) {
+                                remotePlayer = target;
+                                remoteBot = s;
+                                break;
+                            }
+                        }
+                    }
                 }
-                if (!template.isEmpty()) {
-                    sender.sendMessage(plugin.tokenizer.msgChatResponseTokenizer(nick, msg.substring(1), template));
+
+                if (remotePlayer.isEmpty()) {
+                    sender.sendMessage(ChatColor.RED + "Remote player " 
+                            + ChatColor.WHITE + target + ChatColor.RED + " not found!");
+                    return;
+                }
+
+                if (ircBot.botLinkingEnabled) {
+                    String msg = "";
+                    final String template = plugin.getMsgTemplate(ircBot.botNick, "", TemplateName.GAME_PCHAT_RESPONSE);
+                    for (int i = msgIdx; i < args.length; i++) {
+                        msg = msg + " " + args[i];
+                    }
+                    if (sender instanceof Player) {
+                        ircBot.msgRemotePlayer((Player) sender, remoteBot, remotePlayer, msg.substring(1));
+                    } else {
+                        ircBot.msgRemotePlayer(sender, remoteBot, remotePlayer, msg.substring(1));
+                    }
+                    if (!template.isEmpty()) {
+                        sender.sendMessage(plugin.tokenizer.msgChatResponseTokenizer(target, msg.substring(1), template));
+                    }
                 }
             }
-        }
-        else {
+
+        } else {
             sender.sendMessage(fullUsage);
         }
     }
