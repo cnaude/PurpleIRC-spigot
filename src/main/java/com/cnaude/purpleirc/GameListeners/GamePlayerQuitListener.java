@@ -58,7 +58,7 @@ public class GamePlayerQuitListener implements Listener {
             if (plugin.netPackets != null) {
                 plugin.netPackets.updateTabList(event.getPlayer());
             }
-            ircBot.removeRemotePlayer(event.getPlayer().getName());
+            ircBot.sendRemotePlayerInfo();
         }
     }
 }

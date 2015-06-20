@@ -183,6 +183,7 @@ public final class PurpleBot {
     public CaseInsensitiveMap<String> botLinks;
     public CaseInsensitiveMap<String> linkRequests;
     public CaseInsensitiveMap<Collection<String>> remotePlayers;
+    public CaseInsensitiveMap<CaseInsensitiveMap<String>> remoteServerInfo;
 
     /**
      *
@@ -243,6 +244,11 @@ public final class PurpleBot {
         this.botLinks = new CaseInsensitiveMap<>();
         this.linkRequests = new CaseInsensitiveMap<>();
         this.remotePlayers = new CaseInsensitiveMap<>();
+        this.remoteServerInfo = new CaseInsensitiveMap<>();
+        for (String s : botLinks.keySet()) {
+            remotePlayers.put(s, new ArrayList<String>());
+            remoteServerInfo.put(s, new CaseInsensitiveMap<String>());
+        }
         config = new YamlConfiguration();
         goodBot = loadConfig();
         if (goodBot) {
@@ -3037,34 +3043,26 @@ public final class PurpleBot {
         }
     }
 
-    /**
-     * Send a private message to a remote linked bot.
-     *
-     * @param player
-     */
-    public void addRemotePlayer(String player) {
-        if (botLinkingEnabled) {
-            for (String remoteBot : botLinks.keySet()) {
-                String code = botLinks.get(remoteBot);
-                String clearText = "PLAYER_JOIN:" + code + ":" + player;
-                asyncCTCPMessage(remoteBot, plugin.encodeLinkMsg(PurpleIRC.LINK_CMD, clearText));
+    public void sendRemotePlayerInfo() {
+        plugin.getServer().getScheduler().runTaskLaterAsynchronously(plugin, new Runnable() {
+            @Override
+            public void run() {
+                if (botLinkingEnabled) {
+                    for (String remoteBot : botLinks.keySet()) {
+                        String code = botLinks.get(remoteBot);
+                        String clearText = "PLAYER_INFO:" + code + ":"
+                                + plugin.getServer().getOnlinePlayers().size()
+                                + ":" + plugin.getServer().getMaxPlayers();
+                        List<String> players = new ArrayList<>();
+                        for (Player player : plugin.getServer().getOnlinePlayers()) {
+                            players.add(player.getName());
+                        }
+                        clearText = clearText + ":" + Joiner.on(",").join(players);
+                        asyncCTCPMessage(remoteBot, plugin.encodeLinkMsg(PurpleIRC.LINK_CMD, clearText));
+                    }
+                }
             }
-        }
-    }
-
-    /**
-     * Send a private message to a remote linked bot.
-     *
-     * @param player
-     */
-    public void removeRemotePlayer(String player) {
-        if (botLinkingEnabled) {
-            for (String remoteBot : botLinks.keySet()) {
-                String code = botLinks.get(remoteBot);
-                String clearText = "PLAYER_QUIT:" + code + ":" + player;
-                asyncCTCPMessage(remoteBot, plugin.encodeLinkMsg(PurpleIRC.LINK_CMD, clearText));
-            }
-        }
+        }, 20);
     }
 
     /**

@@ -55,8 +55,19 @@ public class SList implements IRCCommandInterface {
         for (PurpleBot ircBot : plugin.ircBots.values()) {
             if (ircBot.botLinkingEnabled) {
                 for (String remoteBot : ircBot.remotePlayers.keySet()) {
+                    String countInfo = "";
+                    if (ircBot.remoteServerInfo.containsKey(remoteBot)) {
+                        if (ircBot.remoteServerInfo.get(remoteBot).containsKey("CUR_COUNT")
+                                && ircBot.remoteServerInfo.get(remoteBot).containsKey("MAX_COUNT")) {
+                            countInfo = ircBot.remoteServerInfo.get(remoteBot).get("CUR_COUNT")
+                                    + "/"
+                                    + ircBot.remoteServerInfo.get(remoteBot).get("MAX_COUNT");
+                        }
+                    }
                     sender.sendMessage(ChatColor.DARK_PURPLE + "-----[  " + ChatColor.WHITE + "Remote Players"
-                            + ChatColor.DARK_PURPLE + " - " + ChatColor.WHITE + remoteBot + ChatColor.DARK_PURPLE + " ]-----");
+                            + ChatColor.DARK_PURPLE + " - " + ChatColor.WHITE + remoteBot 
+                            + ChatColor.DARK_PURPLE + " - " + ChatColor.WHITE + countInfo 
+                            + ChatColor.DARK_PURPLE + " ]-----");
                     java.util.List<String> remotePlayersSorted = new ArrayList<>(ircBot.remotePlayers.get(remoteBot));
                     Collections.sort(remotePlayersSorted, Collator.getInstance());
                     for (String playerName : remotePlayersSorted) {

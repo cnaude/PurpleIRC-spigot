@@ -18,7 +18,9 @@ package com.cnaude.purpleirc.IRCListeners;
 
 import com.cnaude.purpleirc.PurpleBot;
 import com.cnaude.purpleirc.PurpleIRC;
+import com.cnaude.purpleirc.Utilities.CaseInsensitiveMap;
 import java.util.ArrayList;
+import java.util.Arrays;
 import org.apache.commons.codec.binary.Base64;
 import org.pircbotx.Channel;
 import org.pircbotx.User;
@@ -79,43 +81,47 @@ public class NoticeListener extends ListenerAdapter {
                 if (ircBot.botLinks.containsKey(nick)) {
                     plugin.logDebug("Yes we are linked. Is thee code correct?");
                     if (ircBot.botLinks.get(nick).equals(code)) {
-                        plugin.logDebug("Yes the code is correct! Command: " + command);
+                        plugin.logDebug("Yes the code is correct!");
+                        plugin.logDebug(" [COMMAND: " + command + "]");
+                        plugin.logDebug(" [CODE: " + code + "]");
 
                         if (command.equals("PRIVATE_MSG") && splitMsg.length >= 5) {
                             String from = splitMsg[2];
                             String target = splitMsg[3];
                             String sMessage = decodedText.split(":", 5)[4];
 
-                            plugin.logDebug(PurpleIRC.LINK_CMD
-                                    + " [CODE:" + code + "]"
-                                    + " [FROM:" + from + "]"
-                                    + " [TO:" + target + "]"
-                                    + " [MSG: " + sMessage + "]");
+                            plugin.logDebug(" [FROM:" + from + "]");
+                            plugin.logDebug(" [TO:" + target + "]");
+                            plugin.logDebug(" [MSG: " + sMessage + "]");
                             ircBot.playerCrossChat(user, from, target, sMessage);
-                        } else if (command.equals("PLAYER_JOIN") && splitMsg.length == 3) {
-                            String player = splitMsg[2];
+                        } else if (command.equals("PLAYER_INFO") && splitMsg.length >= 4) {
+                            String curCount = splitMsg[2];
+                            String maxCount = splitMsg[3];
+                            String players = "";
+                            if (splitMsg.length == 5) {
+                                players = splitMsg[4];
+                            }
 
-                            plugin.logDebug(PurpleIRC.LINK_CMD
-                                    + " [CODE:" + code + "]"
-                                    + " [PLAYER:" + player + "]");
+                            plugin.logDebug(" [CUR_COUNT:" + curCount + "]");
+                            plugin.logDebug(" [MAX_COUNT:" + maxCount + "]");
+                            plugin.logDebug(" [PLAYERS:" + players + "]");
+                            if (!ircBot.remoteServerInfo.containsKey(nick)) {
+                                ircBot.remoteServerInfo.put(nick, new CaseInsensitiveMap<String>());
+                            }
+                            if (ircBot.remoteServerInfo.containsKey(nick)) {
+                                ircBot.remoteServerInfo.get(nick).put("CUR_COUNT", curCount);
+                                ircBot.remoteServerInfo.get(nick).put("MAX_COUNT", maxCount);
+                            }
                             if (!ircBot.remotePlayers.containsKey(nick)) {
-                                plugin.logDebug("Initializing remote player list for " + nick);
                                 ircBot.remotePlayers.put(nick, new ArrayList<String>());
                             }
-                            if (!ircBot.remotePlayers.get(nick).contains(player)) {
-                                plugin.logDebug("Adding " + player + " to remote player list for " + nick);
-                                ircBot.remotePlayers.get(nick).add(player);
-                            }
-
-                        } else if (command.equals("PLAYER_QUIT") && splitMsg.length == 3) {
-                            String player = splitMsg[2];
-
-                            plugin.logDebug(PurpleIRC.LINK_CMD
-                                    + " [CODE:" + code + "]"
-                                    + " [PLAYER:" + player + "]");
                             if (ircBot.remotePlayers.containsKey(nick)) {
-                                if (ircBot.remotePlayers.get(nick).contains(player)) {
-                                    ircBot.remotePlayers.get(nick).remove(player);
+                                ircBot.remotePlayers.get(nick).clear();
+                                if (!players.isEmpty()) {
+                                    for (String s : players.split(",")) {
+                                        plugin.logDebug(" [ADDING:" + s + "]");
+                                        ircBot.remotePlayers.get(nick).add(s);
+                                    }
                                 }
                             }
                         }
