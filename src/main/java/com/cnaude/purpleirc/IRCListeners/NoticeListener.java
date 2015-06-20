@@ -79,7 +79,7 @@ public class NoticeListener extends ListenerAdapter {
 
                 plugin.logDebug("Are we linked to " + user.getNick() + "?");
                 if (ircBot.botLinks.containsKey(nick)) {
-                    plugin.logDebug("Yes we are linked. Is thee code correct?");
+                    plugin.logDebug("Yes we are linked. Is the code correct?");
                     if (ircBot.botLinks.get(nick).equals(code)) {
                         plugin.logDebug("Yes the code is correct!");
                         plugin.logDebug(" [COMMAND: " + command + "]");
@@ -101,7 +101,6 @@ public class NoticeListener extends ListenerAdapter {
                             if (splitMsg.length == 5) {
                                 players = splitMsg[4];
                             }
-
                             plugin.logDebug(" [CUR_COUNT:" + curCount + "]");
                             plugin.logDebug(" [MAX_COUNT:" + maxCount + "]");
                             plugin.logDebug(" [PLAYERS:" + players + "]");

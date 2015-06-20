@@ -12,6 +12,8 @@ reconnect-fail-message-count: 10
 enable-ident-server: false
 # How often we check the channel user list
 channel-check-interval: 100
+# Alias /irc smsg to /msg
+override-msg-cmd: false
 # Chat messages support standard Bukkit color codes using '&#'. See http://minecraft.gamepedia.com/Formatting_codes
 # The following macro tokens are also supported.
 #  %WORLD%

@@ -70,6 +70,26 @@ public class SMsg implements IRCCommandInterface {
                 return;
             }
 
+            String msg = "";
+            for (int i = msgIdx; i < args.length; i++) {
+                msg = msg + " " + args[i];
+            }
+            msg = msg.trim();
+
+            if (plugin.getServer().getPlayer(target) instanceof Player) {
+                Player player = plugin.getServer().getPlayer(target);
+                String template = plugin.getMsgTemplate("MAIN", "", TemplateName.GAME_PCHAT);
+                String targetMsg = plugin.tokenizer.gameChatTokenizer(player, template, msg);
+                String responseTemplate = plugin.getMsgTemplate("MAIN", "", TemplateName.GAME_PCHAT_RESPONSE);
+                if (!responseTemplate.isEmpty()) {
+                    String responseMsg = plugin.tokenizer.gameChatTokenizer(player, responseTemplate, msg);
+                    sender.sendMessage(responseMsg);
+                }
+                plugin.logDebug("Tokenized message: " + targetMsg);
+                player.sendMessage(targetMsg);                
+                return;
+            }
+
             for (PurpleBot ircBot : myBots) {
                 String remoteBot = "";
                 String remotePlayer = "";
@@ -91,17 +111,13 @@ public class SMsg implements IRCCommandInterface {
                 }
 
                 if (remotePlayer.isEmpty()) {
-                    sender.sendMessage(ChatColor.RED + "Remote player " 
+                    sender.sendMessage(ChatColor.RED + "Player "
                             + ChatColor.WHITE + target + ChatColor.RED + " not found!");
                     return;
                 }
 
                 if (ircBot.botLinkingEnabled) {
-                    String msg = "";
                     final String template = plugin.getMsgTemplate(ircBot.botNick, "", TemplateName.GAME_PCHAT_RESPONSE);
-                    for (int i = msgIdx; i < args.length; i++) {
-                        msg = msg + " " + args[i];
-                    }
                     if (sender instanceof Player) {
                         ircBot.msgRemotePlayer((Player) sender, remoteBot, remotePlayer, msg.substring(1));
                     } else {

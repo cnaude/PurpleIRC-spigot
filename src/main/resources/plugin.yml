@@ -26,6 +26,9 @@ commands:
     irc:
         description: Various irc commands
         usage: /<command> help - List all irc commands available.
+    msg:
+        description: Shortcut for /irc smsg
+        usage: /<command> [player] message
 permissions:
   'irc.reloadconfig':
     description: Gives player access to the /irc reloadconfig.

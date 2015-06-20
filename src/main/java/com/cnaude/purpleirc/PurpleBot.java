@@ -245,10 +245,6 @@ public final class PurpleBot {
         this.linkRequests = new CaseInsensitiveMap<>();
         this.remotePlayers = new CaseInsensitiveMap<>();
         this.remoteServerInfo = new CaseInsensitiveMap<>();
-        for (String s : botLinks.keySet()) {
-            remotePlayers.put(s, new ArrayList<String>());
-            remoteServerInfo.put(s, new CaseInsensitiveMap<String>());
-        }
         config = new YamlConfiguration();
         goodBot = loadConfig();
         if (goodBot) {
@@ -734,6 +730,10 @@ public final class PurpleBot {
                         botLinks.put(t, config.getString("bot-links." + t, ""));
                         plugin.logDebug("Bot-Link: " + t + " => " + botLinks.get(t));
                     }
+                }
+                for (String s : botLinks.keySet()) {
+                    remotePlayers.put(s, new ArrayList<String>());
+                    remoteServerInfo.put(s, new CaseInsensitiveMap<String>());
                 }
             }
 

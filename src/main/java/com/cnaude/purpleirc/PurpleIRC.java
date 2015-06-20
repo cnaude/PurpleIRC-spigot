@@ -218,6 +218,7 @@ public class PurpleIRC extends JavaPlugin {
     public static final String PURPLETAG = "UHVycGxlSVJDCg==";
     public static final String TOWNYTAG = "VG93bnlDaGF0Cg==";    
     public static final String LINK_CMD = "PurpleIRC-Link:";
+    public boolean overrideMsgCmd = false;
 
     public PurpleIRC() {
         this.MAINCONFIG = "MAIN-CONFIG";
@@ -285,6 +286,9 @@ public class PurpleIRC extends JavaPlugin {
         ircTabCompleter = new PurpleTabCompleter(this);
         getCommand("irc").setExecutor(commandHandlers);
         getCommand("irc").setTabCompleter(ircTabCompleter);
+        if (overrideMsgCmd) {
+            getCommand("msg").setExecutor(commandHandlers);
+        }
         regexGlobber = new RegexGlobber();
         tokenizer = new ChatTokenizer(this);
         loadBots();
@@ -565,6 +569,7 @@ public class PurpleIRC extends JavaPlugin {
         } catch (IOException | InvalidConfigurationException ex) {
             logError(ex.getMessage());
         }
+        overrideMsgCmd = getConfig().getBoolean("override-msg-cmd", false);
         updateCheckerEnabled = getConfig().getBoolean("update-checker", true);
         updateCheckerMode = getConfig().getString("update-checker-mode", "stable");
         debugEnabled = getConfig().getBoolean("Debug");
