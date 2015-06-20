@@ -20,7 +20,6 @@ import com.cnaude.purpleirc.PurpleBot;
 import com.cnaude.purpleirc.PurpleIRC;
 import com.cnaude.purpleirc.Utilities.CaseInsensitiveMap;
 import java.util.ArrayList;
-import java.util.Arrays;
 import org.apache.commons.codec.binary.Base64;
 import org.pircbotx.Channel;
 import org.pircbotx.User;

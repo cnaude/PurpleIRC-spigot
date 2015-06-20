@@ -2693,6 +2693,7 @@ public final class PurpleBot {
                     String template = plugin.getMsgTemplate(botNick, "", TemplateName.CROSS_CHAT);
                     String m = template.replace("%MESSAGE%", msg).replace("%SERVER%", user.getNick());
                     player.sendMessage(plugin.colorConverter.ircColorsToGame(m));
+                    plugin.privateMsgReply.put(pName, from);
                 } else {
                     //no such player online
                 }

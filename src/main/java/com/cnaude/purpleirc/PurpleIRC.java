@@ -219,6 +219,7 @@ public class PurpleIRC extends JavaPlugin {
     public static final String TOWNYTAG = "VG93bnlDaGF0Cg==";    
     public static final String LINK_CMD = "PurpleIRC-Link:";
     public boolean overrideMsgCmd = false;
+    public CaseInsensitiveMap<String> privateMsgReply;
 
     public PurpleIRC() {
         this.MAINCONFIG = "MAIN-CONFIG";
@@ -237,6 +238,7 @@ public class PurpleIRC extends JavaPlugin {
         this.cacheFile = new File("plugins/PurpleIRC/displayName.cache");
         this.uuidCacheFile = new File("plugins/PurpleIRC/uuid.cache");
         this.reconnectSuppression = 0;
+        this.privateMsgReply = new CaseInsensitiveMap<>();
     }
 
     /**
@@ -288,6 +290,7 @@ public class PurpleIRC extends JavaPlugin {
         getCommand("irc").setTabCompleter(ircTabCompleter);
         if (overrideMsgCmd) {
             getCommand("msg").setExecutor(commandHandlers);
+            getCommand("r").setExecutor(commandHandlers);
         }
         regexGlobber = new RegexGlobber();
         tokenizer = new ChatTokenizer(this);

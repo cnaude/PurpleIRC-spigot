@@ -23,6 +23,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
+import net.md_5.bungee.api.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -141,7 +142,27 @@ public class CommandHandlers implements CommandExecutor {
                 return true;
             }
         } else if (commandLabel.equalsIgnoreCase("r")) {
-
+            plugin.logDebug("Command: r");
+            if (plugin.privateMsgReply.containsKey(sender.getName())) {
+                plugin.logDebug("Command: r2");
+                if (args.length >= 1) {
+                    plugin.logDebug("Command: r3");
+                    if (!sender.hasPermission("irc.smsg")) {
+                        sender.sendMessage(plugin.noPermission);
+                        return true;
+                    }
+                    plugin.logDebug("Command: r4");
+                    ArrayList<String> list = new ArrayList<>();
+                    list.add("smsg");
+                    list.add(plugin.privateMsgReply.get(sender.getName()));
+                    list.addAll(Arrays.asList(args));
+                    plugin.logDebug("R: " + list);
+                    commands.get("smsg").dispatch(sender, list.toArray(new String[list.size()]));
+                    return true;
+                }
+            } else {
+                sender.sendMessage(ChatColor.RED + "No messages received.");
+            }
         }
         commands.get("help").dispatch(sender, args);
         return true;

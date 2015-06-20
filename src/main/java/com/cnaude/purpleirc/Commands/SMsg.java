@@ -86,7 +86,8 @@ public class SMsg implements IRCCommandInterface {
                     sender.sendMessage(responseMsg);
                 }
                 plugin.logDebug("Tokenized message: " + targetMsg);
-                player.sendMessage(targetMsg);                
+                player.sendMessage(targetMsg);
+                plugin.privateMsgReply.put(player.getName(), sender.getName());
                 return;
             }
 
