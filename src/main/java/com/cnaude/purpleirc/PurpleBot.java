@@ -17,6 +17,7 @@
 package com.cnaude.purpleirc;
 
 import com.cnaude.purpleirc.IRCListeners.ActionListener;
+import com.cnaude.purpleirc.IRCListeners.AwayListener;
 import com.cnaude.purpleirc.IRCListeners.ConnectListener;
 import com.cnaude.purpleirc.IRCListeners.DisconnectListener;
 import com.cnaude.purpleirc.IRCListeners.JoinListener;
@@ -354,6 +355,7 @@ public final class PurpleBot {
 
     private void addListeners() {
         ircListeners.add(new ActionListener(plugin, this));
+        ircListeners.add(new AwayListener(plugin, this));
         ircListeners.add(new ConnectListener(plugin, this));
         ircListeners.add(new DisconnectListener(plugin, this));
         ircListeners.add(new JoinListener(plugin, this));
