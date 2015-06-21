@@ -2084,6 +2084,7 @@ public final class PurpleBot {
     public void sendUserWhois(CommandSender sender, String nick) {
         User user = null;
         for (Channel channel : getChannels()) {
+            bot.sendRaw().rawLineNow("WHO " + channel.getName());
             for (User u : channel.getUsers()) {
                 if (u.getNick().equals(nick)) {
                     user = u;
@@ -2142,7 +2143,7 @@ public final class PurpleBot {
             String n = user.getNick();
             n = getNickPrefix(user, channel) + n;
             if (user.isAway()) {
-                n = n + ChatColor.GRAY + " | Away";
+                n = n + ChatColor.GRAY + " | Away | " + user.getAwayMessage();
             }
             if (n.equals(bot.getNick())) {
                 n = ChatColor.DARK_PURPLE + n;
