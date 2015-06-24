@@ -129,11 +129,11 @@ public class CommandHandlers implements CommandExecutor {
                 }
             }
         } else if (commandLabel.equalsIgnoreCase("msg")) {
+            if (!sender.hasPermission("irc.smsg")) {
+                sender.sendMessage(plugin.noPermission);
+                return true;
+            }
             if (args.length >= 1) {
-                if (!sender.hasPermission("irc.smsg")) {
-                    sender.sendMessage(plugin.noPermission);
-                    return true;
-                }
                 ArrayList<String> list = new ArrayList<>();
                 list.add("smsg");
                 list.addAll(Arrays.asList(args));
