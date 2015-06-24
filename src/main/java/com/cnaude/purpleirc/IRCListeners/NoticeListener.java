@@ -21,6 +21,7 @@ import com.cnaude.purpleirc.PurpleIRC;
 import com.cnaude.purpleirc.Utilities.CaseInsensitiveMap;
 import java.util.ArrayList;
 import org.apache.commons.codec.binary.Base64;
+import org.bukkit.ChatColor;
 import org.pircbotx.Channel;
 import org.pircbotx.User;
 import org.pircbotx.hooks.ListenerAdapter;
@@ -70,9 +71,13 @@ public class NoticeListener extends ListenerAdapter {
 
                 if (command.equals("LINK_REQUEST")) {
                     ircBot.linkRequests.put(user.getNick(), code);
-                    plugin.logInfo("PurpleIRC bot link request from " + user.getNick());
-                    plugin.logInfo("To accept: /irc linkaccept "
-                            + ircBot.getFileName().replace(".yml", "") + " " + user.getNick());
+                    plugin.broadcastToGame(ChatColor.LIGHT_PURPLE 
+                            + "PurpleIRC bot link request from " 
+                            + ChatColor.WHITE + user.getNick(), "irc.link");
+                    plugin.broadcastToGame(ChatColor.LIGHT_PURPLE + "To accept: "
+                            + ChatColor.WHITE + "/irc linkaccept "
+                            + ircBot.getFileName().replace(".yml", "") 
+                            + " " + user.getNick(), "irc.link");
                     return;
                 }
 

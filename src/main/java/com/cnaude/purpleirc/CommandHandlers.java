@@ -142,27 +142,25 @@ public class CommandHandlers implements CommandExecutor {
                 return true;
             }
         } else if (commandLabel.equalsIgnoreCase("r")) {
-            plugin.logDebug("Command: r");
+            if (!sender.hasPermission("irc.smsg")) {
+                sender.sendMessage(plugin.noPermission);
+                return true;
+            }
             if (plugin.privateMsgReply.containsKey(sender.getName())) {
-                plugin.logDebug("Command: r2");
                 if (args.length >= 1) {
-                    plugin.logDebug("Command: r3");
-                    if (!sender.hasPermission("irc.smsg")) {
-                        sender.sendMessage(plugin.noPermission);
-                        return true;
-                    }
-                    plugin.logDebug("Command: r4");
                     ArrayList<String> list = new ArrayList<>();
                     list.add("smsg");
                     list.add(plugin.privateMsgReply.get(sender.getName()));
                     list.addAll(Arrays.asList(args));
                     plugin.logDebug("R: " + list);
                     commands.get("smsg").dispatch(sender, list.toArray(new String[list.size()]));
-                    return true;
+                } else {
+                    sender.sendMessage(ChatColor.WHITE + "Usage: " + ChatColor.GOLD + "/r [message]");
                 }
             } else {
                 sender.sendMessage(ChatColor.RED + "No messages received.");
             }
+            return true;
         }
         commands.get("help").dispatch(sender, args);
         return true;

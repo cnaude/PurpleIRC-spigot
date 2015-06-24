@@ -165,6 +165,7 @@ public class PurpleIRC extends JavaPlugin {
     public Long ircConnCheckInterval;
     public Long ircChannelCheckInterval;
     public ChannelWatcher channelWatcher;
+    public LinkUpdater linkUpdater;
     public ColorConverter colorConverter;
     public RegexGlobber regexGlobber;
     public CaseInsensitiveMap<PurpleBot> ircBots;
@@ -297,6 +298,7 @@ public class PurpleIRC extends JavaPlugin {
         loadBots();
         createSampleBot();
         channelWatcher = new ChannelWatcher(this);
+        linkUpdater = new LinkUpdater(this);
         setupVault();
         if (customTabList) {
             if (checkForProtocolLib()) {
@@ -323,6 +325,10 @@ public class PurpleIRC extends JavaPlugin {
         if (channelWatcher != null) {
             logDebug("Disabling channelWatcher ...");
             channelWatcher.cancel();
+        }
+        if (linkUpdater != null) {
+            logDebug("Disabling linkUpdater ...");
+            linkUpdater.cancel();
         }
         if (botWatcher != null) {
             logDebug("Disabling botWatcher ...");

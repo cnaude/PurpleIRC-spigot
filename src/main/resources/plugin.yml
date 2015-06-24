@@ -41,7 +41,7 @@ permissions:
     default: op
   'irc.reloadbotconfig':
     description: Gives player access to the /irc reloadconfig.
-    default: op  
+    default: op
   'irc.reconnect':
     description: Gives player access to the /irc reconnect.
     default: op
@@ -62,7 +62,7 @@ permissions:
     default: false
   'irc.message.quit':
     description: Receive IRC quit messages.
-    default: false    
+    default: false
   'irc.message.disconnect':
     description: Receive IRC disconnect messages.
     default: op
@@ -74,46 +74,58 @@ permissions:
     default: false
   'irc.message.kick':
     description: Receive IRC kick messages.
-    default: false    
+    default: false
   'irc.message.part':
     description: Receive IRC part messages.
-    default: false        
+    default: false
   'irc.listbots':
     description: Gives player access to the /irc listbots command.
     default: op
   'irc.list':
     description: Gives player access to the /irc list command.
-    default: op  
+    default: op
   'irc.tablist':
     description: Allow player to see IRC nick list in the tab list
     default: op
   'irc.msg':
     description: Gives player access to the /irc msg command.
-    default: op 
+    default: op
   'irc.sendraw':
     description: Gives player access to the /irc sendraw command.
-    default: op 
+    default: op
   'irc.ctcp':
     description: Gives player access to the /irc ctcp command.
-    default: op 
+    default: op
   'irc.notice':
     description: Gives player access to the /irc notice command.
-    default: op 
+    default: op
   'irc.message.mode':
     description: Player receives IRC mode change messages.
-    default: op 
+    default: op
   'irc.message.notice':
     description: Player receives IRC notice messages.
-    default: op     
+    default: op
   'irc.motd':
     description: Gives player access to the /irc motd command.
-    default: op    
+    default: op
   'irc.load':
     description: Gives player access to the /irc load command.
-    default: op  
+    default: op
   'irc.unload':
     description: Gives player access to the /irc unload command.
-    default: op  
+    default: op
   'irc.hooks':
     description: Gives player access to the /irc hooks command.
-    default: op  
+    default: op
+  'irc.link':
+    description: Gives player access to the /irc link command.
+    default: op
+  'irc.linkaccept':
+    description: Gives player access to the /irc linkaccept command.
+    default: op
+  'irc.slist':
+    description: Gives player access to the /irc slist command.
+    default: true
+  'irc.smsg':
+    description: Gives player access to the /irc smsg command.
+    default: true
