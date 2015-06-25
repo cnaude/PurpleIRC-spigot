@@ -290,8 +290,8 @@ public class PurpleIRC extends JavaPlugin {
         getCommand("irc").setExecutor(commandHandlers);
         getCommand("irc").setTabCompleter(ircTabCompleter);
         if (overrideMsgCmd) {
-            getCommand("msg").setExecutor(commandHandlers);
-            getCommand("r").setExecutor(commandHandlers);
+            getCommand("ircm").setExecutor(commandHandlers);
+            getCommand("ircr").setExecutor(commandHandlers);
         }
         regexGlobber = new RegexGlobber();
         tokenizer = new ChatTokenizer(this);

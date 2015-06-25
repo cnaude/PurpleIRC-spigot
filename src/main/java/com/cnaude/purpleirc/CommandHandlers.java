@@ -128,7 +128,7 @@ public class CommandHandlers implements CommandExecutor {
                     return true;
                 }
             }
-        } else if (commandLabel.equalsIgnoreCase("msg")) {
+        } else if (commandLabel.equalsIgnoreCase("ircm")) {
             if (!sender.hasPermission("irc.smsg")) {
                 sender.sendMessage(plugin.noPermission);
                 return true;
@@ -141,7 +141,7 @@ public class CommandHandlers implements CommandExecutor {
                 commands.get("smsg").dispatch(sender, list.toArray(new String[list.size()]));
                 return true;
             }
-        } else if (commandLabel.equalsIgnoreCase("r")) {
+        } else if (commandLabel.equalsIgnoreCase("ircr")) {
             if (!sender.hasPermission("irc.smsg")) {
                 sender.sendMessage(plugin.noPermission);
                 return true;

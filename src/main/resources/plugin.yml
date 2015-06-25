@@ -26,10 +26,10 @@ commands:
     irc:
         description: Various irc commands
         usage: /<command> help - List all irc commands available.
-    msg:
+    ircm:
         description: Shortcut for /irc smsg.
         usage: /<command> [player] message
-    r:
+    ircr:
         description: Shortut for replying to private messages.
         usage: /<command> message
 permissions:
