@@ -82,7 +82,7 @@ public class SMsg implements IRCCommandInterface {
                 String targetMsg = plugin.tokenizer.gameChatTokenizer(player, template, msg);
                 String responseTemplate = plugin.getMsgTemplate("MAIN", "", TemplateName.GAME_PCHAT_RESPONSE);
                 if (!responseTemplate.isEmpty()) {
-                    String responseMsg = plugin.tokenizer.msgChatResponseTokenizer(player.getName(), responseTemplate, msg);
+                    String responseMsg = plugin.tokenizer.msgChatResponseTokenizer(player, msg, responseTemplate);
                     sender.sendMessage(responseMsg);
                 }
                 plugin.logDebug("Tokenized message: " + targetMsg);

@@ -328,7 +328,7 @@ public class ChatTokenizer {
                 .replace("%NAME%", pName)
                 .replace("%MESSAGE%", plugin.colorConverter.gameColorsToIrc(message)));
     }
-    
+
     /**
      * Game chat to game (private messages)
      *
@@ -760,5 +760,11 @@ public class ChatTokenizer {
                 .replace("%TARGET%", target)
                 .replace("%MESSAGE%", message)
         );
+    }
+
+    public String msgChatResponseTokenizer(Player player, String message, String template) {
+        return template
+                .replace("%TARGET%", player.getName())
+                .replace("%MESSAGE%", message);
     }
 }
