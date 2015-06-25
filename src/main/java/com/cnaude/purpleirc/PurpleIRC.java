@@ -1604,4 +1604,15 @@ public class PurpleIRC extends JavaPlugin {
         return String.format("%s:%s", cmd, encodedText);
     }
 
+    /**
+     * Generic player counter.  CB uses Player[] and Spigot uses List<>().
+    */
+    public int getOnlinePlayerCount() {
+        int count = 0;
+        for (Player player : getServer().getOnlinePlayers()) {
+            count++;
+}
+        return count;
+    }
+
 }

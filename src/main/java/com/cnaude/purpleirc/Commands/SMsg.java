@@ -82,7 +82,7 @@ public class SMsg implements IRCCommandInterface {
                 String targetMsg = plugin.tokenizer.gameChatTokenizer(player, template, msg);
                 String responseTemplate = plugin.getMsgTemplate("MAIN", "", TemplateName.GAME_PCHAT_RESPONSE);
                 if (!responseTemplate.isEmpty()) {
-                    String responseMsg = plugin.tokenizer.gameChatTokenizer(player, responseTemplate, msg);
+                    String responseMsg = plugin.tokenizer.msgChatResponseTokenizer(player.getName(), responseTemplate, msg);
                     sender.sendMessage(responseMsg);
                 }
                 plugin.logDebug("Tokenized message: " + targetMsg);
@@ -120,12 +120,12 @@ public class SMsg implements IRCCommandInterface {
                 if (ircBot.botLinkingEnabled) {
                     final String template = plugin.getMsgTemplate(ircBot.botNick, "", TemplateName.GAME_PCHAT_RESPONSE);
                     if (sender instanceof Player) {
-                        ircBot.msgRemotePlayer((Player) sender, remoteBot, remotePlayer, msg.substring(1));
+                        ircBot.msgRemotePlayer((Player) sender, remoteBot, remotePlayer, msg);
                     } else {
-                        ircBot.msgRemotePlayer(sender, remoteBot, remotePlayer, msg.substring(1));
+                        ircBot.msgRemotePlayer(sender, remoteBot, remotePlayer, msg);
                     }
                     if (!template.isEmpty()) {
-                        sender.sendMessage(plugin.tokenizer.msgChatResponseTokenizer(target, msg.substring(1), template));
+                        sender.sendMessage(plugin.tokenizer.msgChatResponseTokenizer(target, msg, template));
                     }
                 }
             }

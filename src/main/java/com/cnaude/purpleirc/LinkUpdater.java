@@ -20,8 +20,7 @@ import org.bukkit.scheduler.BukkitTask;
 
 /**
  *
- * @author Chris Naude This thread checks each for users and updates the
- * internal lists.
+ * @author Chris Naude This thread sends player info to linked bots.
  */
 public class LinkUpdater {
 

@@ -3055,7 +3055,7 @@ public final class PurpleBot {
                     for (String remoteBot : botLinks.keySet()) {
                         String code = botLinks.get(remoteBot);
                         String clearText = "PLAYER_INFO:" + code + ":"
-                                + plugin.getServer().getOnlinePlayers().size()
+                                + plugin.getOnlinePlayerCount()
                                 + ":" + plugin.getServer().getMaxPlayers();
                         List<String> players = new ArrayList<>();
                         for (Player player : plugin.getServer().getOnlinePlayers()) {
