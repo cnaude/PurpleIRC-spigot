@@ -64,6 +64,13 @@ public class ChatTokenizer {
         );
     }
 
+    /**
+     *
+     * @param template
+     * @param user
+     * @param ircBot
+     * @return
+     */
     public String ircUserTokenizer(String template, User user, PurpleBot ircBot) {
         String host = user.getHostmask();
         String server = user.getServer();
@@ -96,6 +103,14 @@ public class ChatTokenizer {
                 .replace("%AWAY%", away);
     }
 
+    /**
+     *
+     * @param template
+     * @param recipient
+     * @param kicker
+     * @param ircBot
+     * @return
+     */
     public String ircUserTokenizer(String template, User recipient, User kicker, PurpleBot ircBot) {
         String host = kicker.getHostmask();
         String server = kicker.getServer();
@@ -333,16 +348,19 @@ public class ChatTokenizer {
      * Game chat to game (private messages)
      *
      * @param sender
+     * @param target
      * @param template
      * @param message
      * @return
      */
-    public String gameChatTokenizer(CommandSender sender, String template, String message) {
+    public String gameChatTokenizer(CommandSender sender, String target, String template, String message) {
         if (sender instanceof Player) {
             return playerTokenizer((Player) sender, template)
+                    .replace("%TARGET%", target)
                     .replace("%MESSAGE%", message);
         } else {
             return template.replace("%NAME%", sender.getName())
+                    .replace("%TARGET%", target)
                     .replace("%MESSAGE%", message);
         }
     }
@@ -475,6 +493,14 @@ public class ChatTokenizer {
                 .replace("%CHANNEL%", hChannel);
     }
 
+    /**
+     *
+     * @param player
+     * @param townyChannel
+     * @param message
+     * @param template
+     * @return
+     */
     public String chatTownyChannelTokenizer(Player player, Channel townyChannel, String message, String template) {
 
         return gameChatToIRCTokenizer(player, template, message)
@@ -576,10 +602,23 @@ public class ChatTokenizer {
                 .replace("%RTSWORLD%", world));
     }
 
+    /**
+     *
+     * @param sender
+     * @param message
+     * @param template
+     * @return
+     */
     public String reportRTSTokenizer(CommandSender sender, String message, String template) {
         return gameChatToIRCTokenizer(sender.getName(), template, message);
     }
 
+    /**
+     *
+     * @param player
+     * @param message
+     * @return
+     */
     public String playerTokenizer(Player player, String message) {
         String pName = player.getName();
         plugin.logDebug("Tokenizing " + pName + "(O: " + player.isOnline() + ")");
@@ -753,6 +792,13 @@ public class ChatTokenizer {
                 .replace("%PARAMS%", params));
     }
 
+    /**
+     *
+     * @param target
+     * @param message
+     * @param template
+     * @return
+     */
     public String targetChatResponseTokenizer(String target, String message, String template) {
         return plugin.colorConverter.gameColorsToIrc(template
                 .replace("%TARGET%", target)
@@ -760,6 +806,36 @@ public class ChatTokenizer {
         );
     }
 
+    /**
+     *
+     * @param sender
+     * @param target
+     * @param message
+     * @param template
+     * @return
+     */
+    public String msgChatResponseTokenizer(CommandSender sender, String target, String message, String template) {
+        if (sender instanceof Player) {
+            return plugin.colorConverter.ircColorsToGame(
+                    playerTokenizer((Player) sender, template)
+                    .replace("%TARGET%", target)
+                    .replace("%MESSAGE%", message)
+            );
+        }
+        return plugin.colorConverter.ircColorsToGame(template
+                .replace("%NAME%", sender.getName())
+                .replace("%TARGET%", target)
+                .replace("%MESSAGE%", message)
+        );
+    }
+
+    /**
+     *
+     * @param target
+     * @param message
+     * @param template
+     * @return
+     */
     public String msgChatResponseTokenizer(String target, String message, String template) {
         return plugin.colorConverter.ircColorsToGame(template
                 .replace("%TARGET%", target)
@@ -767,9 +843,16 @@ public class ChatTokenizer {
         );
     }
 
-    public String msgChatResponseTokenizer(Player player, String message, String template) {
-        return template
-                .replace("%TARGET%", player.getName())
+    /**
+     *
+     * @param targetPlayer
+     * @param message
+     * @param template
+     * @return
+     */
+    public String msgChatResponseTokenizer(CommandSender sender, Player targetPlayer, String message, String template) {
+        return template.replace("%NAME%", sender.getName())
+                .replace("%TARGET%", targetPlayer.getName())
                 .replace("%MESSAGE%", message);
     }
 }

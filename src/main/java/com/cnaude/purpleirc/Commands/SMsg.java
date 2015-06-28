@@ -77,17 +77,17 @@ public class SMsg implements IRCCommandInterface {
             msg = msg.trim();
 
             if (plugin.getServer().getPlayer(target) instanceof Player) {
-                Player player = plugin.getServer().getPlayer(target);
+                Player targetPlayer = plugin.getServer().getPlayer(target);
                 String template = plugin.getMsgTemplate("MAIN", "", TemplateName.GAME_PCHAT);
-                String targetMsg = plugin.tokenizer.gameChatTokenizer(player, template, msg);
+                String targetMsg = plugin.tokenizer.gameChatTokenizer(sender, target, template, msg);
                 String responseTemplate = plugin.getMsgTemplate("MAIN", "", TemplateName.GAME_PCHAT_RESPONSE);
                 if (!responseTemplate.isEmpty()) {
-                    String responseMsg = plugin.tokenizer.msgChatResponseTokenizer(player, msg, responseTemplate);
+                    String responseMsg = plugin.tokenizer.msgChatResponseTokenizer(sender, targetPlayer, msg, responseTemplate);
                     sender.sendMessage(responseMsg);
                 }
                 plugin.logDebug("Tokenized message: " + targetMsg);
-                player.sendMessage(targetMsg);
-                plugin.privateMsgReply.put(player.getName(), sender.getName());
+                targetPlayer.sendMessage(targetMsg);
+                plugin.privateMsgReply.put(targetPlayer.getName(), sender.getName());
                 return;
             }
 
@@ -119,13 +119,9 @@ public class SMsg implements IRCCommandInterface {
 
                 if (ircBot.botLinkingEnabled) {
                     final String template = plugin.getMsgTemplate(ircBot.botNick, "", TemplateName.GAME_PCHAT_RESPONSE);
-                    if (sender instanceof Player) {
-                        ircBot.msgRemotePlayer((Player) sender, remoteBot, remotePlayer, msg);
-                    } else {
-                        ircBot.msgRemotePlayer(sender, remoteBot, remotePlayer, msg);
-                    }
+                    ircBot.msgRemotePlayer(sender, remoteBot, remotePlayer, msg);
                     if (!template.isEmpty()) {
-                        sender.sendMessage(plugin.tokenizer.msgChatResponseTokenizer(target, msg, template));
+                        sender.sendMessage(plugin.tokenizer.msgChatResponseTokenizer(sender, target, msg, template));
                     }
                 }
             }
