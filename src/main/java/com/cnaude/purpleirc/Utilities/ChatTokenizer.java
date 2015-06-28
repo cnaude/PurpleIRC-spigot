@@ -332,14 +332,19 @@ public class ChatTokenizer {
     /**
      * Game chat to game (private messages)
      *
-     * @param player
+     * @param sender
      * @param template
      * @param message
      * @return
      */
-    public String gameChatTokenizer(Player player, String template, String message) {
-        return playerTokenizer(player, template)
-                .replace("%MESSAGE%", message);
+    public String gameChatTokenizer(CommandSender sender, String template, String message) {
+        if (sender instanceof Player) {
+            return playerTokenizer((Player) sender, template)
+                    .replace("%MESSAGE%", message);
+        } else {
+            return template.replace("%NAME%", sender.getName())
+                    .replace("%MESSAGE%", message);
+        }
     }
 
     /**
