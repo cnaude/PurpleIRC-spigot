@@ -55,7 +55,7 @@ public class Help implements IRCCommandInterface {
                         plugin.commandHandlers.commands.get(s).usage()));
                 return;
             } else {
-                sender.sendMessage(ChatColor.RED + "Invalid sub command: "
+                sender.sendMessage(ChatColor.RED + "Invalid sub command: " 
                         + ChatColor.WHITE + s);
                 return;
             }

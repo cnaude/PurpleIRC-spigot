@@ -50,7 +50,7 @@ public class UpdateCheck implements IRCCommandInterface {
         if (args.length >= 2) {
             String mode = args[1];
             plugin.updateChecker.asyncUpdateCheck(sender, mode);
-        } else {
+        } else { 
             plugin.updateChecker.asyncUpdateCheck(sender, plugin.updateCheckerMode());
         }
 

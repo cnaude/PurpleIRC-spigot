@@ -2,7 +2,7 @@ name: ${project.artifactId}
 version: ${project.version}
 description: ${project.description}
 author: cnaude
-website: http://www.spigotmc.org/resources/purpleirc.2836/
+website: ${project.url}
 main: com.cnaude.purpleirc.PurpleIRC
 softdepend:
 - Vault
@@ -26,12 +26,6 @@ commands:
     irc:
         description: Various irc commands
         usage: /<command> help - List all irc commands available.
-    ircm:
-        description: Shortcut for /irc smsg.
-        usage: /<command> [player] message
-    ircr:
-        description: Shortut for replying to private messages.
-        usage: /<command> message
 permissions:
   'irc.reloadconfig':
     description: Gives player access to the /irc reloadconfig.

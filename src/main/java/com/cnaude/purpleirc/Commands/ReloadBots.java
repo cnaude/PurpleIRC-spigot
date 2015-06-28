@@ -29,7 +29,7 @@ public class ReloadBots implements IRCCommandInterface {
     private final PurpleIRC plugin;
     private final String usage = "";
     private final String desc = "Reload all bots.";
-    private final String name = "reloadbots";
+    private final String name = "reloadbots";    
 
     /**
      *

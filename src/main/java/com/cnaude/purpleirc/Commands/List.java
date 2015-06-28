@@ -52,7 +52,7 @@ public class List implements IRCCommandInterface {
                 ircBot.sendUserList(sender);
             }
         } else if (args.length > 1) {
-            String bot = plugin.botify(args[1]);
+            String bot = args[1];
             if (plugin.ircBots.containsKey(bot)) {
                 PurpleBot ircBot = plugin.ircBots.get(bot);
                 if (args.length > 2) {

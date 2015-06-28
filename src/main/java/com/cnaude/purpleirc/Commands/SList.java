@@ -64,10 +64,10 @@ public class SList implements IRCCommandInterface {
                                     + ircBot.remoteServerInfo.get(remoteBot).get("MAX_COUNT");
                         }
                     }
-                    sender.sendMessage(ChatColor.DARK_PURPLE + "-----[  " + ChatColor.WHITE + "Remote Players"
-                            + ChatColor.DARK_PURPLE + " - " + ChatColor.WHITE + remoteBot 
-                            + ChatColor.DARK_PURPLE + " - " + ChatColor.WHITE + countInfo 
-                            + ChatColor.DARK_PURPLE + " ]-----");
+                    sender.sendMessage(ChatColor.LIGHT_PURPLE + "-----[  " + ChatColor.WHITE + "Remote Players"
+                            + ChatColor.LIGHT_PURPLE + " - " + ChatColor.WHITE + remoteBot 
+                            + ChatColor.LIGHT_PURPLE + " - " + ChatColor.WHITE + countInfo 
+                            + ChatColor.LIGHT_PURPLE + " ]-----");
                     java.util.List<String> remotePlayersSorted = new ArrayList<>(ircBot.remotePlayers.get(remoteBot));
                     Collections.sort(remotePlayersSorted, Collator.getInstance());
                     for (String playerName : remotePlayersSorted) {

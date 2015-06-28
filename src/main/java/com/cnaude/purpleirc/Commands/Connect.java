@@ -31,7 +31,7 @@ public class Connect implements IRCCommandInterface {
     private final String usage = "([bot])";
     private final String desc = "Connect to configured IRC server.";
     private final String name = "connect";
-    private final String fullUsage = ChatColor.WHITE + "Usage: " + ChatColor.GOLD + "/irc " + name + " " + usage;
+    private final String fullUsage = ChatColor.WHITE + "Usage: " + ChatColor.GOLD + "/irc " + name + " " + usage; 
 
     /**
      *
@@ -53,7 +53,7 @@ public class Connect implements IRCCommandInterface {
                 ircBot.asyncConnect(sender);
             }
         } else if (args.length == 2) {
-            String bot = plugin.botify(args[1]);
+            String bot = args[1];
             if (plugin.ircBots.containsKey(bot)) {
                 plugin.ircBots.get(bot).asyncConnect(sender);
             } else {

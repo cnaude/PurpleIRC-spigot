@@ -30,7 +30,7 @@ public class ReloadBotConfig implements IRCCommandInterface {
     private final String usage = "[bot]";
     private final String desc = "Reload a bot's configuration.";
     private final String name = "reloadbotconfig";
-    private final String fullUsage = ChatColor.WHITE + "Usage: " + ChatColor.GOLD + "/irc " + name + " " + usage;
+    private final String fullUsage = ChatColor.WHITE + "Usage: " + ChatColor.GOLD + "/irc " + name + " " + usage; 
 
     /**
      *
@@ -48,7 +48,7 @@ public class ReloadBotConfig implements IRCCommandInterface {
     @Override
     public void dispatch(CommandSender sender, String[] args) {
         if (args.length == 2) {
-            String bot = plugin.botify(args[1]);
+            String bot = args[1];
             if (plugin.ircBots.containsKey(bot)) {
                 plugin.ircBots.get(bot).reloadConfig(sender);
             } else {

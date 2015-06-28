@@ -49,11 +49,12 @@ public class Motd implements IRCCommandInterface {
     public void dispatch(CommandSender sender, String[] args) {
         java.util.List<PurpleBot> myBots = new ArrayList<>();
         if (args.length >= 2) {
-            if (plugin.ircBots.containsKey(args[1])) {
-                myBots.add(plugin.ircBots.get(args[1]));
-
+            String bot = args[1];
+            if (plugin.ircBots.containsKey(bot)) {
+                myBots.add(plugin.ircBots.get(bot));
+                
             } else {
-                sender.sendMessage(plugin.invalidBotName.replace("%BOT%", args[1]));
+                sender.sendMessage(plugin.invalidBotName.replace("%BOT%", bot));
             }
         } else {
             myBots.addAll(plugin.ircBots.values());

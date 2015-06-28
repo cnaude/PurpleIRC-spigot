@@ -56,8 +56,8 @@ public class Msg implements IRCCommandInterface {
             int msgIdx = 2;
             String nick;
             java.util.List<PurpleBot> myBots = new ArrayList<>();
-            if (plugin.ircBots.containsKey(plugin.botify(args[1]))) {
-                myBots.add(plugin.ircBots.get(plugin.botify(args[1])));
+            if (plugin.ircBots.containsKey(args[1])) {
+                myBots.add(plugin.ircBots.get(args[1]));
                 msgIdx = 3;
                 nick = args[2];
             } else {
@@ -80,7 +80,7 @@ public class Msg implements IRCCommandInterface {
                     ircBot.msgPlayer((Player) sender, nick, msg.substring(1));
                 } else {
                     ircBot.consoleMsgPlayer(nick, msg.substring(1));
-                }
+                }                
                 if (!template.isEmpty()) {
                     sender.sendMessage(plugin.tokenizer.msgChatResponseTokenizer(nick, msg.substring(1), template));
                 }
@@ -88,21 +88,21 @@ public class Msg implements IRCCommandInterface {
         }
         else {
             sender.sendMessage(fullUsage);
-        }
     }
+}
 
-    @Override
-    public String name() {
+@Override
+        public String name() {
         return name;
     }
 
     @Override
-    public String desc() {
+        public String desc() {
         return desc;
     }
 
     @Override
-    public String usage() {
+        public String usage() {
         return usage;
     }
 }

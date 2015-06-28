@@ -49,7 +49,7 @@ public class Leave implements IRCCommandInterface {
     @Override
     public void dispatch(CommandSender sender, String[] args) {
         if (args.length >= 3) {
-            String bot = plugin.botify(args[1]);
+            String bot = args[1];
             String channelName = args[2];
             String reason = "";
             if (args.length >= 4) {

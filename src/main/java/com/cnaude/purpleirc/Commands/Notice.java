@@ -32,7 +32,7 @@ public class Notice implements IRCCommandInterface {
     private final String usage = "([bot]) [target] [message]";
     private final String desc = "Send notice message to the user or channel.";
     private final String name = "notice";
-    private final String fullUsage = ChatColor.WHITE + "Usage: " + ChatColor.GOLD + "/irc " + name + " " + usage;
+    private final String fullUsage = ChatColor.WHITE + "Usage: " + ChatColor.GOLD + "/irc " + name + " " + usage;     
 
     /**
      *

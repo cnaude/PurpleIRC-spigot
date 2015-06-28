@@ -49,7 +49,7 @@ public class Nick implements IRCCommandInterface {
     @Override
     public void dispatch(CommandSender sender, String[] args) {
         if (args.length == 3) {
-            String bot = plugin.botify(args[1]);
+            String bot = args[1];
             String nick = args[2];
             if (plugin.ircBots.containsKey(bot)) {
                 plugin.ircBots.get(bot).asyncChangeNick(sender, nick);

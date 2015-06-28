@@ -30,7 +30,7 @@ public class RemoveOp implements IRCCommandInterface {
     private final String usage = "[bot] [channel] [user mask]";
     private final String desc = "Remove a user mask from the auto-op list.";
     private final String name = "removeop";
-    private final String fullUsage = ChatColor.WHITE + "Usage: " + ChatColor.GOLD + "/irc " + name + " " + usage;
+    private final String fullUsage = ChatColor.WHITE + "Usage: " + ChatColor.GOLD + "/irc " + name + " " + usage; 
 
     /**
      *
@@ -48,7 +48,7 @@ public class RemoveOp implements IRCCommandInterface {
     @Override
     public void dispatch(CommandSender sender, String[] args) {
         if (args.length == 4) {
-            String bot = plugin.botify(args[1]);
+            String bot = args[1];
             String channel = args[2];
             if (plugin.ircBots.containsKey(bot)) {
                 // #channel, user

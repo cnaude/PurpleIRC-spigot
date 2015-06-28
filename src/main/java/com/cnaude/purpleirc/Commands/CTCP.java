@@ -31,7 +31,7 @@ public class CTCP implements IRCCommandInterface {
     private final String usage = "([bot]) [target] [command]";
     private final String desc = "Send CTCP command to the user or channel.";
     private final String name = "ctcp";
-    private final String fullUsage = ChatColor.WHITE + "Usage: " + ChatColor.GOLD + "/irc " + name + " " + usage;
+    private final String fullUsage = ChatColor.WHITE + "Usage: " + ChatColor.GOLD + "/irc " + name + " " + usage;    
 
     /**
      *
@@ -53,8 +53,9 @@ public class CTCP implements IRCCommandInterface {
             int msgIdx = 2;
             String target;
             java.util.List<PurpleBot> myBots = new ArrayList<>();
-            if (plugin.ircBots.containsKey(args[1])) {
-                myBots.add(plugin.ircBots.get(args[1]));
+            String bot = args[1];
+            if (plugin.ircBots.containsKey(bot)) {
+                myBots.add(plugin.ircBots.get(bot));
                 msgIdx = 3;
                 target = args[2];
             } else {
@@ -73,7 +74,7 @@ public class CTCP implements IRCCommandInterface {
                     msg = msg + " " + args[i];
                 }
                 ircBot.asyncCTCPCommand(target, msg.substring(1));
-                sender.sendMessage("Sent CTCP command \"" + msg.substring(1) + "\" to \"" + target + "\"");
+                sender.sendMessage("[CTCP -> \"" + msg.substring(1) + "\" to \"" + target + "\"]");
             }
         } else {
             sender.sendMessage(fullUsage);

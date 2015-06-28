@@ -24,13 +24,13 @@ import org.bukkit.command.CommandSender;
  *
  * @author cnaude
  */
-public class MessageDelay implements IRCCommandInterface {
+public class MessageDelay implements IRCCommandInterface  {
 
     private final PurpleIRC plugin;
     private final String usage = "[bot] [milliseconds]";
     private final String desc = "Change IRC message delay.";
     private final String name = "messagedelay";
-    private final String fullUsage = ChatColor.WHITE + "Usage: " + ChatColor.GOLD + "/irc " + name + " " + usage;
+    private final String fullUsage = ChatColor.WHITE + "Usage: " + ChatColor.GOLD + "/irc " + name + " " + usage; 
 
     /**
      *
@@ -49,7 +49,7 @@ public class MessageDelay implements IRCCommandInterface {
     public void dispatch(CommandSender sender, String[] args) {
         if (args.length == 3) {
             if (args[2].matches("\\d+")) {
-                String bot = plugin.botify(args[1]);
+                String bot = args[1];
                 if (plugin.ircBots.containsKey(bot)) {
                     long delay = Long.parseLong(args[2]);
                     plugin.ircBots.get(bot).setIRCDelay(sender, delay);
@@ -60,7 +60,7 @@ public class MessageDelay implements IRCCommandInterface {
                 sender.sendMessage(fullUsage);
             }
         } else if (args.length == 2) {
-            String bot = plugin.botify(args[1]);
+            String bot = args[1];
             if (plugin.ircBots.containsKey(bot)) {
                 sender.sendMessage(ChatColor.WHITE + "IRC message delay is currently "
                         + plugin.ircBots.get(bot).getMessageDelay() + " ms.");

@@ -20,10 +20,8 @@ import com.cnaude.purpleirc.Commands.*;
 import com.google.common.base.Joiner;
 import java.text.Collator;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
-import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -126,41 +124,12 @@ public class CommandHandlers implements CommandExecutor {
                     }
                     commands.get(subCmd).dispatch(sender, args);
                     return true;
-                }
-            }
-        } else if (commandLabel.equalsIgnoreCase("msg")) {
-            if (!sender.hasPermission("irc.smsg")) {
-                sender.sendMessage(plugin.noPermission);
-                return true;
-            }
-            if (args.length >= 1) {
-                ArrayList<String> list = new ArrayList<>();
-                list.add("smsg");
-                list.addAll(Arrays.asList(args));
-                plugin.logDebug("MSG: " + list);
-                commands.get("smsg").dispatch(sender, list.toArray(new String[list.size()]));
-                return true;
-            }
-        } else if (commandLabel.equalsIgnoreCase("r")) {
-            if (!sender.hasPermission("irc.smsg")) {
-                sender.sendMessage(plugin.noPermission);
-                return true;
-            }
-            if (plugin.privateMsgReply.containsKey(sender.getName())) {
-                if (args.length >= 1) {
-                    ArrayList<String> list = new ArrayList<>();
-                    list.add("smsg");
-                    list.add(plugin.privateMsgReply.get(sender.getName()));
-                    list.addAll(Arrays.asList(args));
-                    plugin.logDebug("R: " + list);
-                    commands.get("smsg").dispatch(sender, list.toArray(new String[list.size()]));
                 } else {
-                    sender.sendMessage(ChatColor.WHITE + "Usage: " + ChatColor.GOLD + "/r [message]");
+                    String s[] = {"help", subCmd};
+                    commands.get("help").dispatch(sender, s);
+                    return true;
                 }
-            } else {
-                sender.sendMessage(ChatColor.RED + "No messages received.");
             }
-            return true;
         }
         commands.get("help").dispatch(sender, args);
         return true;

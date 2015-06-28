@@ -33,7 +33,7 @@ public class SendRaw implements IRCCommandInterface {
     private final String usage = "([bot]) [message]";
     private final String desc = "Send raw message to the IRC server.";
     private final String name = "sendraw";
-    private final String fullUsage = ChatColor.WHITE + "Usage: " + ChatColor.GOLD + "/irc " + name + " " + usage;
+    private final String fullUsage = ChatColor.WHITE + "Usage: " + ChatColor.GOLD + "/irc " + name + " " + usage; 
 
     /**
      *
@@ -65,7 +65,7 @@ public class SendRaw implements IRCCommandInterface {
                     msg = msg + " " + args[i];
                 }
                 plugin.logDebug("Sending raw message to the server: " + msg.substring(1));
-                ircBot.asyncRawlineNow(msg.substring(1));
+                ircBot.asyncRawlineNow(msg.substring(1));                  
             }
         } else {
             sender.sendMessage(fullUsage);

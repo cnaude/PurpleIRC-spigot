@@ -50,7 +50,7 @@ public class AddOp implements IRCCommandInterface {
     @Override
     public void dispatch(CommandSender sender, String[] args) {
         if (args.length == 4) {
-            String bot = plugin.botify(args[1]);
+            String bot = args[1];
             String channelName = args[2];
             if (plugin.ircBots.containsKey(bot)) {
                 // #channel, user
@@ -68,7 +68,7 @@ public class AddOp implements IRCCommandInterface {
                     plugin.ircBots.get(bot).addOp(channelName, mask, sender);
                     plugin.ircBots.get(bot).opIrcUsers(channelName);
                 } else {
-                    sender.sendMessage(ChatColor.RED + "Invalid user or mask: "
+                    sender.sendMessage(ChatColor.RED + "Invalid user or mask: " 
                             + ChatColor.WHITE + mask);
                 }
             } else {

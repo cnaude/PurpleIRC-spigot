@@ -56,8 +56,8 @@ public class SMsg implements IRCCommandInterface {
             int msgIdx = 2;
             String target;
             java.util.List<PurpleBot> myBots = new ArrayList<>();
-            if (plugin.ircBots.containsKey(plugin.botify(args[1]))) {
-                myBots.add(plugin.ircBots.get(plugin.botify(args[1])));
+            if (plugin.ircBots.containsKey(args[1])) {
+                myBots.add(plugin.ircBots.get(args[1]));
                 msgIdx = 3;
                 target = args[2];
             } else {

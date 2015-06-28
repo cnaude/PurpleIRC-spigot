@@ -30,7 +30,7 @@ public class Join implements IRCCommandInterface {
     private final String usage = "[bot] [channel] ([password])";
     private final String desc = "Join IRC channel.";
     private final String name = "join";
-    private final String fullUsage = ChatColor.WHITE + "Usage: " + ChatColor.GOLD + "/irc " + name + " " + usage;
+    private final String fullUsage = ChatColor.WHITE + "Usage: " + ChatColor.GOLD + "/irc " + name + " " + usage; 
 
     /**
      *
@@ -48,7 +48,7 @@ public class Join implements IRCCommandInterface {
     @Override
     public void dispatch(CommandSender sender, String[] args) {
         if (args.length >= 3) {
-            String bot = plugin.botify(args[1]);
+            String bot = args[1];
             String channelName = args[2];
             String password = "";
             if (args.length >= 4) {

@@ -52,7 +52,7 @@ public class Link implements IRCCommandInterface {
     @Override
     public void dispatch(CommandSender sender, String[] args) {
         if (args.length >= 3) {
-            String bot1 = plugin.botify(args[1]);
+            String bot1 = args[1];
             String bot2 = args[2];
             if (plugin.ircBots.containsKey(bot1)) {
                 PurpleBot ircBot = plugin.ircBots.get(bot1);

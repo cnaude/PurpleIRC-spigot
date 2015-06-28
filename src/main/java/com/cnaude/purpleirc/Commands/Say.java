@@ -30,7 +30,7 @@ public class Say implements IRCCommandInterface {
     private final String usage = "[bot] [channel] [message]";
     private final String desc = "Make the bot speak.";
     private final String name = "say";
-    private final String fullUsage = ChatColor.WHITE + "Usage: " + ChatColor.GOLD + "/irc " + name + " " + usage;
+    private final String fullUsage = ChatColor.WHITE + "Usage: " + ChatColor.GOLD + "/irc " + name + " " + usage; 
 
     /**
      *
@@ -48,7 +48,7 @@ public class Say implements IRCCommandInterface {
     @Override
     public void dispatch(CommandSender sender, String[] args) {
         if (args.length >= 4) {
-            String bot = plugin.botify(args[1]);
+            String bot = args[1];
             String channelName = args[2];
             if (plugin.ircBots.containsKey(bot)) {
                 String msg = "";

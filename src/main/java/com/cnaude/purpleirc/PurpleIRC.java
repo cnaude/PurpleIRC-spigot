@@ -54,6 +54,7 @@ import com.cnaude.purpleirc.Hooks.VaultHook;
 import com.cnaude.purpleirc.Utilities.CaseInsensitiveMap;
 import com.cnaude.purpleirc.Utilities.ChatTokenizer;
 import com.cnaude.purpleirc.Utilities.ColorConverter;
+import com.cnaude.purpleirc.Utilities.CompatChecker;
 import com.cnaude.purpleirc.Utilities.NetPackets;
 import com.cnaude.purpleirc.Utilities.Query;
 import com.cnaude.purpleirc.Utilities.RegexGlobber;
@@ -71,14 +72,10 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.lang.management.ManagementFactory;
-import java.lang.reflect.Constructor;
-import java.lang.reflect.Field;
-import java.lang.reflect.InvocationTargetException;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.text.Collator;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -88,17 +85,13 @@ import java.util.UUID;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.apache.commons.codec.binary.Base64;
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.OfflinePlayer;
-import org.bukkit.command.CommandMap;
 import org.bukkit.command.CommandSender;
-import org.bukkit.command.PluginCommand;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
-import org.bukkit.plugin.SimplePluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.pircbotx.IdentServer;
 
@@ -225,9 +218,11 @@ public class PurpleIRC extends JavaPlugin {
     final String PL_HEROCHAT = "Herochat";
     List<String> hookList = new ArrayList<>();
     public static final String PURPLETAG = "UHVycGxlSVJDCg==";
-    public static final String TOWNYTAG = "VG93bnlDaGF0Cg==";    
+    public static final String TOWNYTAG = "VG93bnlDaGF0Cg==";
     public static final String LINK_CMD = "PurpleIRC-Link:";
     public boolean overrideMsgCmd = false;
+    public String smsgAlias = "/m";
+    public String smsgReplyAlias = "/r";
     public CaseInsensitiveMap<String> privateMsgReply;
 
     public PurpleIRC() {
@@ -256,9 +251,8 @@ public class PurpleIRC extends JavaPlugin {
     @Override
     public void onEnable() {
         LOG_HEADER = "[" + this.getName() + "]";
-        LOG_HEADER_F = ChatColor.DARK_PURPLE + "[" + this.getName() + "]" + ChatColor.RESET;
-        if (!getServer().getVersion().contains("Spigot")) {
-            logError("This plugin is only compatible with Spigot. Please download the CraftBukkit version from the BukkitDev site.");
+        LOG_HEADER_F = ChatColor.LIGHT_PURPLE + "[" + this.getName() + "]" + ChatColor.RESET;
+        if (!CompatChecker.isCompatible(this)) {
             this.getPluginLoader().disablePlugin(this);
             return;
         }
@@ -297,11 +291,6 @@ public class PurpleIRC extends JavaPlugin {
         ircTabCompleter = new PurpleTabCompleter(this);
         getCommand("irc").setExecutor(commandHandlers);
         getCommand("irc").setTabCompleter(ircTabCompleter);
-        if (overrideMsgCmd) {
-            registerCommand("msg", "r");
-            getCommand("msg").setExecutor(commandHandlers);
-            getCommand("r").setExecutor(commandHandlers);
-        }
         regexGlobber = new RegexGlobber();
         tokenizer = new ChatTokenizer(this);
         loadBots();
@@ -588,6 +577,8 @@ public class PurpleIRC extends JavaPlugin {
             logError(ex.getMessage());
         }
         overrideMsgCmd = getConfig().getBoolean("override-msg-cmd", false);
+        smsgAlias = getConfig().getString("smsg-alias", "/m");
+        smsgReplyAlias = getConfig().getString("smsg-reply-alias", "/r");
         updateCheckerEnabled = getConfig().getBoolean("update-checker", true);
         updateCheckerMode = getConfig().getString("update-checker-mode", "stable");
         debugEnabled = getConfig().getBoolean("Debug");
@@ -642,16 +633,37 @@ public class PurpleIRC extends JavaPlugin {
             logInfo("Checking for bot files in " + botsFolder);
             for (final File file : botsFolder.listFiles()) {
                 if (file.getName().toLowerCase().endsWith(".yml")) {
-                    logInfo("Loading bot file: " + file.getName());
-                    PurpleBot ircBot = new PurpleBot(file, this);
-                    if (ircBot.goodBot) {
-                        ircBots.put(file.getName(), ircBot);
-                        logInfo("Loaded bot: " + file.getName() + " [" + ircBot.botNick + "]");
-                    } else {
-                        logError("Bot not loaded: " + file.getName());
-                    }
+                    loadBot(getServer().getConsoleSender(), file);
                 }
             }
+        }
+    }
+
+    public void loadBot(CommandSender sender, File file) {
+        String fileName = file.getName();
+        if (fileName.toLowerCase().endsWith(".yml")) {
+            if (file.exists()) {
+                String bot = fileName.replaceAll("(?i).yml", "");
+                if (ircBots.containsKey(bot)) {
+                    sender.sendMessage(ChatColor.RED + "Sorry that bot is already loaded. Try to unload it first.");
+                    return;
+                }
+                sender.sendMessage(ChatColor.WHITE + "Loading " + fileName + "...");
+                PurpleBot ircBot = new PurpleBot(file, this);
+                if (ircBot.goodBot) {
+                    ircBots.put(bot, ircBot);
+                    sender.sendMessage(LOG_HEADER_F + " " + ChatColor.WHITE + "Bot loaded from " + fileName
+                            + ChatColor.LIGHT_PURPLE + " [" + ChatColor.WHITE + ircBot.botNick + ChatColor.LIGHT_PURPLE + "/"
+                            + ChatColor.WHITE + ircBot.botServer + ChatColor.LIGHT_PURPLE + ":"
+                            + ChatColor.WHITE + ircBot.botServerPort + ChatColor.LIGHT_PURPLE + "]");
+                } else {
+                    logError("Unable to load " + fileName);
+                }
+            } else {
+                sender.sendMessage(ChatColor.RED + "No such bot file: " + ChatColor.WHITE + fileName);
+            }
+        } else {
+            sender.sendMessage(ChatColor.RED + "Invalid file name.");
         }
     }
 
@@ -1381,14 +1393,6 @@ public class PurpleIRC extends JavaPlugin {
         }
     }
 
-    public String botify(String bot) {
-        if (bot.toLowerCase().endsWith("yml")) {
-            return bot;
-        } else {
-            return bot + ".yml";
-        }
-    }
-
     public boolean isUpdateCheckerEnabled() {
         return updateCheckerEnabled;
     }
@@ -1565,10 +1569,10 @@ public class PurpleIRC extends JavaPlugin {
     }
 
     public void getPurpleHooks(CommandSender sender, boolean colors) {
-        String header = ChatColor.DARK_PURPLE + "-----[" + ChatColor.WHITE
-                + " PurpleIRC " + ChatColor.DARK_PURPLE
-                + "-" + ChatColor.WHITE + " Plugin Hooks " + ChatColor.DARK_PURPLE + "]-----";
-        String footer = ChatColor.DARK_PURPLE + "-------------------------------------";
+        String header = ChatColor.LIGHT_PURPLE + "-----[" + ChatColor.WHITE
+                + " PurpleIRC " + ChatColor.LIGHT_PURPLE
+                + "-" + ChatColor.WHITE + " Plugin Hooks " + ChatColor.LIGHT_PURPLE + "]-----";
+        String footer = ChatColor.LIGHT_PURPLE + "-------------------------------------";
         if (colors) {
             sender.sendMessage(header);
         } else {
@@ -1615,56 +1619,15 @@ public class PurpleIRC extends JavaPlugin {
 
     /**
      * Generic player counter. CB uses Player[] and Spigot uses List<>().
-    */
+     *
+     * @return
+     */
     public int getOnlinePlayerCount() {
         int count = 0;
         for (Player player : getServer().getOnlinePlayers()) {
             count++;
-}
+        }
         return count;
-    }
-
-    /*
-    * https://bukkit.org/threads/tutorial-registering-commands-at-runtime.158461/
-    */
-    public void registerCommand(String... aliases) {
-        PluginCommand command = getCommand(aliases[0], this);
-
-        command.setAliases(Arrays.asList(aliases));
-        getCommandMap().register(this.getDescription().getName(), command);
-}
-
-    private PluginCommand getCommand(String name, Plugin plugin) {
-        logInfo("Registering command: " + name);
-        PluginCommand command = null;
-
-        try {
-            Constructor<PluginCommand> c = PluginCommand.class.getDeclaredConstructor(String.class, Plugin.class);
-            c.setAccessible(true);
-
-            command = c.newInstance(name, plugin);
-        } catch (SecurityException | IllegalArgumentException | IllegalAccessException | InstantiationException | InvocationTargetException | NoSuchMethodException e) {
-            logError(e.getMessage());
-        }
-
-        return command;
-    }
-
-    private CommandMap getCommandMap() {
-        CommandMap commandMap = null;
-
-        try {
-            if (Bukkit.getPluginManager() instanceof SimplePluginManager) {
-                Field f = SimplePluginManager.class.getDeclaredField("commandMap");
-                f.setAccessible(true);
-
-                commandMap = (CommandMap) f.get(Bukkit.getPluginManager());
-            }
-        } catch (NoSuchFieldException | SecurityException | IllegalArgumentException | IllegalAccessException e) {
-            logError(e.getMessage());
-        }
-
-        return commandMap;
     }
 
 }

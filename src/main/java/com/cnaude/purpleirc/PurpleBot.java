@@ -85,7 +85,7 @@ public final class PurpleBot {
 
     protected boolean goodBot;
     public final PurpleIRC plugin;
-    private final File file;
+    public final File file;
     private YamlConfiguration config;
     private boolean connected;
     public boolean autoConnect;
@@ -640,9 +640,9 @@ public final class PurpleBot {
      * @param newLogin
      */
     public void changeLogin(CommandSender sender, String newLogin) {
-        sender.sendMessage(ChatColor.DARK_PURPLE
+        sender.sendMessage(ChatColor.LIGHT_PURPLE
                 + "Login set to " + ChatColor.WHITE
-                + newLogin + ChatColor.DARK_PURPLE
+                + newLogin + ChatColor.LIGHT_PURPLE
                 + ". Reload the bot for the change to take effect.");
         saveConfig("login", newLogin);
     }
@@ -1035,9 +1035,9 @@ public final class PurpleBot {
      */
     public void setIRCDelay(CommandSender sender, long delay) {
         saveConfig("message-delay", delay);
-        sender.sendMessage(ChatColor.DARK_PURPLE
+        sender.sendMessage(ChatColor.LIGHT_PURPLE
                 + "IRC message delay changed to "
-                + ChatColor.WHITE + delay + ChatColor.DARK_PURPLE + " ms. "
+                + ChatColor.WHITE + delay + ChatColor.LIGHT_PURPLE + " ms. "
                 + "Reload for the change to take effect.");
     }
 
@@ -2067,7 +2067,7 @@ public final class PurpleBot {
     public void sendTopic(CommandSender sender) {
         for (String channelName : botChannels) {
             if (commandMap.containsKey(channelName)) {
-                sender.sendMessage(ChatColor.WHITE + "[" + ChatColor.DARK_PURPLE
+                sender.sendMessage(ChatColor.WHITE + "[" + ChatColor.LIGHT_PURPLE
                         + botNick + ChatColor.WHITE + "]" + ChatColor.RESET
                         + " IRC topic for " + ChatColor.WHITE + channelName
                         + ChatColor.RESET + ": \""
@@ -2134,8 +2134,8 @@ public final class PurpleBot {
                     + ChatColor.WHITE + channelName);
             return;
         }
-        sender.sendMessage(ChatColor.DARK_PURPLE + "-----[  " + ChatColor.WHITE + channelName
-                + ChatColor.DARK_PURPLE + " - " + ChatColor.WHITE + bot.getNick() + ChatColor.DARK_PURPLE + " ]-----");
+        sender.sendMessage(ChatColor.LIGHT_PURPLE + "-----[  " + ChatColor.WHITE + channelName
+                + ChatColor.LIGHT_PURPLE + " - " + ChatColor.WHITE + bot.getNick() + ChatColor.LIGHT_PURPLE + " ]-----");
         if (!this.isConnected()) {
             sender.sendMessage(ChatColor.RED + " Not connected!");
             return;
@@ -2148,7 +2148,7 @@ public final class PurpleBot {
                 n = n + ChatColor.GRAY + " | Away | " + user.getAwayMessage();
             }
             if (n.equals(bot.getNick())) {
-                n = ChatColor.DARK_PURPLE + n;
+                n = ChatColor.LIGHT_PURPLE + n;
             }
             channelUsers.add(n);
         }

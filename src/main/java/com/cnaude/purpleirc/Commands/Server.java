@@ -16,6 +16,7 @@
  */
 package com.cnaude.purpleirc.Commands;
 
+import com.cnaude.purpleirc.PurpleBot;
 import com.cnaude.purpleirc.PurpleIRC;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
@@ -30,7 +31,7 @@ public class Server implements IRCCommandInterface {
     private final String usage = "[bot] [server] ([true|false])";
     private final String desc = "Set IRC server hostname. Optionally set autoconnect.";
     private final String name = "server";
-    private final String fullUsage = ChatColor.WHITE + "Usage: " + ChatColor.GOLD + "/irc " + name + " " + usage;
+    private final String fullUsage = ChatColor.WHITE + "Usage: " + ChatColor.GOLD + "/irc " + name + " " + usage; 
 
     /**
      *
@@ -48,7 +49,7 @@ public class Server implements IRCCommandInterface {
     @Override
     public void dispatch(CommandSender sender, String[] args) {
         if (args.length >= 3) {
-            String bot = plugin.botify(args[1]);
+            String bot = args[1];
             String server = args[2];
             if (plugin.ircBots.containsKey(bot)) {
                 if (args.length == 3) {
@@ -58,6 +59,17 @@ public class Server implements IRCCommandInterface {
                 }
             } else {
                 sender.sendMessage(plugin.invalidBotName.replace("%BOT%", bot));
+            }
+        } else if (args.length == 2) {
+            if (args[1].equals("info")) {
+                for (PurpleBot ircBot : plugin.ircBots.values()) {
+                    sender.sendMessage(ChatColor.LIGHT_PURPLE + "-----[  " 
+                            + ChatColor.WHITE + "IRC Servers" + ChatColor.LIGHT_PURPLE + "   ]-----");
+                    sender.sendMessage(ChatColor.LIGHT_PURPLE + "* " + ChatColor.WHITE + ircBot.botNick);
+                    sender.sendMessage(ChatColor.LIGHT_PURPLE + " Server     : " + ChatColor.WHITE + ircBot.botServer);
+                    sender.sendMessage(ChatColor.LIGHT_PURPLE + " Port       : " + ChatColor.WHITE + ircBot.botServerPort);
+                    sender.sendMessage(ChatColor.LIGHT_PURPLE + " SSL Cipher : " + ChatColor.WHITE + ircBot.sslInfo);
+                }
             }
         } else {
             sender.sendMessage(fullUsage);

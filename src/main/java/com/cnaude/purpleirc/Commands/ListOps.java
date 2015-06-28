@@ -30,7 +30,7 @@ public class ListOps implements IRCCommandInterface {
     private final String usage = "[bot] [channel]";
     private final String desc = "List IRC user mask in auto-op list.";
     private final String name = "listops";
-    private final String fullUsage = ChatColor.WHITE + "Usage: " + ChatColor.GOLD + "/irc " + name + " " + usage;
+    private final String fullUsage = ChatColor.WHITE + "Usage: " + ChatColor.GOLD + "/irc " + name + " " + usage; 
 
     /**
      *
@@ -48,12 +48,12 @@ public class ListOps implements IRCCommandInterface {
     @Override
     public void dispatch(CommandSender sender, String[] args) {
         if (args.length == 3) {
-            String bot = plugin.botify(args[1]);
+            String bot = args[1];
             String channelName = args[2];
             if (plugin.ircBots.containsKey(bot)) {
                 if (plugin.ircBots.get(bot).opsList.containsKey(channelName)) {
-                    sender.sendMessage(ChatColor.DARK_PURPLE + "-----[  " + ChatColor.WHITE + channelName
-                            + ChatColor.DARK_PURPLE + " - " + ChatColor.WHITE + "Auto Op Masks" + ChatColor.DARK_PURPLE + " ]-----");
+                    sender.sendMessage(ChatColor.LIGHT_PURPLE + "-----[  " + ChatColor.WHITE + channelName
+                            + ChatColor.LIGHT_PURPLE + " - " + ChatColor.WHITE + "Auto Op Masks" + ChatColor.LIGHT_PURPLE + " ]-----");
                     for (String userMask : plugin.ircBots.get(bot).opsList.get(channelName)) {
                         sender.sendMessage(" - " + userMask);
                     }

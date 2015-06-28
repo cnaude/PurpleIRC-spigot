@@ -57,11 +57,11 @@ public class WhoisListener extends ListenerAdapter {
         }
         CommandSender sender = ircBot.whoisSenders.remove(0);
 
-        sender.sendMessage(ChatColor.DARK_PURPLE + "----[ " + ChatColor.WHITE + "Whois" + ChatColor.DARK_PURPLE + " ]----");
-        sender.sendMessage(ChatColor.DARK_PURPLE + "Nick: " + ChatColor.WHITE + event.getNick());
-        sender.sendMessage(ChatColor.DARK_PURPLE + "Username: " + ChatColor.WHITE + event.getLogin() + "@" + event.getHostname());
-        sender.sendMessage(ChatColor.DARK_PURPLE + "Real name: " + ChatColor.WHITE + event.getRealname());
-        sender.sendMessage(ChatColor.DARK_PURPLE + "Server: " + ChatColor.WHITE + event.getServer());
+        sender.sendMessage(ChatColor.LIGHT_PURPLE + "----[ " + ChatColor.WHITE + "Whois" + ChatColor.LIGHT_PURPLE + " ]----");
+        sender.sendMessage(ChatColor.LIGHT_PURPLE + "Nick: " + ChatColor.WHITE + event.getNick());
+        sender.sendMessage(ChatColor.LIGHT_PURPLE + "Username: " + ChatColor.WHITE + event.getLogin() + "@" + event.getHostname());
+        sender.sendMessage(ChatColor.LIGHT_PURPLE + "Real name: " + ChatColor.WHITE + event.getRealname());
+        sender.sendMessage(ChatColor.LIGHT_PURPLE + "Server: " + ChatColor.WHITE + event.getServer());
         User user = null;
         for (Channel channel : ircBot.getBot().getUserBot().getChannels()) {
             for (User u : channel.getUsers()) {
@@ -73,7 +73,7 @@ public class WhoisListener extends ListenerAdapter {
         }
         if (user != null) {
             if (user.isAway()) {
-                sender.sendMessage(ChatColor.DARK_PURPLE + "Away: " + ChatColor.WHITE + user.getAwayMessage());
+                sender.sendMessage(ChatColor.LIGHT_PURPLE + "Away: " + ChatColor.WHITE + user.getAwayMessage());
             }
         }
         if (!event.getChannels().isEmpty()) {
@@ -82,11 +82,11 @@ public class WhoisListener extends ListenerAdapter {
                 sb.append(" ");
                 sb.append(channel);
             }
-            sender.sendMessage(ChatColor.DARK_PURPLE + "Currently on:" + ChatColor.WHITE + sb.toString());
+            sender.sendMessage(ChatColor.LIGHT_PURPLE + "Currently on:" + ChatColor.WHITE + sb.toString());
         }
-        sender.sendMessage(ChatColor.DARK_PURPLE + "Idle: " + ChatColor.WHITE + secondsToTime(event.getIdleSeconds()));
-        sender.sendMessage(ChatColor.DARK_PURPLE + "Online since: " + ChatColor.WHITE + secondsToDate(event.getSignOnTime()));
-        sender.sendMessage(ChatColor.DARK_PURPLE + "----[ " + ChatColor.WHITE + "End Whois" + ChatColor.DARK_PURPLE + " ]----");
+        sender.sendMessage(ChatColor.LIGHT_PURPLE + "Idle: " + ChatColor.WHITE + secondsToTime(event.getIdleSeconds()));
+        sender.sendMessage(ChatColor.LIGHT_PURPLE + "Online since: " + ChatColor.WHITE + secondsToDate(event.getSignOnTime()));
+        sender.sendMessage(ChatColor.LIGHT_PURPLE + "----[ " + ChatColor.WHITE + "End Whois" + ChatColor.LIGHT_PURPLE + " ]----");
     }
 
     private String secondsToDate(long sec) {

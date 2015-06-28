@@ -73,7 +73,7 @@ public class DeOp implements IRCCommandInterface {
                     }
                 }
             }
-        }
+        }    
     }
 
     @Override

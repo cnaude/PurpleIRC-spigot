@@ -14,6 +14,10 @@ enable-ident-server: false
 channel-check-interval: 100
 # Alias /irc smsg to /msg
 override-msg-cmd: false
+# Alias for /irc smsg
+smsg-alias: '/m'
+# Alias for /irc smsg <prev player>
+smsg-reply-alias: '/r'
 # Chat messages support standard Bukkit color codes using '&#'. See http://minecraft.gamepedia.com/Formatting_codes
 # The following macro tokens are also supported.
 #  %WORLD%
