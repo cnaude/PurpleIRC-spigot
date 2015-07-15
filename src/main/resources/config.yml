@@ -278,6 +278,7 @@ irc-color-map:
     YELLOW: YELLOW
     WHITE: WHITE
     RESET: NORMAL
+    ITALIC: ITALIC
 # IRC to game color map: IRC Color Code => Game Color Code
 game-color-map:
     BLACK: BLACK
@@ -299,6 +300,7 @@ game-color-map:
     UNDERLINE: UNDERLINE
     WHITE: WHITE
     YELLOW: YELLOW
+    ITALIC: ITALIC
 Debug: false
 # Ignore chat cancellation.
 ignore-chat-cancel: false
