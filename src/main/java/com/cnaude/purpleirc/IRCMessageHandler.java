@@ -184,6 +184,15 @@ public class IRCMessageHandler {
                                 if (gameCommand.contains("%ARGS%")) {
                                     gameCommand = gameCommand.replace("%ARGS%", commandArgs);
                                 }
+                                
+                                if (gameCommand.matches(".*%ARG\\d+%.*")) {
+                                    String commandArgsArray[] = commandArgs.split(" ");
+                                    for (int i = 0; i < commandArgsArray.length; i ++) {
+                                        gameCommand = gameCommand.replace("%ARG" + (i + 1) + "%", commandArgsArray[i]);
+                                    }
+                                    gameCommand = gameCommand.replaceAll("%ARG\\d+%", "");
+                                } 
+                                
                                 if (gameCommand.contains("%NAME%")) {
                                     gameCommand = gameCommand.replace("%NAME%", user.getNick());
                                 }
