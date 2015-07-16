@@ -1491,9 +1491,14 @@ public class PurpleIRC extends JavaPlugin {
             hookList.add(hookFormat(PL_FACTIONCHAT, false));
         }
         if (isPluginEnabled(PL_ADMINPRIVATECHAT)) {
-            hookList.add(hookFormat(PL_ADMINPRIVATECHAT, true));
-            adminPrivateChatHook = new AdminPrivateChatHook(this);
-            getServer().getPluginManager().registerEvents(new AdminChatListener(this), this);
+            if (getServer().getPluginManager().getPlugin(PL_ADMINPRIVATECHAT)
+                    .getDescription().getAuthors().contains("cnaude")) {
+                hookList.add(hookFormat(PL_ADMINPRIVATECHAT, true));
+                adminPrivateChatHook = new AdminPrivateChatHook(this);
+                getServer().getPluginManager().registerEvents(new AdminChatListener(this), this);
+            } else {
+                logError(PL_ADMINPRIVATECHAT + "Version not supported. Please use the latest version from http://jenkins.cnaude.org/job/AdminPrivateChat/");
+            }
         } else {
             hookList.add(hookFormat(PL_ADMINPRIVATECHAT, false));
         }
