@@ -26,7 +26,7 @@ import com.cnaude.purpleirc.PurpleIRC;
 public class AdminPrivateChatHook {
 
     private final PurpleIRC plugin;
-    private final AdminChat ac;
+    public final AdminChat ac;
 
     /**
      *
