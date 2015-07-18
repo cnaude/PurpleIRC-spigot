@@ -55,7 +55,8 @@ public class Say implements IRCCommandInterface {
                 for (int i = 3; i < args.length; i++) {
                     msg = msg + " " + args[i];
                 }
-                plugin.ircBots.get(bot).asyncIRCMessage(channelName, msg.substring(1));
+                msg = plugin.colorConverter.gameColorsToIrc(ChatColor.translateAlternateColorCodes('&', msg.substring(1)));
+                plugin.ircBots.get(bot).asyncIRCMessage(channelName, msg);
             } else {
                 sender.sendMessage(plugin.invalidBotName.replace("%BOT%", bot));
             }
