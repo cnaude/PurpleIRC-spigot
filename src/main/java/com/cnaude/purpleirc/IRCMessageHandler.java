@@ -20,8 +20,11 @@ import com.cnaude.purpleirc.Utilities.CaseInsensitiveMap;
 import com.google.common.base.Joiner;
 import java.text.Collator;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import org.bukkit.entity.Player;
 import org.pircbotx.Channel;
 import org.pircbotx.User;
@@ -98,6 +101,7 @@ public class IRCMessageHandler {
                 }
 
                 String gc = (String) ircBot.commandMap.get(channelName).get(command).get("game_command");
+                String gcUsage = (String) ircBot.commandMap.get(channelName).get(command).get("game_command_usage");
                 List<String> extraCommands = ircBot.extraCommandMap.get(channelName).get(command);
                 List<String> gameCommands = new ArrayList<>();
                 gameCommands.add(gc);
@@ -115,6 +119,7 @@ public class IRCMessageHandler {
                 plugin.logDebug("Target: " + target);
 
                 if (isValidMode(modes, user, channel) && checkPerm(perm, user.getNick())) {
+                    gc_loop:
                     for (String gameCommand : gameCommands) {
                         switch (gameCommand) {
                             case "@list":
@@ -184,8 +189,13 @@ public class IRCMessageHandler {
                                 if (commandArgs == null) {
                                     commandArgs = "";
                                 }
+
                                 if (gameCommand.contains("%ARGS%")) {
                                     gameCommand = gameCommand.replace("%ARGS%", commandArgs);
+                                }
+
+                                if (gameCommand.contains("%NAME%")) {
+                                    gameCommand = gameCommand.replace("%NAME%", user.getNick());
                                 }
 
                                 if (gameCommand.matches(".*%ARG\\d+%.*")) {
@@ -193,12 +203,26 @@ public class IRCMessageHandler {
                                     for (int i = 0; i < commandArgsArray.length; i++) {
                                         gameCommand = gameCommand.replace("%ARG" + (i + 1) + "%", commandArgsArray[i]);
                                     }
-                                    gameCommand = gameCommand.replaceAll("%ARG\\d+%", "");
                                 }
 
-                                if (gameCommand.contains("%NAME%")) {
-                                    gameCommand = gameCommand.replace("%NAME%", user.getNick());
+                                Pattern pattern = Pattern.compile(".*%ARG(\\d+)\\+%.*");
+                                Matcher matcher = pattern.matcher(gameCommand);
+                                if (matcher.matches()) {
+                                    String commandArgsArray[] = commandArgs.split(" ");
+                                    int startPos = Integer.valueOf(matcher.group(1));
+                                    if (commandArgsArray.length >= startPos) {
+                                        gameCommand = gameCommand.replace("%ARG" + startPos + "+%",
+                                                Joiner.on(" ").join(Arrays.copyOfRange(commandArgsArray, startPos - 1, commandArgsArray.length)));
                                 }
+                                }
+
+                                if (gameCommand.matches(".*%ARG\\d+%.*")
+                                        || gameCommand.matches(".*%ARG(\\d+)\\+%.*")
+                                        || gameCommand.contains("%ARGS%")) {
+                                    plugin.logDebug("GM BAIL: \"" + gameCommand.trim() + "\"");
+                                    ircBot.asyncIRCMessage(target, gcUsage);
+                                    break gc_loop;
+                                } else {
                                 plugin.logDebug("GM: \"" + gameCommand.trim() + "\"");
                                 try {
                                     plugin.commandQueue.add(new IRCCommand(
@@ -207,6 +231,7 @@ public class IRCMessageHandler {
                                             gameCommand.trim()));
                                 } catch (Exception ex) {
                                     plugin.logError(ex.getMessage());
+                                }
                                 }
                                 break;
                         }

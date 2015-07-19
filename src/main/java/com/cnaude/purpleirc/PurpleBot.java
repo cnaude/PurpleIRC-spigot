@@ -990,6 +990,7 @@ public final class PurpleBot {
                             optionPair.put("private", config.getString(commandKey + "private", "false"));
                             optionPair.put("ctcp", config.getString(commandKey + "ctcp", "false"));
                             optionPair.put("game_command", config.getString(commandKey + "game_command", ""));
+                            optionPair.put("game_command_usage", config.getString(commandKey + "game_command_usage", ""));
                             optionPair.put("sender", config.getString(commandKey + "sender", "CONSOLE"));
                             extraCommands.addAll(config.getStringList(commandKey + "extra_commands"));
                             plugin.logDebug("extra_commands: " + extraCommands.toString());
