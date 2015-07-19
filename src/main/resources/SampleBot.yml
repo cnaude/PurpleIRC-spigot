@@ -386,3 +386,16 @@ channels:
 #        game_command: 'gamemode %ARGS%'
 #        private_listen: true
 #        channel_listen: true
+## Sample of %ARGX% and %ARGX+% with game_command_usage
+#      mute:
+#        modes: o
+#        private: 'false'
+#        ctcp: 'false'
+#        game_command: mute %ARG1% %ARG2% %ARG3+%
+#        extra_commands:
+#        - 'irc say SpigBot #PurpleIRC Muted %ARG1% for %ARG2%. [Reason %ARG3+%]'
+#        game_command_usage: 'Usage: .mute <player> <time> <reason>'
+#        private_listen: 'true'
+#        channel_listen: 'true'
+#        perm: ''
+#        sender: CONSOLE
