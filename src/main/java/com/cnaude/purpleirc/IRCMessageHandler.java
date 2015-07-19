@@ -25,6 +25,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import net.md_5.bungee.api.ChatColor;
 import org.bukkit.entity.Player;
 import org.pircbotx.Channel;
 import org.pircbotx.User;
@@ -220,7 +221,8 @@ public class IRCMessageHandler {
                                         || gameCommand.matches(".*%ARG(\\d+)\\+%.*")
                                         || gameCommand.contains("%ARGS%")) {
                                     plugin.logDebug("GM BAIL: \"" + gameCommand.trim() + "\"");
-                                    ircBot.asyncIRCMessage(target, gcUsage);
+                                    ircBot.asyncIRCMessage(target, plugin.colorConverter.gameColorsToIrc(
+                                            ChatColor.translateAlternateColorCodes('&', gcUsage)));
                                     break gc_loop;
                                 } else {
                                 plugin.logDebug("GM: \"" + gameCommand.trim() + "\"");
