@@ -1065,6 +1065,9 @@ public final class PurpleBot {
         if (!this.isConnected()) {
             return;
         }
+        if (plugin.isMuted(player)) {
+            return;
+        }
         if (floodChecker.isSpam(player)) {
             sendFloodWarning(player);
             return;
@@ -1684,6 +1687,9 @@ public final class PurpleBot {
      */
     public void gameAction(Player player, String message) {
         if (!this.isConnected()) {
+            return;
+        }
+        if (plugin.isMuted(player)) {
             return;
         }
         if (floodChecker.isSpam(player)) {
@@ -2691,6 +2697,9 @@ public final class PurpleBot {
     public void playerCrossChat(User user, String from, String pName, String msg) {
         if (true) {
             Player player = plugin.getServer().getPlayer(pName);
+            if (plugin.isMuted(player)) {
+                return;
+            }
             if (player != null) {
                 if (player.isOnline()) {
                     plugin.logDebug("Yup, " + pName + " is a valid player...");

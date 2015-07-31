@@ -325,6 +325,13 @@
             <version>5.0.1</version>
         </dependency>
         
+        <!-- GriefPrevention -->
+        <dependency>
+            <groupId>com.cnaude.griefprevention</groupId>
+            <artifactId>GriefPrevention</artifactId>
+            <version>11.9</version>
+        </dependency>
+        
         <!-- Testing only -->
         <dependency>
             <groupId>junit</groupId>

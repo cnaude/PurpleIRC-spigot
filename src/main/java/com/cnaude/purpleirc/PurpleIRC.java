@@ -43,6 +43,7 @@ import com.cnaude.purpleirc.Hooks.AdminPrivateChatHook;
 import com.cnaude.purpleirc.Hooks.CommandBookHook;
 import com.cnaude.purpleirc.Hooks.DynmapHook;
 import com.cnaude.purpleirc.Hooks.FactionChatHook;
+import com.cnaude.purpleirc.Hooks.GriefPreventionHook;
 import com.cnaude.purpleirc.Hooks.JobsHook;
 import com.cnaude.purpleirc.Hooks.McMMOChatHook;
 import com.cnaude.purpleirc.Hooks.ReportRTSHook;
@@ -175,6 +176,7 @@ public class PurpleIRC extends JavaPlugin {
     public DynmapHook dynmapHook;
     public JobsHook jobsHook;
     public AdminPrivateChatHook adminPrivateChatHook;
+    public GriefPreventionHook griefPreventionHook;
     public ShortifyHook shortifyHook;
     public ReportRTSHook reportRTSHook;
     public CommandBookHook commandBookHook;
@@ -216,6 +218,7 @@ public class PurpleIRC extends JavaPlugin {
     final String PL_PRISM = "Prism";
     final String PL_TITANCHAT = "TitanChat";
     final String PL_HEROCHAT = "Herochat";
+    final String PL_GRIEFPREVENTION = "GriefPrevention";
     List<String> hookList = new ArrayList<>();
     public static final String PURPLETAG = "UHVycGxlSVJDCg==";
     public static final String TOWNYTAG = "VG93bnlDaGF0Cg==";
@@ -1435,6 +1438,12 @@ public class PurpleIRC extends JavaPlugin {
             heroChatEmoteFormat = heroConfig.getString("format.emote", "");
         } else {
             hookList.add(hookFormat(PL_HEROCHAT, false));
+        }        
+        if (isPluginEnabled(PL_GRIEFPREVENTION)) {
+            hookList.add(hookFormat(PL_GRIEFPREVENTION, true));
+                griefPreventionHook = new GriefPreventionHook(this);           
+        } else {
+            hookList.add(hookFormat(PL_GRIEFPREVENTION, false));
         }
         if (isPluginEnabled(PL_TITANCHAT)) {
             hookList.add(hookFormat(PL_TITANCHAT, true));
@@ -1634,5 +1643,15 @@ public class PurpleIRC extends JavaPlugin {
         }
         return count;
     }
-
+    
+    public boolean isMuted(Player player) {
+        if (griefPreventionHook != null) {
+            if (griefPreventionHook.isMuted(player)) {
+                logDebug("GP: Player " + player.getDisplayName() + " is muted.");
+                return true;
+            }        
+        }
+        return false;
+    }
+    
 }

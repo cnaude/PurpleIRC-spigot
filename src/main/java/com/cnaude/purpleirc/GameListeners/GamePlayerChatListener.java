@@ -16,7 +16,6 @@
  */
 package com.cnaude.purpleirc.GameListeners;
 
-import com.ammaraskar.adminonly.AdminChat;
 import com.cnaude.purpleirc.PurpleBot;
 import com.cnaude.purpleirc.PurpleIRC;
 import org.bukkit.event.EventHandler;
