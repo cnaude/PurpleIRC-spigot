@@ -105,6 +105,7 @@ public class IRCMessageHandler {
                 String gcUsage = (String) ircBot.commandMap.get(channelName).get(command).get("game_command_usage");
                 List<String> extraCommands = ircBot.extraCommandMap.get(channelName).get(command);
                 List<String> gameCommands = new ArrayList<>();
+                List<String> userMasks = ircBot.commandUsermasksMap.get(channelName).get(command);
                 gameCommands.add(gc);
                 gameCommands.addAll(extraCommands);
                 String modes = (String) ircBot.commandMap.get(channelName).get(command).get("modes");
@@ -119,7 +120,9 @@ public class IRCMessageHandler {
 
                 plugin.logDebug("Target: " + target);
 
-                if (isValidMode(modes, user, channel) && checkPerm(perm, user.getNick())) {
+                if (isValidMode(modes, user, channel)
+                        && checkPerm(perm, user.getNick())
+                        && checkHostMask(ircBot, user, userMasks)) {
                     gc_loop:
                     for (String gameCommand : gameCommands) {
                         switch (gameCommand) {
@@ -178,7 +181,7 @@ public class IRCMessageHandler {
                                 if (plugin.adminPrivateChatHook != null) {
                                     String newMessage = ircBot.filterMessage(
                                             plugin.tokenizer.ircChatToGameTokenizer(ircBot, user, channel, plugin.getMsgTemplate(
-                                                            ircBot.botNick, channelName, TemplateName.IRC_A_CHAT), commandArgs), channelName);
+                                                    ircBot.botNick, channelName, TemplateName.IRC_A_CHAT), commandArgs), channelName);
                                     plugin.adminPrivateChatHook.sendMessage(newMessage, user.getNick());
                                     String acResponse = plugin.tokenizer.msgChatResponseTokenizer(target, commandArgs, plugin.getMsgTemplate(TemplateName.IRC_A_RESPONSE));
                                     if (!acResponse.isEmpty()) {
@@ -214,7 +217,7 @@ public class IRCMessageHandler {
                                     if (commandArgsArray.length >= startPos) {
                                         gameCommand = gameCommand.replace("%ARG" + startPos + "+%",
                                                 Joiner.on(" ").join(Arrays.copyOfRange(commandArgsArray, startPos - 1, commandArgsArray.length)));
-                                }
+                                    }
                                 }
 
                                 if (gameCommand.matches(".*%ARG\\d+%.*")
@@ -225,15 +228,15 @@ public class IRCMessageHandler {
                                             ChatColor.translateAlternateColorCodes('&', gcUsage)));
                                     break gc_loop;
                                 } else {
-                                plugin.logDebug("GM: \"" + gameCommand.trim() + "\"");
-                                try {
-                                    plugin.commandQueue.add(new IRCCommand(
-                                            new IRCCommandSender(ircBot, target, plugin, ctcpResponse, senderName),
-                                            new IRCConsoleCommandSender(ircBot, target, plugin, ctcpResponse, senderName),
-                                            gameCommand.trim()));
-                                } catch (Exception ex) {
-                                    plugin.logError(ex.getMessage());
-                                }
+                                    plugin.logDebug("GM: \"" + gameCommand.trim() + "\"");
+                                    try {
+                                        plugin.commandQueue.add(new IRCCommand(
+                                                new IRCCommandSender(ircBot, target, plugin, ctcpResponse, senderName),
+                                                new IRCConsoleCommandSender(ircBot, target, plugin, ctcpResponse, senderName),
+                                                gameCommand.trim()));
+                                    } catch (Exception ex) {
+                                        plugin.logError(ex.getMessage());
+                                    }
                                 }
                                 break;
                         }
@@ -281,6 +284,7 @@ public class IRCMessageHandler {
     }
 
     private boolean isValidMode(String modes, User user, Channel channel) {
+        plugin.logDebug("[isValidMode]: " + modes);
         boolean modeOkay = false;
         if (modes.equals("*")) {
             return true;
@@ -344,4 +348,23 @@ public class IRCMessageHandler {
             return false;
         }
     }
+
+    private boolean checkHostMask(PurpleBot ircBot, User user, List<String> userMasks) {  
+        if (userMasks.isEmpty()) {
+            plugin.logDebug("checkHostMask [empty]: " + true);
+            return true;
+        }
+        for (String userMask : userMasks) {
+            plugin.logDebug("checkHostMask [testing]: " + userMask);
+            if (userMask.equals("*")
+                    || userMask.isEmpty()
+                    || ircBot.checkUserMask(user, userMask)) {
+                plugin.logDebug("checkHostMask [match]: ");
+                return true;
+            }
+        }
+        plugin.logDebug("checkHostMask [no match]: " + false);
+        return false;
+    }
+
 }

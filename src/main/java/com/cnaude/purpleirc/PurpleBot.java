@@ -155,6 +155,7 @@ public final class PurpleBot {
     public String defaultCustomPrefix;
     public CaseInsensitiveMap<CaseInsensitiveMap<CaseInsensitiveMap<String>>> commandMap;
     public CaseInsensitiveMap<CaseInsensitiveMap<List<String>>> extraCommandMap;
+    public CaseInsensitiveMap<CaseInsensitiveMap<List<String>>> commandUsermasksMap;
     public CaseInsensitiveMap<Long> joinNoticeCooldownMap;
     public ArrayList<CommandSender> whoisSenders;
     public List<String> channelCmdNotifyRecipients;
@@ -203,6 +204,7 @@ public final class PurpleBot {
         this.channelCmdNotifyIgnore = new ArrayList<>();
         this.commandMap = new CaseInsensitiveMap<>();
         this.extraCommandMap = new CaseInsensitiveMap<>();
+        this.commandUsermasksMap = new CaseInsensitiveMap<>();
         this.joinNoticeCooldownMap = new CaseInsensitiveMap<>();
         this.enabledMessages = new CaseInsensitiveMap<>();
         this.firstOccurrenceReplacements = new CaseInsensitiveMap<>();
@@ -717,6 +719,7 @@ public final class PurpleBot {
             worldList.clear();
             commandMap.clear();
             extraCommandMap.clear();
+            commandUsermasksMap.clear();
 
             channelCmdNotifyEnabled = config.getBoolean("command-notify.enabled", false);
             plugin.logDebug(" CommandNotifyEnabled => " + channelCmdNotifyEnabled);
@@ -980,34 +983,45 @@ public final class PurpleBot {
                     // build command map
                     CaseInsensitiveMap<CaseInsensitiveMap<String>> map = new CaseInsensitiveMap<>();
                     CaseInsensitiveMap<List<String>> extraMap = new CaseInsensitiveMap<>();
+                    CaseInsensitiveMap<List<String>> userMaskMap = new CaseInsensitiveMap<>();
                     try {
                         for (String command : config.getConfigurationSection("channels." + enChannelName + ".commands").getKeys(false)) {
                             plugin.logDebug("  Command => " + command);
                             CaseInsensitiveMap<String> optionPair = new CaseInsensitiveMap<>();
                             List<String> extraCommands = new ArrayList<>();
+                            List<String> userMasks = new ArrayList<>();
                             String commandKey = "channels." + enChannelName + ".commands." + command + ".";
+                            
                             optionPair.put("modes", config.getString(commandKey + "modes", "*"));
                             optionPair.put("private", config.getString(commandKey + "private", "false"));
                             optionPair.put("ctcp", config.getString(commandKey + "ctcp", "false"));
                             optionPair.put("game_command", config.getString(commandKey + "game_command", ""));
                             optionPair.put("game_command_usage", config.getString(commandKey + "game_command_usage", ""));
-                            optionPair.put("sender", config.getString(commandKey + "sender", "CONSOLE"));
-                            extraCommands.addAll(config.getStringList(commandKey + "extra_commands"));
-                            plugin.logDebug("extra_commands: " + extraCommands.toString());
+                            optionPair.put("sender", config.getString(commandKey + "sender", "CONSOLE"));                            
                             optionPair.put("private_listen", config.getString(commandKey + "private_listen", "true"));
                             optionPair.put("channel_listen", config.getString(commandKey + "channel_listen", "true"));
                             optionPair.put("perm", config.getString(commandKey + "perm", ""));
                             for (String s : optionPair.keySet()) {
                                 config.set(commandKey + s, optionPair.get(s));
                             }
+                            
+                            extraCommands.addAll(config.getStringList(commandKey + "extra_commands"));
+                            plugin.logDebug("extra_commands: " + extraCommands.toString());
+                            userMasks.addAll(config.getStringList(commandKey + "user_masks"));
+                            plugin.logDebug("user_masks: " + userMasks.toString());                            
+                            
                             map.put(command, optionPair);
                             extraMap.put(command, extraCommands);
+                            userMaskMap.put(command, userMasks);
+                            config.set(commandKey + "extra_commands", extraCommands);
+                            config.set(commandKey + "user_masks", userMasks);
                         }
                     } catch (Exception ex) {
                         plugin.logError("No commands found for channel " + enChannelName);
                     }
                     commandMap.put(channelName, map);
                     extraCommandMap.put(channelName, extraMap);
+                    commandUsermasksMap.put(channelName, userMaskMap);
                     if (map.isEmpty()) {
                         plugin.logInfo("No commands specified!");
                     }

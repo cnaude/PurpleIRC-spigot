@@ -30,6 +30,7 @@ import com.cnaude.purpleirc.GameListeners.GamePlayerKickListener;
 import com.cnaude.purpleirc.GameListeners.GamePlayerPlayerAchievementAwardedListener;
 import com.cnaude.purpleirc.GameListeners.GamePlayerQuitListener;
 import com.cnaude.purpleirc.GameListeners.GameServerCommandListener;
+import com.cnaude.purpleirc.GameListeners.GriefPreventionListener;
 import com.cnaude.purpleirc.GameListeners.HeroChatListener;
 import com.cnaude.purpleirc.GameListeners.McMMOChatListener;
 import com.cnaude.purpleirc.GameListeners.OreBroadcastListener;
@@ -1438,10 +1439,11 @@ public class PurpleIRC extends JavaPlugin {
             heroChatEmoteFormat = heroConfig.getString("format.emote", "");
         } else {
             hookList.add(hookFormat(PL_HEROCHAT, false));
-        }        
+        }
         if (isPluginEnabled(PL_GRIEFPREVENTION)) {
             hookList.add(hookFormat(PL_GRIEFPREVENTION, true));
-                griefPreventionHook = new GriefPreventionHook(this);           
+            griefPreventionHook = new GriefPreventionHook(this);
+            getServer().getPluginManager().registerEvents(new GriefPreventionListener(this), this);
         } else {
             hookList.add(hookFormat(PL_GRIEFPREVENTION, false));
         }
@@ -1643,15 +1645,15 @@ public class PurpleIRC extends JavaPlugin {
         }
         return count;
     }
-    
+
     public boolean isMuted(Player player) {
         if (griefPreventionHook != null) {
             if (griefPreventionHook.isMuted(player)) {
                 logDebug("GP: Player " + player.getDisplayName() + " is muted.");
                 return true;
-            }        
+            }
         }
         return false;
     }
-    
+
 }

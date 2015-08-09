@@ -29,6 +29,13 @@ public class BotsAndChannels {
     public ArrayList<String> bot = new ArrayList<>();
     public ArrayList<String> channel = new ArrayList<>();
 
+    /**
+     *
+     * @param plugin
+     * @param sender
+     * @param botName
+     * @param channelName
+     */
     public BotsAndChannels(PurpleIRC plugin, CommandSender sender, String botName, String channelName) {
         if (plugin.ircBots.containsKey(botName)) {
             bot.add(botName);
@@ -42,6 +49,11 @@ public class BotsAndChannels {
         }
     }
 
+    /**
+     *
+     * @param plugin
+     * @param sender
+     */
     public BotsAndChannels(PurpleIRC plugin, CommandSender sender) {
         for (String botName : plugin.ircBots.keySet()) {
             bot.add(botName);
