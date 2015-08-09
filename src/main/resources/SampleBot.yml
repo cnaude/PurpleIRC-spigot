@@ -41,7 +41,7 @@ autoconnect: 'false'
 password: ''
 # identify password (sent to NickServ)
 ident-password: ''
-# command-prefix - The bot will listen for commands that start with this. 
+# command-prefix - The bot will listen for commands that start with this.
 command-prefix: '.'
 # quit-message - Message the bot will send when it quits the server
 quit-message: '&r[&5PurpleIRC&r] &rGood bye!'
@@ -101,12 +101,12 @@ action-commands:
 bot-linking-enabled: false
 # Map of remote linked bots and codes. Use /irc link and /irc linkaccept
 bot-links:
-#    - remotebot: 249505593790847552435733176657146971496   
+#    - remotebot: 249505593790847552435733176657146971496
 # channels - List the channels your bot will join here
 channels:
   # Channel name must be surrounded by sing quotes to be YAML compliant.
   # Use %2E instead of dots in the channel names.
-  # Example: minecraft%2Etest == minecraft.test  
+  # Example: minecraft%2Etest == minecraft.test
   '#minecraft-test':
     # message prefix (replaces %CHANNELPREFIX%
     prefix: ''
@@ -122,7 +122,7 @@ channels:
     # topic - Channel topic
     topic: New topic
     # topic-protect - Prevent others from changing the topic
-    topic-protect: false    
+    topic-protect: false
     # Enable chanserve mode for topic set command (/msg chanserv topic #channel <topic>
     topic-chanserv: false
     # If the Shortify plugin is installed then shoten URLs sent from IRC
@@ -130,10 +130,10 @@ channels:
     # Enable or disable message filtering
     enable-filtering: false
     # Filters. These wll be removed from IRC to game messages.
-    filter-list: 
+    filter-list:
        - AwesomeBot
     # enabled-messages - These are the message types that are either sent to the game or IRC
-    # config.yml. Remove or comment the messages you don't want.       
+    # config.yml. Remove or comment the messages you don't want.
     enabled-messages:
     # These messages are sent from game to IRC (see permissions)
     - console-chat
@@ -146,7 +146,7 @@ channels:
     - fake-join
     - fake-quit
     - game-mode
-    # Essentials helpop messages (/helpop /amsg /ac)   
+    # Essentials helpop messages (/helpop /amsg /ac)
     - ess-helpop
     # Prism
     #- prism-rollback
@@ -177,7 +177,7 @@ channels:
     - irc-action-dynmap-web-chat
     # mcMMO messages sent to IRC
     - mcmmo-admin-chat
-    - mcmmo-party-chat    
+    - mcmmo-party-chat
     - mcmmo-chat
     # mcMMO messages sent from IRC. Replace [PARTY] with destination mcMMO party
     - irc-mcmmo-admin-chat
@@ -226,17 +226,17 @@ channels:
     #- game-a-chat
     # AdminPrivateChat messages IRC to game
     #- irc-a-chat
-    # Hero channel destination for IRC messages    
+    # Hero channel destination for IRC messages
     hero-channel: admin
     # Towny channel destination for IRC messages
     towny-channel: irc
-    # Log all messages from IRC to HeroChat    
+    # Log all messages from IRC to HeroChat
     log-irc-to-hero-chat: false
     # ops - IRC hostname mask styled ops list
-    ops:    
+    ops:
     - '*!*sarah@example.com'
     # muted - IRC users that should not be heard in game
-    muted:      
+    muted:
     - KuShy
     # Set ignore-irc-chat to true if you are using @chat and don't want regular IRC chat in your game
     ignore-irc-chat: false
@@ -294,81 +294,111 @@ channels:
         private: false
         ctcp: false
         game_command: '@chat'
+        extras_commands: []
         private_listen: true
         channel_listen: true
+        user_masks: []
+        perm: ''
       ochat:
         modes: '*'
         private: false
         ctcp: false
-        game_command: '@ochat'   
+        game_command: '@ochat'
+        extras_commands: []
         private_listen: true
         channel_listen: true
+        user_masks: []
+        perm: ''
       h:
         modes: '*'
         private: false
         ctcp: false
-        game_command: '@hchat'   
+        game_command: '@hchat'
+        extras_commands: []
         private_listen: true
-        channel_listen: true  
+        channel_listen: true
+        user_masks: []
+        perm: ''
       msg:
         modes: '*'
         private: true
         ctcp: false
         game_command: '@msg'
+        extras_commands: []
         private_listen: true
         channel_listen: true
+        user_masks: []
+        perm: ''
       list:
         modes: '*'
         private: false
         ctcp: false
-        game_command: '@list'        
+        game_command: '@list'
+        extras_commands: []
         private_listen: true
         channel_listen: true
+        user_masks: []
+        perm: ''
       help:
         modes: '*'
         private: false
         ctcp: false
         game_command: '@help'
+        extras_commands: []
         private_listen: true
         channel_listen: true
+        user_masks: []
+        perm: ''
       uptime:
         modes: '*'
         private: false
         ctcp: false
-        game_command: '@uptime'        
+        game_command: '@uptime'
+        extras_commands: []
         private_listen: true
         channel_listen: true
+        user_masks: []
+        perm: ''
       version:
         modes: '*'
         private: false
         ctcp: false
         game_command: '@versionfull'
+        extras_commands: []
         private_listen: true
         channel_listen: true
+        user_masks: []
+        perm: ''
       lag:
         modes: '*'
         private: false
         ctcp: false
-        game_command: lag   
+        game_command: lag
+        extras_commands: []
         private_listen: true
         channel_listen: true
+        user_masks: []
+        perm: ''
       mb:
         modes: 'o'
         private: 'false'
         ctcp: 'false'
         game_command: '@rtsmb'
+        extras_commands: []
         private_listen: 'true'
         channel_listen: 'true'
+        user_masks: []
         perm: ''
       lv:
         modes: 'o'
         private: 'false'
         ctcp: 'false'
         game_command: '@list'
-        extra_commands: 
+        extra_commands:
             - '@version'
         private_listen: 'true'
         channel_listen: 'true'
+        user_masks: []
         perm: ''
 ## Uncomment this if you want to hook into AdminPrivateChat
 #      a:
@@ -378,6 +408,7 @@ channels:
 #        game_command: '@a'
 #        private_listen: true
 #        channel_listen: true
+#        user_masks: []
 ## Uncomment this to allow gamemode changes via IRC
 #      gamemode:
 #        modes: 'o'
@@ -386,6 +417,7 @@ channels:
 #        game_command: 'gamemode %ARGS%'
 #        private_listen: true
 #        channel_listen: true
+#        user_masks: []
 ## Sample of %ARGX% and %ARGX+% with game_command_usage
 #      mute:
 #        modes: o
@@ -399,3 +431,4 @@ channels:
 #        channel_listen: 'true'
 #        perm: ''
 #        sender: CONSOLE
+#        user_masks: []
