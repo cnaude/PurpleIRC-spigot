@@ -1443,7 +1443,7 @@ public class PurpleIRC extends JavaPlugin {
         if (isPluginEnabled(PL_GRIEFPREVENTION)) {
             hookList.add(hookFormat(PL_GRIEFPREVENTION, true));
             griefPreventionHook = new GriefPreventionHook(this);
-            getServer().getPluginManager().registerEvents(new GriefPreventionListener(this), this);
+            //getServer().getPluginManager().registerEvents(new GriefPreventionListener(this), this);
         } else {
             hookList.add(hookFormat(PL_GRIEFPREVENTION, false));
         }
