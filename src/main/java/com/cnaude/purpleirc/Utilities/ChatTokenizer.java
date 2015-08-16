@@ -701,10 +701,10 @@ public class ChatTokenizer {
             pPrefix = plugin.getPlayerPrefix(worldName, playerName);
         }
         if (message.contains("%GROUPSUFFIX%")) {
-            gSuffix = plugin.getPlayerSuffix(worldName, playerName);
+            gSuffix = plugin.getGroupSuffix(worldName, playerName);
         }
         if (message.contains("%GROUPPREFIX%")) {
-            gPrefix = plugin.getPlayerPrefix(worldName, playerName);
+            gPrefix = plugin.getGroupPrefix(worldName, playerName);
         }
         if (message.contains("%GROUP%")) {
             group = plugin.getPlayerGroup(worldName, playerName);

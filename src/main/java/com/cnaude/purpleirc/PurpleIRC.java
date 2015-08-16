@@ -105,7 +105,7 @@ public class PurpleIRC extends JavaPlugin {
 
     public String LOG_HEADER;
     public String LOG_HEADER_F;
-    static final Logger log = Logger.getLogger("Minecraft");
+    static final Logger LOG = Logger.getLogger("Minecraft");
     private final String sampleFileName;
     private final String MAINCONFIG;
     private File pluginFolder;
@@ -781,7 +781,7 @@ public class PurpleIRC extends JavaPlugin {
      * @param message
      */
     public void logInfo(String message) {
-        log.log(Level.INFO, String.format("%s %s", LOG_HEADER, message));
+        LOG.log(Level.INFO, String.format("%s %s", LOG_HEADER, message));
     }
 
     /**
@@ -789,7 +789,7 @@ public class PurpleIRC extends JavaPlugin {
      * @param message
      */
     public void logError(String message) {
-        log.log(Level.SEVERE, String.format("%s %s", LOG_HEADER, message));
+        LOG.log(Level.SEVERE, String.format("%s %s", LOG_HEADER, message));
     }
 
     /**
@@ -798,7 +798,7 @@ public class PurpleIRC extends JavaPlugin {
      */
     public void logDebug(String message) {
         if (debugEnabled) {
-            log.log(Level.INFO, String.format("%s [DEBUG] %s", LOG_HEADER, message));
+            LOG.log(Level.INFO, String.format("%s [DEBUG] %s", LOG_HEADER, message));
         }
     }
 
