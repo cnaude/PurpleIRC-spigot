@@ -1640,7 +1640,7 @@ public final class PurpleBot {
      * @param achievement
      */
     public void gameAchievement(Player player, Achievement achievement) {
-        if (!this.isConnected()) {
+        if (!this.isConnected() || achievement == null || player == null) {
             return;
         }
         String message = achievement.toString();
