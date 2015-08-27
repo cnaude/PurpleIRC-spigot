@@ -41,9 +41,13 @@ public class GriefPreventionHook {
     public boolean isMuted(Player player) {
         plugin.logDebug("GriefPrevention: " + player.getDisplayName());
         if (gp != null) {
-            return gp.dataStore.isSoftMuted(player.getUniqueId());
+            try {
+                return gp.dataStore.isSoftMuted(player.getUniqueId());
+            } catch (Exception ex) {
+                plugin.logError(ex.getMessage());
+            }
         }
         return false;
     }
-    
+
 }
