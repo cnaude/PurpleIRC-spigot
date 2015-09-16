@@ -143,9 +143,10 @@ channels:
     - game-kick
     - game-join
     - game-quit
-    - fake-join
-    - fake-quit
+    - game-achievement
     - game-mode
+    - fake-join
+    - fake-quit    
     # Essentials helpop messages (/helpop /amsg /ac)
     - ess-helpop
     # Prism
