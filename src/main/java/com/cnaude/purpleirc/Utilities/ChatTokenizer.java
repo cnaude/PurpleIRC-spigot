@@ -628,7 +628,12 @@ public class ChatTokenizer {
         String gSuffix = plugin.getGroupSuffix(player);
         String group = plugin.getPlayerGroup(player);
         String displayName = player.getDisplayName();
-        String playerIP = player.getAddress().getAddress().getHostAddress();
+        String playerIP = "";
+        try {
+            player.getAddress().getAddress().getHostAddress();
+        } catch (Exception ex) {
+            plugin.logDebug(ex.getMessage());
+        }
         String host = plugin.getPlayerHost(playerIP);
         String worldName = "";
         String worldAlias = "";
