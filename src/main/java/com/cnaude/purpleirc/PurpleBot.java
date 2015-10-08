@@ -321,18 +321,16 @@ public final class PurpleBot {
             if (!reload) {
                 plugin.logInfo("Using default character set: " + Charset.defaultCharset());
             }
+        } else if (Charset.isSupported(charSet)) {
+            if (!reload) {
+                plugin.logInfo("Using character set: " + charSet);
+            }
+            configBuilder.setEncoding(Charset.forName(charSet));
         } else {
-            if (Charset.isSupported(charSet)) {
-                if (!reload) {
-                    plugin.logInfo("Using character set: " + charSet);
-                }
-                configBuilder.setEncoding(Charset.forName(charSet));
-            } else {
-                plugin.logError("Invalid character set: " + charSet);
-                if (!reload) {
-                    plugin.logInfo("Available character sets: " + Joiner.on(", ").join(Charset.availableCharsets().keySet()));
-                    plugin.logInfo("Using default character set: " + Charset.defaultCharset());
-                }
+            plugin.logError("Invalid character set: " + charSet);
+            if (!reload) {
+                plugin.logInfo("Available character sets: " + Joiner.on(", ").join(Charset.availableCharsets().keySet()));
+                plugin.logInfo("Using default character set: " + Charset.defaultCharset());
             }
         }
         if (!bindAddress.isEmpty()) {
@@ -991,25 +989,25 @@ public final class PurpleBot {
                             List<String> extraCommands = new ArrayList<>();
                             List<String> userMasks = new ArrayList<>();
                             String commandKey = "channels." + enChannelName + ".commands." + command + ".";
-                            
+
                             optionPair.put("modes", config.getString(commandKey + "modes", "*"));
                             optionPair.put("private", config.getString(commandKey + "private", "false"));
                             optionPair.put("ctcp", config.getString(commandKey + "ctcp", "false"));
                             optionPair.put("game_command", config.getString(commandKey + "game_command", ""));
                             optionPair.put("game_command_usage", config.getString(commandKey + "game_command_usage", ""));
-                            optionPair.put("sender", config.getString(commandKey + "sender", "CONSOLE"));                            
+                            optionPair.put("sender", config.getString(commandKey + "sender", "CONSOLE"));
                             optionPair.put("private_listen", config.getString(commandKey + "private_listen", "true"));
                             optionPair.put("channel_listen", config.getString(commandKey + "channel_listen", "true"));
                             optionPair.put("perm", config.getString(commandKey + "perm", ""));
                             for (String s : optionPair.keySet()) {
                                 config.set(commandKey + s, optionPair.get(s));
                             }
-                            
+
                             extraCommands.addAll(config.getStringList(commandKey + "extra_commands"));
                             plugin.logDebug("extra_commands: " + extraCommands.toString());
                             userMasks.addAll(config.getStringList(commandKey + "user_masks"));
-                            plugin.logDebug("user_masks: " + userMasks.toString());                            
-                            
+                            plugin.logDebug("user_masks: " + userMasks.toString());
+
                             map.put(command, optionPair);
                             extraMap.put(command, extraCommands);
                             userMaskMap.put(command, userMasks);
@@ -1728,6 +1726,10 @@ public final class PurpleBot {
      */
     public void gameDeath(Player player, String message, String templateName) {
         if (!this.isConnected()) {
+            return;
+        }
+        if (message.isEmpty()) {
+            plugin.logDebug("gameDeath: blank death message for " + player.getDisplayName());
             return;
         }
         for (String channelName : botChannels) {
@@ -2519,7 +2521,7 @@ public final class PurpleBot {
         if (isMessageEnabled(channelName, TemplateName.IRC_CHAT) || override) {
             String newMessage = filterMessage(
                     plugin.tokenizer.ircChatToGameTokenizer(this, user, channel, plugin.getMsgTemplate(
-                                    botNick, channelName, TemplateName.IRC_CHAT), message), channelName);
+                            botNick, channelName, TemplateName.IRC_CHAT), message), channelName);
             if (!newMessage.isEmpty()) {
                 plugin.broadcastToGame(newMessage, "irc.message.chat");
                 messageSent = true;
@@ -2564,7 +2566,7 @@ public final class PurpleBot {
             if (isMessageEnabled(channelName, TemplateName.IRC_ESS_HELPOP) || override) {
                 String newMessage = filterMessage(
                         plugin.tokenizer.ircChatToGameTokenizer(this, user, channel, plugin.getMsgTemplate(
-                                        botNick, channelName, TemplateName.IRC_ESS_HELPOP), message), channelName);
+                                botNick, channelName, TemplateName.IRC_ESS_HELPOP), message), channelName);
                 if (!newMessage.isEmpty()) {
                     plugin.broadcastToGame(newMessage, "essentials.helpop.receive");
                     messageSent = true;
@@ -2579,7 +2581,7 @@ public final class PurpleBot {
             if (isMessageEnabled(channelName, TemplateName.IRC_A_CHAT) || override) {
                 String newMessage = filterMessage(
                         plugin.tokenizer.ircChatToGameTokenizer(this, user, channel, plugin.getMsgTemplate(
-                                        botNick, channelName, TemplateName.IRC_A_CHAT), message), channelName);
+                                botNick, channelName, TemplateName.IRC_A_CHAT), message), channelName);
                 if (!newMessage.isEmpty()) {
                     plugin.adminPrivateChatHook.sendMessage(newMessage, user.getNick());
                     messageSent = true;
@@ -2861,10 +2863,10 @@ public final class PurpleBot {
         if (isMessageEnabled(channel, TemplateName.IRC_HERO_JOIN)) {
             Herochat.getChannelManager().getChannel(heroChannel.get(channel.getName()))
                     .sendRawMessage(plugin.tokenizer.ircChatToHeroChatTokenizer(
-                                    this, user, channel, plugin.getMsgTemplate(
-                                            botNick, channelName, TemplateName.IRC_HERO_JOIN),
-                                    Herochat.getChannelManager(),
-                                    heroChannel.get(channel.getName())));
+                            this, user, channel, plugin.getMsgTemplate(
+                                    botNick, channelName, TemplateName.IRC_HERO_JOIN),
+                            Herochat.getChannelManager(),
+                            heroChannel.get(channel.getName())));
         }
     }
 
@@ -2884,10 +2886,10 @@ public final class PurpleBot {
         if (isMessageEnabled(channel, TemplateName.IRC_HERO_PART)) {
             Herochat.getChannelManager().getChannel(heroChannel.get(channel.getName()))
                     .sendRawMessage(plugin.tokenizer.ircChatToHeroChatTokenizer(
-                                    this, user, channel, plugin.getMsgTemplate(
-                                            botNick, channelName, TemplateName.IRC_HERO_PART),
-                                    Herochat.getChannelManager(),
-                                    heroChannel.get(channel.getName())));
+                            this, user, channel, plugin.getMsgTemplate(
+                                    botNick, channelName, TemplateName.IRC_HERO_PART),
+                            Herochat.getChannelManager(),
+                            heroChannel.get(channel.getName())));
         }
     }
 
@@ -2907,10 +2909,10 @@ public final class PurpleBot {
         if (isMessageEnabled(channel, TemplateName.IRC_HERO_QUIT)) {
             Herochat.getChannelManager().getChannel(heroChannel.get(channel.getName()))
                     .sendRawMessage(plugin.tokenizer.ircChatToHeroChatTokenizer(
-                                    this, user, channel, plugin.getMsgTemplate(
-                                            botNick, channelName, TemplateName.IRC_HERO_QUIT),
-                                    Herochat.getChannelManager(),
-                                    heroChannel.get(channel.getName())));
+                            this, user, channel, plugin.getMsgTemplate(
+                                    botNick, channelName, TemplateName.IRC_HERO_QUIT),
+                            Herochat.getChannelManager(),
+                            heroChannel.get(channel.getName())));
         }
 
     }
@@ -2932,9 +2934,9 @@ public final class PurpleBot {
         if (isMessageEnabled(channel, TemplateName.IRC_HERO_TOPIC)) {
             Herochat.getChannelManager().getChannel(heroChannel.get(channel.getName()))
                     .sendRawMessage(plugin.tokenizer.ircChatToHeroChatTokenizer(
-                                    this, user, channel, plugin.getMsgTemplate(botNick, channelName, TemplateName.IRC_HERO_TOPIC), message,
-                                    Herochat.getChannelManager(),
-                                    heroChannel.get(channel.getName())));
+                            this, user, channel, plugin.getMsgTemplate(botNick, channelName, TemplateName.IRC_HERO_TOPIC), message,
+                            Herochat.getChannelManager(),
+                            heroChannel.get(channel.getName())));
         }
     }
 
@@ -3359,12 +3361,10 @@ public final class PurpleBot {
                         new IRCCommandSender(this, target, plugin, joinNoticeCtcp, "CONSOLE"),
                         new IRCConsoleCommandSender(this, target, plugin, joinNoticeCtcp, "CONSOLE"),
                         myMessage.trim().substring(1)));
+            } else if (joinNoticeCtcp) {
+                asyncCTCPMessage(target, myMessage);
             } else {
-                if (joinNoticeCtcp) {
-                    asyncCTCPMessage(target, myMessage);
-                } else {
-                    asyncIRCMessage(target, myMessage);
-                }
+                asyncIRCMessage(target, myMessage);
             }
         }
     }
