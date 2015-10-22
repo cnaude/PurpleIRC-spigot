@@ -130,9 +130,9 @@ public class TemplateName {
 
     public final static String REDDIT_MESSAGES = "reddit-messages";
 
-    public final static String IRC_A_RESPONSE = "irc-a-response";
-    public final static String GAME_A_CHAT = "game-a-chat";
-    public final static String IRC_A_CHAT = "irc-a-chat";
+    public final static String IRC_ADMIN_RESPONSE = "irc-a-response";
+    public final static String GAME_ADMIN_CHAT = "game-a-chat";
+    public final static String IRC_ADMIN_CHAT = "irc-a-chat";
 
     public final static String FAKE_JOIN = "fake-join";
     public final static String FAKE_QUIT = "fake-quit";

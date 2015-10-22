@@ -825,6 +825,25 @@ public class PurpleIRC extends JavaPlugin {
      * @return
      */
     public String getMCPlayers(PurpleBot ircBot, String channelName) {
+        PlayerList pl = getMCPlayerList(ircBot, channelName);
+
+        String msg = listFormat
+                .replace("%COUNT%", Integer.toString(pl.count))
+                .replace("%MAX%", Integer.toString(pl.max))
+                .replace("%PLAYERS%", pl.list);
+        
+        return colorConverter.gameColorsToIrc(msg);
+    }
+    
+    /**
+     *
+     * @param ircBot
+     * @param channelName
+     * @return
+     */
+    public PlayerList getMCPlayerList(PurpleBot ircBot, String channelName) {
+        PlayerList pl = new PlayerList();
+        
         Map<String, String> playerList = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
         for (Player player : getServer().getOnlinePlayers()) {
             if (ircBot.hideListWhenVanished.get(channelName)) {
@@ -848,15 +867,15 @@ public class PurpleIRC extends JavaPlugin {
             // sort without nick prefixes
             pList = Joiner.on(listSeparator).join(playerList.values());
         }
-
-        String msg = listFormat
-                .replace("%COUNT%", Integer.toString(playerList.size()))
-                .replace("%MAX%", Integer.toString(getServer().getMaxPlayers()))
-                .replace("%PLAYERS%", pList);
-        logDebug("L: " + msg);
-        return colorConverter.gameColorsToIrc(msg);
+        
+        pl.count = playerList.size();
+        pl.max = getServer().getMaxPlayers();
+        pl.list = pList;
+        
+        return pl;
+        
     }
-
+    
     public String getRemotePlayers(String commandArgs) {
         if (commandArgs != null) {
             String host;

@@ -16,6 +16,7 @@
  */
 package com.cnaude.purpleirc.Utilities;
 
+import com.cnaude.purpleirc.PlayerList;
 import com.cnaude.purpleirc.PurpleBot;
 import com.cnaude.purpleirc.PurpleIRC;
 import com.cnaude.purpleirc.TemplateName;
@@ -370,7 +371,6 @@ public class ChatTokenizer {
      *
      * @param player
      * @param template
-     *
      * @param message
      * @return
      */
@@ -383,6 +383,29 @@ public class ChatTokenizer {
 
     /**
      * Game chat to IRC
+     *
+     * @param ircBot
+     * @param channelName
+     * @param player
+     * @param template
+     * @param message
+     * @return
+     */
+    public String gameChatToIRCTokenizer(PurpleBot ircBot, String channelName, Player player, String template, String message) {
+        if (message == null) {
+            message = "";
+        }
+        PlayerList pl = plugin.getMCPlayerList(ircBot, channelName);
+        return plugin.colorConverter.gameColorsToIrc(playerTokenizer(player, template)
+                .replace("%MESSAGE%", message)
+                .replace("%COUNT%", Integer.toString(pl.count))
+                .replace("%MAX%", Integer.toString(pl.max))
+                .replace("%PLAYERS%", pl.list)
+        );
+    }
+
+    /**
+     * Dynmap web chat to IRC
      *
      * @param source
      * @param name

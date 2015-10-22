@@ -180,10 +180,9 @@ public class IRCMessageHandler {
                             case "@a":
                                 if (plugin.adminPrivateChatHook != null) {
                                     String newMessage = ircBot.filterMessage(
-                                            plugin.tokenizer.ircChatToGameTokenizer(ircBot, user, channel, plugin.getMsgTemplate(
-                                                    ircBot.botNick, channelName, TemplateName.IRC_A_CHAT), commandArgs), channelName);
+                                            plugin.tokenizer.ircChatToGameTokenizer(ircBot, user, channel, plugin.getMsgTemplate(ircBot.botNick, channelName, TemplateName.IRC_ADMIN_CHAT), commandArgs), channelName);
                                     plugin.adminPrivateChatHook.sendMessage(newMessage, user.getNick());
-                                    String acResponse = plugin.tokenizer.msgChatResponseTokenizer(target, commandArgs, plugin.getMsgTemplate(TemplateName.IRC_A_RESPONSE));
+                                    String acResponse = plugin.tokenizer.msgChatResponseTokenizer(target, commandArgs, plugin.getMsgTemplate(TemplateName.IRC_ADMIN_RESPONSE));
                                     if (!acResponse.isEmpty()) {
                                         sendMessage(ircBot, target, acResponse, ctcpResponse);
                                     }

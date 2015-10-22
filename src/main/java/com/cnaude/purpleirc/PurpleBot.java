@@ -1350,10 +1350,10 @@ public final class PurpleBot {
             return;
         }
         for (String channelName : botChannels) {
-            if (isMessageEnabled(channelName, TemplateName.GAME_A_CHAT)) {
+            if (isMessageEnabled(channelName, TemplateName.GAME_ADMIN_CHAT)) {
                 asyncIRCMessage(channelName, plugin.tokenizer
                         .gameChatToIRCTokenizer(name, plugin.
-                                getMsgTemplate(botNick, channelName, TemplateName.GAME_A_CHAT), message)
+                                getMsgTemplate(botNick, channelName, TemplateName.GAME_ADMIN_CHAT), message)
                         .replace("%WORLD%", world)
                 );
             }
@@ -1564,7 +1564,7 @@ public final class PurpleBot {
             if (isMessageEnabled(channelName, TemplateName.GAME_JOIN)
                     && isPlayerInValidWorld(player, channelName)) {
                 asyncIRCMessage(channelName, plugin.tokenizer
-                        .gameChatToIRCTokenizer(player, plugin
+                        .gameChatToIRCTokenizer(this, channelName, player, plugin
                                 .getMsgTemplate(botNick, channelName, TemplateName.GAME_JOIN), message));
             }
         }
@@ -1588,7 +1588,7 @@ public final class PurpleBot {
             if (isMessageEnabled(channelName, TemplateName.GAME_QUIT)
                     && isPlayerInValidWorld(player, channelName)) {
                 asyncIRCMessage(channelName, plugin.tokenizer
-                        .gameChatToIRCTokenizer(player, plugin
+                        .gameChatToIRCTokenizer(this, channelName, player, plugin
                                 .getMsgTemplate(botNick, channelName, TemplateName.GAME_QUIT), message));
             }
         }
@@ -1607,7 +1607,7 @@ public final class PurpleBot {
             if (isMessageEnabled(channelName, TemplateName.FAKE_JOIN)
                     && isPlayerInValidWorld(player, channelName)) {
                 asyncIRCMessage(channelName, plugin.tokenizer
-                        .gameChatToIRCTokenizer(player, plugin
+                        .gameChatToIRCTokenizer(this, channelName, player, plugin
                                 .getMsgTemplate(botNick, channelName, TemplateName.FAKE_JOIN), message));
             }
         }
@@ -1626,7 +1626,7 @@ public final class PurpleBot {
             if (isMessageEnabled(channelName, TemplateName.FAKE_QUIT)
                     && isPlayerInValidWorld(player, channelName)) {
                 asyncIRCMessage(channelName, plugin.tokenizer
-                        .gameChatToIRCTokenizer(player, plugin
+                        .gameChatToIRCTokenizer(this, channelName, player, plugin
                                 .getMsgTemplate(botNick, channelName, TemplateName.FAKE_QUIT), message));
             }
         }
@@ -2578,10 +2578,9 @@ public final class PurpleBot {
          Send messages to AdminPrivateChat if enabled
          */
         if (plugin.adminPrivateChatHook != null) {
-            if (isMessageEnabled(channelName, TemplateName.IRC_A_CHAT) || override) {
+            if (isMessageEnabled(channelName, TemplateName.IRC_ADMIN_CHAT) || override) {
                 String newMessage = filterMessage(
-                        plugin.tokenizer.ircChatToGameTokenizer(this, user, channel, plugin.getMsgTemplate(
-                                botNick, channelName, TemplateName.IRC_A_CHAT), message), channelName);
+                        plugin.tokenizer.ircChatToGameTokenizer(this, user, channel, plugin.getMsgTemplate(botNick, channelName, TemplateName.IRC_ADMIN_CHAT), message), channelName);
                 if (!newMessage.isEmpty()) {
                     plugin.adminPrivateChatHook.sendMessage(newMessage, user.getNick());
                     messageSent = true;
