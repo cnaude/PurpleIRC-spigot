@@ -1728,6 +1728,9 @@ public final class PurpleBot {
         if (!this.isConnected()) {
             return;
         }
+        if (player == null || message == null) {
+            return;
+        }
         if (message.isEmpty()) {
             plugin.logDebug("gameDeath: blank death message for " + player.getDisplayName());
             return;

@@ -73,6 +73,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.lang.management.ManagementFactory;
+import java.lang.reflect.Method;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.text.Collator;
@@ -1459,9 +1460,26 @@ public class PurpleIRC extends JavaPlugin {
             hookList.add(hookFormat(PL_HEROCHAT, false));
         }
         if (isPluginEnabled(PL_GRIEFPREVENTION)) {
-            hookList.add(hookFormat(PL_GRIEFPREVENTION, true));
-            griefPreventionHook = new GriefPreventionHook(this);
-            //getServer().getPluginManager().registerEvents(new GriefPreventionListener(this), this);
+            Class cls = null;
+            boolean hooked = false;
+            try {
+                cls = Class.forName("me.ryanhamshire.GriefPrevention.DataStore");
+            } catch (ClassNotFoundException ex) {
+                logDebug(ex.getMessage());
+            }
+            if (cls != null) {
+                for (Method m : cls.getMethods()) {
+                    if (m.getName().equals("isSoftMuted")) {
+                        hookList.add(hookFormat(PL_GRIEFPREVENTION, true));
+                        griefPreventionHook = new GriefPreventionHook(this);
+                        hooked = true;
+                        break;
+                    }
+                }
+            }
+            if (!hooked) {
+                hookList.add(hookFormat(PL_GRIEFPREVENTION, false));
+            }
         } else {
             hookList.add(hookFormat(PL_GRIEFPREVENTION, false));
         }

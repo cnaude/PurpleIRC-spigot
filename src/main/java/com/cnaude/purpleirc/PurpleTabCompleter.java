@@ -59,15 +59,23 @@ public class PurpleTabCompleter implements TabCompleter {
         if (strings.length == 2) {
             for (PurpleBot ircBot : plugin.ircBots.values()) {
                 for (Channel channel : ircBot.getChannels()) {
+                    String channelName = channel.getName();
                     for (User user : channel.getUsers()) {
-                        if (user.getNick().startsWith(strings[1])) {
-                            if (!list.contains(user.getNick())) {
+                        String nick = user.getNick();
+                        if (nick.startsWith(strings[1])) {
+                            if (list.contains(nick)) {
+                                continue;
+                            }
+                            if (ircBot.tabIgnoreNicks.containsKey(channelName)) {
+                                if (ircBot.tabIgnoreNicks.get(channelName).contains(nick)) {
+                                    continue;
+                                }
+                            }
                                 list.add(user.getNick());
                             }
                         }
                     }
                 }
-            }
             for (Player player : plugin.getServer().getOnlinePlayers()) {
                 if (plugin.vanishHook != null) {
                     if (plugin.vanishHook.isVanished(player)) {
