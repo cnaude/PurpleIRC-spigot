@@ -382,6 +382,7 @@ channels:
         channel_listen: true
         user_masks: []
         perm: ''
+        output: '%RESULT%'
       mb:
         modes: 'o'
         private: 'false'
@@ -421,6 +422,7 @@ channels:
 #        private_listen: true
 #        channel_listen: true
 #        user_masks: []
+#        output: '%RESULT%'
 ## Sample of %ARGX% and %ARGX+% with game_command_usage
 #      mute:
 #        modes: o
@@ -435,3 +437,4 @@ channels:
 #        perm: ''
 #        sender: CONSOLE
 #        user_masks: []
+#        output: '%RESULT%'

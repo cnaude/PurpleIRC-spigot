@@ -16,7 +16,6 @@
  */
 package com.cnaude.purpleirc;
 
-import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.BlockingQueue;

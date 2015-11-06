@@ -37,6 +37,7 @@ public class IRCCommandSender implements CommandSender {
     private final PurpleIRC plugin;
     private final boolean ctcpResponse;
     private final String name;
+    private final String template;
 
     /**
      *
@@ -45,7 +46,7 @@ public class IRCCommandSender implements CommandSender {
     @Override
     public void sendMessage(String message) {
         plugin.logDebug("sendMessage: " + message);
-        addMessageToQueue(message);
+        addMessageToQueue(template.replace("%RESULT%", message));
     }
 
     /**
@@ -56,7 +57,7 @@ public class IRCCommandSender implements CommandSender {
     public void sendMessage(String[] messages) {
         for (String message : messages) {
             plugin.logDebug("sendMessage[]: " + message);
-            addMessageToQueue(message);
+            addMessageToQueue(template.replace("%RESULT%", message));
         }
     }
 
@@ -72,14 +73,16 @@ public class IRCCommandSender implements CommandSender {
      * @param plugin
      * @param ctcpResponse
      * @param name
+     * @param template
      */
-    public IRCCommandSender(PurpleBot ircBot, String target, PurpleIRC plugin, boolean ctcpResponse, String name) {
+    public IRCCommandSender(PurpleBot ircBot, String target, PurpleIRC plugin, boolean ctcpResponse, String name, String template) {
         super();
         this.target = target;
         this.ircBot = ircBot;
         this.plugin = plugin;
         this.ctcpResponse = ctcpResponse;
         this.name = name;
+        this.template = template;
     }
 
     /**

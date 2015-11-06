@@ -19,6 +19,7 @@ package com.cnaude.purpleirc;
 import com.cnaude.purpleirc.Events.IRCCommandEvent;
 import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedQueue;
+import org.bukkit.Bukkit;
 import org.bukkit.command.CommandException;
 
 /**
@@ -66,7 +67,7 @@ public class CommandQueueWatcher {
                     plugin.logDebug("Dispatching command as ConsoleSender: " + ircCommand.getGameCommand());
 
                     plugin.getServer().dispatchCommand(ircCommand.getIRCConsoleCommandSender(), ircCommand.getGameCommand());
-                    ircCommand.getIRCConsoleCommandSender().sendMessage("Command sent: " + ircCommand.getGameCommand());
+                    ircCommand.getIRCConsoleCommandSender().sendMessage("Command sent: " + ircCommand.getGameCommand());                    
                 } else {
                     plugin.logDebug("Dispatching command as IRCCommandSender: " + ircCommand.getGameCommand());
                     plugin.getServer().dispatchCommand(ircCommand.getIRCCommandSender(), ircCommand.getGameCommand());
