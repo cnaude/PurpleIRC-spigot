@@ -16,10 +16,13 @@
  */
 package com.cnaude.purpleirc;
 
+import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
+import org.pircbotx.Channel;
+import org.pircbotx.User;
 
 /**
  *
@@ -62,13 +65,13 @@ public class IRCMessageQueueWatcher {
         if (ircMessage != null) {
             plugin.logDebug("[" + queue.size() + "]: queueAndSend message detected");
             for (String s : cleanupAndSplitMessage(ircMessage.message)) {
-            if (ircMessage.ctcpResponse) {
+                if (ircMessage.ctcpResponse) {
                     blockingCTCPMessage(ircMessage.target, s);
-            } else {
+                } else {
                     blockingIRCMessage(ircMessage.target, s);
+                }
             }
         }
-    }
     }
 
     private void blockingIRCMessage(final String target, final String message) {
@@ -89,7 +92,31 @@ public class IRCMessageQueueWatcher {
         plugin.logDebug("[blockingCTCPMessage] Message sent to " + target + ": " + message);
     }
 
+    private String addZeroWidthSpace(String s) {
+        if (s.length() > 1) {
+            String a = s.substring(0, 1);
+            String b = s.substring(1);
+            return a + "\u200B" + b;
+        }
+        return s;
+    }
+
+    private String pingFix(String message) {
+        for (Channel channel : ircBot.bot.getUserBot().getChannels()) {
+            for (User user : channel.getUsers()) {
+                if (message.toLowerCase().contains(user.getNick().toLowerCase())) {
+                    message = message.replaceAll("(?i)" + user.getNick(), addZeroWidthSpace(user.getNick()));
+                    plugin.logDebug("Adding ZWS to " + user.getNick());
+                }
+            }
+        }
+        return message;
+    }
+
     private String[] cleanupAndSplitMessage(String message) {
+        if (ircBot.pingFix) {
+            message = pingFix(message);
+        }
         return message.replaceAll(REGEX_CLEAN, "").replaceAll(REGEX_CRLF, "\n").split(LF);
     }
 

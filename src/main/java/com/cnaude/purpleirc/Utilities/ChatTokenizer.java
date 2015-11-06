@@ -653,7 +653,7 @@ public class ChatTokenizer {
         String displayName = player.getDisplayName();
         String playerIP = "";
         try {
-            player.getAddress().getAddress().getHostAddress();
+            playerIP = player.getAddress().getAddress().getHostAddress();
         } catch (Exception ex) {
             plugin.logDebug(ex.getMessage());
         }
@@ -873,6 +873,7 @@ public class ChatTokenizer {
 
     /**
      *
+     * @param sender
      * @param targetPlayer
      * @param message
      * @param template

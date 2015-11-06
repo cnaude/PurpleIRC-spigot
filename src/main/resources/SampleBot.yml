@@ -80,6 +80,8 @@ flood-control:
 part-invalid-channels: false
 # Message when leaving invalid channel
 part-invalid-channels-message: 'I should not be here! Bye!'
+# Insert zero width space into nicks of IRC output to prevent client pings
+zero-width-space: false
 # Channel auto join delay in server ticks (20 ticks = 1 second)
 channel-auto-join-delay: 20
 # If your irc-chat message has a %CUSTOMPREFIX% then these custom prefixes can replace them.
