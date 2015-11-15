@@ -44,8 +44,10 @@ public class CommandHandlers implements CommandExecutor {
 
         this.plugin = plugin;
 
+        commands.put("addban", new AddBan(plugin));
         commands.put("addop", new AddOp(plugin));
         commands.put("addvoice", new AddVoice(plugin));
+        commands.put("ban", new Ban(plugin));
         commands.put("connect", new Connect(plugin));
         commands.put("ctcp", new CTCP(plugin));
         commands.put("deop", new DeOp(plugin));
@@ -61,6 +63,7 @@ public class CommandHandlers implements CommandExecutor {
         commands.put("list", new List(plugin));
         commands.put("listbots", new ListBots(plugin));
         commands.put("listops", new ListOps(plugin));
+        commands.put("listbans", new ListBans(plugin));
         commands.put("listvoices", new ListVoices(plugin));
         commands.put("login", new Login(plugin));
         commands.put("load", new Load(plugin));
@@ -78,7 +81,8 @@ public class CommandHandlers implements CommandExecutor {
         commands.put("reloadbotconfigs", new ReloadBotConfigs(plugin));
         commands.put("reloadbots", new ReloadBots(plugin));
         commands.put("reloadconfig", new ReloadConfig(plugin));
-        commands.put("removeop", new RemoveOp(plugin));
+        commands.put("removeban", new RemoveBan(plugin));
+        commands.put("removeop", new RemoveOp(plugin));        
         commands.put("removevoice", new RemoveVoice(plugin));
         commands.put("save", new Save(plugin));
         commands.put("say", new Say(plugin));
@@ -88,6 +92,7 @@ public class CommandHandlers implements CommandExecutor {
         commands.put("slist", new SList(plugin));
         commands.put("smsg", new SMsg(plugin));
         commands.put("topic", new Topic(plugin));
+        commands.put("unban", new UnBan(plugin));
         commands.put("unmute", new UnMute(plugin));
         commands.put("updatecheck", new UpdateCheck(plugin));
         commands.put("unload", new Unload(plugin));

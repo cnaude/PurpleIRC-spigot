@@ -53,6 +53,23 @@ public class BotsAndChannels {
      *
      * @param plugin
      * @param sender
+     * @param botName
+     */
+    public BotsAndChannels(PurpleIRC plugin, CommandSender sender, String botName) {
+        if (plugin.ircBots.containsKey(botName)) {
+            bot.add(botName);
+            for (String channelName : plugin.ircBots.get(botName).botChannels) {
+                channel.add(channelName);
+            }
+        } else {
+            sender.sendMessage(plugin.invalidBotName.replace("%BOT%", botName));
+        }
+    }
+
+    /**
+     *
+     * @param plugin
+     * @param sender
      */
     public BotsAndChannels(PurpleIRC plugin, CommandSender sender) {
         for (String botName : plugin.ircBots.keySet()) {

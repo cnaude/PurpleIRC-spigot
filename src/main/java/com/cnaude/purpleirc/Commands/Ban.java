@@ -27,19 +27,19 @@ import org.pircbotx.User;
  *
  * @author cnaude
  */
-public class AddVoice implements IRCCommandInterface {
+public class Ban implements IRCCommandInterface {
 
     private final PurpleIRC plugin;
-    private final String usage = "([bot]) ([channel]) [user|mask]";
-    private final String desc = "Add IRC users to IRC auto voice list.";
-    private final String name = "addvoice";
+    private final String usage = "([bot]) ([channel]) [user(s)]";
+    private final String desc = "Ban an IRC user from a channel.";
+    private final String name = "ban";
     private final String fullUsage = ChatColor.WHITE + "Usage: " + ChatColor.GOLD + "/irc " + name + " " + usage;
 
     /**
      *
      * @param plugin
      */
-    public AddVoice(PurpleIRC plugin) {
+    public Ban(PurpleIRC plugin) {
         this.plugin = plugin;
     }
 
@@ -67,7 +67,7 @@ public class AddVoice implements IRCCommandInterface {
             for (String botName : bac.bot) {
                 for (String channelName : bac.channel) {
                     for (int i = idx; i < args.length; i++) {
-
+                        
                         String nick = args[i];
                         String mask = nick;
                         Channel channel = plugin.ircBots.get(botName).getChannel(channelName);
@@ -79,12 +79,17 @@ public class AddVoice implements IRCCommandInterface {
                             }
                         }
                         if (mask.split("[\\!\\@]", 3).length == 3) {
-                            plugin.ircBots.get(botName).addVoice(channelName, mask, sender);
-                            plugin.ircBots.get(botName).voiceIrcUsers(channelName);
+                            plugin.ircBots.get(botName).ban(channelName, mask);
+                            plugin.ircBots.get(botName).kick(channelName, nick, "Banned");
+                            sender.sendMessage("Setting +b for " 
+                                + ChatColor.WHITE + mask
+                                + ChatColor.RESET + " on "
+                                + ChatColor.WHITE + channelName);
                         } else {
                             sender.sendMessage(ChatColor.RED + "Invalid user or mask: "
                                     + ChatColor.WHITE + mask);
                         }
+
                     }
                 }
             }

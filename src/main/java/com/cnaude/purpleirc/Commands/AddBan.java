@@ -27,19 +27,19 @@ import org.pircbotx.User;
  *
  * @author cnaude
  */
-public class AddVoice implements IRCCommandInterface {
+public class AddBan implements IRCCommandInterface {
 
     private final PurpleIRC plugin;
     private final String usage = "([bot]) ([channel]) [user|mask]";
-    private final String desc = "Add IRC users to IRC auto voice list.";
-    private final String name = "addvoice";
+    private final String desc = "Add IRC users to the ban list.";
+    private final String name = "addban";
     private final String fullUsage = ChatColor.WHITE + "Usage: " + ChatColor.GOLD + "/irc " + name + " " + usage;
 
     /**
      *
      * @param plugin
      */
-    public AddVoice(PurpleIRC plugin) {
+    public AddBan(PurpleIRC plugin) {
         this.plugin = plugin;
     }
 
@@ -79,8 +79,8 @@ public class AddVoice implements IRCCommandInterface {
                             }
                         }
                         if (mask.split("[\\!\\@]", 3).length == 3) {
-                            plugin.ircBots.get(botName).addVoice(channelName, mask, sender);
-                            plugin.ircBots.get(botName).voiceIrcUsers(channelName);
+                            plugin.ircBots.get(botName).addBan(channelName, mask, sender);
+                            plugin.ircBots.get(botName).ban(channelName, mask);
                         } else {
                             sender.sendMessage(ChatColor.RED + "Invalid user or mask: "
                                     + ChatColor.WHITE + mask);
@@ -89,6 +89,7 @@ public class AddVoice implements IRCCommandInterface {
                 }
             }
         }
+
     }
 
     @Override

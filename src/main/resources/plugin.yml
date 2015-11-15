@@ -123,3 +123,18 @@ permissions:
   'irc.smsg':
     description: Gives player access to the /irc smsg command.
     default: true
+  'irc.addban':
+    description: Gives player access to the /addban link command.
+    default: op
+  'irc.removeban':
+    description: Gives player access to the /removeban link command.
+    default: op
+  'irc.ban':
+    description: Gives player access to the /ban link command.
+    default: op
+  'irc.unban':
+    description: Gives player access to the /unban link command.
+    default: op
+  'irc.listbans':
+    description: Gives player access to the /listbans link command.
+    default: op    
