@@ -66,6 +66,12 @@ command-notify:
     - example
   ignore:
     - /example
+# File tailer
+file-tailer:
+    enabled: false
+    file: 'server.log'
+    recipient: '#minecraft-test'
+    ctcp: false
 # Messaging flood control (game and IRC)
 flood-control:
     # Enable or disable flood control

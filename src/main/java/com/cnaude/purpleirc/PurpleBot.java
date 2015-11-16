@@ -59,6 +59,7 @@ import java.util.concurrent.locks.ReadWriteLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 import me.botsko.prism.actionlibs.QueryParameters;
 import me.botsko.prism.events.BlockStateChange;
+import org.apache.commons.io.input.Tailer;
 import org.bukkit.Achievement;
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
@@ -188,6 +189,11 @@ public final class PurpleBot {
     public CaseInsensitiveMap<String> linkRequests;
     public CaseInsensitiveMap<Collection<String>> remotePlayers;
     public CaseInsensitiveMap<CaseInsensitiveMap<String>> remoteServerInfo;
+    private LogTailer tailer;
+    private boolean tailerEnabled;
+    private String tailerFile;
+    private String tailerRecipient;
+    private boolean tailerCtcp;
 
     /**
      *
@@ -275,6 +281,9 @@ public final class PurpleBot {
     }
 
     public void buildBot(boolean reload) {
+        if (tailer != null) {
+            tailer.stopTailer();
+        }
         Configuration.Builder configBuilder = new Configuration.Builder()
                 .setName(botNick)
                 .setLogin(botLogin)
@@ -354,6 +363,15 @@ public final class PurpleBot {
             plugin.logInfo("Auto-connect is disabled. To connect: /irc connect " + bot.getNick());
         }
         plugin.logDebug("Max line length: " + configBuilder.getMaxLineLength());
+        if (tailerEnabled && !tailerFile.isEmpty() && !tailerRecipient.isEmpty()) {
+            tailer = new LogTailer(this, plugin, tailerRecipient, tailerCtcp, tailerFile);
+        }
+    }
+
+    protected void stopTailer() {
+        if (tailer != null) {
+            tailer.stopTailer();
+        }
     }
 
     private void addListeners() {
@@ -777,6 +795,12 @@ public final class PurpleBot {
                 plugin.logInfo(" No command recipients defined.");
             }
 
+            // load tailer settings
+            tailerEnabled = config.getBoolean("file-tailer.enabled", false);
+            tailerFile = config.getString("file-tailer.file", "server.log");
+            tailerRecipient = config.getString("file-tailer.recipient", "");
+            tailerCtcp = config.getBoolean("file-tailer.ctcp", false);
+
             // build command notify ignore list
             for (String command : config.getStringList("command-notify.ignore")) {
                 if (!channelCmdNotifyIgnore.contains(command)) {
@@ -875,7 +899,7 @@ public final class PurpleBot {
                     if (opsList.isEmpty()) {
                         plugin.logInfo("No channel ops defined.");
                     }
-                    
+
                     // build channel ban list
                     Collection<String> cBans = new ArrayList<>();
                     for (String channelBan : config.getStringList("channels." + enChannelName + ".banlist")) {
@@ -1865,7 +1889,7 @@ public final class PurpleBot {
         }
         saveConfig("channels." + encodeChannel(getConfigChannelName(channelName)) + ".ops", opsList.get(channelName));
     }
-    
+
     /**
      *
      * @param channelName
@@ -1919,7 +1943,7 @@ public final class PurpleBot {
         }
         saveConfig("channels." + encodeChannel(getConfigChannelName(channelName)) + ".ops", opsList.get(channelName));
     }
-    
+
     /**
      *
      * @param channelName
@@ -2071,7 +2095,7 @@ public final class PurpleBot {
             }
         }
     }
-    
+
     /**
      *
      * @param channelName
@@ -2463,7 +2487,7 @@ public final class PurpleBot {
             }
         }
     }
-    
+
     /**
      *
      * @param channel
