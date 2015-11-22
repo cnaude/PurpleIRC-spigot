@@ -23,7 +23,7 @@ import org.bukkit.command.CommandSender;
 
 /**
  *
- * @author cnaude
+ * @author Chris Naude
  */
 public class UnBan implements IRCCommandInterface {
 
@@ -35,7 +35,7 @@ public class UnBan implements IRCCommandInterface {
 
     /**
      *
-     * @param plugin
+     * @param plugin the PurpleIRC plugin
      */
     public UnBan(PurpleIRC plugin) {
         this.plugin = plugin;

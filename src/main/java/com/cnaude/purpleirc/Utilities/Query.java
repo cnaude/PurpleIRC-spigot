@@ -144,7 +144,7 @@ public class Query {
                     challengeInteger >> 8, challengeInteger, 0x00, 0x00, 0x00, 0x00);
 
             final int length = receivePacket(socket, receiveData).getLength();
-            values = new HashMap<String, String>();
+            values = new HashMap<>();
             final AtomicInteger cursor = new AtomicInteger(5);
             while (cursor.get() < length) {
                 final String s = readString(receiveData, cursor);

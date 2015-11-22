@@ -27,7 +27,7 @@ import org.bukkit.plugin.Plugin;
 
 /**
  *
- * @author cnaude
+ * @author Chris Naude
  */
 public class McMMOChatHook {
 
@@ -36,7 +36,7 @@ public class McMMOChatHook {
 
     /**
      *
-     * @param plugin
+     * @param plugin the PurpleIRC plugin
      */
     public McMMOChatHook(PurpleIRC plugin) {
         this.plugin = plugin;

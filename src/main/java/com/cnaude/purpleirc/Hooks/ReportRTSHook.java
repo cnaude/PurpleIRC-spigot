@@ -22,7 +22,7 @@ import com.nyancraft.reportrts.util.Message;
 
 /**
  *
- * @author cnaude
+ * @author Chris Naude
  */
 public class ReportRTSHook {
 
@@ -30,7 +30,7 @@ public class ReportRTSHook {
 
     /**
      *
-     * @param plugin
+     * @param plugin the PurpleIRC plugin
      */
     public ReportRTSHook(PurpleIRC plugin) {
         this.plugin = plugin;

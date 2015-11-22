@@ -25,14 +25,14 @@ import java.util.Collections;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import net.md_5.bungee.api.ChatColor;
+import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.pircbotx.Channel;
 import org.pircbotx.User;
 
 /**
  *
- * @author cnaude
+ * @author Chris Naude
  */
 public class IRCMessageHandler {
 
@@ -40,7 +40,7 @@ public class IRCMessageHandler {
 
     /**
      *
-     * @param plugin
+     * @param plugin the PurpleIRC plugin
      */
     public IRCMessageHandler(PurpleIRC plugin) {
         this.plugin = plugin;

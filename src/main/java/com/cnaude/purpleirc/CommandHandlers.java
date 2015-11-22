@@ -28,7 +28,7 @@ import org.bukkit.command.CommandSender;
 
 /**
  *
- * @author cnaude
+ * @author Chris Naude
  */
 public class CommandHandlers implements CommandExecutor {
 
@@ -38,7 +38,7 @@ public class CommandHandlers implements CommandExecutor {
 
     /**
      *
-     * @param plugin
+     * @param plugin the PurpleIRC plugin
      */
     public CommandHandlers(PurpleIRC plugin) {
 
@@ -111,11 +111,11 @@ public class CommandHandlers implements CommandExecutor {
 
     /**
      *
-     * @param sender
-     * @param cmd
-     * @param commandLabel
-     * @param args
-     * @return
+     * @param sender       sender of the command
+     * @param cmd          the actual command
+     * @param commandLabel the command label
+     * @param args         the command arguments
+     * @return             always return true
      */
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args) {

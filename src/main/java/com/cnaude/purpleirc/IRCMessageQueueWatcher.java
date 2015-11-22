@@ -39,7 +39,7 @@ public class IRCMessageQueueWatcher {
 
     /**
      *
-     * @param plugin
+     * @param plugin the PurpleIRC plugin
      * @param ircBot
      */
     public IRCMessageQueueWatcher(final PurpleBot ircBot, final PurpleIRC plugin) {

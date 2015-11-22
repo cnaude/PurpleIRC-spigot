@@ -20,7 +20,7 @@ import org.bukkit.command.CommandSender;
 
 /**
  *
- * @author cnaude
+ * @author Chris Naude
  */
 public interface IRCCommandInterface {
     void dispatch(CommandSender sender, String[] args);

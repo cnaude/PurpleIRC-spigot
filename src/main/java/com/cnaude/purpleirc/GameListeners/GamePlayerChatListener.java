@@ -28,7 +28,7 @@ import org.pircbotx.User;
 
 /**
  *
- * @author cnaude
+ * @author Chris Naude
  */
 public class GamePlayerChatListener implements Listener {
 
@@ -36,7 +36,7 @@ public class GamePlayerChatListener implements Listener {
 
     /**
      *
-     * @param plugin
+     * @param plugin the PurpleIRC plugin
      */
     public GamePlayerChatListener(PurpleIRC plugin) {
         this.plugin = plugin;

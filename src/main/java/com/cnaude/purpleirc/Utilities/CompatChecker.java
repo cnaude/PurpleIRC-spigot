@@ -20,7 +20,7 @@ import com.cnaude.purpleirc.PurpleIRC;
 
 /**
  *
- * @author cnaude
+ * @author Chris Naude
  */
 public class CompatChecker {
     public static boolean isCompatible(PurpleIRC plugin) {

@@ -19,8 +19,9 @@ package com.cnaude.purpleirc;
 import org.bukkit.scheduler.BukkitTask;
 
 /**
- *
- * @author Chris Naude This thread sends player info to linked bots.
+ * Sends player information to remotely links bots.
+ * 
+ * @author Chris Naude
  */
 public class LinkUpdater {
 
@@ -28,8 +29,9 @@ public class LinkUpdater {
     private final BukkitTask bt;
 
     /**
-     *
-     * @param plugin
+     * Asynchronously send player information every 400 ticks.
+     * 
+     * @param plugin the PurpleIRC plugin
      */
     public LinkUpdater(final PurpleIRC plugin) {
         this.plugin = plugin;
@@ -45,7 +47,8 @@ public class LinkUpdater {
     }
 
     /**
-     *
+     * Cancel the scheduled BukkitTask. Call this when
+     * shutting down.
      */
     public void cancel() {
         bt.cancel();

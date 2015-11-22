@@ -25,7 +25,7 @@ import org.bukkit.event.player.PlayerKickEvent;
 
 /**
  *
- * @author cnaude
+ * @author Chris Naude
  */
 public class GamePlayerKickListener implements Listener {
 
@@ -33,7 +33,7 @@ public class GamePlayerKickListener implements Listener {
 
     /**
      *
-     * @param plugin
+     * @param plugin the PurpleIRC plugin
      */
     public GamePlayerKickListener(PurpleIRC plugin) {
         this.plugin = plugin;

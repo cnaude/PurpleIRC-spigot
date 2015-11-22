@@ -25,7 +25,7 @@ import org.bukkit.event.Listener;
 
 /**
  *
- * @author cnaude
+ * @author Chris Naude
  */
 public class EssentialsListener implements Listener {
 
@@ -33,7 +33,7 @@ public class EssentialsListener implements Listener {
 
     /**
      *
-     * @param plugin
+     * @param plugin the PurpleIRC plugin
      */
     public EssentialsListener(PurpleIRC plugin) {
         this.plugin = plugin;

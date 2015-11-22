@@ -24,7 +24,7 @@ import org.pircbotx.hooks.events.ActionEvent;
 
 /**
  *
- * @author cnaude
+ * @author Chris Naude
  */
 public class ActionListener extends ListenerAdapter {
 
@@ -33,7 +33,7 @@ public class ActionListener extends ListenerAdapter {
 
     /**
      *
-     * @param plugin
+     * @param plugin the PurpleIRC plugin
      * @param ircBot
      */
     public ActionListener(PurpleIRC plugin, PurpleBot ircBot) {

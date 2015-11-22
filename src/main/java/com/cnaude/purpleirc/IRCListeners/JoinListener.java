@@ -25,7 +25,7 @@ import org.pircbotx.hooks.events.JoinEvent;
 
 /**
  *
- * @author cnaude
+ * @author Chris Naude
  */
 public class JoinListener extends ListenerAdapter {
 
@@ -34,7 +34,7 @@ public class JoinListener extends ListenerAdapter {
 
     /**
      *
-     * @param plugin
+     * @param plugin the PurpleIRC plugin
      * @param ircBot
      */
     public JoinListener(PurpleIRC plugin, PurpleBot ircBot) {

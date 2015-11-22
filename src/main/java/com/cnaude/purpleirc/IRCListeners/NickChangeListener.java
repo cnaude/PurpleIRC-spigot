@@ -25,7 +25,7 @@ import org.pircbotx.hooks.events.NickChangeEvent;
 
 /**
  *
- * @author cnaude
+ * @author Chris Naude
  */
 public class NickChangeListener extends ListenerAdapter {
 
@@ -34,7 +34,7 @@ public class NickChangeListener extends ListenerAdapter {
 
     /**
      *
-     * @param plugin
+     * @param plugin the PurpleIRC plugin
      * @param ircBot
      */
     public NickChangeListener(PurpleIRC plugin, PurpleBot ircBot) {

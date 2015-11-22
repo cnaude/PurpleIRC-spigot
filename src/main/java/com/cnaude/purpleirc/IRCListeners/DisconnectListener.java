@@ -23,7 +23,7 @@ import org.pircbotx.hooks.events.DisconnectEvent;
 
 /**
  *
- * @author cnaude
+ * @author Chris Naude
  */
 public class DisconnectListener extends ListenerAdapter {
 
@@ -32,7 +32,7 @@ public class DisconnectListener extends ListenerAdapter {
 
     /**
      *
-     * @param plugin
+     * @param plugin the PurpleIRC plugin
      * @param ircBot
      */
     public DisconnectListener(PurpleIRC plugin, PurpleBot ircBot) {

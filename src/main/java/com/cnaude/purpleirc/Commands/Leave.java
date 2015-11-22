@@ -23,7 +23,7 @@ import org.pircbotx.Channel;
 
 /**
  *
- * @author cnaude
+ * @author Chris Naude
  */
 public class Leave implements IRCCommandInterface {
 
@@ -35,7 +35,7 @@ public class Leave implements IRCCommandInterface {
 
     /**
      *
-     * @param plugin
+     * @param plugin the PurpleIRC plugin
      */
     public Leave(PurpleIRC plugin) {
         this.plugin = plugin;

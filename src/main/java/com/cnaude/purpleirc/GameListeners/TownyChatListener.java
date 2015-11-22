@@ -26,7 +26,7 @@ import org.bukkit.event.Listener;
 
 /**
  *
- * @author cnaude
+ * @author Chris Naude
  */
 public class TownyChatListener implements Listener {
 

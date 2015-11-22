@@ -250,7 +250,7 @@ public class PurpleIRC extends JavaPlugin {
     }
 
     /**
-     *
+     * Very first method that gets called when starting the plugin.
      */
     @Override
     public void onEnable() {
@@ -320,7 +320,7 @@ public class PurpleIRC extends JavaPlugin {
     }
 
     /**
-     *
+     * Called when plugin is told to stop.
      */
     @Override
     public void onDisable() {
@@ -379,7 +379,8 @@ public class PurpleIRC extends JavaPlugin {
     }
 
     /**
-     *
+     * Return the current debug mode status
+     * 
      * @return
      */
     public boolean debugMode() {

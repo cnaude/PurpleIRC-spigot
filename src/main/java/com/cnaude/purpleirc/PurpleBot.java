@@ -198,7 +198,7 @@ public final class PurpleBot {
     /**
      *
      * @param file
-     * @param plugin
+     * @param plugin the PurpleIRC plugin
      */
     public PurpleBot(File file, PurpleIRC plugin) {
         this.rwl = new ReentrantReadWriteLock();
@@ -1604,7 +1604,12 @@ public final class PurpleBot {
                     continue;
                 }
             }
-            if (isMessageEnabled(channelName, TemplateName.GAME_JOIN)
+            if (isMessageEnabled(channelName, TemplateName.GAME_FIRST_JOIN)
+                    && !player.hasPlayedBefore()) {
+                asyncIRCMessage(channelName, plugin.tokenizer
+                        .gameChatToIRCTokenizer(this, channelName, player, plugin
+                                .getMsgTemplate(botNick, channelName, TemplateName.GAME_FIRST_JOIN), message));
+            } else if (isMessageEnabled(channelName, TemplateName.GAME_JOIN)
                     && isPlayerInValidWorld(player, channelName)) {
                 asyncIRCMessage(channelName, plugin.tokenizer
                         .gameChatToIRCTokenizer(this, channelName, player, plugin

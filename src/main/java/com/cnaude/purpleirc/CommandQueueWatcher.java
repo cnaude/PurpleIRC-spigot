@@ -34,7 +34,7 @@ public class CommandQueueWatcher {
 
     /**
      *
-     * @param plugin
+     * @param plugin the PurpleIRC plugin
      */
     public CommandQueueWatcher(final PurpleIRC plugin) {
         this.plugin = plugin;
@@ -62,7 +62,9 @@ public class CommandQueueWatcher {
                     isCommandBookCommand = plugin.commandBookHook.isCommandBookCommand(cmd);
                     plugin.logDebug("Is this is a CommandBook command? " + Boolean.toString(isCommandBookCommand));
                 }
-                if (plugin.getServer().getVersion().contains("MC: 1.8") && plugin.getServer().getPluginCommand(cmd) == null
+                if (plugin.getServer().getVersion().contains("MC: 1.8") 
+                        && plugin.getServer().getVersion().contains("Spigot")
+                        && plugin.getServer().getPluginCommand(cmd) == null
                         && !isCommandBookCommand) {
                     plugin.logDebug("Dispatching command as ConsoleSender: " + ircCommand.getGameCommand());
 

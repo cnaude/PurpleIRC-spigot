@@ -25,7 +25,7 @@ import org.bukkit.event.player.PlayerAchievementAwardedEvent;
 
 /**
  *
- * @author cnaude
+ * @author Chris Naude
  */
 public class GamePlayerPlayerAchievementAwardedListener implements Listener {
 
@@ -33,7 +33,7 @@ public class GamePlayerPlayerAchievementAwardedListener implements Listener {
 
     /**
      *
-     * @param plugin
+     * @param plugin the PurpleIRC plugin
      */
     public GamePlayerPlayerAchievementAwardedListener(PurpleIRC plugin) {
         this.plugin = plugin;

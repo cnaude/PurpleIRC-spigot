@@ -26,7 +26,7 @@ import org.bukkit.entity.Player;
 
 /**
  *
- * @author cnaude
+ * @author Chris Naude
  */
 public class SMsg implements IRCCommandInterface {
 
@@ -38,7 +38,7 @@ public class SMsg implements IRCCommandInterface {
 
     /**
      *
-     * @param plugin
+     * @param plugin the PurpleIRC plugin
      */
     public SMsg(PurpleIRC plugin) {
         this.plugin = plugin;

@@ -31,7 +31,7 @@ import org.bukkit.event.Listener;
 
 /**
  *
- * @author cnaude
+ * @author Chris Naude
  */
 public class ReportRTSListener implements Listener {
 
@@ -39,7 +39,7 @@ public class ReportRTSListener implements Listener {
 
     /**
      *
-     * @param plugin
+     * @param plugin the PurpleIRC plugin
      */
     public ReportRTSListener(PurpleIRC plugin) {
         this.plugin = plugin;

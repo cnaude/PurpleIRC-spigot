@@ -21,7 +21,7 @@ import org.dynmap.DynmapCommonAPI;
 
 /**
  *
- * @author cnaude
+ * @author Chris Naude
  */
 public class DynmapHook {
 
@@ -30,7 +30,7 @@ public class DynmapHook {
 
     /**
      *
-     * @param plugin
+     * @param plugin the PurpleIRC plugin
      */
     public DynmapHook(PurpleIRC plugin) {
         this.plugin = plugin;

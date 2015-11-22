@@ -25,7 +25,7 @@ import org.bukkit.event.player.PlayerQuitEvent;
 
 /**
  *
- * @author cnaude
+ * @author Chris Naude
  */
 public class GamePlayerQuitListener implements Listener {
 
@@ -33,7 +33,7 @@ public class GamePlayerQuitListener implements Listener {
 
     /**
      *
-     * @param plugin
+     * @param plugin the PurpleIRC plugin
      */
     public GamePlayerQuitListener(PurpleIRC plugin) {
         this.plugin = plugin;

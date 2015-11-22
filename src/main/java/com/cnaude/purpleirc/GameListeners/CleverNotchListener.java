@@ -24,7 +24,7 @@ import org.dotGaming.Endain.CleverNotch.CleverEvent;
 
 /**
  *
- * @author cnaude
+ * @author Chris Naude
  */
 public class CleverNotchListener implements Listener {
 
@@ -32,7 +32,7 @@ public class CleverNotchListener implements Listener {
 
     /**
      *
-     * @param plugin
+     * @param plugin the PurpleIRC plugin
      */
     public CleverNotchListener(PurpleIRC plugin) {
         this.plugin = plugin;

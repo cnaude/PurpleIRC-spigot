@@ -25,7 +25,7 @@ import org.pircbotx.hooks.events.PrivateMessageEvent;
 
 /**
  *
- * @author cnaude
+ * @author Chris Naude
  */
 public class PrivateMessageListener extends ListenerAdapter {
 
@@ -34,7 +34,7 @@ public class PrivateMessageListener extends ListenerAdapter {
 
     /**
      *
-     * @param plugin
+     * @param plugin the PurpleIRC plugin
      * @param ircBot
      */
     public PrivateMessageListener(PurpleIRC plugin, PurpleBot ircBot) {

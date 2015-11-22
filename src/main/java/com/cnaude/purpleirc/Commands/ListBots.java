@@ -24,7 +24,7 @@ import org.pircbotx.Channel;
 
 /**
  *
- * @author cnaude
+ * @author Chris Naude
  */
 public class ListBots implements IRCCommandInterface {
 
@@ -35,7 +35,7 @@ public class ListBots implements IRCCommandInterface {
 
     /**
      *
-     * @param plugin
+     * @param plugin the PurpleIRC plugin
      */
     public ListBots(PurpleIRC plugin) {
         this.plugin = plugin;

@@ -18,7 +18,7 @@ package com.cnaude.purpleirc;
 
 /**
  *
- * @author cnaude
+ * @author Chris Naude
  */
 public class TemplateName {
 
@@ -31,6 +31,7 @@ public class TemplateName {
     public final static String GAME_SEND = "game-send";
     public final static String GAME_DEATH = "game-death";
     public final static String GAME_JOIN = "game-join";
+    public final static String GAME_FIRST_JOIN = "game-first-join";
     public final static String GAME_QUIT = "game-quit";
     public final static String GAME_KICK = "game-kick";
     public final static String GAME_COMMAND = "game-command";

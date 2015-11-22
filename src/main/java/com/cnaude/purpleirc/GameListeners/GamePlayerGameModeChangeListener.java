@@ -25,7 +25,7 @@ import org.bukkit.event.player.PlayerGameModeChangeEvent;
 
 /**
  *
- * @author cnaude
+ * @author Chris Naude
  */
 public class GamePlayerGameModeChangeListener implements Listener {
 
@@ -33,7 +33,7 @@ public class GamePlayerGameModeChangeListener implements Listener {
 
     /**
      *
-     * @param plugin
+     * @param plugin the PurpleIRC plugin
      */
     public GamePlayerGameModeChangeListener(PurpleIRC plugin) {
         this.plugin = plugin;

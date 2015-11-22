@@ -26,7 +26,7 @@ import org.pircbotx.Colors;
 
 /**
  *
- * @author cnaude
+ * @author Chris Naude
  */
 public class ColorConverter {
 
@@ -42,7 +42,7 @@ public class ColorConverter {
 
     /**
      *
-     * @param plugin
+     * @param plugin the PurpleIRC plugin
      * @param stripGameColors
      * @param stripIRCColors
      * @param stripIRCBackgroundColors

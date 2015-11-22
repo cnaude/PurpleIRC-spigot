@@ -19,9 +19,10 @@ package com.cnaude.purpleirc;
 import org.bukkit.scheduler.BukkitTask;
 
 /**
- *
- * @author Chris Naude This thread checks each for users and updates the
+ * This thread checks each for users and updates the
  * internal lists.
+ * 
+ * @author Chris Naude 
  */
 public class ChannelWatcher {
 
@@ -30,7 +31,7 @@ public class ChannelWatcher {
 
     /**
      *
-     * @param plugin
+     * @param plugin the PurpleIRC plugin
      */
     public ChannelWatcher(final PurpleIRC plugin) {
         this.plugin = plugin;
@@ -46,7 +47,8 @@ public class ChannelWatcher {
     }
 
     /**
-     *
+     * Cancel the scheduled BukkitTask. Call this when
+     * shutting down.
      */
     public void cancel() {
         bt.cancel();

@@ -22,7 +22,7 @@ import org.bukkit.command.CommandSender;
 
 /**
  *
- * @author cnaude
+ * @author Chris Naude
  */
 public class MessageDelay implements IRCCommandInterface  {
 
@@ -34,7 +34,7 @@ public class MessageDelay implements IRCCommandInterface  {
 
     /**
      *
-     * @param plugin
+     * @param plugin the PurpleIRC plugin
      */
     public MessageDelay(PurpleIRC plugin) {
         this.plugin = plugin;

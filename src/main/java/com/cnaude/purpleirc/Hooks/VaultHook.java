@@ -23,7 +23,7 @@ import org.bukkit.plugin.RegisteredServiceProvider;
 
 /**
  *
- * @author cnaude
+ * @author Chris Naude
  */
 public class VaultHook {
 
@@ -41,7 +41,7 @@ public class VaultHook {
 
     /**
      *
-     * @param plugin
+     * @param plugin the PurpleIRC plugin
      */
     public VaultHook(PurpleIRC plugin) {
         this.plugin = plugin;

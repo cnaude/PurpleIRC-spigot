@@ -23,7 +23,7 @@ import org.bukkit.command.CommandSender;
 
 /**
  *
- * @author cnaude
+ * @author Chris Naude
  */
 public class Disconnect implements IRCCommandInterface {
 
@@ -35,7 +35,7 @@ public class Disconnect implements IRCCommandInterface {
 
     /**
      *
-     * @param plugin
+     * @param plugin the PurpleIRC plugin
      */
     public Disconnect(PurpleIRC plugin) {
         this.plugin = plugin;

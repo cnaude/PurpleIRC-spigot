@@ -22,7 +22,7 @@ import org.bukkit.command.CommandSender;
 
 /**
  *
- * @author cnaude
+ * @author Chris Naude
  */
 public class BotsAndChannels {
 
@@ -31,7 +31,7 @@ public class BotsAndChannels {
 
     /**
      *
-     * @param plugin
+     * @param plugin the PurpleIRC plugin
      * @param sender
      * @param botName
      * @param channelName
@@ -51,7 +51,7 @@ public class BotsAndChannels {
 
     /**
      *
-     * @param plugin
+     * @param plugin the PurpleIRC plugin
      * @param sender
      * @param botName
      */
@@ -68,7 +68,7 @@ public class BotsAndChannels {
 
     /**
      *
-     * @param plugin
+     * @param plugin the PurpleIRC plugin
      * @param sender
      */
     public BotsAndChannels(PurpleIRC plugin, CommandSender sender) {

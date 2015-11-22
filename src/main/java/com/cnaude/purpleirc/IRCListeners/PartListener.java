@@ -25,7 +25,7 @@ import org.pircbotx.hooks.events.PartEvent;
 
 /**
  *
- * @author cnaude
+ * @author Chris Naude
  */
 public class PartListener extends ListenerAdapter {
 
@@ -34,7 +34,7 @@ public class PartListener extends ListenerAdapter {
 
     /**
      *
-     * @param plugin
+     * @param plugin the PurpleIRC plugin
      * @param ircBot
      */
     public PartListener(PurpleIRC plugin, PurpleBot ircBot) {

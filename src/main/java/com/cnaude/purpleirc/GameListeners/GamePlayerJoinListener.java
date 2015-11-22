@@ -25,7 +25,7 @@ import org.bukkit.event.player.PlayerJoinEvent;
 
 /**
  *
- * @author cnaude
+ * @author Chris Naude
  */
 public class GamePlayerJoinListener implements Listener {
 
@@ -33,7 +33,7 @@ public class GamePlayerJoinListener implements Listener {
 
     /**
      *
-     * @param plugin
+     * @param plugin the PurpleIRC plugin
      */
     public GamePlayerJoinListener(PurpleIRC plugin) {
         this.plugin = plugin;

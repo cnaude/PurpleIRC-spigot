@@ -22,7 +22,7 @@ import com.zachsthings.libcomponents.bukkit.BukkitComponent;
 
 /**
  *
- * @author cnaude
+ * @author Chris Naude
  */
 public class CommandBookHook {
 
@@ -31,7 +31,7 @@ public class CommandBookHook {
 
     /**
      *
-     * @param plugin
+     * @param plugin the PurpleIRC plugin
      */
     public CommandBookHook(PurpleIRC plugin) {
         this.plugin = plugin;

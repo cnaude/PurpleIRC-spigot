@@ -24,7 +24,7 @@ import org.pircbotx.hooks.events.ServerResponseEvent;
 
 /**
  *
- * @author cnaude
+ * @author Chris Naude
  */
 public class ServerResponseListener extends ListenerAdapter {
 
@@ -33,7 +33,7 @@ public class ServerResponseListener extends ListenerAdapter {
 
     /**
      *
-     * @param plugin
+     * @param plugin the PurpleIRC plugin
      * @param ircBot
      */
     public ServerResponseListener(PurpleIRC plugin, PurpleBot ircBot) {

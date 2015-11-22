@@ -71,7 +71,7 @@ public class IRCConsoleCommandSender implements ConsoleCommandSender {
      *
      * @param ircBot
      * @param target
-     * @param plugin
+     * @param plugin the PurpleIRC plugin
      * @param ctcpResponse
      * @param name
      */

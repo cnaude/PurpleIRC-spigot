@@ -24,7 +24,7 @@ import org.dynmap.DynmapWebChatEvent;
 
 /**
  *
- * @author cnaude
+ * @author Chris Naude
  */
 public class DynmapListener implements Listener {
 
@@ -32,7 +32,7 @@ public class DynmapListener implements Listener {
 
     /**
      *
-     * @param plugin
+     * @param plugin the PurpleIRC plugin
      */
     public DynmapListener(PurpleIRC plugin) {
         this.plugin = plugin;

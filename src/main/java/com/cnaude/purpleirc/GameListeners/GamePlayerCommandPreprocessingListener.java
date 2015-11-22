@@ -27,7 +27,7 @@ import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 
 /**
  *
- * @author cnaude
+ * @author Chris Naude
  */
 public class GamePlayerCommandPreprocessingListener implements Listener {
 
@@ -35,7 +35,7 @@ public class GamePlayerCommandPreprocessingListener implements Listener {
 
     /**
      *
-     * @param plugin
+     * @param plugin the PurpleIRC plugin
      */
     public GamePlayerCommandPreprocessingListener(PurpleIRC plugin) {
         this.plugin = plugin;

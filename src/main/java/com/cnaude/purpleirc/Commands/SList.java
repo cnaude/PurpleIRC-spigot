@@ -26,7 +26,7 @@ import org.bukkit.command.CommandSender;
 
 /**
  *
- * @author cnaude
+ * @author Chris Naude
  */
 public class SList implements IRCCommandInterface {
 
@@ -38,7 +38,7 @@ public class SList implements IRCCommandInterface {
 
     /**
      *
-     * @param plugin
+     * @param plugin the PurpleIRC plugin
      */
     public SList(PurpleIRC plugin) {
         this.plugin = plugin;

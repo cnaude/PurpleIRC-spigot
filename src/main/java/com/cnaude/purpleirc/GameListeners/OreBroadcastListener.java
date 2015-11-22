@@ -24,7 +24,7 @@ import org.bukkit.event.Listener;
 
 /**
  *
- * @author cnaude
+ * @author Chris Naude
  */
 public class OreBroadcastListener implements Listener {
 
@@ -32,7 +32,7 @@ public class OreBroadcastListener implements Listener {
 
     /**
      *
-     * @param plugin
+     * @param plugin the PurpleIRC plugin
      */
     public OreBroadcastListener(PurpleIRC plugin) {
         this.plugin = plugin;

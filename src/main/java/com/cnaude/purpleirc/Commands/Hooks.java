@@ -21,7 +21,7 @@ import org.bukkit.command.CommandSender;
 
 /**
  *
- * @author cnaude
+ * @author Chris Naude
  */
 public class Hooks implements IRCCommandInterface {
 
@@ -32,7 +32,7 @@ public class Hooks implements IRCCommandInterface {
 
     /**
      *
-     * @param plugin
+     * @param plugin the PurpleIRC plugin
      */
     public Hooks(PurpleIRC plugin) {
         this.plugin = plugin;

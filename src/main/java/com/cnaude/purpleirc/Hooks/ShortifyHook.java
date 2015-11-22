@@ -25,7 +25,7 @@ import java.io.File;
 
 /**
  *
- * @author cnaude
+ * @author Chris Naude
  */
 public class ShortifyHook {
 
@@ -35,7 +35,7 @@ public class ShortifyHook {
 
     /**
      *
-     * @param plugin
+     * @param plugin the PurpleIRC plugin
      */
     public ShortifyHook(PurpleIRC plugin) {
         this.plugin = plugin;

@@ -22,7 +22,7 @@ import org.bukkit.entity.Player;
 
 /**
  *
- * @author cnaude
+ * @author Chris Naude
  */
 public class FactionChatHook {
 
@@ -30,7 +30,7 @@ public class FactionChatHook {
 
     /**
      *
-     * @param plugin
+     * @param plugin the PurpleIRC plugin
      */
     public FactionChatHook(PurpleIRC plugin) {
         this.plugin = plugin;

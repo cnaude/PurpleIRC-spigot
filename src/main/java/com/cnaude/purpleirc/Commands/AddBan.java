@@ -25,7 +25,7 @@ import org.pircbotx.User;
 
 /**
  *
- * @author cnaude
+ * @author Chris Naude
  */
 public class AddBan implements IRCCommandInterface {
 
@@ -37,7 +37,7 @@ public class AddBan implements IRCCommandInterface {
 
     /**
      *
-     * @param plugin
+     * @param plugin the PurpleIRC plugin
      */
     public AddBan(PurpleIRC plugin) {
         this.plugin = plugin;

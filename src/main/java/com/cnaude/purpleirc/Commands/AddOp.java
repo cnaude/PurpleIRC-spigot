@@ -25,7 +25,7 @@ import org.pircbotx.User;
 
 /**
  *
- * @author cnaude
+ * @author Chris Naude
  */
 public class AddOp implements IRCCommandInterface {
 
@@ -37,7 +37,7 @@ public class AddOp implements IRCCommandInterface {
 
     /**
      *
-     * @param plugin
+     * @param plugin the PurpleIRC plugin
      */
     public AddOp(PurpleIRC plugin) {
         this.plugin = plugin;

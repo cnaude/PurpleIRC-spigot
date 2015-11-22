@@ -34,7 +34,7 @@ import org.pircbotx.User;
 
 /**
  *
- * @author cnaude
+ * @author Chris Naude
  */
 public class NetPackets {
 
@@ -44,7 +44,7 @@ public class NetPackets {
 
     /**
      *
-     * @param plugin
+     * @param plugin the PurpleIRC plugin
      */
     public NetPackets(PurpleIRC plugin) {
         this.plugin = plugin;

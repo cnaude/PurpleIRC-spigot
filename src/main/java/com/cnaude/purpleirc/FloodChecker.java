@@ -23,7 +23,7 @@ import org.pircbotx.User;
 
 /**
  *
- * @author cnaude
+ * @author Chris Naude
  */
 public class FloodChecker {
 

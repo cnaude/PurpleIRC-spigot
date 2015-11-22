@@ -22,7 +22,7 @@ import org.bukkit.event.HandlerList;
 
 /**
  *
- * @author cnaude Event listener for plugins that want to catch command events
+ * @author Chris Naude Event listener for plugins that want to catch command events
  * from PurpleIRC
  */
 public class IRCCommandEvent extends Event {

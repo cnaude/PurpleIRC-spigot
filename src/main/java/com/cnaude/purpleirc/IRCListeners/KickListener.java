@@ -25,7 +25,7 @@ import org.pircbotx.hooks.events.KickEvent;
 
 /**
  *
- * @author cnaude
+ * @author Chris Naude
  */
 public class KickListener extends ListenerAdapter {
 
@@ -34,7 +34,7 @@ public class KickListener extends ListenerAdapter {
 
     /**
      *
-     * @param plugin
+     * @param plugin the PurpleIRC plugin
      * @param ircBot
      */
     public KickListener(PurpleIRC plugin, PurpleBot ircBot) {

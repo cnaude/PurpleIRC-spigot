@@ -28,7 +28,7 @@ import org.bukkit.event.Listener;
 
 /**
  *
- * @author cnaude
+ * @author Chris Naude
  */
 public class PrismListener implements Listener {
 
@@ -36,7 +36,7 @@ public class PrismListener implements Listener {
 
     /**
      *
-     * @param plugin
+     * @param plugin the PurpleIRC plugin
      */
     public PrismListener(PurpleIRC plugin) {
         this.plugin = plugin;

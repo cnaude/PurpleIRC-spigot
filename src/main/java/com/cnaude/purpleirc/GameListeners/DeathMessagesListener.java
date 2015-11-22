@@ -25,7 +25,7 @@ import org.bukkit.event.Listener;
 
 /**
  *
- * @author cnaude
+ * @author Chris Naude
  */
 public class DeathMessagesListener implements Listener {
 
@@ -33,7 +33,7 @@ public class DeathMessagesListener implements Listener {
 
     /**
      *
-     * @param plugin
+     * @param plugin the PurpleIRC plugin
      */
     public DeathMessagesListener(PurpleIRC plugin) {
         this.plugin = plugin;

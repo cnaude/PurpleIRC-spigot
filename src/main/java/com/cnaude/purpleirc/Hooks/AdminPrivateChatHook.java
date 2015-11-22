@@ -21,7 +21,7 @@ import com.cnaude.purpleirc.PurpleIRC;
 
 /**
  *
- * @author cnaude
+ * @author Chris Naude
  */
 public class AdminPrivateChatHook {
 
@@ -30,7 +30,7 @@ public class AdminPrivateChatHook {
 
     /**
      *
-     * @param plugin
+     * @param plugin the PurpleIRC plugin
      */
     public AdminPrivateChatHook(PurpleIRC plugin) {
         this.plugin = plugin;

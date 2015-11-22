@@ -22,7 +22,7 @@ import org.bukkit.entity.Player;
 
 /**
  *
- * @author cnaude
+ * @author Chris Naude
  */
 public class GriefPreventionHook {
 
@@ -31,7 +31,7 @@ public class GriefPreventionHook {
 
     /**
      *
-     * @param plugin
+     * @param plugin the PurpleIRC plugin
      */
     public GriefPreventionHook(PurpleIRC plugin) {
         this.plugin = plugin;

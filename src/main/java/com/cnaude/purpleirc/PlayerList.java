@@ -2,7 +2,7 @@ package com.cnaude.purpleirc;
 
 /**
  *
- * @author cnaude
+ * @author Chris Naude
  */
 public class PlayerList {
     public int count;

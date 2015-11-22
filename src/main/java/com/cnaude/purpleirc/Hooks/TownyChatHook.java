@@ -30,7 +30,7 @@ import org.bukkit.entity.Player;
 
 /**
  *
- * @author cnaude
+ * @author Chris Naude
  */
 public class TownyChatHook {
 
@@ -40,7 +40,7 @@ public class TownyChatHook {
 
     /**
      *
-     * @param plugin
+     * @param plugin the PurpleIRC plugin
      */
     public TownyChatHook(PurpleIRC plugin) {
         this.plugin = plugin;

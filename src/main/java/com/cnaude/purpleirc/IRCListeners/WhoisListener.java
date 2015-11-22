@@ -29,7 +29,7 @@ import org.pircbotx.hooks.events.WhoisEvent;
 
 /**
  *
- * @author cnaude
+ * @author Chris Naude
  */
 public class WhoisListener extends ListenerAdapter {
 
@@ -38,7 +38,7 @@ public class WhoisListener extends ListenerAdapter {
 
     /**
      *
-     * @param plugin
+     * @param plugin the PurpleIRC plugin
      * @param ircBot
      */
     public WhoisListener(PurpleIRC plugin, PurpleBot ircBot) {

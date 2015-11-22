@@ -29,7 +29,7 @@ import org.bukkit.event.Listener;
 
 /**
  *
- * @author cnaude
+ * @author Chris Naude
  */
 public class HeroChatListener implements Listener {
 
@@ -37,7 +37,7 @@ public class HeroChatListener implements Listener {
 
     /**
      *
-     * @param plugin
+     * @param plugin the PurpleIRC plugin
      */
     public HeroChatListener(PurpleIRC plugin) {
         this.plugin = plugin;

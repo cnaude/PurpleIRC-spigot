@@ -22,7 +22,7 @@ import org.bukkit.metadata.MetadataValue;
 
 /**
  *
- * @author cnaude
+ * @author Chris Naude
  */
 public class VanishHook {
 
@@ -30,7 +30,7 @@ public class VanishHook {
 
     /**
      *
-     * @param plugin
+     * @param plugin the PurpleIRC plugin
      */
     public VanishHook(PurpleIRC plugin) {
         this.plugin = plugin;

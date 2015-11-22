@@ -39,7 +39,7 @@ public class LogTailer {
 
     /**
      *
-     * @param plugin
+     * @param plugin the PurpleIRC plugin
      * @param ircBot
      * @param target
      * @param ctcp

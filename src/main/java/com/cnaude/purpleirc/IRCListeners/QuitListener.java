@@ -23,7 +23,7 @@ import org.pircbotx.hooks.events.QuitEvent;
 
 /**
  *
- * @author cnaude
+ * @author Chris Naude
  */
 public class QuitListener extends ListenerAdapter {
 
@@ -32,7 +32,7 @@ public class QuitListener extends ListenerAdapter {
 
     /**
      *
-     * @param plugin
+     * @param plugin the PurpleIRC plugin
      * @param ircBot
      */
     public QuitListener(PurpleIRC plugin, PurpleBot ircBot) {

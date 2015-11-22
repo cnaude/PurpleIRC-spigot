@@ -28,7 +28,7 @@ import net.minecraft.server.v1_8_R3.PlayerInteractManager;
 
 /**
  *
- * @author cnaude
+ * @author Chris Naude
  */
 public class NetPacket_184_185_186_187_188 {
 

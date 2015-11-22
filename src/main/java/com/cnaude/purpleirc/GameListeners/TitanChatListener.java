@@ -27,7 +27,7 @@ import org.bukkit.event.Listener;
 
 /**
  *
- * @author cnaude
+ * @author Chris Naude
  */
 public class TitanChatListener implements Listener {
 
@@ -35,7 +35,7 @@ public class TitanChatListener implements Listener {
 
     /**
      *
-     * @param plugin
+     * @param plugin the PurpleIRC plugin
      */
     public TitanChatListener(PurpleIRC plugin) {
         this.plugin = plugin;

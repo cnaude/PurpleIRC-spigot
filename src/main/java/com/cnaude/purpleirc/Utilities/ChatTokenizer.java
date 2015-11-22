@@ -32,7 +32,7 @@ import org.pircbotx.User;
 /**
  * Main class containing all message template token expanding methods
  *
- * @author cnaude
+ * @author Chris Naude
  */
 public class ChatTokenizer {
 
@@ -41,7 +41,7 @@ public class ChatTokenizer {
     /**
      * Class initializer
      *
-     * @param plugin
+     * @param plugin the PurpleIRC plugin
      */
     public ChatTokenizer(PurpleIRC plugin) {
         this.plugin = plugin;

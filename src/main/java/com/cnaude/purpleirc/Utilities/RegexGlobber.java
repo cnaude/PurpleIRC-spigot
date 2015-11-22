@@ -3,7 +3,7 @@ package com.cnaude.purpleirc.Utilities;
 /**
  * http://stackoverflow.com/questions/1247772/is-there-an-equivalent-of-java-util-regex-for-glob-type-patterns
  *
- * @author cnaude
+ * @author Chris Naude
  */
 public class RegexGlobber {
 

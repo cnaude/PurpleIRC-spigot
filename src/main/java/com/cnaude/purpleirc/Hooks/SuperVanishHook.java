@@ -23,7 +23,7 @@ import org.bukkit.entity.Player;
 
 /**
  *
- * @author cnaude
+ * @author Chris Naude
  */
 public class SuperVanishHook {
 
@@ -31,7 +31,7 @@ public class SuperVanishHook {
 
     /**
      *
-     * @param plugin
+     * @param plugin the PurpleIRC plugin
      */
     public SuperVanishHook(PurpleIRC plugin) {
         this.plugin = plugin;

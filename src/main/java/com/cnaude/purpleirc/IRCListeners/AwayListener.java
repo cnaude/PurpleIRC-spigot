@@ -24,7 +24,7 @@ import org.pircbotx.hooks.events.AwayEvent;
 
 /**
  *
- * @author cnaude
+ * @author Chris Naude
  */
 public class AwayListener extends ListenerAdapter {
 
@@ -33,7 +33,7 @@ public class AwayListener extends ListenerAdapter {
 
     /**
      *
-     * @param plugin
+     * @param plugin the PurpleIRC plugin
      * @param ircBot
      */
     public AwayListener(PurpleIRC plugin, PurpleBot ircBot) {

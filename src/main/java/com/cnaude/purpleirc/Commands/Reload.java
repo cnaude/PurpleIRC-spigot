@@ -21,7 +21,7 @@ import org.bukkit.command.CommandSender;
 
 /**
  *
- * @author cnaude
+ * @author Chris Naude
  */
 public class Reload implements IRCCommandInterface {
 
@@ -32,7 +32,7 @@ public class Reload implements IRCCommandInterface {
 
     /**
      *
-     * @param plugin
+     * @param plugin the PurpleIRC plugin
      */
     public Reload(PurpleIRC plugin) {
         this.plugin = plugin;

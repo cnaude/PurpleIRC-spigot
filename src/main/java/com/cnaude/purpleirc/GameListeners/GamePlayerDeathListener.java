@@ -27,7 +27,7 @@ import org.bukkit.event.entity.PlayerDeathEvent;
 
 /**
  *
- * @author cnaude
+ * @author Chris Naude
  */
 public class GamePlayerDeathListener implements Listener {
 
@@ -35,7 +35,7 @@ public class GamePlayerDeathListener implements Listener {
 
     /**
      *
-     * @param plugin
+     * @param plugin the PurpleIRC plugin
      */
     public GamePlayerDeathListener(PurpleIRC plugin) {
         this.plugin = plugin;

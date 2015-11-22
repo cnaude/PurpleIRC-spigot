@@ -149,6 +149,7 @@ channels:
     - game-chat
     - game-death
     - game-kick
+    - game-first-join
     - game-join
     - game-quit
     - game-achievement

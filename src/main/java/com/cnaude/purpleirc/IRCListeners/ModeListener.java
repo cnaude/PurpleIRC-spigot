@@ -25,7 +25,7 @@ import org.pircbotx.hooks.events.ModeEvent;
 
 /**
  *
- * @author cnaude
+ * @author Chris Naude
  */
 public class ModeListener extends ListenerAdapter {
 
@@ -34,7 +34,7 @@ public class ModeListener extends ListenerAdapter {
 
     /**
      *
-     * @param plugin
+     * @param plugin the PurpleIRC plugin
      * @param ircBot
      */
     public ModeListener(PurpleIRC plugin, PurpleBot ircBot) {

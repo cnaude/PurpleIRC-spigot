@@ -24,7 +24,7 @@ import org.bukkit.entity.Player;
 
 /**
  *
- * @author cnaude
+ * @author Chris Naude
  */
 public class JobsHook {
 
@@ -32,7 +32,7 @@ public class JobsHook {
 
     /**
      *
-     * @param plugin
+     * @param plugin the PurpleIRC plugin
      */
     public JobsHook(PurpleIRC plugin) {
         this.plugin = plugin;

@@ -22,7 +22,7 @@ import org.bukkit.command.CommandSender;
 
 /**
  *
- * @author cnaude
+ * @author Chris Naude
  */
 public class Help implements IRCCommandInterface {
 
@@ -33,7 +33,7 @@ public class Help implements IRCCommandInterface {
 
     /**
      *
-     * @param plugin
+     * @param plugin the PurpleIRC plugin
      */
     public Help(PurpleIRC plugin) {
         this.plugin = plugin;

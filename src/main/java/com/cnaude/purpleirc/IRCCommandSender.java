@@ -70,7 +70,7 @@ public class IRCCommandSender implements CommandSender {
      *
      * @param ircBot
      * @param target
-     * @param plugin
+     * @param plugin the PurpleIRC plugin
      * @param ctcpResponse
      * @param name
      * @param template

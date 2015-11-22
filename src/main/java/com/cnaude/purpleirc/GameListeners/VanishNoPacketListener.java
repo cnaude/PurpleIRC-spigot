@@ -26,7 +26,7 @@ import org.kitteh.vanish.event.VanishFakeQuitEvent;
 
 /**
  *
- * @author cnaude
+ * @author Chris Naude
  */
 public class VanishNoPacketListener implements Listener {
 
@@ -34,7 +34,7 @@ public class VanishNoPacketListener implements Listener {
 
     /**
      *
-     * @param plugin
+     * @param plugin the PurpleIRC plugin
      */
     public VanishNoPacketListener(PurpleIRC plugin) {
         this.plugin = plugin;

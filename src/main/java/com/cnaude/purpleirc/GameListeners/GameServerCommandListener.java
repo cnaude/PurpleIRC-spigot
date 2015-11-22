@@ -25,7 +25,7 @@ import org.bukkit.event.server.ServerCommandEvent;
 
 /**
  *
- * @author cnaude
+ * @author Chris Naude
  */
 public class GameServerCommandListener implements Listener {
 
@@ -33,7 +33,7 @@ public class GameServerCommandListener implements Listener {
 
     /**
      *
-     * @param plugin
+     * @param plugin the PurpleIRC plugin
      */
     public GameServerCommandListener(PurpleIRC plugin) {
         this.plugin = plugin;
