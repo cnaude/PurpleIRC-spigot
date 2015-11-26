@@ -32,6 +32,7 @@ import com.cnaude.purpleirc.GameListeners.GamePlayerQuitListener;
 import com.cnaude.purpleirc.GameListeners.GameServerCommandListener;
 import com.cnaude.purpleirc.GameListeners.HeroChatListener;
 import com.cnaude.purpleirc.GameListeners.McMMOChatListener;
+import com.cnaude.purpleirc.GameListeners.NTheEndAgainListener;
 import com.cnaude.purpleirc.GameListeners.OreBroadcastListener;
 import com.cnaude.purpleirc.GameListeners.PrismListener;
 import com.cnaude.purpleirc.GameListeners.RedditStreamListener;
@@ -202,6 +203,7 @@ public class PurpleIRC extends JavaPlugin {
 
     final String PL_ESSENTIALS = "Essentials";
     final String PL_REPORTRTS = "ReportRTS";
+    final String PL_NTHE_END_AGAIN = "NTheEndAgain";
     final String PL_SUPERVANISH = "SuperVanish";
     final String PL_VANISHNOPACKET = "VanishNoPacket";
     final String PL_OREBROADCAST = "OreBroadcast";
@@ -1613,6 +1615,12 @@ public class PurpleIRC extends JavaPlugin {
             reportRTSHook = new ReportRTSHook(this);
         } else {
             hookList.add(hookFormat(PL_REPORTRTS, false));
+        }
+        if (isPluginEnabled(PL_NTHE_END_AGAIN)) {
+            hookList.add(hookFormat(PL_NTHE_END_AGAIN, true));
+            getServer().getPluginManager().registerEvents(new NTheEndAgainListener(this), this);
+        } else {
+            hookList.add(hookFormat(PL_NTHE_END_AGAIN, false));
         }
         if (isPluginEnabled(PL_ESSENTIALS)) {
             hookList.add(hookFormat(PL_ESSENTIALS, true));

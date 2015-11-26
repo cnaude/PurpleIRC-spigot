@@ -119,6 +119,14 @@
             <version>18.0</version>
         </dependency>
         
+        <!-- NTheEndAgain -->
+        <dependency>
+            <groupId>com.cnaude.nplugins</groupId>
+            <artifactId>ntheendagain</artifactId>
+            <version>0.6.10-SNAPSHOT</version>
+            <type>jar</type>
+        </dependency>
+        
         <!-- Essentials -->
         <dependency>
             <groupId>com.cnaude.essentials</groupId>

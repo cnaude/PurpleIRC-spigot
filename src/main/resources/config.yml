@@ -219,6 +219,10 @@ message-format:
   prism-custom: '[PrismCustom] [Player: %NAME%] [Action: %ACTION%] [Message: %MESSAGE%] [Plugin: %PLUGIN%]'
   # RedditStream
   reddit-messages: '[R] %MESSAGE%'
+  # NTheEndAgain
+  ntheendagain-hard: '[NTheEndAgain] %MESSAGE%'
+  ntheendagain-soft: '[NTheEndAgain]  %MESSAGE%'
+  ntheendagain-crystal: '[NTheEndAgain] %MESSAGE%'
   # Defaults below take effect when user joins IRC and matching player is offline
   default-player-suffix: ''
   default-player-prefix: ''

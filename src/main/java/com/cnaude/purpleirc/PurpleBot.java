@@ -1437,6 +1437,23 @@ public final class PurpleBot {
         }
     }
 
+    public void nTheEndNotify(String messages[], String botNick, String messageType) {
+        if (!this.isConnected()) {
+            return;
+        }
+        for (String message : messages) {
+            for (String channelName : botChannels) {
+                if (isMessageEnabled(channelName, messageType)) {
+                    asyncIRCMessage(
+                            channelName,
+                            plugin.tokenizer.gameChatToIRCTokenizer(
+                                    plugin.getMsgTemplate(botNick, channelName, messageType),
+                                    message));
+                }
+            }
+        }
+    }
+
     /**
      *
      * @param channelName
