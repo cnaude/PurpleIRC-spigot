@@ -310,6 +310,7 @@ channels:
         channel_listen: true
         user_masks: []
         perm: ''
+        output: '%RESULT%'
       ochat:
         modes: '*'
         private: false
@@ -320,6 +321,7 @@ channels:
         channel_listen: true
         user_masks: []
         perm: ''
+        output: '%RESULT%'
       h:
         modes: '*'
         private: false
@@ -330,6 +332,7 @@ channels:
         channel_listen: true
         user_masks: []
         perm: ''
+        output: '%RESULT%'
       msg:
         modes: '*'
         private: true
@@ -340,6 +343,20 @@ channels:
         channel_listen: true
         user_masks: []
         perm: ''
+        output: '%RESULT%'
+      r:
+        modes: '*'
+        private: 'true'
+        ctcp: 'false'
+        game_command: '@r'
+        private_listen: 'true'
+        channel_listen: 'true'
+        perm: ''
+        sender: CONSOLE
+        game_command_usage: ''
+        extra_commands: []
+        user_masks: []
+        output: '%RESULT%'
       list:
         modes: '*'
         private: false
@@ -350,6 +367,7 @@ channels:
         channel_listen: true
         user_masks: []
         perm: ''
+        output: '%RESULT%'
       help:
         modes: '*'
         private: false
@@ -360,6 +378,7 @@ channels:
         channel_listen: true
         user_masks: []
         perm: ''
+        output: '%RESULT%'
       uptime:
         modes: '*'
         private: false
@@ -370,6 +389,7 @@ channels:
         channel_listen: true
         user_masks: []
         perm: ''
+        output: '%RESULT%'
       version:
         modes: '*'
         private: false
@@ -380,6 +400,7 @@ channels:
         channel_listen: true
         user_masks: []
         perm: ''
+        output: '%RESULT%'
       lag:
         modes: '*'
         private: false
@@ -391,16 +412,6 @@ channels:
         user_masks: []
         perm: ''
         output: '%RESULT%'
-      mb:
-        modes: 'o'
-        private: 'false'
-        ctcp: 'false'
-        game_command: '@rtsmb'
-        extras_commands: []
-        private_listen: 'true'
-        channel_listen: 'true'
-        user_masks: []
-        perm: ''
       lv:
         modes: 'o'
         private: 'false'
@@ -446,3 +457,14 @@ channels:
 #        sender: CONSOLE
 #        user_masks: []
 #        output: '%RESULT%'
+## Uncomment this if you want to hook into ReportRTS mod broadcast command
+#      mb:
+#        modes: 'o'
+#        private: 'false'
+#        ctcp: 'false'
+#        game_command: '@rtsmb'
+#        extras_commands: []
+#        private_listen: 'true'
+#        channel_listen: 'true'
+#        user_masks: []
+#        perm: ''
