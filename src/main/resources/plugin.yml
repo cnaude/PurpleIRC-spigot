@@ -84,6 +84,9 @@ permissions:
   'irc.msg':
     description: Gives player access to the /irc msg command.
     default: op
+  'irc.r':
+    description: Gives player access to the /irc r command.
+    default: op
   'irc.sendraw':
     description: Gives player access to the /irc sendraw command.
     default: op

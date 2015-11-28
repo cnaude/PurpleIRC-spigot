@@ -289,6 +289,7 @@ channels:
     #  @ochat - send message to game (overrides irc-chat)
     #  @motd - display minecraft server motd
     #  @msg - send private message to player
+    #  @r - quickly reply to private message
     #  @query - query remote minecraft server
     #  @rtsmb - Send ReportRTS broadcast message to mods
     #  @a - Send message to AdminPrivateChat

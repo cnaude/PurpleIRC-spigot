@@ -171,6 +171,9 @@ public class IRCMessageHandler {
                             case "@msg":
                                 ircBot.playerChat(user, channel, target, commandArgs);
                                 break;
+                            case "@r":
+                                ircBot.playerReplyChat(user, channel, target, commandArgs);
+                                break;
                             case "@clearqueue":
                                 sendMessage(ircBot, target, plugin.commandQueue.clearQueue(), ctcpResponse);
                                 sendMessage(ircBot, target, ircBot.messageQueue.clearQueue(), ctcpResponse);

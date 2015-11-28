@@ -75,6 +75,7 @@ public class CommandHandlers implements CommandExecutor {
         commands.put("nick", new Nick(plugin));
         commands.put("notice", new Notice(plugin));
         commands.put("op", new Op(plugin));
+        commands.put("r", new R(plugin));
         commands.put("reload", new Reload(plugin));
         commands.put("reloadbot", new ReloadBot(plugin));
         commands.put("reloadbotconfig", new ReloadBotConfig(plugin));
