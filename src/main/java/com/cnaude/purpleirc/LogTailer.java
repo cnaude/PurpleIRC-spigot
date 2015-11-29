@@ -20,6 +20,7 @@ import java.io.File;
 import org.apache.commons.io.input.Tailer;
 import org.apache.commons.io.input.TailerListener;
 import org.apache.commons.io.input.TailerListenerAdapter;
+import org.pircbotx.Channel;
 
 /**
  *
@@ -76,10 +77,31 @@ public class LogTailer {
 
         @Override
         public void handle(String line) {
-            if (ctcp) {
-                blockingCTCPMessage(target, line);
+            boolean okayToSend = false;
+            if (target.startsWith("#")) {
+                try {
+                    for (Channel channel : ircBot.bot.getUserBot().getChannels()) {
+                        if (channel.getName().equalsIgnoreCase(target)) {
+                            okayToSend = true;
+                            break;
+                        }
+                    }
+                } catch (Exception ex) {
+                    plugin.logDebug(ex.getMessage());
+                }
             } else {
-                blockingIRCMessage(target, line);
+                okayToSend = true;
+            }
+            if (okayToSend) {
+                String template = plugin.getMsgTemplate(ircBot.botNick, target, TemplateName.LOG_TAILER);
+                String message = plugin.tokenizer.logTailerTokenizer(file.getName(), line, template);
+                if (ctcp) {
+                    blockingCTCPMessage(target, message);
+                } else {
+                    blockingIRCMessage(target, message);
+                }
+            } else {
+                plugin.logDebug("[MyTailerListener] Can't send to " + target + " yet.");
             }
         }
 
@@ -89,23 +111,19 @@ public class LogTailer {
         if (!ircBot.isConnected()) {
             return;
         }
-        plugin.logDebug("[blockingIRCMessage] About to send IRC message to " + target + ": " + message);
         ircBot.bot.sendIRC().message(target, message);
-        plugin.logDebug("[blockingIRCMessage] Message sent to " + target + ": " + message);
     }
 
     private void blockingCTCPMessage(final String target, final String message) {
         if (!ircBot.isConnected()) {
             return;
         }
-        plugin.logDebug("[blockingCTCPMessage] About to send IRC message to " + target + ": " + message);
         ircBot.bot.sendIRC().ctcpResponse(target, message);
-        plugin.logDebug("[blockingCTCPMessage] Message sent to " + target + ": " + message);
     }
 
     protected void stopTailer() {
         if (tailer != null) {
-            plugin.logInfo("Stoping tailer.");
+            plugin.logInfo("Stopping tailer.");
             tailer.stop();
         }
     }

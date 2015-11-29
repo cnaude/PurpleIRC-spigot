@@ -233,6 +233,8 @@ message-format:
   # Flood control
   game-flood-warning: '&3Message not sent to IRC due to spamming. &rCooldown: %COOLDOWN%s'
   irc-flood-warning: '&3Message not sent to game due to spamming. &rCooldown: %COOLDOWN%s'
+  # Log tailer format
+  log-tailer: '[LOG: %FILE%] %LINE%'
 # Format for the @list command in IRC
 list-format: '[&9Minecraft&r] &2Online &r(%COUNT%/%MAX%): %PLAYERS%'
 list-separator: ', '

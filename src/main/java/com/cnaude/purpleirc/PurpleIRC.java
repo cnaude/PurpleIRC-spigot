@@ -348,7 +348,7 @@ public class PurpleIRC extends JavaPlugin {
             logInfo("Disconnecting IRC bots.");
             for (PurpleBot ircBot : ircBots.values()) {
                 commandQueue.cancel();
-                ircBot.stopTailer();
+                ircBot.stopTailers();
                 ircBot.saveConfig(getServer().getConsoleSender());
                 ircBot.quit();
             }

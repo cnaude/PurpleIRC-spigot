@@ -59,7 +59,6 @@ import java.util.concurrent.locks.ReadWriteLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 import me.botsko.prism.actionlibs.QueryParameters;
 import me.botsko.prism.events.BlockStateChange;
-import org.apache.commons.io.input.Tailer;
 import org.bukkit.Achievement;
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
@@ -189,9 +188,9 @@ public final class PurpleBot {
     public CaseInsensitiveMap<String> linkRequests;
     public CaseInsensitiveMap<Collection<String>> remotePlayers;
     public CaseInsensitiveMap<CaseInsensitiveMap<String>> remoteServerInfo;
-    private LogTailer tailer;
+    private final List<LogTailer> tailers;
     private boolean tailerEnabled;
-    private String tailerFile;
+    private final List<String> tailerFiles;
     private String tailerRecipient;
     private boolean tailerCtcp;
     /**
@@ -262,6 +261,8 @@ public final class PurpleBot {
         this.remotePlayers = new CaseInsensitiveMap<>();
         this.remoteServerInfo = new CaseInsensitiveMap<>();
         this.ircPrivateMsgMap = new CaseInsensitiveMap<>();
+        this.tailers = new ArrayList<>();
+        this.tailerFiles = new ArrayList<>();
         config = new YamlConfiguration();
         goodBot = loadConfig();
         if (goodBot) {
@@ -286,8 +287,10 @@ public final class PurpleBot {
     }
 
     public void buildBot(boolean reload) {
-        if (tailer != null) {
-            tailer.stopTailer();
+        if (!tailers.isEmpty()) {
+            for (LogTailer tailer : tailers) {
+                tailer.stopTailer();
+            }
         }
         Configuration.Builder configBuilder = new Configuration.Builder()
                 .setName(botNick)
@@ -368,14 +371,22 @@ public final class PurpleBot {
             plugin.logInfo("Auto-connect is disabled. To connect: /irc connect " + bot.getNick());
         }
         plugin.logDebug("Max line length: " + configBuilder.getMaxLineLength());
-        if (tailerEnabled && !tailerFile.isEmpty() && !tailerRecipient.isEmpty()) {
-            tailer = new LogTailer(this, plugin, tailerRecipient, tailerCtcp, tailerFile);
+        if (tailerEnabled && !tailerFiles.isEmpty() && !tailerRecipient.isEmpty()) {
+            for (String tailerFile : tailerFiles) {
+                LogTailer tailer = new LogTailer(this, plugin, tailerRecipient, tailerCtcp, tailerFile);
+                tailers.add(tailer);
+            }
         }
     }
 
-    protected void stopTailer() {
-        if (tailer != null) {
-            tailer.stopTailer();
+    protected void stopTailers() {
+        if (!tailers.isEmpty()) {
+            for (LogTailer tailer : tailers) {
+                if (tailer != null) {
+                    tailer.stopTailer();
+                }
+            }
+            tailers.clear();
         }
     }
 
@@ -802,7 +813,21 @@ public final class PurpleBot {
 
             // load tailer settings
             tailerEnabled = config.getBoolean("file-tailer.enabled", false);
-            tailerFile = config.getString("file-tailer.file", "server.log");
+
+            String tailerFile = config.getString("file-tailer.file", "server.log");
+            if (!tailerFiles.contains(tailerFile)) {
+                tailerFiles.add(tailerFile);
+                plugin.logDebug(" Tailer File => " + tailerFile);
+            }
+            for (String f : config.getStringList("file-tailer.extra_files")) {
+                if (!tailerFiles.contains(f)) {
+                    tailerFiles.add(f);
+                }
+                plugin.logDebug(" Tailer File => " + f);
+            }
+            if (tailerFiles.isEmpty()) {
+                plugin.logInfo(" No command recipients defined.");
+            }
             tailerRecipient = config.getString("file-tailer.recipient", "");
             tailerCtcp = config.getBoolean("file-tailer.ctcp", false);
 
@@ -2826,7 +2851,7 @@ public final class PurpleBot {
             asyncIRCMessage(target, "No message specified.");
         }
     }
-    
+
     /**
      * Send chat messages from IRC to player.
      *
