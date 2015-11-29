@@ -884,4 +884,10 @@ public class ChatTokenizer {
                 .replace("%TARGET%", targetPlayer.getName())
                 .replace("%MESSAGE%", message);
     }
+    
+    public String logTailerTokenizer(String file, String line, String template) {
+        return plugin.colorConverter.ircColorsToGame(template
+                .replace("%FILE%", file)
+                .replace("%LINE%", line));
+    }
 }

@@ -70,6 +70,7 @@ command-notify:
 file-tailer:
     enabled: false
     file: 'server.log'
+    extra_files: []
     recipient: '#minecraft-test'
     ctcp: false
 # Messaging flood control (game and IRC)

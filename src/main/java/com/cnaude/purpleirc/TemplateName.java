@@ -146,5 +146,7 @@ public class TemplateName {
     public final static String NTHE_END_AGAIN_HARD = "ntheendagain-hard";
     public final static String NTHE_END_AGAIN_SOFT = "ntheendagain-soft";
     public final static String NTHE_END_AGAIN_CRYSTAL = "ntheendagain-crystal";
+    
+    public final static String LOG_TAILER = "log-tailer";
 
 }
