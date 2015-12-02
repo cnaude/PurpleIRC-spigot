@@ -114,6 +114,7 @@ public class PurpleIRC extends JavaPlugin {
     private File configFile;
     public static long startTime;
     public boolean identServerEnabled;
+    private boolean autoSave;
     private final CaseInsensitiveMap<HashMap<String, String>> messageTmpl;
     private final CaseInsensitiveMap<CaseInsensitiveMap<String>> ircHeroChannelMessages;
     private final CaseInsensitiveMap<CaseInsensitiveMap<String>> ircHeroActionChannelMessages;
@@ -349,7 +350,9 @@ public class PurpleIRC extends JavaPlugin {
             for (PurpleBot ircBot : ircBots.values()) {
                 commandQueue.cancel();
                 ircBot.stopTailers();
-                ircBot.saveConfig(getServer().getConsoleSender());
+                if (autoSave) {
+                    ircBot.saveConfig(getServer().getConsoleSender());
+                }
                 ircBot.quit();
             }
             ircBots.clear();
@@ -382,7 +385,7 @@ public class PurpleIRC extends JavaPlugin {
 
     /**
      * Return the current debug mode status
-     * 
+     *
      * @return
      */
     public boolean debugMode() {
@@ -584,6 +587,7 @@ public class PurpleIRC extends JavaPlugin {
         } catch (IOException | InvalidConfigurationException ex) {
             logError(ex.getMessage());
         }
+        autoSave = getConfig().getBoolean("save-on-shutdown", false);
         overrideMsgCmd = getConfig().getBoolean("override-msg-cmd", false);
         smsgAlias = getConfig().getString("smsg-alias", "/m");
         smsgReplyAlias = getConfig().getString("smsg-reply-alias", "/r");

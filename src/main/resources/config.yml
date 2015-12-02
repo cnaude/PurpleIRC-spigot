@@ -1,5 +1,7 @@
 # Global configuration for PurpleIRC
 # NOTE: If you make changes to this file while the server is running use "/irc reloadconfig" to load the changes into memory.
+# Automatically save configurations on shutdown or reload
+save-on-shutdown: false
 # Check for updates
 update-checker: true
 # Update checker mode: stable or dev
