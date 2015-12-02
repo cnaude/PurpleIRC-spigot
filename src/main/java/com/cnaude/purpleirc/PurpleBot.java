@@ -97,6 +97,7 @@ public final class PurpleBot {
     public boolean showMOTD;
     public boolean channelCmdNotifyEnabled;
     public boolean relayPrivateChat;
+    public boolean logPrivateChat;
     public boolean partInvalidChannels;
     public boolean pingFix;
     public int botServerPort;
@@ -703,6 +704,7 @@ public final class PurpleBot {
             sendRawMessageOnConnect = config.getBoolean("raw-message-on-connect", false);
             rawMessage = config.getString("raw-message", "");
             relayPrivateChat = config.getBoolean("relay-private-chat", false);
+            logPrivateChat = config.getBoolean("log-private-chat", false);
             partInvalidChannels = config.getBoolean("part-invalid-channels", false);
             pingFix = config.getBoolean("zero-width-space", false);
             partInvalidChannelsMsg = config.getString("part-invalid-channels-message", "");
@@ -2911,6 +2913,9 @@ public final class PurpleBot {
                         plugin.logDebug("Tokenized message: " + t);
                         player.sendMessage(t);
                         ircPrivateMsgMap.put(pName, user.getNick());
+                        if (logPrivateChat) {
+                            plugin.logInfo("Private message from IRC: " + user.getNick() + " -> " + pName + ": " + msg);
+                        }
                     } else {
                         asyncIRCMessage(target, "Player is offline: " + pName);
                     }
@@ -3272,6 +3277,9 @@ public final class PurpleBot {
                 plugin.getMsgTemplate(botNick, "", TemplateName.GAME_PCHAT), message);
         asyncIRCMessage(nick, msg);
         ircPrivateMsgMap.put(sender.getName(), nick);
+        if (logPrivateChat) {
+            plugin.logInfo("Private message from game: " + sender.getName() + " -> " + nick + ": " + message);
+        }
     }
 
     /**
@@ -3292,6 +3300,9 @@ public final class PurpleBot {
             asyncCTCPMessage(remoteBot, plugin.encodeLinkMsg(PurpleIRC.LINK_CMD, clearText));
         } else {
             sender.sendMessage(ChatColor.RED + "Not linked to " + ChatColor.WHITE + remoteBot);
+        }
+        if (logPrivateChat) {
+            plugin.logInfo("Private message from game: " + sender.getName() + " -> " + remotePlayer + ": " + message);
         }
     }
 

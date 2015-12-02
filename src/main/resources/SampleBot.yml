@@ -55,6 +55,8 @@ raw-message-on-connect: false
 raw-message: auth name pass
 # relay-private-chat - Allow private chat to the bot to relay to the game
 relay-private-chat: false
+# Log private chat messages
+log-private-chat: true
 # notify channels or users when a player uses commands
 command-notify:
   enabled: false
