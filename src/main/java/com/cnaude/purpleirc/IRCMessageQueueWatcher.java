@@ -103,6 +103,9 @@ public class IRCMessageQueueWatcher {
     private String pingFix(String message) {
         for (Channel channel : ircBot.bot.getUserBot().getChannels()) {
             for (User user : channel.getUsers()) {
+                if (user.getNick().equalsIgnoreCase(ircBot.botNick)) {
+                    continue;
+                }
                 if (message.toLowerCase().contains(user.getNick().toLowerCase())) {
                     message = message.replaceAll("(?i)" + user.getNick(), addZeroWidthSpace(user.getNick()));
                     plugin.logDebug("Adding ZWS to " + user.getNick());
