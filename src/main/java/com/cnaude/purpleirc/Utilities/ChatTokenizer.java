@@ -886,7 +886,7 @@ public class ChatTokenizer {
     }
     
     public String logTailerTokenizer(String file, String line, String template) {
-        return plugin.colorConverter.ircColorsToGame(template
+        return plugin.colorConverter.gameColorsToIrc(template
                 .replace("%FILE%", file)
                 .replace("%LINE%", line));
     }
