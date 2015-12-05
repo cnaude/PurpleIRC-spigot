@@ -75,6 +75,10 @@ file-tailer:
     extra_files: []
     recipient: '#minecraft-test'
     ctcp: false
+    # If a line matches then it is excluded from being sent to IRC.
+    # Place slashes around a pattern to use regular expressions. 
+    excludes:
+        - '/\s+\[PurpleIRC\]\s+/'
 # Messaging flood control (game and IRC)
 flood-control:
     # Enable or disable flood control

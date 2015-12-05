@@ -125,6 +125,7 @@ public final class PurpleBot {
     public CaseInsensitiveMap<Collection<String>> tabIgnoreNicks;
     public CaseInsensitiveMap<Boolean> tabIgnoreDuplicates;
     public CaseInsensitiveMap<Collection<String>> filters;
+    public ArrayList<String> tailerFilters;
     public CaseInsensitiveMap<String> channelPassword;
     public CaseInsensitiveMap<String> channelTopic;
     public CaseInsensitiveMap<Boolean> channelTopicChanserv;
@@ -245,6 +246,7 @@ public final class PurpleBot {
         this.tabIgnoreNicks = new CaseInsensitiveMap<>();
         this.tabIgnoreDuplicates = new CaseInsensitiveMap<>();
         this.filters = new CaseInsensitiveMap<>();
+        this.tailerFilters = new ArrayList<>();
         this.channelNicks = new CaseInsensitiveMap<>();
         this.channelTopicChanserv = new CaseInsensitiveMap<>();
         this.joinMsg = new CaseInsensitiveMap<>();
@@ -759,6 +761,7 @@ public final class PurpleBot {
             commandMap.clear();
             extraCommandMap.clear();
             commandUsermasksMap.clear();
+            tailerFilters.clear();
 
             channelCmdNotifyEnabled = config.getBoolean("command-notify.enabled", false);
             plugin.logDebug(" CommandNotifyEnabled => " + channelCmdNotifyEnabled);
@@ -842,6 +845,17 @@ public final class PurpleBot {
             }
             if (channelCmdNotifyIgnore.isEmpty()) {
                 plugin.logInfo(" No command-notify ignores defined.");
+            }
+            
+            // build tailer filter list
+            for (String re : config.getStringList("file-tailer.excludes")) {
+                if (!tailerFilters.contains(re)) {
+                    tailerFilters.add(re);
+                }
+                plugin.logDebug("Filtered from tailer => " + re);
+            }            
+            if (tailerFilters.isEmpty()) {
+                plugin.logInfo("Tailer filter list is empty!");
             }
 
             if (config.getConfigurationSection("channels") == null) {
@@ -1021,7 +1035,7 @@ public final class PurpleBot {
                         actionCommands.add("/me");
                     }
 
-                    // build valid world list
+                    // build message filter list
                     Collection<String> f = new ArrayList<>();
                     for (String word : config.getStringList("channels." + enChannelName + ".filter-list")) {
                         if (!f.contains(word)) {
@@ -1031,7 +1045,7 @@ public final class PurpleBot {
                     }
                     filters.put(channelName, f);
                     if (filters.isEmpty()) {
-                        plugin.logInfo("World list is empty!");
+                        plugin.logInfo("Filter list is empty!");
                     }
 
                     // build join notice
@@ -2612,7 +2626,7 @@ public final class PurpleBot {
         }
         return message;
     }
-
+    
     // Broadcast chat messages from IRC to the game
     /**
      *

@@ -92,7 +92,7 @@ public class LogTailer {
             } else {
                 okayToSend = true;
             }
-            if (okayToSend) {
+            if (okayToSend && !excludesMatch(line)) {
                 String template = plugin.getMsgTemplate(ircBot.botNick, target, TemplateName.LOG_TAILER);
                 String message = plugin.tokenizer.logTailerTokenizer(file.getName(), line, template);
                 if (ctcp) {
@@ -100,11 +100,28 @@ public class LogTailer {
                 } else {
                     blockingIRCMessage(target, message);
                 }
-            } else {
-                plugin.logDebug("[MyTailerListener] Can't send to " + target + " yet.");
             }
         }
 
+    }
+
+    private boolean excludesMatch(String message) {
+        if (!ircBot.tailerFilters.isEmpty()) {
+            for (String filter : ircBot.tailerFilters) {
+                if (filter.startsWith("/") && filter.endsWith("/")) {
+                    filter = filter.substring(1, filter.length() - 1);
+                    if (message.matches(filter)) {
+                        return true;
+                    }
+                } else {
+                    plugin.logDebug("Filtering " + filter + " from " + message);
+                    if (message.contains(filter)) {
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
     }
 
     private void blockingIRCMessage(final String target, final String message) {
