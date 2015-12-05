@@ -16,34 +16,44 @@
  */
 package com.cnaude.purpleirc.Events;
 
-import com.cnaude.purpleirc.IRCCommand;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 
 /**
  *
- * @author Chris Naude Event listener for plugins that want to catch command events
+ * @author Chris Naude Event listener for plugins that want to catch irc message events
  * from PurpleIRC
  */
-public class IRCCommandEvent extends Event {
+public class IRCMessageEvent extends Event {
 
     private static final HandlerList HANDLERS = new HandlerList();
-    private final IRCCommand ircCommand;
+    private final String message;
+    private final String permission;
 
     /**
      *
-     * @param ircCommand
+     * @param message
+     * @param permission
      */
-    public IRCCommandEvent(IRCCommand ircCommand) {
-        this.ircCommand = ircCommand;
+    public IRCMessageEvent(String message, String permission) {
+        this.message = message;
+        this.permission = permission;
     }
 
     /**
      *
      * @return
      */
-    public IRCCommand getIRCCommand() {
-        return this.ircCommand;
+    public String getMessage() {
+        return this.message;
+    }
+    
+    /**
+     *
+     * @return
+     */
+    public String getPermission() {
+        return this.permission;
     }
 
     /**

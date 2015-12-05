@@ -16,6 +16,7 @@
  */
 package com.cnaude.purpleirc;
 
+import com.cnaude.purpleirc.Events.IRCMessageEvent;
 import com.cnaude.purpleirc.GameListeners.AdminChatListener;
 import com.cnaude.purpleirc.GameListeners.CleverNotchListener;
 import com.cnaude.purpleirc.GameListeners.DeathMessagesListener;
@@ -1659,6 +1660,7 @@ public class PurpleIRC extends JavaPlugin {
     }
 
     public void broadcastToGame(final String message, final String permission) {
+        getServer().getPluginManager().callEvent(new IRCMessageEvent(message, permission));
         if (broadcastChatToConsole) {
             logDebug("Broadcast All [" + permission + "]: " + message);
             getServer().broadcast(message, permission);

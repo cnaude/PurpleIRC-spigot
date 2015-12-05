@@ -48,7 +48,7 @@ public class McMMOChatHook {
             plugin.logDebug("[mcMMOChatHook:sendAdminMessage]: " + message);
             String chatPrefix = Config.getInstance().getAdminChatPrefix();
             message = LocaleLoader.formatString(chatPrefix, sender) + " " + message;
-            plugin.getServer().broadcast(message, "mcmmo.chat.adminchat");
+            plugin.broadcastToGame(message, "mcmmo.chat.adminchat");
         }
     }
 
