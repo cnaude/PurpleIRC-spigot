@@ -590,7 +590,7 @@ public class PurpleIRC extends JavaPlugin {
             logError(ex.getMessage());
         }
         autoSave = getConfig().getBoolean("save-on-shutdown", false);
-        pingFixTemplate = getConfig().getBoolean("zero-width-space-template", false);
+        pingFixTemplate = getConfig().getBoolean("chat-ping-fix", false);
         overrideMsgCmd = getConfig().getBoolean("override-msg-cmd", false);
         smsgAlias = getConfig().getString("smsg-alias", "/m");
         smsgReplyAlias = getConfig().getString("smsg-reply-alias", "/r");
