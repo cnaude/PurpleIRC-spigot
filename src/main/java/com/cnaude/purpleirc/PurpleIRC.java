@@ -116,6 +116,7 @@ public class PurpleIRC extends JavaPlugin {
     public static long startTime;
     public boolean identServerEnabled;
     private boolean autoSave;
+    public boolean pingFixTemplate;
     private final CaseInsensitiveMap<HashMap<String, String>> messageTmpl;
     private final CaseInsensitiveMap<CaseInsensitiveMap<String>> ircHeroChannelMessages;
     private final CaseInsensitiveMap<CaseInsensitiveMap<String>> ircHeroActionChannelMessages;
@@ -589,6 +590,7 @@ public class PurpleIRC extends JavaPlugin {
             logError(ex.getMessage());
         }
         autoSave = getConfig().getBoolean("save-on-shutdown", false);
+        pingFixTemplate = getConfig().getBoolean("zero-width-space-template", false);
         overrideMsgCmd = getConfig().getBoolean("override-msg-cmd", false);
         smsgAlias = getConfig().getString("smsg-alias", "/m");
         smsgReplyAlias = getConfig().getString("smsg-reply-alias", "/r");

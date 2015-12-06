@@ -91,15 +91,6 @@ public class IRCMessageQueueWatcher {
         plugin.logDebug("[blockingCTCPMessage] Message sent to " + target + ": " + message);
     }
 
-    private String addZeroWidthSpace(String s) {
-        if (s.length() > 1) {
-            String a = s.substring(0, 1);
-            String b = s.substring(1);
-            return a + "\u200B" + b;
-        }
-        return s;
-    }
-
     private String pingFix(String message) {
         for (Channel channel : ircBot.bot.getUserBot().getChannels()) {
             for (User user : channel.getUsers()) {
@@ -107,7 +98,7 @@ public class IRCMessageQueueWatcher {
                     continue;
                 }
                 if (message.toLowerCase().contains(user.getNick().toLowerCase())) {
-                    message = message.replaceAll("(?i)" + user.getNick(), addZeroWidthSpace(user.getNick()));
+                    message = message.replaceAll("(?i)" + user.getNick(), plugin.tokenizer.addZeroWidthSpace(user.getNick()));
                     plugin.logDebug("Adding ZWS to " + user.getNick());
                 }
             }
@@ -116,7 +107,7 @@ public class IRCMessageQueueWatcher {
     }
 
     private String[] cleanupAndSplitMessage(String message) {
-        if (ircBot.pingFix) {
+        if (ircBot.pingFixFull) {
             message = pingFix(message);
         }
         return message.replaceAll(REGEX_CLEAN, "").replaceAll(REGEX_CRLF, "\n").split(LF);

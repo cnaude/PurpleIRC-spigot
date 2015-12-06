@@ -20,6 +20,8 @@ override-msg-cmd: false
 smsg-alias: '/m'
 # Alias for /irc smsg <prev player>
 smsg-reply-alias: '/r'
+# Insert zero width space into tokenized player names.
+chat-ping-fix: false
 # Chat messages support standard Bukkit color codes using '&#'. See http://minecraft.gamepedia.com/Formatting_codes
 # The following macro tokens are also supported.
 #  %WORLD%

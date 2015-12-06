@@ -99,7 +99,7 @@ public final class PurpleBot {
     public boolean relayPrivateChat;
     public boolean logPrivateChat;
     public boolean partInvalidChannels;
-    public boolean pingFix;
+    public boolean pingFixFull;
     public int botServerPort;
     public long chatDelay;
     public String botServer;
@@ -708,7 +708,7 @@ public final class PurpleBot {
             relayPrivateChat = config.getBoolean("relay-private-chat", false);
             logPrivateChat = config.getBoolean("log-private-chat", false);
             partInvalidChannels = config.getBoolean("part-invalid-channels", false);
-            pingFix = config.getBoolean("zero-width-space", false);
+            pingFixFull = config.getBoolean("zero-width-space", false);
             partInvalidChannelsMsg = config.getString("part-invalid-channels-message", "");
             nick = config.getString("nick", "");
             botNick = nick;
@@ -3256,8 +3256,8 @@ public final class PurpleBot {
         }
     }
 
-    // Notify when player goes AFK
     /**
+     * Send AFK message
      *
      * @param player
      * @param afk
@@ -3281,6 +3281,7 @@ public final class PurpleBot {
     }
 
     /**
+     * Send a private message to a player
      *
      * @param sender
      * @param nick
@@ -3369,6 +3370,7 @@ public final class PurpleBot {
     }
 
     /**
+     * Send a private message to remote player.
      *
      * @param sender
      * @param remoteBot
@@ -3582,6 +3584,12 @@ public final class PurpleBot {
         }
     }
 
+    /**
+     * Send an IRC join notice to the game.
+     *
+     * @param channel IRC channel of the user that joined
+     * @param user IRC user that joined the channel
+     */
     public void joinNotice(Channel channel, User user) {
         if (user.getNick().equalsIgnoreCase(botNick)) {
             return;
@@ -3616,6 +3624,9 @@ public final class PurpleBot {
         }
     }
 
+    /**
+     * Change the bot's IRC nick to an alternate.
+     */
     public void altNickChange() {
         if (altNicks.isEmpty()) {
             return;

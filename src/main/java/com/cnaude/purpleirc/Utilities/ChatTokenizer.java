@@ -643,7 +643,12 @@ public class ChatTokenizer {
      * @return
      */
     public String playerTokenizer(Player player, String message) {
-        String pName = player.getName();
+        String pName;
+        if (plugin.pingFixTemplate) {
+            pName = addZeroWidthSpace(player.getName());
+        } else {
+            pName = player.getName();
+        }
         plugin.logDebug("Tokenizing " + pName + "(O: " + player.isOnline() + ")");
         String pSuffix = plugin.getPlayerSuffix(player);
         String pPrefix = plugin.getPlayerPrefix(player);
@@ -889,5 +894,14 @@ public class ChatTokenizer {
         return plugin.colorConverter.gameColorsToIrc(template
                 .replace("%FILE%", file)
                 .replace("%LINE%", line));
+    }
+    
+    public String addZeroWidthSpace(String s) {
+        if (s.length() > 1) {
+            String a = s.substring(0, 1);
+            String b = s.substring(1);
+            return a + "\u200B" + b;
+        }
+        return s;
     }
 }
