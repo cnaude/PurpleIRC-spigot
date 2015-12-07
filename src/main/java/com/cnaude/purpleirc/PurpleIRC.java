@@ -1440,12 +1440,12 @@ public class PurpleIRC extends JavaPlugin {
 
         if (enabled) {
             String version = getServer().getPluginManager().getPlugin(name).getDescription().getVersion();
-            logInfo("Enabling " + name + " support.");
+            logInfo("Hook enabled: " + name);
             message = ChatColor.WHITE + "[" + ChatColor.GREEN + "Y" + ChatColor.WHITE + "]";
             message = message + " [" + ChatColor.GOLD + name + ChatColor.WHITE + "] ["
                     + ChatColor.GOLD + "v" + version + ChatColor.WHITE + "]";
         } else {
-            logInfo("Enabling " + name + " support.");
+            logInfo("Hook NOT enabled: " + name);
             message = ChatColor.WHITE + "[" + ChatColor.RED + "N" + ChatColor.WHITE + "]";
             message = message + " [" + ChatColor.GRAY + name + ChatColor.WHITE + "]";
         }
