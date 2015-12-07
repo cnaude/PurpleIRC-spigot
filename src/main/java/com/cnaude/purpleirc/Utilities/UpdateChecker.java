@@ -83,7 +83,7 @@ public class UpdateChecker {
     private void updateCheck(CommandSender sender, String mode) {
         if (plugin.getServer().getVersion().contains("Spigot")) {
             try {
-                URL url = new URL("https://h.cnaude.org/jenkins/job/PurpleIRC-spigot/lastStableBuild/api/json");
+                URL url = new URL("http://h.cnaude.org:8081/jenkins/job/PurpleIRC-spigot/lastStableBuild/api/json");
                 URLConnection conn = url.openConnection();
                 conn.setReadTimeout(5000);
                 conn.addRequestProperty("User-Agent", "PurpleIRC-spigot Update Checker");
@@ -141,7 +141,7 @@ public class UpdateChecker {
             }
         } else {
             try {
-                URL url = new URL("https://h.cnaude.org/jenkins/job/PurpleIRC/lastStableBuild/api/json");
+                URL url = new URL("http://h.cnaude.org:8081/jenkins/job/PurpleIRC/lastStableBuild/api/json");
                 URLConnection conn = url.openConnection();
                 conn.setReadTimeout(5000);
                 conn.addRequestProperty("User-Agent", "PurpleIRC Update Checker");
