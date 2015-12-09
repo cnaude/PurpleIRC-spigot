@@ -48,7 +48,9 @@ public class EssentialsListener implements Listener {
         IUser user = event.getAffected();
         plugin.logDebug("AFK: " + user.getName() + ":" + user.isAfk());
         for (PurpleBot ircBot : plugin.ircBots.values()) {
-            ircBot.essentialsAFK(user.getBase(), !user.isAfk());
+            if (user.getBase().isOnline()) {
+                ircBot.essentialsAFK(user.getBase(), !user.isAfk());
+            }
         }
     }
 }

@@ -350,14 +350,14 @@
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
-            <version>4.10</version>
+            <version>4.12</version>
             <type>jar</type>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>com.carrotsearch</groupId>
             <artifactId>junit-benchmarks</artifactId>
-            <version>0.4.0</version>
+            <version>0.7.2</version>
             <scope>test</scope>
         </dependency>
     </dependencies>
@@ -384,7 +384,7 @@
         <plugins>
             <plugin>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.2</version>
+                <version>3.3</version>
                 <configuration>
                     <source>1.7</source>
                     <target>1.7</target>
@@ -394,7 +394,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-shade-plugin</artifactId>
-                <version>2.2</version>
+                <version>2.4.2</version>
                 <executions>
                     <execution>
                         <phase>package</phase>
@@ -439,9 +439,6 @@
                                 <copy file="../${project.name}/target/PurpleIRC-${project.version}.jar" tofile="../${project.name}/target/PurpleIRC.jar"/>
                                 <exec dir="../${project.name}/target" executable="scp">
                                     <arg line="PurpleIRC.jar cnaude@h.cnaude.org:spigottest/plugins/PurpleIRC.jar"/>
-                                </exec>
-                                <exec dir="../${project.name}/target" executable="scp">
-                                    <arg line="PurpleIRC.jar cnaude@h.cnaude.org:spigottest2/plugins/PurpleIRC.jar"/>
                                 </exec>
                             </tasks>
                         </configuration>
