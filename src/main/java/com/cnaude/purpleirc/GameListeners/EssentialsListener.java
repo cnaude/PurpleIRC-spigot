@@ -52,7 +52,7 @@ public class EssentialsListener implements Listener {
             public void run() {
                 for (PurpleBot ircBot : plugin.ircBots.values()) {
                     if (user.getBase().isOnline()) {
-                        ircBot.essentialsAFK(user.getBase(), !user.isAfk());
+                        ircBot.essentialsAFK(user.getBase(), user.isAfk());
                     }
                 }
             }
