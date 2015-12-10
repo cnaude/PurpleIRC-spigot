@@ -82,9 +82,6 @@
                 <exec>
                   <arg />
                 </exec>
-                <exec>
-                  <arg />
-                </exec>
               </tasks>
             </configuration>
           </execution>
