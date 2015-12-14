@@ -1663,14 +1663,15 @@ public class PurpleIRC extends JavaPlugin {
 
     public void broadcastToGame(final String message, final String permission) {
         getServer().getPluginManager().callEvent(new IRCMessageEvent(message, permission));
+        String fixedMessage = message.replace("\u200B", "");
         if (broadcastChatToConsole) {
-            logDebug("Broadcast All [" + permission + "]: " + message);
-            getServer().broadcast(message, permission);
+            logDebug("Broadcast All [" + permission + "]: " + fixedMessage);
+            getServer().broadcast(fixedMessage, permission);
         } else {
-            logDebug("Broadcast Players [" + permission + "]: " + message);
+            logDebug("Broadcast Players [" + permission + "]: " + fixedMessage);
             for (Player player : getServer().getOnlinePlayers()) {
                 if (player.hasPermission(permission)) {
-                    player.sendMessage(message);
+                    player.sendMessage(fixedMessage);
                 }
             }
         }
