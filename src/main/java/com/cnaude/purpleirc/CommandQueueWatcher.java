@@ -19,7 +19,6 @@ package com.cnaude.purpleirc;
 import com.cnaude.purpleirc.Events.IRCCommandEvent;
 import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedQueue;
-import org.bukkit.Bukkit;
 import org.bukkit.command.CommandException;
 
 /**
@@ -94,8 +93,9 @@ public class CommandQueueWatcher {
     }
 
     /**
-     *
-     * @param command
+     * Add an IRCCommand to the command queue
+     * 
+     * @param command the IRC command to add to the queue
      */
     public void add(IRCCommand command) {
         plugin.logDebug("Adding command to queue: " + command.getGameCommand());

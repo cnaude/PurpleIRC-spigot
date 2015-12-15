@@ -57,7 +57,6 @@ import com.cnaude.purpleirc.Hooks.VaultHook;
 import com.cnaude.purpleirc.Utilities.CaseInsensitiveMap;
 import com.cnaude.purpleirc.Utilities.ChatTokenizer;
 import com.cnaude.purpleirc.Utilities.ColorConverter;
-import com.cnaude.purpleirc.Utilities.CompatChecker;
 import com.cnaude.purpleirc.Utilities.NetPackets;
 import com.cnaude.purpleirc.Utilities.Query;
 import com.cnaude.purpleirc.Utilities.RegexGlobber;
@@ -261,10 +260,6 @@ public class PurpleIRC extends JavaPlugin {
     public void onEnable() {
         LOG_HEADER = "[" + this.getName() + "]";
         LOG_HEADER_F = ChatColor.LIGHT_PURPLE + "[" + this.getName() + "]" + ChatColor.RESET;
-        if (!CompatChecker.isCompatible(this)) {
-            this.getPluginLoader().disablePlugin(this);
-            return;
-        }
         pluginFolder = getDataFolder();
         botsFolder = new File(pluginFolder + "/bots");
         configFile = new File(pluginFolder, "config.yml");
@@ -1695,7 +1690,7 @@ public class PurpleIRC extends JavaPlugin {
      */
     public int getOnlinePlayerCount() {
         int count = 0;
-        for (Player player : getServer().getOnlinePlayers()) {
+        for (Player p : getServer().getOnlinePlayers()) {
             count++;
         }
         return count;

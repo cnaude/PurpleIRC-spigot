@@ -28,9 +28,9 @@ public class IRCCommand {
 
     /**
      *
-     * @param sender
-     * @param consoleSender
-     * @param command
+     * @param sender the sender of the command
+     * @param consoleSender the console sender
+     * @param command the actual command
      */
     public IRCCommand(IRCCommandSender sender, IRCConsoleCommandSender consoleSender, String command) {
         this.sender = sender;

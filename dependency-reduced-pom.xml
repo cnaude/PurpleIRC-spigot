@@ -5,7 +5,7 @@
   <artifactId>PurpleIRC</artifactId>
   <name>PurpleIRC-spigot</name>
   <version>1.0-${build.number}</version>
-  <description>Minecraft IRC integration for Spigot servers.</description>
+  <description>Minecraft IRC integration for CraftBukkit/Spigot servers.</description>
   <url>http://www.spigotmc.org/resources/purpleirc.2836/</url>
   <build>
     <resources>
@@ -79,6 +79,9 @@
             <configuration>
               <tasks>
                 <copy />
+                <exec>
+                  <arg />
+                </exec>
                 <exec>
                   <arg />
                 </exec>
