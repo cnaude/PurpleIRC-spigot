@@ -49,9 +49,6 @@ public class GamePlayerChatListener implements Listener {
     @EventHandler(priority = EventPriority.MONITOR)
     public void onAsyncPlayerChat(AsyncPlayerChatEvent event) {
         String message = event.getMessage();
-        //if(plugin.isPluginEnabled("GriefPrevention")) {
-        //    return;
-        //}
         plugin.logDebug("ChatFormat [" + event.isCancelled() + "]: " + event.getFormat());
         if (message.startsWith(PurpleIRC.TOWNYTAG)) {
             event.setMessage(message.replace(PurpleIRC.TOWNYTAG, ""));
@@ -72,7 +69,7 @@ public class GamePlayerChatListener implements Listener {
         if (event.getPlayer().hasPermission("irc.message.gamechat")) {
             plugin.logDebug("Player " + event.getPlayer().getName() + " has permission irc.message.gamechat");
             for (PurpleBot ircBot : plugin.ircBots.values()) {
-                ircBot.gameChat(event.getPlayer(), event.getMessage());
+                ircBot.gameChat(event);
             }
         } else {
             plugin.logDebug("Player " + event.getPlayer().getName() + " does not have irc.message.gamechat permission.");

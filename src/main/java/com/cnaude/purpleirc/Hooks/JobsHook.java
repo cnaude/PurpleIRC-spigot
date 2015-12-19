@@ -74,7 +74,7 @@ public class JobsHook {
                         }
                     }
                     if (!j.isEmpty()) {
-                        return Joiner.on(plugin.getMsgTemplate(TemplateName.JOBS_SEPARATOR)).join(j);
+                        return Joiner.on(plugin.getMessageTemplate(TemplateName.JOBS_SEPARATOR)).join(j);
                     }
                 }
             } catch (Exception ex) {

@@ -72,7 +72,7 @@ public class Msg implements IRCCommandInterface {
 
             for (PurpleBot ircBot : myBots) {
                 String msg = "";
-                final String template = plugin.getMsgTemplate(ircBot.botNick, "", TemplateName.GAME_PCHAT_RESPONSE);
+                final String template = plugin.getMessageTemplate(ircBot.botNick, "", TemplateName.GAME_PCHAT_RESPONSE);
                 for (int i = msgIdx; i < args.length; i++) {
                     msg = msg + " " + args[i];
                 }

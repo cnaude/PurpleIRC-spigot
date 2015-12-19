@@ -48,6 +48,7 @@ import com.cnaude.purpleirc.Hooks.FactionChatHook;
 import com.cnaude.purpleirc.Hooks.GriefPreventionHook;
 import com.cnaude.purpleirc.Hooks.JobsHook;
 import com.cnaude.purpleirc.Hooks.McMMOChatHook;
+import com.cnaude.purpleirc.Hooks.MineverseChatHook;
 import com.cnaude.purpleirc.Hooks.ReportRTSHook;
 import com.cnaude.purpleirc.Hooks.ShortifyHook;
 import com.cnaude.purpleirc.Hooks.SuperVanishHook;
@@ -119,9 +120,13 @@ public class PurpleIRC extends JavaPlugin {
     private final CaseInsensitiveMap<HashMap<String, String>> messageTmpl;
     private final CaseInsensitiveMap<CaseInsensitiveMap<String>> ircHeroChannelMessages;
     private final CaseInsensitiveMap<CaseInsensitiveMap<String>> ircHeroActionChannelMessages;
+    private final CaseInsensitiveMap<CaseInsensitiveMap<String>> ircMineverseChannelMessages;
+    private final CaseInsensitiveMap<CaseInsensitiveMap<String>> ircMineverseActionChannelMessages;
     private final CaseInsensitiveMap<CaseInsensitiveMap<String>> ircTownyChannelMessages;
     private final CaseInsensitiveMap<CaseInsensitiveMap<String>> heroChannelMessages;
     private final CaseInsensitiveMap<CaseInsensitiveMap<String>> heroActionChannelMessages;
+    private final CaseInsensitiveMap<CaseInsensitiveMap<String>> mineverseChannelMessages;
+    private final CaseInsensitiveMap<CaseInsensitiveMap<String>> mineverseActionChannelMessages;
     private final Map<String, String> hostCache;
     public String defaultPlayerSuffix,
             defaultPlayerPrefix,
@@ -168,6 +173,7 @@ public class PurpleIRC extends JavaPlugin {
     private boolean listSortByName;
     public boolean exactNickMatch;
     public boolean ignoreChatCancel;
+    public boolean mineverseChatEnabled;
     public Long ircConnCheckInterval;
     public Long ircChannelCheckInterval;
     public ChannelWatcher channelWatcher;
@@ -177,6 +183,7 @@ public class PurpleIRC extends JavaPlugin {
     public CaseInsensitiveMap<PurpleBot> ircBots;
     public FactionChatHook fcHook;
     public TownyChatHook tcHook;
+    public MineverseChatHook mvHook;
     public DynmapHook dynmapHook;
     public JobsHook jobsHook;
     public AdminPrivateChatHook adminPrivateChatHook;
@@ -222,6 +229,7 @@ public class PurpleIRC extends JavaPlugin {
     final String PL_REDDITSTREAM = "RedditStream";
     final String PL_PRISM = "Prism";
     final String PL_TITANCHAT = "TitanChat";
+    final String PL_MINEVERSECHAT = "MineverseChat";
     final String PL_HEROCHAT = "Herochat";
     final String PL_GRIEFPREVENTION = "GriefPrevention";
     List<String> hookList = new ArrayList<>();
@@ -241,9 +249,13 @@ public class PurpleIRC extends JavaPlugin {
         this.messageTmpl = new CaseInsensitiveMap<>();
         this.ircHeroChannelMessages = new CaseInsensitiveMap<>();
         this.ircHeroActionChannelMessages = new CaseInsensitiveMap<>();
+        this.ircMineverseChannelMessages = new CaseInsensitiveMap<>();
+        this.ircMineverseActionChannelMessages = new CaseInsensitiveMap<>();
         this.ircTownyChannelMessages = new CaseInsensitiveMap<>();
         this.heroChannelMessages = new CaseInsensitiveMap<>();
         this.heroActionChannelMessages = new CaseInsensitiveMap<>();
+        this.mineverseChannelMessages = new CaseInsensitiveMap<>();
+        this.mineverseActionChannelMessages = new CaseInsensitiveMap<>();
         this.displayNameCache = new CaseInsensitiveMap<>();
         this.uuidCache = new CaseInsensitiveMap<>();
         this.hostCache = new HashMap<>();
@@ -405,93 +417,100 @@ public class PurpleIRC extends JavaPlugin {
      *
      * @param botName
      * @param channelName
-     * @param tmpl
+     * @param template
      * @return
      */
-    public String getMsgTemplate(String botName, String channelName, String tmpl) {
+    public String getMessageTemplate(String botName, String channelName, String template) {
         if (messageTmpl.containsKey(botName + "." + channelName)) {
-            if (messageTmpl.get(botName + "." + channelName).containsKey(tmpl)) {
-                return messageTmpl.get(botName + "." + channelName).get(tmpl);
+            if (messageTmpl.get(botName + "." + channelName).containsKey(template)) {
+                return messageTmpl.get(botName + "." + channelName).get(template);
             }
         }
         if (messageTmpl.containsKey(botName)) {
-            if (messageTmpl.get(botName).containsKey(tmpl)) {
-                return messageTmpl.get(botName).get(tmpl);
+            if (messageTmpl.get(botName).containsKey(template)) {
+                return messageTmpl.get(botName).get(template);
             }
         }
-        if (messageTmpl.get(MAINCONFIG).containsKey(tmpl)) {
-            return messageTmpl.get(MAINCONFIG).get(tmpl);
+        if (messageTmpl.get(MAINCONFIG).containsKey(template)) {
+            return messageTmpl.get(MAINCONFIG).get(template);
         }
-        return "INVALID TEMPLATE: " + botName + ":" + tmpl;
-    }
-
-    public String getMsgTemplate(String tmpl) {
-        return getMsgTemplate(MAINCONFIG, "", tmpl);
-    }
-
-    public String getHeroTemplate(CaseInsensitiveMap<CaseInsensitiveMap<String>> hc,
-            String botName, String hChannel) {
-        if (hc.containsKey(botName)) {
-            logDebug("HC1 => " + hChannel);
-            for (String s : hc.get(botName).keySet()) {
-                logDebug("HT => " + s);
-            }
-            if (hc.get(botName).containsKey(hChannel)) {
-                logDebug("HC2 => " + hChannel);
-                return hc.get(botName).get(hChannel);
-            }
-        }
-        if (hc.containsKey(MAINCONFIG)) {
-            logDebug("HC3 => " + hChannel);
-            for (String s : hc.get(MAINCONFIG).keySet()) {
-                logDebug("HT => " + s);
-            }
-            if (hc.get(MAINCONFIG).containsKey(hChannel)) {
-                logDebug("HC4 => " + hChannel);
-                return hc.get(MAINCONFIG).get(hChannel);
-            }
-        }
+        logDebug("No such template: " + template);
         return "";
     }
 
-    public String getHeroChatChannelTemplate(String botName, String hChannel) {
-        String tmpl = getHeroTemplate(heroChannelMessages, botName, hChannel);
-        if (tmpl.isEmpty()) {
-            return getMsgTemplate(MAINCONFIG, "", TemplateName.HERO_CHAT);
-        }
-        return getHeroTemplate(heroChannelMessages, botName, hChannel);
+    public String getMessageTemplate(String template) {
+        return getMessageTemplate(MAINCONFIG, "", template);
     }
 
-    public String getHeroActionChannelTemplate(String botName, String hChannel) {
-        String tmpl = getHeroTemplate(heroActionChannelMessages, botName, hChannel);
-        if (tmpl.isEmpty()) {
-            return getMsgTemplate(MAINCONFIG, "", TemplateName.HERO_ACTION);
+    /**
+     * Get message template for HeroChat, MineverseChat or TownyChat based on
+     * channel name
+     *
+     * @param templateMap map of message templates for specific chat plugin
+     * @param botName our bot name
+     * @param channel channel for plugin
+     * @param template default template to look for if other is not found
+     * @return message template
+     */
+    private String getMessageTemplate(CaseInsensitiveMap<CaseInsensitiveMap<String>> templateMap,
+            String botName, String channel, String template) {
+        if (templateMap.containsKey(botName)) {
+            logDebug("HC1 => " + channel);
+            for (String s : templateMap.get(botName).keySet()) {
+                logDebug("HT => " + s);
+            }
+            if (templateMap.get(botName).containsKey(channel)) {
+                logDebug("HC2 => " + channel);
+                return templateMap.get(botName).get(channel);
+            }
         }
-        return getHeroTemplate(heroActionChannelMessages, botName, hChannel);
+        if (templateMap.containsKey(MAINCONFIG)) {
+            logDebug("HC3 => " + channel);
+            for (String s : templateMap.get(MAINCONFIG).keySet()) {
+                logDebug("HT => " + s);
+            }
+            if (templateMap.get(MAINCONFIG).containsKey(channel)) {
+                logDebug("HC4 => " + channel);
+                return templateMap.get(MAINCONFIG).get(channel);
+            }
+        }
+        return getMessageTemplate(MAINCONFIG, "", template);
     }
 
-    public String getIRCHeroChatChannelTemplate(String botName, String hChannel) {
-        String tmpl = getHeroTemplate(ircHeroChannelMessages, botName, hChannel);
-        if (tmpl.isEmpty()) {
-            return getMsgTemplate(MAINCONFIG, "", TemplateName.IRC_HERO_CHAT);
-        }
-        return getHeroTemplate(ircHeroChannelMessages, botName, hChannel);
+    public String getHeroChatTemplate(String botName, String channel) {
+        return getMessageTemplate(heroChannelMessages, botName, channel, TemplateName.HERO_CHAT);
     }
 
-    public String getIRCHeroActionChannelTemplate(String botName, String hChannel) {
-        String tmpl = getHeroTemplate(ircHeroActionChannelMessages, botName, hChannel);
-        if (tmpl.isEmpty()) {
-            return getMsgTemplate(MAINCONFIG, "", TemplateName.IRC_HERO_ACTION);
-        }
-        return getHeroTemplate(ircHeroActionChannelMessages, botName, hChannel);
+    public String getHeroActionTemplate(String botName, String channel) {
+        return getMessageTemplate(heroActionChannelMessages, botName, channel, TemplateName.HERO_ACTION);
     }
 
-    public String getIRCTownyChatChannelTemplate(String botName, String tChannel) {
-        String tmpl = getHeroTemplate(ircTownyChannelMessages, botName, tChannel);
-        if (tmpl.isEmpty()) {
-            return getMsgTemplate(MAINCONFIG, "", TemplateName.IRC_TOWNY_CHAT);
-        }
-        return getHeroTemplate(ircTownyChannelMessages, botName, tChannel);
+    public String getIrcHeroChatTemplate(String botName, String channel) {
+        return getMessageTemplate(ircHeroChannelMessages, botName, channel, TemplateName.IRC_HERO_CHAT);
+    }
+
+    public String getIrcHeroActionTemplate(String botName, String channel) {
+        return getMessageTemplate(ircHeroActionChannelMessages, botName, channel, TemplateName.IRC_HERO_ACTION);
+    }
+
+    public String getMineverseChatTemplate(String botName, String channel) {
+        return getMessageTemplate(mineverseChannelMessages, botName, channel, TemplateName.MINEVERSE_CHAT);
+    }
+
+    public String getMineverseActionTemplate(String botName, String channel) {
+        return getMessageTemplate(mineverseActionChannelMessages, botName, channel, TemplateName.MINEVERSE_ACTION);
+    }
+
+    public String getIrcMineverseChatTemplate(String botName, String channel) {
+        return getMessageTemplate(ircMineverseChannelMessages, botName, channel, TemplateName.IRC_MINEVERSE_CHAT);
+    }
+
+    public String getIrcMineverseActionTemplate(String botName, String channel) {
+        return getMessageTemplate(ircMineverseActionChannelMessages, botName, channel, TemplateName.IRC_MINEVERSE_ACTION);
+    }
+
+    public String getIrcTownyChatTemplate(String botName, String channel) {
+        return getMessageTemplate(ircTownyChannelMessages, botName, channel, TemplateName.IRC_TOWNY_CHAT);
     }
 
     public void loadCustomColors(YamlConfiguration config) {
@@ -505,11 +524,18 @@ public class PurpleIRC extends JavaPlugin {
 
     public void loadTemplates(YamlConfiguration config, String configName, String section) {
         messageTmpl.put(configName, new HashMap<String, String>());
+
         ircHeroChannelMessages.put(configName, new CaseInsensitiveMap<String>());
         ircHeroActionChannelMessages.put(configName, new CaseInsensitiveMap<String>());
-        ircTownyChannelMessages.put(configName, new CaseInsensitiveMap<String>());
         heroChannelMessages.put(configName, new CaseInsensitiveMap<String>());
         heroActionChannelMessages.put(configName, new CaseInsensitiveMap<String>());
+
+        ircMineverseChannelMessages.put(configName, new CaseInsensitiveMap<String>());
+        ircMineverseActionChannelMessages.put(configName, new CaseInsensitiveMap<String>());
+        mineverseChannelMessages.put(configName, new CaseInsensitiveMap<String>());
+        mineverseActionChannelMessages.put(configName, new CaseInsensitiveMap<String>());
+
+        ircTownyChannelMessages.put(configName, new CaseInsensitiveMap<String>());
 
         if (config.contains(section)) {
             for (String t : config.getConfigurationSection(section).getKeys(false)) {
@@ -530,7 +556,6 @@ public class PurpleIRC extends JavaPlugin {
                             + " => " + ircHeroChannelMessages.get(configName).get(hChannelName));
                 }
             }
-
             if (config.contains(section + ".irc-hero-action-channels")) {
                 for (String hChannelName : config.getConfigurationSection(section + ".irc-hero-action-channels").getKeys(false)) {
                     ircHeroActionChannelMessages.get(configName).put(hChannelName,
@@ -571,6 +596,48 @@ public class PurpleIRC extends JavaPlugin {
                                             + hChannelName)));
                     logDebug(section + ".hero-action-channels: " + hChannelName
                             + " => " + heroActionChannelMessages.get(configName).get(hChannelName));
+                }
+            }
+
+            if (config.contains(section + ".mineverse-channels")) {
+                for (String mvChannelName : config.getConfigurationSection(section + ".mineverse-channels").getKeys(false)) {
+                    mineverseChannelMessages.get(configName).put(mvChannelName,
+                            ChatColor.translateAlternateColorCodes('&',
+                                    config.getString(section + ".mineverse-channels."
+                                            + mvChannelName)));
+                    logDebug(section + ".mineverse-channels: " + mvChannelName
+                            + " => " + mineverseChannelMessages.get(configName).get(mvChannelName));
+                }
+            }
+            if (config.contains(section + ".mineverse-action-channels")) {
+                for (String mvChannelName : config.getConfigurationSection(section + ".mineverse-action-channels").getKeys(false)) {
+                    mineverseActionChannelMessages.get(configName).put(mvChannelName,
+                            ChatColor.translateAlternateColorCodes('&',
+                                    config.getString(section + ".mineverse-action-channels."
+                                            + mvChannelName)));
+                    logDebug(section + ".mineverse-action-channels: " + mvChannelName
+                            + " => " + mineverseActionChannelMessages.get(configName).get(mvChannelName));
+                }
+            }
+
+            if (config.contains(section + ".irc-mineverse-channels")) {
+                for (String mvChannelName : config.getConfigurationSection(section + ".irc-mineverse-channels").getKeys(false)) {
+                    ircMineverseChannelMessages.get(configName).put(mvChannelName,
+                            ChatColor.translateAlternateColorCodes('&',
+                                    config.getString(section + ".irc-mineverse-channels."
+                                            + mvChannelName)));
+                    logDebug(section + ".irc-mineverse-channels: " + mvChannelName
+                            + " => " + ircMineverseChannelMessages.get(configName).get(mvChannelName));
+                }
+            }
+            if (config.contains(section + ".irc-mineverse-action-channels")) {
+                for (String mvChannelName : config.getConfigurationSection(section + ".irc-mineverse-action-channels").getKeys(false)) {
+                    ircMineverseActionChannelMessages.get(configName).put(mvChannelName,
+                            ChatColor.translateAlternateColorCodes('&',
+                                    config.getString(section + ".irc-mineverse-action-channels."
+                                            + mvChannelName)));
+                    logDebug(section + ".irc-mineverse-action-channels: " + mvChannelName
+                            + " => " + ircMineverseActionChannelMessages.get(configName).get(mvChannelName));
                 }
             }
         } else {
@@ -1495,6 +1562,15 @@ public class PurpleIRC extends JavaPlugin {
         } else {
             hookList.add(hookFormat(PL_TITANCHAT, false));
         }
+        if (isPluginEnabled(PL_MINEVERSECHAT)) {
+            hookList.add(hookFormat(PL_MINEVERSECHAT, true));
+            mineverseChatEnabled = true;
+            mvHook = new MineverseChatHook(this);
+        } else {
+            hookList.add(hookFormat(PL_MINEVERSECHAT, false));
+            mineverseChatEnabled = false;
+            mvHook = null;
+        }
         if (isPluginEnabled(PL_PRISM)) {
             hookList.add(hookFormat(PL_PRISM, true));
             getServer().getPluginManager().registerEvents(new PrismListener(this), this);
@@ -1669,6 +1745,14 @@ public class PurpleIRC extends JavaPlugin {
                     player.sendMessage(fixedMessage);
                 }
             }
+        }
+    }
+
+    public void broadcastToPlayer(final Player player, final String message, final String permission) {
+        getServer().getPluginManager().callEvent(new IRCMessageEvent(message, permission));
+        String fixedMessage = message.replace("\u200B", "");
+        if (player.hasPermission(permission)) {
+            player.sendMessage(fixedMessage);
         }
     }
 

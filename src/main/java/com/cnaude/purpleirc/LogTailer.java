@@ -93,7 +93,7 @@ public class LogTailer {
                 okayToSend = true;
             }
             if (okayToSend && !excludesMatch(line)) {
-                String template = plugin.getMsgTemplate(ircBot.botNick, target, TemplateName.LOG_TAILER);
+                String template = plugin.getMessageTemplate(ircBot.botNick, target, TemplateName.LOG_TAILER);
                 String message = plugin.tokenizer.logTailerTokenizer(file.getName(), line, template);
                 if (ctcp) {
                     blockingCTCPMessage(target, message);

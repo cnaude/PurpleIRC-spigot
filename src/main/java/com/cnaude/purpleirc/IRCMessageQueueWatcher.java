@@ -92,21 +92,25 @@ public class IRCMessageQueueWatcher {
     }
 
     private String pingFix(String message) {
-        for (Channel channel : ircBot.bot.getUserBot().getChannels()) {
-            for (User user : channel.getUsers()) {
-                if (user.getNick().equalsIgnoreCase(ircBot.botNick)) {
-                    continue;
-                }
-                if (message.toLowerCase().contains(user.getNick().toLowerCase())) {
-                    message = message.replaceAll("(?i)" + user.getNick(), plugin.tokenizer.addZeroWidthSpace(user.getNick()));
-                    plugin.logDebug("Adding ZWS to " + user.getNick());
+        try {
+            for (Channel channel : ircBot.bot.getUserBot().getChannels()) {
+                for (User user : channel.getUsers()) {
+                    if (user.getNick().equalsIgnoreCase(ircBot.botNick)) {
+                        continue;
+                    }
+                    if (message.toLowerCase().contains(user.getNick().toLowerCase())) {
+                        message = message.replaceAll("(?i)" + user.getNick(), plugin.tokenizer.addZeroWidthSpace(user.getNick()));
+                        plugin.logDebug("Adding ZWS to " + user.getNick());
+                    }
                 }
             }
-        }
-        return message;
-    }
+        } catch (Exception ex) {
+            plugin.logDebug(ex.getMessage());
+        }    
+    return message ;
+}
 
-    private String[] cleanupAndSplitMessage(String message) {
+private String[] cleanupAndSplitMessage(String message) {
         if (ircBot.pingFixFull) {
             message = pingFix(message);
         }

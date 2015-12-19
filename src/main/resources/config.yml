@@ -165,6 +165,14 @@ message-format:
   irc-hero-part: '[&3IRC&r] %NAME% has left %CHANNEL%.'
   irc-hero-quit: '[&3IRC&r] %NAME% has left %CHANNEL%.'
   irc-hero-topic: '[&3IRC&r] Topic changed by %NAME%: %TOPIC%.'
+  # Message templates for IRC to Mineversechat messages
+  irc-mineverse-action: '[&3IRC&r] ***%NAME% %MESSAGE%'
+  irc-mineverse-chat: '[&3IRC&r]<%NAME%> %MESSAGE%'
+  irc-mineverse-join: '[&3IRC&r] %NAME% has joined %CHANNEL%.'
+  irc-mineverse-kick: '[&3IRC&r] %NAME% was kicked from %CHANNEL% by %KICKER%. (Reason- %REASON%)'
+  irc-mineverse-part: '[&3IRC&r] %NAME% has left %CHANNEL%.'
+  irc-mineverse-quit: '[&3IRC&r] %NAME% has left %CHANNEL%.'
+  irc-mineverse-topic: '[&3IRC&r] Topic changed by %NAME%: %TOPIC%.'
   # Message template for TitanChat to IRC messages
   titan-chat: '[%CHANNEL%]<%NAME%> %MESSAGE%'
   # Message templates for IRC to TitanChat messages
@@ -204,9 +212,49 @@ message-format:
   # Message format per hero channel. From game to IRC. Overrides hero-chat template.
   hero-channels:
       Global: '[%CHANNEL%]<%NAME%> %MESSAGE%'
-  # Emote message format per hero channel. From game to IRC. Overrides hero-action template.
+  # Emote message format per HeroChat channel. From game to IRC. Overrides hero-action template.
   hero-action-channels:
       Global: '[&2%CHANNEL%&r]***%NAME% %MESSAGE%'
+  # Message format per MineverseChat channel. From IRC to game. Overrides mineverse-chat template.
+  irc-mineverse-channels:
+      Global: '&f[&2Global&f] [&4IRC&f] <%NAME%>&2: %MESSAGE%'
+      Staff: '&f[&aStaff&f] [&4IRC&f] <%NAME%>&a: %MESSAGE%'
+      Admin: '&f[&cAdmin&f] [&4IRC&f] <%NAME%>&c: %MESSAGE%'
+      Donator: '&f[&dDonator&f] [&4IRC&f] <%NAME%>&d: %MESSAGE%'
+      Help: '&f[&bHelp&f] [&4IRC&f] <%NAME%>&b: %MESSAGE%'
+      Trade: '&f[&3Trade&f] [&4IRC&f] <%NAME%>&3: %MESSAGE%'
+      Local: '&f[&eLocal&f] [&4IRC&f] <%NAME%>&e: %MESSAGE%'
+      Network: '&f[&6Network&f] [&4IRC&f] <%NAME%>&6: %MESSAGE%'
+  # Emote message format per MineverseChat channel. From IRC to game. Overrides mineverse-action template.
+  irc-mineverse-action-channels:
+      Global: '&f[&2Global&f] [&4IRC&f]***%NAME%&2: %MESSAGE%'
+      Staff: '&f[&aStaff&f] [&4IRC&f]***%NAME%&a: %MESSAGE%'
+      Admin: '&f[&cAdmin&f] [&4IRC&f]***%NAME%&c: %MESSAGE%'
+      Donator: '&f[&dDonator&f] [&4IRC&f]***%NAME%&d: %MESSAGE%'
+      Help: '&f[&bHelp&f] [&4IRC&f]***%NAME%&b: %MESSAGE%'
+      Trade: '&f[&3Trade&f] [&4IRC&f]***%NAME%&3: %MESSAGE%'
+      Local: '&f[&eLocal&f] [&4IRC&f]***%NAME%&e: %MESSAGE%'
+      Network: '&f[&6Network&f] [&4IRC&f]***%NAME%&6: %MESSAGE%'      
+  # Message format per MineverseChat channel. From game to IRC. Overrides mineverse-chat template.
+  mineverse-channels:
+      Global: '&f[&2Global&f] <%NAME%>&2: %MESSAGE%'
+      Staff: '&f[&aStaff&f] <%NAME%>&a: %MESSAGE%'
+      Admin: '&f[&cAdmin&f] <%NAME%>&c: %MESSAGE%'
+      Donator: '&f[&dDonator&f] <%NAME%>&d: %MESSAGE%'
+      Help: '&f[&bHelp&f] <%NAME%>&b: %MESSAGE%'
+      Trade: '&f[&3Trade&f] <%NAME%>&3: %MESSAGE%'
+      Local: '&f[&eLocal&f] <%NAME%>&e: %MESSAGE%'
+      Network: '&f[&6Network&f] <%NAME%>&6: %MESSAGE%'
+  # Emote message format per MineverseChat channel. From game to IRC. Overrides mineverse-action template.
+  mineverse-action-channels:
+      Global: '&f[&2Global&f]***%NAME%&2: %MESSAGE%'
+      Staff: '&f[&aStaff&f]***%NAME%&a: %MESSAGE%'
+      Admin: '&f[&cAdmin&f]***%NAME%&c: %MESSAGE%'
+      Donator: '&f[&dDonator&f]***%NAME%&d: %MESSAGE%'
+      Help: '&f[&bHelp&f]***%NAME%&b: %MESSAGE%'
+      Trade: '&f[&3Trade&f]***%NAME%&3: %MESSAGE%'
+      Local: '&f[&eLocal&f]***%NAME%&e: %MESSAGE%'
+      Network: '&f[&6Network&f]***%NAME%&6: %MESSAGE%'
   # Message templates for Towny to IRC messages
   towny-channel-chat: '%TOWNYCHANNELTAG%[%TOWNYCHANNEL%]<%NAME%> %MESSAGE%'
   # Message templates for IRC to Towny messages

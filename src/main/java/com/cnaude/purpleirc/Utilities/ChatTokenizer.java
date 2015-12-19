@@ -222,6 +222,34 @@ public class ChatTokenizer {
     }
 
     /**
+     * IRC to Mineverse chat channel tokenizer
+     *
+     * @param ircBot
+     * @param user
+     * @param channel
+     * @param template
+     * @param message
+     * @param hChannel
+     * @return
+     */
+    public String ircChatToMineverseChatTokenizer(PurpleBot ircBot, User user, org.pircbotx.Channel channel, String template, String message, String hChannel) {
+        String ircNick = user.getNick();
+        String tmpl;
+        Player player = this.getPlayer(ircNick);
+        if (player != null) {
+            tmpl = playerTokenizer(player, template);
+        } else {
+            tmpl = playerTokenizer(ircNick, template);
+        }
+        return plugin.colorConverter.ircColorsToGame(ircUserTokenizer(tmpl, user, ircBot)
+                .replace("%MVCHANNEL%", hChannel)
+                .replace("%NICKPREFIX%", ircBot.getNickPrefix(user, channel))
+                .replace("%CHANNELPREFIX%", ircBot.getChannelPrefix(channel))
+                .replace("%MESSAGE%", message)
+                .replace("%CHANNEL%", channel.getName()));
+    }
+
+    /**
      * IRC to Hero chat channel tokenizer
      *
      * @param ircBot
@@ -480,13 +508,13 @@ public class ChatTokenizer {
         String template;
         switch (chatMode) {
             case "public":
-                template = plugin.getMsgTemplate(botNick, "", TemplateName.FACTION_PUBLIC_CHAT);
+                template = plugin.getMessageTemplate(botNick, "", TemplateName.FACTION_PUBLIC_CHAT);
                 break;
             case "ally":
-                template = plugin.getMsgTemplate(botNick, "", TemplateName.FACTION_ALLY_CHAT);
+                template = plugin.getMessageTemplate(botNick, "", TemplateName.FACTION_ALLY_CHAT);
                 break;
             case "enemy":
-                template = plugin.getMsgTemplate(botNick, "", TemplateName.FACTION_ENEMY_CHAT);
+                template = plugin.getMessageTemplate(botNick, "", TemplateName.FACTION_ENEMY_CHAT);
                 break;
             default:
                 return "";
@@ -547,6 +575,23 @@ public class ChatTokenizer {
                 .replace("%TITANCHANNEL%", tChannel)
                 .replace("%TITANCOLOR%", plugin.colorConverter.gameColorsToIrc(tColor))
                 .replace("%CHANNEL%", tChannel);
+    }
+
+    /**
+     * MineverseChat to IRC
+     *
+     * @param player
+     * @param mvChannel
+     * @param mvColor
+     * @param message
+     * @param template
+     * @return
+     */
+    public String mineverseChatTokenizer(Player player, String mvChannel, String mvColor, String message, String template) {
+        return gameChatToIRCTokenizer(player, template, message)
+                .replace("%MVCHANNEL%", mvChannel)
+                .replace("%MVCOLOR%", plugin.colorConverter.gameColorsToIrc(mvColor))
+                .replace("%CHANNEL%", mvChannel);
     }
 
     /**
@@ -889,13 +934,13 @@ public class ChatTokenizer {
                 .replace("%TARGET%", targetPlayer.getName())
                 .replace("%MESSAGE%", message);
     }
-    
+
     public String logTailerTokenizer(String file, String line, String template) {
         return plugin.colorConverter.gameColorsToIrc(template
                 .replace("%FILE%", file)
                 .replace("%LINE%", line));
     }
-    
+
     public String addZeroWidthSpace(String s) {
         if (s.length() > 1) {
             String a = s.substring(0, 1);

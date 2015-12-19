@@ -47,7 +47,7 @@ public class IRCMessageHandler {
     }
 
     private void sendFloodWarning(User user, PurpleBot ircBot) {
-        String message = plugin.colorConverter.gameColorsToIrc(plugin.getMsgTemplate(
+        String message = plugin.colorConverter.gameColorsToIrc(plugin.getMessageTemplate(
                 ircBot.botNick, "", TemplateName.IRC_FLOOD_WARNING)
                 .replace("%COOLDOWN%", ircBot.floodChecker.getCoolDown(user)));
         if (!message.isEmpty()) {
@@ -184,9 +184,9 @@ public class IRCMessageHandler {
                             case "@a":
                                 if (plugin.adminPrivateChatHook != null) {
                                     String newMessage = ircBot.filterMessage(
-                                            plugin.tokenizer.ircChatToGameTokenizer(ircBot, user, channel, plugin.getMsgTemplate(ircBot.botNick, channelName, TemplateName.IRC_ADMIN_CHAT), commandArgs), channelName);
+                                            plugin.tokenizer.ircChatToGameTokenizer(ircBot, user, channel, plugin.getMessageTemplate(ircBot.botNick, channelName, TemplateName.IRC_ADMIN_CHAT), commandArgs), channelName);
                                     plugin.adminPrivateChatHook.sendMessage(newMessage, user.getNick());
-                                    String acResponse = plugin.tokenizer.msgChatResponseTokenizer(target, commandArgs, plugin.getMsgTemplate(TemplateName.IRC_ADMIN_RESPONSE));
+                                    String acResponse = plugin.tokenizer.msgChatResponseTokenizer(target, commandArgs, plugin.getMessageTemplate(TemplateName.IRC_ADMIN_RESPONSE));
                                     if (!acResponse.isEmpty()) {
                                         sendMessage(ircBot, target, acResponse, ctcpResponse);
                                     }
@@ -247,7 +247,7 @@ public class IRCMessageHandler {
                     }
                 } else {
                     plugin.logDebug("User '" + user.getNick() + "' mode not okay.");
-                    ircBot.asyncIRCMessage(target, plugin.getMsgTemplate(
+                    ircBot.asyncIRCMessage(target, plugin.getMessageTemplate(
                             ircBot.botNick, channelName, TemplateName.NO_PERM_FOR_IRC_COMMAND)
                             .replace("%NICK%", user.getNick())
                             .replace("%CMDPREFIX%", ircBot.commandPrefix));
@@ -257,7 +257,7 @@ public class IRCMessageHandler {
                     target = user.getNick();
                 }
                 plugin.logDebug("Invalid command: " + command);
-                String invalidIrcCommand = plugin.getMsgTemplate(
+                String invalidIrcCommand = plugin.getMessageTemplate(
                         ircBot.botNick, channelName, TemplateName.INVALID_IRC_COMMAND)
                         .replace("%NICK%", user.getNick())
                         .replace("%CMDPREFIX%", ircBot.commandPrefix);
@@ -332,7 +332,7 @@ public class IRCMessageHandler {
             }
             Collections.sort(sortedCommands, Collator.getInstance());
             String cmds = Joiner.on(", ").join(sortedCommands);
-            String msg = plugin.getMsgTemplate(TemplateName.VALID_IRC_COMMANDS).replace("%COMMANDS%", cmds);
+            String msg = plugin.getMessageTemplate(TemplateName.VALID_IRC_COMMANDS).replace("%COMMANDS%", cmds);
             return msg;
         }
         return "";

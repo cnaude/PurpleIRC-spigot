@@ -69,7 +69,7 @@ public class R implements IRCCommandInterface {
                             + "/irc msg" + ChatColor.WHITE + " first.");
                     continue;
                 }
-                final String template = plugin.getMsgTemplate(ircBot.botNick, "", TemplateName.GAME_PCHAT_RESPONSE);
+                final String template = plugin.getMessageTemplate(ircBot.botNick, "", TemplateName.GAME_PCHAT_RESPONSE);
                 for (int i = 1; i < args.length; i++) {
                     msg = msg + " " + args[i];
                 }
