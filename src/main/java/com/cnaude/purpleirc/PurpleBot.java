@@ -16,6 +16,7 @@
  */
 package com.cnaude.purpleirc;
 
+import com.cnaude.purpleirc.Events.MineverseChatEvent;
 import com.cnaude.purpleirc.IRCListeners.ActionListener;
 import com.cnaude.purpleirc.IRCListeners.AwayListener;
 import com.cnaude.purpleirc.IRCListeners.ConnectListener;
@@ -59,9 +60,6 @@ import java.util.concurrent.locks.ReadWriteLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 import me.botsko.prism.actionlibs.QueryParameters;
 import me.botsko.prism.events.BlockStateChange;
-import mineverse.Aust1n46.chat.api.MineverseChatAPI;
-import mineverse.Aust1n46.chat.api.MineverseChatPlayer;
-import mineverse.Aust1n46.chat.channel.ChatChannel;
 import org.bukkit.Achievement;
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
@@ -1222,8 +1220,8 @@ public final class PurpleBot {
                 } else {
                     plugin.logDebug("No Factions");
                 }
-                if (plugin.mineverseChatEnabled) {
-                    mineverseChat(event);
+                if (plugin.mineverseChatEnabled) {                 
+                    plugin.getServer().getPluginManager().callEvent(new MineverseChatEvent(event, this));
                 }
                 if (isMessageEnabled(channelName, TemplateName.GAME_CHAT)) {
                     asyncIRCMessage(channelName, plugin.tokenizer
@@ -1233,7 +1231,7 @@ public final class PurpleBot {
         }
     }
 
-    private void sendFloodWarning(Player player) {
+    public void sendFloodWarning(Player player) {
         String message = plugin.getMessageTemplate(botNick, "", TemplateName.GAME_FLOOD_WARNING)
                 .replace("%COOLDOWN%", floodChecker.getCoolDown(player));
         if (!message.isEmpty()) {
@@ -1241,9 +1239,9 @@ public final class PurpleBot {
         }
     }
 
-    // Called from HeroChat listener
     /**
-     *
+     * Called from HeroChat listener
+     * 
      * @param chatter
      * @param chatColor
      * @param message
@@ -1276,75 +1274,6 @@ public final class PurpleBot {
         }
     }
 
-    public void mcMMOAdminChat(Player player, String message) {
-        if (!this.isConnected()) {
-            return;
-        }
-        if (floodChecker.isSpam(player)) {
-            sendFloodWarning(player);
-            return;
-        }
-        for (String channelName : botChannels) {
-            if (isPlayerInValidWorld(player, channelName)) {
-                if (isMessageEnabled(channelName, TemplateName.MCMMO_ADMIN_CHAT)) {
-                    plugin.logDebug("Sending message because " + TemplateName.MCMMO_ADMIN_CHAT + " is enabled.");
-                    asyncIRCMessage(channelName, plugin.tokenizer
-                            .mcMMOChatToIRCTokenizer(player, plugin
-                                    .getMessageTemplate(botNick, channelName, TemplateName.MCMMO_ADMIN_CHAT), message));
-                } else {
-                    plugin.logDebug("Player " + player.getName()
-                            + " is in mcMMO AdminChat but " + TemplateName.MCMMO_ADMIN_CHAT + " is disabled.");
-                }
-            }
-        }
-    }
-
-    public void mcMMOPartyChat(Player player, String partyName, String message) {
-        if (!this.isConnected()) {
-            return;
-        }
-        if (floodChecker.isSpam(player)) {
-            sendFloodWarning(player);
-            return;
-        }
-        for (String channelName : botChannels) {
-            if (isPlayerInValidWorld(player, channelName)) {
-                if (isMessageEnabled(channelName, TemplateName.MCMMO_PARTY_CHAT)) {
-                    plugin.logDebug("Sending message because " + TemplateName.MCMMO_PARTY_CHAT + " is enabled.");
-                    asyncIRCMessage(channelName, plugin.tokenizer
-                            .mcMMOPartyChatToIRCTokenizer(player, plugin
-                                    .getMessageTemplate(botNick, channelName, TemplateName.MCMMO_PARTY_CHAT), message, partyName));
-                } else {
-                    plugin.logDebug("Player " + player.getName()
-                            + " is in mcMMO PartyChat but " + TemplateName.MCMMO_PARTY_CHAT + " is disabled.");
-                }
-            }
-        }
-    }
-
-    public void mcMMOChat(Player player, String message) {
-        if (!this.isConnected()) {
-            return;
-        }
-        if (floodChecker.isSpam(player)) {
-            sendFloodWarning(player);
-            return;
-        }
-        for (String channelName : botChannels) {
-            if (isPlayerInValidWorld(player, channelName)) {
-                if (isMessageEnabled(channelName, TemplateName.MCMMO_CHAT)) {
-                    plugin.logDebug("Sending message because " + TemplateName.MCMMO_CHAT + " is enabled.");
-                    asyncIRCMessage(channelName, plugin.tokenizer
-                            .mcMMOChatToIRCTokenizer(player, plugin
-                                    .getMessageTemplate(botNick, channelName, TemplateName.MCMMO_CHAT), message));
-                } else {
-                    plugin.logDebug("Player " + player.getName()
-                            + " is in mcMMO Chat but " + TemplateName.MCMMO_CHAT + " is disabled.");
-                }
-            }
-        }
-    }
-
     public void heroAction(Chatter chatter, ChatColor chatColor, String message) {
         if (!this.isConnected()) {
             return;
@@ -1370,48 +1299,6 @@ public final class PurpleBot {
             } else {
                 plugin.logDebug("Player " + player.getName() + " is in \""
                         + hChannel + "\" but hero-" + hChannel + "-action is disabled.");
-            }
-        }
-    }
-
-    /**
-     * MineverseChat from game to IRC
-     *
-     * @param event
-     */
-    public void mineverseChat(AsyncPlayerChatEvent event) {
-        Player player = event.getPlayer();
-        MineverseChatPlayer mcp = MineverseChatAPI.getMineverseChatPlayer(event.getPlayer());
-        ChatChannel eventChannel = mcp.getCurrentChannel();
-        if (mcp.isQuickChat()) { //for single message chat detection
-            eventChannel = mcp.getQuickChannel();
-        }
-        if (!this.isConnected()) {
-            return;
-        }
-        if (floodChecker.isSpam(player)) {
-            sendFloodWarning(player);
-            return;
-        }
-        String mvChannel = eventChannel.getName();
-        String mvColor = eventChannel.getColor();
-        String message = event.getMessage();
-        for (String channelName : botChannels) {
-            if (!isPlayerInValidWorld(player, channelName)) {
-                continue;
-            }
-            plugin.logDebug("MV Channel: " + mvChannel);
-            String channelTemplateName = "mineverse-" + mvChannel + "-chat";
-            if (isMessageEnabled(channelName, channelTemplateName)
-                    || isMessageEnabled(channelName, TemplateName.MINEVERSE_CHAT)) {
-                String template = plugin.getMineverseChatTemplate(botNick, mvChannel);                
-                plugin.logDebug("MV Template: " + template);
-                asyncIRCMessage(channelName, plugin.tokenizer
-                        .mineverseChatTokenizer(player, mvChannel, mvColor, message, template));
-            } else {
-                plugin.logDebug("Player " + player.getName() + " is in Mineverse channel "
-                        + mvChannel + ". Message types " + channelTemplateName + " and "
-                        + TemplateName.MINEVERSE_CHAT + " are disabled. No message sent to IRC.");
             }
         }
     }

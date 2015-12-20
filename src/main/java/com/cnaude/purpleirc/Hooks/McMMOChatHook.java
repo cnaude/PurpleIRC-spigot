@@ -16,13 +16,16 @@
  */
 package com.cnaude.purpleirc.Hooks;
 
+import com.cnaude.purpleirc.PurpleBot;
 import com.cnaude.purpleirc.PurpleIRC;
+import com.cnaude.purpleirc.TemplateName;
 import com.gmail.nossr50.api.PartyAPI;
 import com.gmail.nossr50.config.Config;
 import com.gmail.nossr50.datatypes.party.Party;
 import com.gmail.nossr50.locale.LocaleLoader;
 import com.gmail.nossr50.party.PartyManager;
 import com.gmail.nossr50.runnables.party.PartyChatTask;
+import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 
 /**
@@ -54,7 +57,7 @@ public class McMMOChatHook {
 
     public void sendPartyMessage(String sender, String party, String message) {
         if (mcMMOPlugin != null) {
-            for (Party p : PartyAPI.getParties()) {                
+            for (Party p : PartyAPI.getParties()) {
                 if (p.getName().equalsIgnoreCase(party)) {
                     plugin.logDebug("[mcMMOChatHook:sendPartyMessage]: " + party + " : " + message);
                     new PartyChatTask(mcMMOPlugin, PartyManager.getParty(party), sender, sender, message).runTask(mcMMOPlugin);
@@ -63,5 +66,5 @@ public class McMMOChatHook {
             }
         }
     }
-    
+
 }

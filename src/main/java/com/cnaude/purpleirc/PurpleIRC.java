@@ -33,6 +33,7 @@ import com.cnaude.purpleirc.GameListeners.GamePlayerQuitListener;
 import com.cnaude.purpleirc.GameListeners.GameServerCommandListener;
 import com.cnaude.purpleirc.GameListeners.HeroChatListener;
 import com.cnaude.purpleirc.GameListeners.McMMOChatListener;
+import com.cnaude.purpleirc.GameListeners.MineverseChatListener;
 import com.cnaude.purpleirc.GameListeners.NTheEndAgainListener;
 import com.cnaude.purpleirc.GameListeners.OreBroadcastListener;
 import com.cnaude.purpleirc.GameListeners.PrismListener;
@@ -1566,6 +1567,7 @@ public class PurpleIRC extends JavaPlugin {
             hookList.add(hookFormat(PL_MINEVERSECHAT, true));
             mineverseChatEnabled = true;
             mvHook = new MineverseChatHook(this);
+            getServer().getPluginManager().registerEvents(new MineverseChatListener(this), this);
         } else {
             hookList.add(hookFormat(PL_MINEVERSECHAT, false));
             mineverseChatEnabled = false;

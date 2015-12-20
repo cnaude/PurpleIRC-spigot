@@ -18,6 +18,7 @@ package com.cnaude.purpleirc.GameListeners;
 
 import com.cnaude.purpleirc.PurpleBot;
 import com.cnaude.purpleirc.PurpleIRC;
+import com.cnaude.purpleirc.TemplateName;
 import com.gmail.nossr50.events.chat.McMMOAdminChatEvent;
 import com.gmail.nossr50.events.chat.McMMOChatEvent;
 import com.gmail.nossr50.events.chat.McMMOPartyChatEvent;
@@ -38,28 +39,28 @@ public class McMMOChatListener implements Listener {
     }
 
     @EventHandler
-    public void onMcMMOChatEvent(McMMOChatEvent event) {      
+    public void onMcMMOChatEvent(McMMOChatEvent event) {
         String sender = event.getSender();
         Player player = plugin.getServer().getPlayer(sender);
         plugin.logDebug("[onMcMMOChatEvent]: " + sender);
         if (player != null && !sender.isEmpty()) {
             if (player.hasPermission("irc.message.gamechat")) {
                 for (PurpleBot ircBot : plugin.ircBots.values()) {
-                    ircBot.mcMMOChat(player, event.getMessage());
+                    mcMMOChat(player, event.getMessage(), ircBot);
                 }
             }
         }
     }
 
     @EventHandler
-    public void onMcMMOAdminChatEvent(McMMOAdminChatEvent event) {        
+    public void onMcMMOAdminChatEvent(McMMOAdminChatEvent event) {
         String sender = event.getSender();
         Player player = plugin.getServer().getPlayer(sender);
         plugin.logDebug("[onMcMMOAdminChatEvent]: " + sender);
         if (player != null && !sender.isEmpty()) {
             if (player.hasPermission("irc.message.gamechat")) {
                 for (PurpleBot ircBot : plugin.ircBots.values()) {
-                    ircBot.mcMMOAdminChat(player, event.getMessage());
+                    mcMMOAdminChat(player, event.getMessage(), ircBot);
                 }
             }
         }
@@ -74,9 +75,79 @@ public class McMMOChatListener implements Listener {
         if (player != null && !sender.isEmpty()) {
             if (player.hasPermission("irc.message.gamechat")) {
                 for (PurpleBot ircBot : plugin.ircBots.values()) {
-                    ircBot.mcMMOPartyChat(player, party, event.getMessage());
+                    mcMMOPartyChat(player, party, event.getMessage(), ircBot);
                 }
             }
-        }        
+        }
     }
+
+    public void mcMMOAdminChat(Player player, String message, PurpleBot bot) {
+        if (!bot.isConnected()) {
+            return;
+        }
+        if (bot.floodChecker.isSpam(player)) {
+            bot.sendFloodWarning(player);
+            return;
+        }
+        for (String channelName : bot.botChannels) {
+            if (bot.isPlayerInValidWorld(player, channelName)) {
+                if (bot.isMessageEnabled(channelName, TemplateName.MCMMO_ADMIN_CHAT)) {
+                    plugin.logDebug("Sending message because " + TemplateName.MCMMO_ADMIN_CHAT + " is enabled.");
+                    bot.asyncIRCMessage(channelName, plugin.tokenizer
+                            .mcMMOChatToIRCTokenizer(player, plugin
+                                    .getMessageTemplate(bot.botNick, channelName, TemplateName.MCMMO_ADMIN_CHAT), message));
+                } else {
+                    plugin.logDebug("Player " + player.getName()
+                            + " is in mcMMO AdminChat but " + TemplateName.MCMMO_ADMIN_CHAT + " is disabled.");
+                }
+            }
+        }
+    }
+
+    public void mcMMOPartyChat(Player player, String partyName, String message, PurpleBot bot) {
+        if (!bot.isConnected()) {
+            return;
+        }
+        if (bot.floodChecker.isSpam(player)) {
+            bot.sendFloodWarning(player);
+            return;
+        }
+        for (String channelName : bot.botChannels) {
+            if (bot.isPlayerInValidWorld(player, channelName)) {
+                if (bot.isMessageEnabled(channelName, TemplateName.MCMMO_PARTY_CHAT)) {
+                    plugin.logDebug("Sending message because " + TemplateName.MCMMO_PARTY_CHAT + " is enabled.");
+                    bot.asyncIRCMessage(channelName, plugin.tokenizer
+                            .mcMMOPartyChatToIRCTokenizer(player, plugin
+                                    .getMessageTemplate(bot.botNick, channelName, TemplateName.MCMMO_PARTY_CHAT), message, partyName));
+                } else {
+                    plugin.logDebug("Player " + player.getName()
+                            + " is in mcMMO PartyChat but " + TemplateName.MCMMO_PARTY_CHAT + " is disabled.");
+                }
+            }
+        }
+    }
+
+    public void mcMMOChat(Player player, String message, PurpleBot bot) {
+        if (!bot.isConnected()) {
+            return;
+        }
+        if (bot.floodChecker.isSpam(player)) {
+            bot.sendFloodWarning(player);
+            return;
+        }
+        for (String channelName : bot.botChannels) {
+            if (bot.isPlayerInValidWorld(player, channelName)) {
+                if (bot.isMessageEnabled(channelName, TemplateName.MCMMO_CHAT)) {
+                    plugin.logDebug("Sending message because " + TemplateName.MCMMO_CHAT + " is enabled.");
+                    bot.asyncIRCMessage(channelName, plugin.tokenizer
+                            .mcMMOChatToIRCTokenizer(player, plugin
+                                    .getMessageTemplate(bot.botNick, channelName, TemplateName.MCMMO_CHAT), message));
+                } else {
+                    plugin.logDebug("Player " + player.getName()
+                            + " is in mcMMO Chat but " + TemplateName.MCMMO_CHAT + " is disabled.");
+                }
+            }
+        }
+    }
+    
 }
