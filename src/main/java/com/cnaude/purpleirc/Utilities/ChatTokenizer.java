@@ -24,6 +24,8 @@ import com.dthielke.herochat.ChannelManager;
 import com.gmail.nossr50.util.player.UserManager;
 import com.nyancraft.reportrts.data.Ticket;
 import com.palmergames.bukkit.TownyChat.channels.Channel;
+import java.util.UUID;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -668,6 +670,76 @@ public class ChatTokenizer {
                 .replace("%TICKETNUMBER%", String.valueOf(id))
                 .replace("%RTSNAME%", name)
                 .replace("%RTSWORLD%", world));
+    }
+
+    /**
+     * SimpleTicketManager notifications to IRC
+     *
+     * @param uuid
+     * @param template
+     * @param ticket
+     * @return
+     */
+    public String simpleTicketTokenizer(UUID uuid, String template,
+            uk.co.joshuawoolley.simpleticketmanager.ticketsystem.Ticket ticket) {
+        Player player = Bukkit.getPlayer(uuid);
+        String playerName;
+        String displayName;
+        if (player == null) {
+            playerName = uuid.toString();
+            displayName = uuid.toString();
+        } else {
+            playerName = player.getName();
+            displayName = player.getCustomName();
+        }
+        String description = ticket.getDescription();
+        String reason = ticket.getReason();
+        String modUUID = ticket.getAssignedTo();
+        String modName;
+        String displayModName;
+        String name = ticket.getReportingPlayer();
+        String world = ticket.getWorld();
+        String modComment = "";
+        int id = ticket.getTicketId();
+        if (description == null) {
+            description = "";
+        }
+        Player modPlayer = null;
+        if (modUUID != null) {
+            modPlayer = Bukkit.getPlayer(UUID.fromString(modUUID));
+        }
+        if (modPlayer != null) {
+            modName = modPlayer.getName();
+            displayModName = modPlayer.getDisplayName();
+        } else {
+            modName = modUUID;
+            displayModName = modName;
+        }
+        if (name == null) {
+            name = "";
+        }
+        if (world == null) {
+            world = "";
+        }
+        if (modComment == null) {
+            modComment = "";
+        }
+        if (modName == null) {
+            modName = "";
+        }
+        if (displayModName == null) {
+            displayModName = "";
+        }
+        return plugin.colorConverter.gameColorsToIrc(playerTokenizer(playerName, template)
+                .replace("%MESSAGE%", description)
+                .replace("%MODNAME%", modName)
+                .replace("%DISPLAYMODNAME%", displayModName)
+                .replace("%MODCOMMENT%", modComment)
+                .replace("%TICKETNUMBER%", String.valueOf(id))
+                .replace("%NAME%", name)
+                .replace("%DISPLAYNAME%", displayName)
+                .replace("%REASON%", reason)
+                .replace("%WORLD%", world));
     }
 
     /**

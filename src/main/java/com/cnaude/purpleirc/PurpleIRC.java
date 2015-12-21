@@ -39,6 +39,7 @@ import com.cnaude.purpleirc.GameListeners.OreBroadcastListener;
 import com.cnaude.purpleirc.GameListeners.PrismListener;
 import com.cnaude.purpleirc.GameListeners.RedditStreamListener;
 import com.cnaude.purpleirc.GameListeners.ReportRTSListener;
+import com.cnaude.purpleirc.GameListeners.SimpleTicketManagerListener;
 import com.cnaude.purpleirc.GameListeners.TitanChatListener;
 import com.cnaude.purpleirc.GameListeners.TownyChatListener;
 import com.cnaude.purpleirc.GameListeners.VanishNoPacketListener;
@@ -213,6 +214,7 @@ public class PurpleIRC extends JavaPlugin {
 
     final String PL_ESSENTIALS = "Essentials";
     final String PL_REPORTRTS = "ReportRTS";
+    final String PL_SIMPLETICKET = "SimpleTicketManager";
     final String PL_NTHE_END_AGAIN = "NTheEndAgain";
     final String PL_SUPERVANISH = "SuperVanish";
     final String PL_VANISHNOPACKET = "VanishNoPacket";
@@ -1695,6 +1697,12 @@ public class PurpleIRC extends JavaPlugin {
             reportRTSHook = new ReportRTSHook(this);
         } else {
             hookList.add(hookFormat(PL_REPORTRTS, false));
+        }
+        if (isPluginEnabled(PL_SIMPLETICKET)) {
+            hookList.add(hookFormat(PL_SIMPLETICKET, true));
+            getServer().getPluginManager().registerEvents(new SimpleTicketManagerListener(this), this);
+        } else {
+            hookList.add(hookFormat(PL_SIMPLETICKET, false));
         }
         if (isPluginEnabled(PL_NTHE_END_AGAIN)) {
             hookList.add(hookFormat(PL_NTHE_END_AGAIN, true));

@@ -54,6 +54,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReadWriteLock;
@@ -1395,16 +1396,38 @@ public final class PurpleBot {
         }
     }
 
-    // Called from ReportRTS event
+     /**
+     * Called from SimpleTicketEvent
+     *
+     * @param uuid
+     * @param ticket
+     * @param botNick
+     * @param messageType
+     */
+    public void simpleTicketNotify(UUID uuid, 
+            uk.co.joshuawoolley.simpleticketmanager.ticketsystem.Ticket ticket, 
+            String botNick, String messageType) {
+        if (!this.isConnected()) {
+            return;
+        }
+        for (String channelName : botChannels) {
+            if (isMessageEnabled(channelName, messageType)) {
+                asyncIRCMessage(channelName, plugin.tokenizer
+                        .simpleTicketTokenizer(uuid, plugin
+                                .getMessageTemplate(botNick, channelName, messageType), ticket));
+            }
+        }
+    }
+    
     /**
+     * Called from ReportRTS event
      *
      * @param pName
      * @param ticket
      * @param botNick
      * @param messageType
      */
-    public void reportRTSNotify(String pName, Ticket ticket,
-            String botNick, String messageType) {
+    public void reportRTSNotify(String pName, Ticket ticket, String botNick, String messageType) {
         if (!this.isConnected()) {
             return;
         }

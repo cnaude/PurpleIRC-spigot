@@ -189,6 +189,11 @@ message-format:
   rts-held: '[RTS:Held] #%TICKETNUMBER% <%NAME%> %MESSAGE%'
   rts-assign: '[RTS:Assign] #%TICKETNUMBER% <%NAME%> %MESSAGE%'
   rts-reopen: '[RTS:Reopen] #%TICKETNUMBER% <%NAME%> %MESSAGE%'
+  # SimpleTicketManager
+  stm-create: '[STM] Ticket #%TICKETNUMBER% created by %NAME%: %REASON% %MESSAGE%'
+  stm-claim: '[STM] Ticket #%TICKETNUMBER% claim by %MODNAME%: %REASON% %MESSAGE%'
+  stm-close: '[STM] Ticket #%TICKETNUMBER% closed by %MODNAME%: %REASON% %MESSAGE%'
+  stm-comment: '[STM] Ticket #%TICKETNUMBER% new comment by %MODNAME%: %REASON% %MESSAGE%'
   # Dynmap Web Chat to IRC
   dynmap-web-chat: '[Dynmap] <%NAME%> %MESSAGE%'
   # IRC to Dynmap Chat
