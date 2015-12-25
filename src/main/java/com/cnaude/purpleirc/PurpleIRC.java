@@ -178,6 +178,8 @@ public class PurpleIRC extends JavaPlugin {
     public boolean mineverseChatEnabled;
     public Long ircConnCheckInterval;
     public Long ircChannelCheckInterval;
+    public Long joinDelay;
+    public long quitDelay;
     public ChannelWatcher channelWatcher;
     public LinkUpdater linkUpdater;
     public ColorConverter colorConverter;
@@ -698,6 +700,8 @@ public class PurpleIRC extends JavaPlugin {
         ircConnCheckInterval = getConfig().getLong("conn-check-interval");
         reconnectSuppression = getConfig().getInt("reconnect-fail-message-count", 10);
         ircChannelCheckInterval = getConfig().getLong("channel-check-interval");
+        joinDelay = getConfig().getLong("join-delay", 20);
+        quitDelay = getConfig().getLong("quit-delay", 20);
 
         customTabGamemode = getConfig().getString("custom-tab-gamemode", "SPECTATOR");
         customTabList = getConfig().getBoolean("custom-tab-list", false);

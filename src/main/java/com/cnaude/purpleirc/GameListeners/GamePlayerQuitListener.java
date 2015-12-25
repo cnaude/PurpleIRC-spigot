@@ -44,8 +44,8 @@ public class GamePlayerQuitListener implements Listener {
      * @param event
      */
     @EventHandler(priority = EventPriority.LOWEST)
-    public void onPlayerQuitEvent(PlayerQuitEvent event) {
-        plugin.logDebug("QUIT: " + event.getPlayer().getName());
+    public void onPlayerQuitEvent(final PlayerQuitEvent event) {
+        plugin.logDebug("onPlayerQuitEvent [" + plugin.quitDelay + "]: " + event.getPlayer().getName());
         if (plugin.kickedPlayers.contains(event.getPlayer().getName())) {
             plugin.kickedPlayers.remove(event.getPlayer().getName());
             plugin.logDebug("Player "
@@ -53,12 +53,17 @@ public class GamePlayerQuitListener implements Listener {
                     + " was in the recently kicked list. Not sending quit message.");
             return;
         }
-        for (PurpleBot ircBot : plugin.ircBots.values()) {
-            ircBot.gameQuit(event.getPlayer(), event.getQuitMessage());
-            if (plugin.netPackets != null) {
-                plugin.netPackets.updateTabList(event.getPlayer());
+        plugin.getServer().getScheduler().runTaskLaterAsynchronously(plugin, new Runnable() {
+            @Override
+            public void run() {
+                for (PurpleBot ircBot : plugin.ircBots.values()) {
+                    ircBot.gameQuit(event.getPlayer(), event.getQuitMessage());
+                    if (plugin.netPackets != null) {
+                        plugin.netPackets.updateTabList(event.getPlayer());
+                    }
+                    ircBot.sendRemotePlayerInfo();
+                }
             }
-            ircBot.sendRemotePlayerInfo();
-        }
+        }, plugin.quitDelay);
     }
 }

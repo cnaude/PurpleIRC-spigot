@@ -16,6 +16,10 @@ enable-ident-server: false
 channel-check-interval: 100
 # Alias /irc smsg to /msg
 override-msg-cmd: false
+# Number of ticks after join event fires to process and send to IRC
+join-delay: 20
+# Number of ticks after quit event fires to process and send to IRC
+quit-delay: 20
 # Alias for /irc smsg
 smsg-alias: '/m'
 # Alias for /irc smsg <prev player>
@@ -182,6 +186,7 @@ message-format:
   # Invalid IRC command message
   invalid-irc-command: "I'm sorry '%NICK%' I can't do that. Type '%CMDPREFIX%help' for a list of commands I might respond to."
   no-perm-for-irc-command: "I'm sorry '%NICK%' you are not authorized to do that. Type '%CMDPREFIX%help' for a list of commands I might respond to."
+  # ReportRTS tempates
   rts-notify: '[RTS:New] #%TICKETNUMBER% <%NAME%> %MESSAGE%'
   rts-complete: '[RTS:Complete] #%TICKETNUMBER% <%NAME%> %MESSAGE%'
   rts-claim: '[RTS:Claim] #%TICKETNUMBER% <%NAME%> %MESSAGE%'

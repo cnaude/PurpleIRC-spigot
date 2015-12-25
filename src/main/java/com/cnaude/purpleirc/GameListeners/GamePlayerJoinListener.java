@@ -45,8 +45,7 @@ public class GamePlayerJoinListener implements Listener {
      */
     @EventHandler(priority = EventPriority.MONITOR)
     public void onPlayerJoinEvent(final PlayerJoinEvent event) {
-        plugin.logDebug("PlayerJoinEvent: " + event.getPlayer().getDisplayName()
-                + ": " + event.getPlayer().getCustomName());
+        plugin.logDebug("onPlayerJoinEvent [" + plugin.joinDelay + "]: " + event.getPlayer().getName());
         if (plugin.kickedPlayers.contains(event.getPlayer().getName())) {
             plugin.kickedPlayers.remove(event.getPlayer().getName());
             plugin.logDebug("Removing player " + event.getPlayer().getName() + " from the recently kicked list.");
@@ -65,6 +64,6 @@ public class GamePlayerJoinListener implements Listener {
                 plugin.updateDisplayNameCache(event.getPlayer());
                 plugin.updateUuidCache(event.getPlayer());
             }
-        }, 20);
+        }, plugin.joinDelay);
     }
 }
