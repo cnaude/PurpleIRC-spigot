@@ -37,6 +37,7 @@ import org.pircbotx.User;
 public class IRCMessageHandler {
 
     PurpleIRC plugin;
+    CaseInsensitiveMap<Long> coolDownMap;
 
     /**
      *
@@ -44,6 +45,7 @@ public class IRCMessageHandler {
      */
     public IRCMessageHandler(PurpleIRC plugin) {
         this.plugin = plugin;
+        this.coolDownMap = new CaseInsensitiveMap<>();
     }
 
     private void sendFloodWarning(User user, PurpleBot ircBot) {
@@ -102,6 +104,23 @@ public class IRCMessageHandler {
                 }
 
                 String gc = (String) ircBot.commandMap.get(channelName).get(command).get("game_command");
+                long coolDown;
+                try {
+                    coolDown = Long.parseLong(ircBot.commandMap.get(channelName).get(command).get("cool_down"));
+                } catch (Exception ex) {
+                    coolDown = 0;
+                    plugin.logError(ex.getMessage());
+                }
+                if (coolDown > 0) {
+                    if (isWarm(command, coolDown)) {
+                        String s = "";
+                        if (coolDown != 1) {
+                            s = "s";
+                        }
+                        sendMessage(ircBot, user.getNick(), "Cool down for this command triggered. Please wait at least " + coolDown + " second" + s + ".", true);
+                        return;
+                    }
+                }
                 String gcUsage = (String) ircBot.commandMap.get(channelName).get(command).get("game_command_usage");
                 List<String> extraCommands = ircBot.extraCommandMap.get(channelName).get(command);
                 List<String> gameCommands = new ArrayList<>();
@@ -236,7 +255,7 @@ public class IRCMessageHandler {
                                         plugin.commandQueue.add(new IRCCommand(
                                                 new IRCCommandSender(ircBot, target, plugin, ctcpResponse, senderName, outputTemplate),
                                                 new IRCConsoleCommandSender(ircBot, target, plugin, ctcpResponse, senderName),
-                                                gameCommand.trim()                                                
+                                                gameCommand.trim()
                                         ));
                                     } catch (Exception ex) {
                                         plugin.logError(ex.getMessage());
@@ -353,7 +372,7 @@ public class IRCMessageHandler {
         }
     }
 
-    private boolean checkHostMask(PurpleBot ircBot, User user, List<String> userMasks) {  
+    private boolean checkHostMask(PurpleBot ircBot, User user, List<String> userMasks) {
         if (userMasks.isEmpty()) {
             plugin.logDebug("checkHostMask [empty]: " + true);
             return true;
@@ -368,6 +387,24 @@ public class IRCMessageHandler {
             }
         }
         plugin.logDebug("checkHostMask [no match]: " + false);
+        return false;
+    }
+
+    public boolean isWarm(String command, Long coolDown) {
+        Long timeNow = System.currentTimeMillis();
+        if (coolDownMap.containsKey(command)) {
+            Long timeLast = coolDownMap.get(command);
+            Long coolDiff = (timeNow - timeLast) / 1000;
+            if (coolDiff < coolDown) {
+                plugin.logDebug("Warm: " + command + " " + coolDiff);
+                return true;
+            } else {
+                plugin.logDebug("Cold: " + command + " " + coolDiff);
+                coolDownMap.remove(command);
+            }
+        } else {
+            coolDownMap.put(command, timeNow);
+        }
         return false;
     }
 

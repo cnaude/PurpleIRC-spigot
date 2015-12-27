@@ -320,6 +320,7 @@ channels:
         user_masks: []
         perm: ''
         output: '%RESULT%'
+        cool_down: 0;
       ochat:
         modes: '*'
         private: false
@@ -331,6 +332,7 @@ channels:
         user_masks: []
         perm: ''
         output: '%RESULT%'
+        cool_down: 0;
       h:
         modes: '*'
         private: false
@@ -342,6 +344,7 @@ channels:
         user_masks: []
         perm: ''
         output: '%RESULT%'
+        cool_down: 0;
       msg:
         modes: '*'
         private: true
@@ -353,6 +356,7 @@ channels:
         user_masks: []
         perm: ''
         output: '%RESULT%'
+        cool_down: 0;
       r:
         modes: '*'
         private: 'true'
@@ -366,6 +370,7 @@ channels:
         extra_commands: []
         user_masks: []
         output: '%RESULT%'
+        cool_down: 0;
       list:
         modes: '*'
         private: false
@@ -377,6 +382,7 @@ channels:
         user_masks: []
         perm: ''
         output: '%RESULT%'
+        cool_down: 0;
       help:
         modes: '*'
         private: false
@@ -388,6 +394,7 @@ channels:
         user_masks: []
         perm: ''
         output: '%RESULT%'
+        cool_down: 0;
       uptime:
         modes: '*'
         private: false
@@ -399,6 +406,7 @@ channels:
         user_masks: []
         perm: ''
         output: '%RESULT%'
+        cool_down: 0;
       version:
         modes: '*'
         private: false
@@ -410,6 +418,7 @@ channels:
         user_masks: []
         perm: ''
         output: '%RESULT%'
+        cool_down: 0;
       lag:
         modes: '*'
         private: false
@@ -421,6 +430,7 @@ channels:
         user_masks: []
         perm: ''
         output: '%RESULT%'
+        cool_down: 0;
       lv:
         modes: 'o'
         private: 'false'
@@ -432,6 +442,7 @@ channels:
         channel_listen: 'true'
         user_masks: []
         perm: ''
+        cool_down: 0;
 ## Uncomment this if you want to hook into AdminPrivateChat
 #      a:
 #        modes: '*'
