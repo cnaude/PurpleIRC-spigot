@@ -27,7 +27,7 @@ import org.bukkit.event.HandlerList;
 public class IRCMessageEvent extends Event {
 
     private static final HandlerList HANDLERS = new HandlerList();
-    private final String message;
+    private String message;
     private final String permission;
 
     /**
@@ -71,5 +71,14 @@ public class IRCMessageEvent extends Event {
      */
     public static HandlerList getHandlerList() {
         return HANDLERS;
+    }
+    
+    /**
+     * Change the IRC message being sent to the game
+     *
+     * @param message the message from IRC
+     */
+    public void setMessage(String message) {
+        this.message = message;
     }
 }
