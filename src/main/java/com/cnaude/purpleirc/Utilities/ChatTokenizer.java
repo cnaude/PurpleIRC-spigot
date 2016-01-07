@@ -992,6 +992,16 @@ public class ChatTokenizer {
                 .replace("%MESSAGE%", message)
         );
     }
+    
+    /**
+     *
+     * @param command
+     * @return
+     */
+    public String ircCommandSentTokenizer(String command) {
+        return plugin.getMessageTemplate(TemplateName.COMMAND_SENT)
+                .replace("%COMMAND%", command);
+    }
 
     /**
      *

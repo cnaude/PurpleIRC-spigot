@@ -68,7 +68,7 @@ public class CommandQueueWatcher {
                     plugin.logDebug("Dispatching command as ConsoleSender: " + ircCommand.getGameCommand());
 
                     plugin.getServer().dispatchCommand(ircCommand.getIRCConsoleCommandSender(), ircCommand.getGameCommand());
-                    ircCommand.getIRCConsoleCommandSender().sendMessage("Command sent: " + ircCommand.getGameCommand());                    
+                    ircCommand.getIRCConsoleCommandSender().sendMessage(plugin.tokenizer.ircCommandSentTokenizer(ircCommand.getGameCommand()));                    
                 } else {
                     plugin.logDebug("Dispatching command as IRCCommandSender: " + ircCommand.getGameCommand());
                     plugin.getServer().dispatchCommand(ircCommand.getIRCCommandSender(), ircCommand.getGameCommand());

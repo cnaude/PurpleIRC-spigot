@@ -91,11 +91,13 @@ chat-ping-fix: false
 #    %ACTION%
 #    %MESSAGE%
 #    %PLUGIN%
-message-format:
+message-format:    
   # Message templates for game to IRC messages
   console-chat: '[&dServer&r] %MESSAGE%'
   # Cross server chatting via linked bots
   cross-chat: '[&4%SERVER%&r] %MESSAGE%'
+  # Command sent notification. Blank this to disable this message.
+  command-sent: 'Command sent: %COMMAND%'
   game-achievement: '[&2%WORLD%&r] %NAME% has just earned the achievement [%MESSAGE%]'
   game-mode: '[&2%WORLD%&r] %NAME% has changed game mode: [%MESSAGE%]'
   game-action: '[&2%WORLD%&r]***%NAME% %MESSAGE%'

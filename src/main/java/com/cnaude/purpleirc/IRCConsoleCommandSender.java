@@ -46,8 +46,10 @@ public class IRCConsoleCommandSender implements ConsoleCommandSender {
      */
     @Override
     public void sendMessage(String message) {
-        plugin.logDebug("sendMessage: " + message);
-        addMessageToQueue(message);
+        if (!message.isEmpty()) {
+            plugin.logDebug("sendMessage: " + message);
+            addMessageToQueue(message);
+        }
     }
 
     /**
@@ -57,8 +59,10 @@ public class IRCConsoleCommandSender implements ConsoleCommandSender {
     @Override
     public void sendMessage(String[] messages) {
         for (String message : messages) {
-            plugin.logDebug("sendMessage[]: " + message);
-            addMessageToQueue(message);
+            if (!message.isEmpty()) {
+                plugin.logDebug("sendMessage[]: " + message);
+                addMessageToQueue(message);
+            }
         }
     }
 
