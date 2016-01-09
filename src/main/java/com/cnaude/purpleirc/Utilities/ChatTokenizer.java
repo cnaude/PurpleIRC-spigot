@@ -773,6 +773,7 @@ public class ChatTokenizer {
         String gSuffix = plugin.getGroupSuffix(player);
         String group = plugin.getPlayerGroup(player);
         String displayName = player.getDisplayName();
+        UUID uuid = player.getUniqueId();
         String playerIP = "";
         try {
             playerIP = player.getAddress().getAddress().getHostAddress();
@@ -819,6 +820,7 @@ public class ChatTokenizer {
         }
         plugin.logDebug("[P]Raw message: " + message);
         return message.replace("%DISPLAYNAME%", displayName)
+                .replace("%UUID%", uuid.toString())
                 .replace("%JOBS%", job)
                 .replace("%JOBSSHORT%", jobShort)
                 .replace("%NAME%", pName)
@@ -835,6 +837,7 @@ public class ChatTokenizer {
     }
 
     private String playerTokenizer(String playerName, String message) {
+        Player player = getPlayer(playerName);
         plugin.logDebug("Tokenizing " + playerName);
         String worldName = plugin.defaultPlayerWorld;
 
@@ -861,6 +864,7 @@ public class ChatTokenizer {
         }
 
         String displayName = plugin.getDisplayName(playerName);
+        String uuid = "";
         plugin.logDebug("playerTokenizer: 7 ");
         String worldAlias = "";
         String worldColor = "";
@@ -892,17 +896,19 @@ public class ChatTokenizer {
             group = plugin.defaultPlayerGroup;
         }
         plugin.logDebug("playerTokenizer: 14 ");
-        if (message.contains("%JOBS%") || message.contains("%JOBSSHORT%")) {
-            Player player = getPlayer(playerName);
-            if (player != null) {
+        if (player != null) {
+            uuid = player.getUniqueId().toString();
+            if (message.contains("%JOBS%") || message.contains("%JOBSSHORT%")) {
                 if (plugin.jobsHook != null) {
                     job = plugin.jobsHook.getPlayerJob(player, false);
                     jobShort = plugin.jobsHook.getPlayerJob(player, true);
                 }
             }
         }
+
         plugin.logDebug("[S]Raw message: " + message);
         return message.replace("%DISPLAYNAME%", displayName)
+                .replace("%UUID%", uuid)
                 .replace("%JOBS%", job)
                 .replace("%JOBSSHORT%", jobShort)
                 .replace("%NAME%", playerName)
@@ -992,15 +998,16 @@ public class ChatTokenizer {
                 .replace("%MESSAGE%", message)
         );
     }
-    
+
     /**
      *
      * @param command
      * @return
      */
     public String ircCommandSentTokenizer(String command) {
-        return plugin.getMessageTemplate(TemplateName.COMMAND_SENT)
-                .replace("%COMMAND%", command);
+        return plugin.colorConverter.gameColorsToIrc(
+                plugin.getMessageTemplate(TemplateName.COMMAND_SENT)
+                .replace("%COMMAND%", command));
     }
 
     /**
