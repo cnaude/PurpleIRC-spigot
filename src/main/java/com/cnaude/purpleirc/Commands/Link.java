@@ -20,7 +20,6 @@ import com.cnaude.purpleirc.PurpleBot;
 import com.cnaude.purpleirc.PurpleIRC;
 import java.math.BigInteger;
 import java.security.SecureRandom;
-import org.apache.commons.codec.binary.Base64;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 

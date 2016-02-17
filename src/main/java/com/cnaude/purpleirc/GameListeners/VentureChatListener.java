@@ -16,7 +16,7 @@
  */
 package com.cnaude.purpleirc.GameListeners;
 
-import com.cnaude.purpleirc.Events.MineverseChatEvent;
+import com.cnaude.purpleirc.Events.VentureChatEvent;
 import com.cnaude.purpleirc.PurpleBot;
 import com.cnaude.purpleirc.PurpleIRC;
 import com.cnaude.purpleirc.TemplateName;
@@ -27,13 +27,12 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
-import org.bukkit.event.player.AsyncPlayerChatEvent;
 
 /**
  *
  * @author Chris Naude
  */
-public class MineverseChatListener implements Listener {
+public class VentureChatListener implements Listener {
 
     final PurpleIRC plugin;
 
@@ -41,7 +40,7 @@ public class MineverseChatListener implements Listener {
      *
      * @param plugin the PurpleIRC plugin
      */
-    public MineverseChatListener(PurpleIRC plugin) {
+    public VentureChatListener(PurpleIRC plugin) {
         this.plugin = plugin;
     }
 
@@ -50,18 +49,18 @@ public class MineverseChatListener implements Listener {
      * @param event
      */
     @EventHandler(ignoreCancelled = true, priority = EventPriority.NORMAL)
-    public void onMineverseChatEvent(MineverseChatEvent event) {
-        mineverseChat(event.getPlayer(), event.getMessage(), event.getBot());
+    public void onVentureChatEvent(VentureChatEvent event) {
+        ventureChat(event.getPlayer(), event.getMessage(), event.getBot());
     }
 
     /**
-     * MineverseChat from game to IRC
+     * VentureChat from game to IRC
      *
      * @param player
      * @param message
      * @param bot the calling bot
      */
-    public void mineverseChat(Player player, String message, PurpleBot bot) {
+    public void ventureChat(Player player, String message, PurpleBot bot) {
         MineverseChatPlayer mcp = MineverseChatAPI.getMineverseChatPlayer(player);
         ChatChannel eventChannel = mcp.getCurrentChannel();
         if (mcp.isQuickChat()) { //for single message chat detection
@@ -74,24 +73,24 @@ public class MineverseChatListener implements Listener {
             bot.sendFloodWarning(player);
             return;
         }
-        String mvChannel = eventChannel.getName();
-        String mvColor = eventChannel.getColor();
+        String vcChannel = eventChannel.getName();
+        String vcColor = eventChannel.getColor();
         for (String channelName : bot.botChannels) {
             if (!bot.isPlayerInValidWorld(player, channelName)) {
                 continue;
             }
-            plugin.logDebug("MV Channel: " + mvChannel);
-            String channelTemplateName = "mineverse-" + mvChannel + "-chat";
+            plugin.logDebug("VC Channel: " + vcChannel);
+            String channelTemplateName = "venture-" + vcChannel + "-chat";
             if (bot.isMessageEnabled(channelName, channelTemplateName)
-                    || bot.isMessageEnabled(channelName, TemplateName.MINEVERSE_CHAT)) {
-                String template = plugin.getMineverseChatTemplate(bot.botNick, mvChannel);
-                plugin.logDebug("MV Template: " + template);
+                    || bot.isMessageEnabled(channelName, TemplateName.VENTURE_CHAT)) {
+                String template = plugin.getVentureChatTemplate(bot.botNick, vcChannel);
+                plugin.logDebug("VC Template: " + template);
                 bot.asyncIRCMessage(channelName, plugin.tokenizer
-                        .mineverseChatTokenizer(player, mvChannel, mvColor, message, template));
+                        .ventureChatTokenizer(player, vcChannel, vcColor, message, template));
             } else {
-                plugin.logDebug("Player " + player.getName() + " is in Mineverse channel "
-                        + mvChannel + ". Message types " + channelTemplateName + " and "
-                        + TemplateName.MINEVERSE_CHAT + " are disabled. No message sent to IRC.");
+                plugin.logDebug("Player " + player.getName() + " is in VentureChat channel "
+                        + vcChannel + ". Message types " + channelTemplateName + " and "
+                        + TemplateName.VENTURE_CHAT + " are disabled. No message sent to IRC.");
             }
         }
     }

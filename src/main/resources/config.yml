@@ -171,14 +171,14 @@ message-format:
   irc-hero-part: '[&3IRC&r] %NAME% has left %CHANNEL%.'
   irc-hero-quit: '[&3IRC&r] %NAME% has left %CHANNEL%.'
   irc-hero-topic: '[&3IRC&r] Topic changed by %NAME%: %TOPIC%.'
-  # Message templates for IRC to Mineversechat messages
-  irc-mineverse-action: '[&3IRC&r] ***%NAME% %MESSAGE%'
-  irc-mineverse-chat: '[&3IRC&r]<%NAME%> %MESSAGE%'
-  irc-mineverse-join: '[&3IRC&r] %NAME% has joined %CHANNEL%.'
-  irc-mineverse-kick: '[&3IRC&r] %NAME% was kicked from %CHANNEL% by %KICKER%. (Reason- %REASON%)'
-  irc-mineverse-part: '[&3IRC&r] %NAME% has left %CHANNEL%.'
-  irc-mineverse-quit: '[&3IRC&r] %NAME% has left %CHANNEL%.'
-  irc-mineverse-topic: '[&3IRC&r] Topic changed by %NAME%: %TOPIC%.'
+  # Message templates for IRC to VentureChat messages
+  irc-venture-action: '[&3IRC&r] ***%NAME% %MESSAGE%'
+  irc-venture-chat: '[&3IRC&r]<%NAME%> %MESSAGE%'
+  irc-venture-join: '[&3IRC&r] %NAME% has joined %CHANNEL%.'
+  irc-venture-kick: '[&3IRC&r] %NAME% was kicked from %CHANNEL% by %KICKER%. (Reason- %REASON%)'
+  irc-venture-part: '[&3IRC&r] %NAME% has left %CHANNEL%.'
+  irc-venture-quit: '[&3IRC&r] %NAME% has left %CHANNEL%.'
+  irc-venture-topic: '[&3IRC&r] Topic changed by %NAME%: %TOPIC%.'
   # Message template for TitanChat to IRC messages
   titan-chat: '[%CHANNEL%]<%NAME%> %MESSAGE%'
   # Message templates for IRC to TitanChat messages
@@ -227,8 +227,8 @@ message-format:
   # Emote message format per HeroChat channel. From game to IRC. Overrides hero-action template.
   hero-action-channels:
       Global: '[&2%CHANNEL%&r]***%NAME% %MESSAGE%'
-  # Message format per MineverseChat channel. From IRC to game. Overrides mineverse-chat template.
-  irc-mineverse-channels:
+  # Message format per VentureChat channel. From IRC to game. Overrides venture-chat template.
+  irc-venture-channels:
       Global: '&f[&2Global&f] [&4IRC&f] <%NAME%>&2: %MESSAGE%'
       Staff: '&f[&aStaff&f] [&4IRC&f] <%NAME%>&a: %MESSAGE%'
       Admin: '&f[&cAdmin&f] [&4IRC&f] <%NAME%>&c: %MESSAGE%'
@@ -237,8 +237,8 @@ message-format:
       Trade: '&f[&3Trade&f] [&4IRC&f] <%NAME%>&3: %MESSAGE%'
       Local: '&f[&eLocal&f] [&4IRC&f] <%NAME%>&e: %MESSAGE%'
       Network: '&f[&6Network&f] [&4IRC&f] <%NAME%>&6: %MESSAGE%'
-  # Emote message format per MineverseChat channel. From IRC to game. Overrides mineverse-action template.
-  irc-mineverse-action-channels:
+  # Emote message format per VentureChat channel. From IRC to game. Overrides venture-action template.
+  irc-venture-action-channels:
       Global: '&f[&2Global&f] [&4IRC&f]***%NAME%&2: %MESSAGE%'
       Staff: '&f[&aStaff&f] [&4IRC&f]***%NAME%&a: %MESSAGE%'
       Admin: '&f[&cAdmin&f] [&4IRC&f]***%NAME%&c: %MESSAGE%'
@@ -247,8 +247,8 @@ message-format:
       Trade: '&f[&3Trade&f] [&4IRC&f]***%NAME%&3: %MESSAGE%'
       Local: '&f[&eLocal&f] [&4IRC&f]***%NAME%&e: %MESSAGE%'
       Network: '&f[&6Network&f] [&4IRC&f]***%NAME%&6: %MESSAGE%'      
-  # Message format per MineverseChat channel. From game to IRC. Overrides mineverse-chat template.
-  mineverse-channels:
+  # Message format per VentureChat channel. From game to IRC. Overrides venture-chat template.
+  venture-channels:
       Global: '&f[&2Global&f] <%NAME%>&2: %MESSAGE%'
       Staff: '&f[&aStaff&f] <%NAME%>&a: %MESSAGE%'
       Admin: '&f[&cAdmin&f] <%NAME%>&c: %MESSAGE%'
@@ -257,8 +257,8 @@ message-format:
       Trade: '&f[&3Trade&f] <%NAME%>&3: %MESSAGE%'
       Local: '&f[&eLocal&f] <%NAME%>&e: %MESSAGE%'
       Network: '&f[&6Network&f] <%NAME%>&6: %MESSAGE%'
-  # Emote message format per MineverseChat channel. From game to IRC. Overrides mineverse-action template.
-  mineverse-action-channels:
+  # Emote message format per VentureChat channel. From game to IRC. Overrides venture-action template.
+  venture-action-channels:
       Global: '&f[&2Global&f]***%NAME%&2: %MESSAGE%'
       Staff: '&f[&aStaff&f]***%NAME%&a: %MESSAGE%'
       Admin: '&f[&cAdmin&f]***%NAME%&c: %MESSAGE%'

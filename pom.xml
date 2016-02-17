@@ -169,14 +169,13 @@
             <artifactId>Herochat</artifactId>
             <version>5.6.7</version>
         </dependency>
-        
-        <!-- MineverseChat -->
+               
+        <!-- VentureChat -->
         <dependency>
-            <groupId>com.cnaude.mineversechat</groupId>
-            <artifactId>MineverseChat</artifactId>
-            <version>2.5.7</version>
+            <groupId>com.cnaude.venturechat</groupId>
+            <artifactId>VentureChat</artifactId>
+            <version>2.7.2</version>
         </dependency>
-        
         
         <!-- Jobs -->
         <dependency>
@@ -273,7 +272,7 @@
         <dependency>
             <groupId>com.cnaude.protocol</groupId>
             <artifactId>ProtocolLib</artifactId>
-            <version>3.6.4</version>
+            <version>3.6.5</version>
         </dependency>
                         
         <!-- CleverNotch -->

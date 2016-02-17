@@ -16,7 +16,7 @@
  */
 package com.cnaude.purpleirc;
 
-import com.cnaude.purpleirc.Events.MineverseChatEvent;
+import com.cnaude.purpleirc.Events.VentureChatEvent;
 import com.cnaude.purpleirc.IRCListeners.ActionListener;
 import com.cnaude.purpleirc.IRCListeners.AwayListener;
 import com.cnaude.purpleirc.IRCListeners.ConnectListener;
@@ -146,12 +146,12 @@ public final class PurpleBot {
     public CaseInsensitiveMap<Boolean> invalidCommandPrivate;
     public CaseInsensitiveMap<Boolean> invalidCommandCTCP;
     public CaseInsensitiveMap<Boolean> logIrcToHeroChat;
-    public CaseInsensitiveMap<Boolean> logIrcToMineverseChat;
+    public CaseInsensitiveMap<Boolean> logIrcToVentureChat;
     public CaseInsensitiveMap<Boolean> enableMessageFiltering;
     public CaseInsensitiveMap<String> channelPrefix;
     private final CaseInsensitiveMap<Boolean> shortify;
     public CaseInsensitiveMap<String> heroChannel;
-    public CaseInsensitiveMap<String> mineverseChannel;
+    public CaseInsensitiveMap<String> ventureChatChannel;
     public CaseInsensitiveMap<String> townyChannel;
     public CaseInsensitiveMap<Collection<String>> opsList;
     public CaseInsensitiveMap<Collection<String>> banList;
@@ -233,11 +233,11 @@ public final class PurpleBot {
         this.banList = new CaseInsensitiveMap<>();
         this.voicesList = new CaseInsensitiveMap<>();
         this.heroChannel = new CaseInsensitiveMap<>();
-        this.mineverseChannel = new CaseInsensitiveMap<>();
+        this.ventureChatChannel = new CaseInsensitiveMap<>();
         this.townyChannel = new CaseInsensitiveMap<>();
         this.invalidCommandCTCP = new CaseInsensitiveMap<>();
         this.logIrcToHeroChat = new CaseInsensitiveMap<>();
-        this.logIrcToMineverseChat = new CaseInsensitiveMap<>();
+        this.logIrcToVentureChat = new CaseInsensitiveMap<>();
         this.shortify = new CaseInsensitiveMap<>();
         this.invalidCommandPrivate = new CaseInsensitiveMap<>();
         this.hideQuitWhenVanished = new CaseInsensitiveMap<>();
@@ -898,8 +898,8 @@ public final class PurpleBot {
                     heroChannel.put(channelName, config.getString("channels." + enChannelName + ".hero-channel", "admin"));
                     plugin.logDebug("  HeroChannel => " + heroChannel.get(channelName));
 
-                    mineverseChannel.put(channelName, config.getString("channels." + enChannelName + ".mineverse-channel", "global"));
-                    plugin.logDebug("  MineverseChannel => " + mineverseChannel.get(channelName));
+                    ventureChatChannel.put(channelName, config.getString("channels." + enChannelName + ".venture-channel", "global"));
+                    plugin.logDebug("  VentureChatChannel => " + ventureChatChannel.get(channelName));
 
                     townyChannel.put(channelName, config.getString("channels." + enChannelName + ".towny-channel", ""));
                     plugin.logDebug("  TownyChannel => " + townyChannel.get(channelName));
@@ -907,8 +907,8 @@ public final class PurpleBot {
                     logIrcToHeroChat.put(channelName, config.getBoolean("channels." + enChannelName + ".log-irc-to-hero-chat", false));
                     plugin.logDebug("  LogIrcToHeroChat => " + logIrcToHeroChat.get(channelName));
                     
-                    logIrcToMineverseChat.put(channelName, config.getBoolean("channels." + enChannelName + ".log-irc-to-mineverse-chat", false));
-                    plugin.logDebug("  LogIrcToMineverseChat => " + logIrcToMineverseChat.get(channelName));
+                    logIrcToVentureChat.put(channelName, config.getBoolean("channels." + enChannelName + ".log-irc-to-venture-chat", false));
+                    plugin.logDebug("  LogIrcToVentureChat => " + logIrcToVentureChat.get(channelName));
 
                     ignoreIRCChat.put(channelName, config.getBoolean("channels." + enChannelName + ".ignore-irc-chat", false));
                     plugin.logDebug("  IgnoreIRCChat => " + ignoreIRCChat.get(channelName));
@@ -1222,8 +1222,8 @@ public final class PurpleBot {
                 } else {
                     plugin.logDebug("No Factions");
                 }
-                if (plugin.mineverseChatEnabled) {                 
-                    plugin.getServer().getPluginManager().callEvent(new MineverseChatEvent(event, this));
+                if (plugin.ventureChatEnabled) {                 
+                    plugin.getServer().getPluginManager().callEvent(new VentureChatEvent(event, this));
                 }
                 if (isMessageEnabled(channelName, TemplateName.GAME_CHAT)) {
                     asyncIRCMessage(channelName, plugin.tokenizer
@@ -2745,19 +2745,19 @@ public final class PurpleBot {
         }
 
         /*
-         Send messages to MineverseChat if enabled
+         Send messages to VentureChat if enabled
          */
-        if (isMessageEnabled(channelName, TemplateName.IRC_MINEVERSE_CHAT) && plugin.mineverseChatEnabled) {
-            String mvChannel = mineverseChannel.get(channelName);
-            String mvTemplate = plugin.getIrcMineverseChatTemplate(botNick, mvChannel);
-            plugin.logDebug("broadcastChat [MV]: " + mvChannel + ": " + mvTemplate);
+        if (isMessageEnabled(channelName, TemplateName.IRC_VENTURE_CHAT) && plugin.ventureChatEnabled) {
+            String vcChannel = ventureChatChannel.get(channelName);
+            String vcTemplate = plugin.getIrcVentureChatTemplate(botNick, vcChannel);
+            plugin.logDebug("broadcastChat [MV]: " + vcChannel + ": " + vcTemplate);
             String rawMvMessage = filterMessage(
-                    plugin.tokenizer.ircChatToMineverseChatTokenizer(this, user, channel, mvTemplate, message, mvChannel), channelName);
+                    plugin.tokenizer.ircChatToVentureChatTokenizer(this, user, channel, vcTemplate, message, vcChannel), channelName);
             if (!rawMvMessage.isEmpty()) {
-                plugin.mvHook.sendMessage(mvChannel, rawMvMessage);
+                plugin.vcHook.sendMessage(vcChannel, rawMvMessage);
                 messageSent = true;
-                if (logIrcToMineverseChat.containsKey(channelName)) {
-                    if (logIrcToMineverseChat.get(channelName)) {
+                if (logIrcToVentureChat.containsKey(channelName)) {
+                    if (logIrcToVentureChat.get(channelName)) {
                         plugin.getServer().getConsoleSender().sendMessage(rawMvMessage);
                     }
                 }

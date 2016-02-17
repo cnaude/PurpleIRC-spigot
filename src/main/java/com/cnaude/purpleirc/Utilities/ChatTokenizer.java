@@ -224,7 +224,7 @@ public class ChatTokenizer {
     }
 
     /**
-     * IRC to Mineverse chat channel tokenizer
+     * IRC to VentureChat channel tokenizer
      *
      * @param ircBot
      * @param user
@@ -234,7 +234,7 @@ public class ChatTokenizer {
      * @param hChannel
      * @return
      */
-    public String ircChatToMineverseChatTokenizer(PurpleBot ircBot, User user, org.pircbotx.Channel channel, String template, String message, String hChannel) {
+    public String ircChatToVentureChatTokenizer(PurpleBot ircBot, User user, org.pircbotx.Channel channel, String template, String message, String hChannel) {
         String ircNick = user.getNick();
         String tmpl;
         Player player = this.getPlayer(ircNick);
@@ -580,20 +580,20 @@ public class ChatTokenizer {
     }
 
     /**
-     * MineverseChat to IRC
+     * VentureChat to IRC
      *
      * @param player
-     * @param mvChannel
-     * @param mvColor
+     * @param vcChannel
+     * @param vcColor
      * @param message
      * @param template
      * @return
      */
-    public String mineverseChatTokenizer(Player player, String mvChannel, String mvColor, String message, String template) {
+    public String ventureChatTokenizer(Player player, String vcChannel, String vcColor, String message, String template) {
         return gameChatToIRCTokenizer(player, template, message)
-                .replace("%MVCHANNEL%", mvChannel)
-                .replace("%MVCOLOR%", plugin.colorConverter.gameColorsToIrc(mvColor))
-                .replace("%CHANNEL%", mvChannel);
+                .replace("%MVCHANNEL%", vcChannel)
+                .replace("%MVCOLOR%", plugin.colorConverter.gameColorsToIrc(vcColor))
+                .replace("%CHANNEL%", vcChannel);
     }
 
     /**

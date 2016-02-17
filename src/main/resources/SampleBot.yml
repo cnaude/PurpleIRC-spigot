@@ -245,8 +245,8 @@ channels:
     #- irc-a-chat
     # Hero channel destination for IRC messages
     hero-channel: admin
-    # Mineverse channel destination for IRC messages
-    mineverse-channel: global
+    # Venture channel destination for IRC messages
+    venture-channel: global
     # Towny channel destination for IRC messages
     towny-channel: irc
     # Log all messages from IRC to HeroChat

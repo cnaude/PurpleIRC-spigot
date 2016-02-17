@@ -55,8 +55,8 @@ public class TemplateName {
     public final static String HERO_ACTION = "hero-action";
     public final static String HERO_CHAT = "hero-chat";
     
-    public final static String MINEVERSE_ACTION = "mineverse-action";
-    public final static String MINEVERSE_CHAT = "mineverse-chat";
+    public final static String VENTURE_CHAT_ACTION = "venture-action";
+    public final static String VENTURE_CHAT = "venture-chat";
 
     public final static String IRC_HERO_ACTION = "irc-hero-action";
     public final static String IRC_HERO_CHAT = "irc-hero-chat";
@@ -66,21 +66,21 @@ public class TemplateName {
     public final static String IRC_HERO_QUIT = "irc-hero-quit";
     public final static String IRC_HERO_TOPIC = "irc-hero-topic";
     
-    public final static String IRC_MINEVERSE_ACTION = "irc-mineverse-action";
-    public final static String IRC_MINEVERSE_CHAT = "irc-mineverse-chat";
-    public final static String IRC_MINEVERSE_KICK = "irc-mineverse-kick";
-    public final static String IRC_MINEVERSE_JOIN = "irc-mineverse-join";
-    public final static String IRC_MINEVERSE_PART = "irc-mineverse-part";
-    public final static String IRC_MINEVERSE_QUIT = "irc-mineverse-quit";
-    public final static String IRC_MINEVERSE_TOPIC = "irc-mineverse-topic";
+    public final static String IRC_VENTURE_ACTION = "irc-venture-action";
+    public final static String IRC_VENTURE_CHAT = "irc-venture-chat";
+    public final static String IRC_VENTURE_KICK = "irc-venture-kick";
+    public final static String IRC_VENTURE_JOIN = "irc-venture-join";
+    public final static String IRC_VENTURE_PART = "irc-venture-part";
+    public final static String IRC_VENTURE_QUIT = "irc-venture-quit";
+    public final static String IRC_VENTURE_TOPIC = "irc-venture-topic";
     
     public final static String IRC_ESS_HELPOP = "irc-ess-helpop";
 
     public final static String IRC_HERO_CHANNELS = "irc-hero-channels";
     public final static String HERO_CHANNELS = "hero-channels";
     
-    public final static String IRC_MINEVERSE_CHANNELS = "irc-mineverse-channels";
-    public final static String MINEVERSE_CHANNELS = "mineverse-channels";
+    public final static String IRC_VENTURE_CHAT_CHANNELS = "irc-venture-channels";
+    public final static String VENTURE_CHAT_CHANNELS = "venture-channels";
 
     public final static String TITAN_CHAT = "titan-chat";
     public final static String IRC_TITAN_CHAT = "irc-titan-chat";

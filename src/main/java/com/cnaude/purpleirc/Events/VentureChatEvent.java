@@ -27,7 +27,7 @@ import org.bukkit.event.player.AsyncPlayerChatEvent;
  * @author Chris Naude Event listener for plugins that want to catch command
  * events from PurpleIRC
  */
-public class MineverseChatEvent extends Event {
+public class VentureChatEvent extends Event {
 
     private static final HandlerList HANDLERS = new HandlerList();
     private final AsyncPlayerChatEvent event;
@@ -38,7 +38,7 @@ public class MineverseChatEvent extends Event {
      * @param event
      * @param bot
      */
-    public MineverseChatEvent(AsyncPlayerChatEvent event, PurpleBot bot) {
+    public VentureChatEvent(AsyncPlayerChatEvent event, PurpleBot bot) {
         this.event = event;
         this.bot = bot;
     }

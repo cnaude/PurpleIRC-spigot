@@ -33,7 +33,7 @@ import com.cnaude.purpleirc.GameListeners.GamePlayerQuitListener;
 import com.cnaude.purpleirc.GameListeners.GameServerCommandListener;
 import com.cnaude.purpleirc.GameListeners.HeroChatListener;
 import com.cnaude.purpleirc.GameListeners.McMMOChatListener;
-import com.cnaude.purpleirc.GameListeners.MineverseChatListener;
+import com.cnaude.purpleirc.GameListeners.VentureChatListener;
 import com.cnaude.purpleirc.GameListeners.NTheEndAgainListener;
 import com.cnaude.purpleirc.GameListeners.OreBroadcastListener;
 import com.cnaude.purpleirc.GameListeners.PrismListener;
@@ -50,7 +50,7 @@ import com.cnaude.purpleirc.Hooks.FactionChatHook;
 import com.cnaude.purpleirc.Hooks.GriefPreventionHook;
 import com.cnaude.purpleirc.Hooks.JobsHook;
 import com.cnaude.purpleirc.Hooks.McMMOChatHook;
-import com.cnaude.purpleirc.Hooks.MineverseChatHook;
+import com.cnaude.purpleirc.Hooks.VentureChatHook;
 import com.cnaude.purpleirc.Hooks.ReportRTSHook;
 import com.cnaude.purpleirc.Hooks.ShortifyHook;
 import com.cnaude.purpleirc.Hooks.SuperVanishHook;
@@ -122,13 +122,13 @@ public class PurpleIRC extends JavaPlugin {
     private final CaseInsensitiveMap<HashMap<String, String>> messageTmpl;
     private final CaseInsensitiveMap<CaseInsensitiveMap<String>> ircHeroChannelMessages;
     private final CaseInsensitiveMap<CaseInsensitiveMap<String>> ircHeroActionChannelMessages;
-    private final CaseInsensitiveMap<CaseInsensitiveMap<String>> ircMineverseChannelMessages;
-    private final CaseInsensitiveMap<CaseInsensitiveMap<String>> ircMineverseActionChannelMessages;
+    private final CaseInsensitiveMap<CaseInsensitiveMap<String>> ircVentureChatChannelMessages;
+    private final CaseInsensitiveMap<CaseInsensitiveMap<String>> ircVentureChatActionChannelMessages;
     private final CaseInsensitiveMap<CaseInsensitiveMap<String>> ircTownyChannelMessages;
     private final CaseInsensitiveMap<CaseInsensitiveMap<String>> heroChannelMessages;
     private final CaseInsensitiveMap<CaseInsensitiveMap<String>> heroActionChannelMessages;
-    private final CaseInsensitiveMap<CaseInsensitiveMap<String>> mineverseChannelMessages;
-    private final CaseInsensitiveMap<CaseInsensitiveMap<String>> mineverseActionChannelMessages;
+    private final CaseInsensitiveMap<CaseInsensitiveMap<String>> ventureChatChannelMessages;
+    private final CaseInsensitiveMap<CaseInsensitiveMap<String>> ventureChatActionChannelMessages;
     private final Map<String, String> hostCache;
     public String defaultPlayerSuffix,
             defaultPlayerPrefix,
@@ -175,7 +175,7 @@ public class PurpleIRC extends JavaPlugin {
     private boolean listSortByName;
     public boolean exactNickMatch;
     public boolean ignoreChatCancel;
-    public boolean mineverseChatEnabled;
+    public boolean ventureChatEnabled;
     public Long ircConnCheckInterval;
     public Long ircChannelCheckInterval;
     public Long joinDelay;
@@ -187,7 +187,7 @@ public class PurpleIRC extends JavaPlugin {
     public CaseInsensitiveMap<PurpleBot> ircBots;
     public FactionChatHook fcHook;
     public TownyChatHook tcHook;
-    public MineverseChatHook mvHook;
+    public VentureChatHook vcHook;
     public DynmapHook dynmapHook;
     public JobsHook jobsHook;
     public AdminPrivateChatHook adminPrivateChatHook;
@@ -234,7 +234,7 @@ public class PurpleIRC extends JavaPlugin {
     final String PL_REDDITSTREAM = "RedditStream";
     final String PL_PRISM = "Prism";
     final String PL_TITANCHAT = "TitanChat";
-    final String PL_MINEVERSECHAT = "MineverseChat";
+    final String PL_VENTURECHAT = "VentureChat";
     final String PL_HEROCHAT = "Herochat";
     final String PL_GRIEFPREVENTION = "GriefPrevention";
     List<String> hookList = new ArrayList<>();
@@ -254,13 +254,13 @@ public class PurpleIRC extends JavaPlugin {
         this.messageTmpl = new CaseInsensitiveMap<>();
         this.ircHeroChannelMessages = new CaseInsensitiveMap<>();
         this.ircHeroActionChannelMessages = new CaseInsensitiveMap<>();
-        this.ircMineverseChannelMessages = new CaseInsensitiveMap<>();
-        this.ircMineverseActionChannelMessages = new CaseInsensitiveMap<>();
+        this.ircVentureChatChannelMessages = new CaseInsensitiveMap<>();
+        this.ircVentureChatActionChannelMessages = new CaseInsensitiveMap<>();
         this.ircTownyChannelMessages = new CaseInsensitiveMap<>();
         this.heroChannelMessages = new CaseInsensitiveMap<>();
         this.heroActionChannelMessages = new CaseInsensitiveMap<>();
-        this.mineverseChannelMessages = new CaseInsensitiveMap<>();
-        this.mineverseActionChannelMessages = new CaseInsensitiveMap<>();
+        this.ventureChatChannelMessages = new CaseInsensitiveMap<>();
+        this.ventureChatActionChannelMessages = new CaseInsensitiveMap<>();
         this.displayNameCache = new CaseInsensitiveMap<>();
         this.uuidCache = new CaseInsensitiveMap<>();
         this.hostCache = new HashMap<>();
@@ -448,7 +448,7 @@ public class PurpleIRC extends JavaPlugin {
     }
 
     /**
-     * Get message template for HeroChat, MineverseChat or TownyChat based on
+     * Get message template for HeroChat, VentureChat or TownyChat based on
      * channel name
      *
      * @param templateMap map of message templates for specific chat plugin
@@ -498,20 +498,20 @@ public class PurpleIRC extends JavaPlugin {
         return getMessageTemplate(ircHeroActionChannelMessages, botName, channel, TemplateName.IRC_HERO_ACTION);
     }
 
-    public String getMineverseChatTemplate(String botName, String channel) {
-        return getMessageTemplate(mineverseChannelMessages, botName, channel, TemplateName.MINEVERSE_CHAT);
+    public String getVentureChatTemplate(String botName, String channel) {
+        return getMessageTemplate(ventureChatChannelMessages, botName, channel, TemplateName.VENTURE_CHAT);
     }
 
-    public String getMineverseActionTemplate(String botName, String channel) {
-        return getMessageTemplate(mineverseActionChannelMessages, botName, channel, TemplateName.MINEVERSE_ACTION);
+    public String getVentureChatActionTemplate(String botName, String channel) {
+        return getMessageTemplate(ventureChatActionChannelMessages, botName, channel, TemplateName.VENTURE_CHAT_ACTION);
     }
 
-    public String getIrcMineverseChatTemplate(String botName, String channel) {
-        return getMessageTemplate(ircMineverseChannelMessages, botName, channel, TemplateName.IRC_MINEVERSE_CHAT);
+    public String getIrcVentureChatTemplate(String botName, String channel) {
+        return getMessageTemplate(ircVentureChatChannelMessages, botName, channel, TemplateName.IRC_VENTURE_CHAT);
     }
 
-    public String getIrcMineverseActionTemplate(String botName, String channel) {
-        return getMessageTemplate(ircMineverseActionChannelMessages, botName, channel, TemplateName.IRC_MINEVERSE_ACTION);
+    public String getIrcVentureChatActionTemplate(String botName, String channel) {
+        return getMessageTemplate(ircVentureChatActionChannelMessages, botName, channel, TemplateName.IRC_VENTURE_ACTION);
     }
 
     public String getIrcTownyChatTemplate(String botName, String channel) {
@@ -535,10 +535,10 @@ public class PurpleIRC extends JavaPlugin {
         heroChannelMessages.put(configName, new CaseInsensitiveMap<String>());
         heroActionChannelMessages.put(configName, new CaseInsensitiveMap<String>());
 
-        ircMineverseChannelMessages.put(configName, new CaseInsensitiveMap<String>());
-        ircMineverseActionChannelMessages.put(configName, new CaseInsensitiveMap<String>());
-        mineverseChannelMessages.put(configName, new CaseInsensitiveMap<String>());
-        mineverseActionChannelMessages.put(configName, new CaseInsensitiveMap<String>());
+        ircVentureChatChannelMessages.put(configName, new CaseInsensitiveMap<String>());
+        ircVentureChatActionChannelMessages.put(configName, new CaseInsensitiveMap<String>());
+        ventureChatChannelMessages.put(configName, new CaseInsensitiveMap<String>());
+        ventureChatActionChannelMessages.put(configName, new CaseInsensitiveMap<String>());
 
         ircTownyChannelMessages.put(configName, new CaseInsensitiveMap<String>());
 
@@ -604,45 +604,45 @@ public class PurpleIRC extends JavaPlugin {
                 }
             }
 
-            if (config.contains(section + ".mineverse-channels")) {
-                for (String mvChannelName : config.getConfigurationSection(section + ".mineverse-channels").getKeys(false)) {
-                    mineverseChannelMessages.get(configName).put(mvChannelName,
+            if (config.contains(section + ".venture-channels")) {
+                for (String mvChannelName : config.getConfigurationSection(section + ".venture-channels").getKeys(false)) {
+                    ventureChatChannelMessages.get(configName).put(mvChannelName,
                             ChatColor.translateAlternateColorCodes('&',
-                                    config.getString(section + ".mineverse-channels."
+                                    config.getString(section + ".venture-channels."
                                             + mvChannelName)));
-                    logDebug(section + ".mineverse-channels: " + mvChannelName
-                            + " => " + mineverseChannelMessages.get(configName).get(mvChannelName));
+                    logDebug(section + ".venture-channels: " + mvChannelName
+                            + " => " + ventureChatChannelMessages.get(configName).get(mvChannelName));
                 }
             }
-            if (config.contains(section + ".mineverse-action-channels")) {
-                for (String mvChannelName : config.getConfigurationSection(section + ".mineverse-action-channels").getKeys(false)) {
-                    mineverseActionChannelMessages.get(configName).put(mvChannelName,
+            if (config.contains(section + ".venture-action-channels")) {
+                for (String mvChannelName : config.getConfigurationSection(section + ".venture-action-channels").getKeys(false)) {
+                    ventureChatActionChannelMessages.get(configName).put(mvChannelName,
                             ChatColor.translateAlternateColorCodes('&',
-                                    config.getString(section + ".mineverse-action-channels."
+                                    config.getString(section + ".venture-action-channels."
                                             + mvChannelName)));
-                    logDebug(section + ".mineverse-action-channels: " + mvChannelName
-                            + " => " + mineverseActionChannelMessages.get(configName).get(mvChannelName));
+                    logDebug(section + ".venture-action-channels: " + mvChannelName
+                            + " => " + ventureChatActionChannelMessages.get(configName).get(mvChannelName));
                 }
             }
 
-            if (config.contains(section + ".irc-mineverse-channels")) {
-                for (String mvChannelName : config.getConfigurationSection(section + ".irc-mineverse-channels").getKeys(false)) {
-                    ircMineverseChannelMessages.get(configName).put(mvChannelName,
+            if (config.contains(section + ".irc-venture-channels")) {
+                for (String mvChannelName : config.getConfigurationSection(section + ".irc-venture-channels").getKeys(false)) {
+                    ircVentureChatChannelMessages.get(configName).put(mvChannelName,
                             ChatColor.translateAlternateColorCodes('&',
-                                    config.getString(section + ".irc-mineverse-channels."
+                                    config.getString(section + ".irc-venture-channels."
                                             + mvChannelName)));
-                    logDebug(section + ".irc-mineverse-channels: " + mvChannelName
-                            + " => " + ircMineverseChannelMessages.get(configName).get(mvChannelName));
+                    logDebug(section + ".irc-venture-channels: " + mvChannelName
+                            + " => " + ircVentureChatChannelMessages.get(configName).get(mvChannelName));
                 }
             }
-            if (config.contains(section + ".irc-mineverse-action-channels")) {
-                for (String mvChannelName : config.getConfigurationSection(section + ".irc-mineverse-action-channels").getKeys(false)) {
-                    ircMineverseActionChannelMessages.get(configName).put(mvChannelName,
+            if (config.contains(section + ".irc-venture-action-channels")) {
+                for (String mvChannelName : config.getConfigurationSection(section + ".irc-venture-action-channels").getKeys(false)) {
+                    ircVentureChatActionChannelMessages.get(configName).put(mvChannelName,
                             ChatColor.translateAlternateColorCodes('&',
-                                    config.getString(section + ".irc-mineverse-action-channels."
+                                    config.getString(section + ".irc-venture-action-channels."
                                             + mvChannelName)));
-                    logDebug(section + ".irc-mineverse-action-channels: " + mvChannelName
-                            + " => " + ircMineverseActionChannelMessages.get(configName).get(mvChannelName));
+                    logDebug(section + ".irc-venture-action-channels: " + mvChannelName
+                            + " => " + ircVentureChatActionChannelMessages.get(configName).get(mvChannelName));
                 }
             }
         } else {
@@ -1569,15 +1569,15 @@ public class PurpleIRC extends JavaPlugin {
         } else {
             hookList.add(hookFormat(PL_TITANCHAT, false));
         }
-        if (isPluginEnabled(PL_MINEVERSECHAT)) {
-            hookList.add(hookFormat(PL_MINEVERSECHAT, true));
-            mineverseChatEnabled = true;
-            mvHook = new MineverseChatHook(this);
-            getServer().getPluginManager().registerEvents(new MineverseChatListener(this), this);
+        if (isPluginEnabled(PL_VENTURECHAT)) {
+            hookList.add(hookFormat(PL_VENTURECHAT, true));
+            ventureChatEnabled = true;
+            vcHook = new VentureChatHook(this);
+            getServer().getPluginManager().registerEvents(new VentureChatListener(this), this);
         } else {
-            hookList.add(hookFormat(PL_MINEVERSECHAT, false));
-            mineverseChatEnabled = false;
-            mvHook = null;
+            hookList.add(hookFormat(PL_VENTURECHAT, false));
+            ventureChatEnabled = false;
+            vcHook = null;
         }
         if (isPluginEnabled(PL_PRISM)) {
             hookList.add(hookFormat(PL_PRISM, true));

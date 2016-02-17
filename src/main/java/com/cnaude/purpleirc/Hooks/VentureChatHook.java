@@ -26,7 +26,7 @@ import org.bukkit.entity.Player;
  *
  * @author cnaude
  */
-public class MineverseChatHook {
+public class VentureChatHook {
 
     private final PurpleIRC plugin;
 
@@ -34,7 +34,7 @@ public class MineverseChatHook {
      *
      * @param plugin the PurpleIRC plugin
      */
-    public MineverseChatHook(PurpleIRC plugin) {
+    public VentureChatHook(PurpleIRC plugin) {
         this.plugin = plugin;
 
     }
