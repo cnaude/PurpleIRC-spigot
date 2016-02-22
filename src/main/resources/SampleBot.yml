@@ -221,6 +221,20 @@ channels:
     #- irc-hero-join
     #- irc-hero-part
     #- irc-hero-topic
+    # Venture chat. Uncomment these to enable venture chat 
+    # Replace [CHANNEL] with the channel name from Venture Chat
+    #venture-[CHANNEL]-chat
+    #venture-[CHANNEL]-action
+    # All vc channels
+    #venture-chat
+    #venture-action
+    #irc-venture-action
+    #irc-venture-chat
+    #irc-venture-kick
+    #irc-venture-join
+    #irc-venture-part
+    #irc-venture-quit
+    #irc-venture-topic
     # CleverNotch bot messages will be sent to the IRC channel
     - clever-chat
     # OreBroadcast messages
