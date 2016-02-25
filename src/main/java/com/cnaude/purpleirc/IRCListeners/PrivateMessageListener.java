@@ -55,6 +55,12 @@ public class PrivateMessageListener extends ListenerAdapter {
 
         plugin.logDebug("Private message caught <" + user.getNick() + ">: " + message);
 
+        // Catch znc status messages
+        if (user.getNick().equals("*status")) {
+            ircBot.zncResponse("<ZNC:Status>: " + message);
+            return;
+        }
+
         for (String myChannel : ircBot.botChannels) {
             channel = ircBot.getChannel(myChannel);
             if (channel != null) {
