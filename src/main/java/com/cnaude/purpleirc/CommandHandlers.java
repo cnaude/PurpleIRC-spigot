@@ -100,6 +100,7 @@ public class CommandHandlers implements CommandExecutor {
         commands.put("voice", new Voice(plugin));
         commands.put("whois", new Whois(plugin));
         commands.put("help", new Help(plugin));
+        commands.put("znc", new Znc(plugin));
 
         commands.put("test", new Test(plugin));
 

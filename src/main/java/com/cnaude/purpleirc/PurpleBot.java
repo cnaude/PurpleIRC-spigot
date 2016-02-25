@@ -200,6 +200,7 @@ public final class PurpleBot {
     private final List<String> tailerFiles;
     private String tailerRecipient;
     private boolean tailerCtcp;
+    private CommandSender zncSender;
     /**
      * Map of player names to IRC nicks.
      */
@@ -273,6 +274,7 @@ public final class PurpleBot {
         this.ircPrivateMsgMap = new CaseInsensitiveMap<>();
         this.tailers = new ArrayList<>();
         this.tailerFiles = new ArrayList<>();
+        this.zncSender = plugin.getServer().getConsoleSender();
         config = new YamlConfiguration();
         goodBot = loadConfig();
         if (goodBot) {
@@ -669,6 +671,24 @@ public final class PurpleBot {
         });
     }
 
+    public void znc(final CommandSender sender, final String message) {
+        zncSender = sender;
+        plugin.getServer().getScheduler().runTaskAsynchronously(plugin, new Runnable() {
+            @Override
+            public void run() {
+                bot.sendRaw().rawLineNow("znc " + message);
+            }
+        });
+    }
+    
+    public void zncResponse(String message) {
+        if (zncSender != null) {
+            zncSender.sendMessage(message);
+        } else {
+            plugin.getServer().getConsoleSender().sendMessage(message);
+        }
+    }
+
     public void asyncIdentify(final String password) {
         if (!this.isConnected()) {
             return;
@@ -906,7 +926,7 @@ public final class PurpleBot {
 
                     logIrcToHeroChat.put(channelName, config.getBoolean("channels." + enChannelName + ".log-irc-to-hero-chat", false));
                     plugin.logDebug("  LogIrcToHeroChat => " + logIrcToHeroChat.get(channelName));
-                    
+
                     logIrcToVentureChat.put(channelName, config.getBoolean("channels." + enChannelName + ".log-irc-to-venture-chat", false));
                     plugin.logDebug("  LogIrcToVentureChat => " + logIrcToVentureChat.get(channelName));
 
@@ -1222,7 +1242,7 @@ public final class PurpleBot {
                 } else {
                     plugin.logDebug("No Factions");
                 }
-                if (plugin.ventureChatEnabled) {                 
+                if (plugin.ventureChatEnabled) {
                     plugin.getServer().getPluginManager().callEvent(new VentureChatEvent(event, this));
                 }
                 if (isMessageEnabled(channelName, TemplateName.GAME_CHAT)) {
@@ -1243,7 +1263,7 @@ public final class PurpleBot {
 
     /**
      * Called from HeroChat listener
-     * 
+     *
      * @param chatter
      * @param chatColor
      * @param message
@@ -1397,7 +1417,7 @@ public final class PurpleBot {
         }
     }
 
-     /**
+    /**
      * Called from SimpleTicketEvent
      *
      * @param uuid
@@ -1405,8 +1425,8 @@ public final class PurpleBot {
      * @param botNick
      * @param messageType
      */
-    public void simpleTicketNotify(UUID uuid, 
-            uk.co.joshuawoolley.simpleticketmanager.ticketsystem.Ticket ticket, 
+    public void simpleTicketNotify(UUID uuid,
+            uk.co.joshuawoolley.simpleticketmanager.ticketsystem.Ticket ticket,
             String botNick, String messageType) {
         if (!this.isConnected()) {
             return;
@@ -1419,7 +1439,7 @@ public final class PurpleBot {
             }
         }
     }
-    
+
     /**
      * Called from ReportRTS event
      *
