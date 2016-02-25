@@ -30,7 +30,7 @@ public class Znc implements IRCCommandInterface {
 
     private final PurpleIRC plugin;
     private final String usage = "([bot]) [command] ([arguments])";
-    private final String desc = "Send a private message to an IRC user.";
+    private final String desc = "Send commands to the ZNC bouncer.";
     private final String name = "znc";
     private final String fullUsage = ChatColor.WHITE + "Usage: " + ChatColor.GOLD + "/irc " + name + " " + usage;
 
@@ -50,7 +50,7 @@ public class Znc implements IRCCommandInterface {
     @Override
     public void dispatch(CommandSender sender, String[] args) {
         if (args.length >= 2) {
-            plugin.logDebug("Dispatching msg command...");
+            plugin.logDebug("Dispatching znc command...");
             int msgIdx = 1;
             java.util.List<PurpleBot> myBots = new ArrayList<>();
             if (plugin.ircBots.containsKey(args[1])) {
