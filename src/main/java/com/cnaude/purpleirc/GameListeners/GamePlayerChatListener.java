@@ -46,7 +46,7 @@ public class GamePlayerChatListener implements Listener {
      *
      * @param event
      */
-    @EventHandler(priority = EventPriority.MONITOR)
+    @EventHandler(priority = EventPriority.HIGHEST)
     public void onAsyncPlayerChat(AsyncPlayerChatEvent event) {
         String message = event.getMessage();
         plugin.logDebug("ChatFormat [" + event.isCancelled() + "]: " + event.getFormat());
