@@ -32,15 +32,18 @@ public class VentureChatEvent extends Event {
     private static final HandlerList HANDLERS = new HandlerList();
     private final AsyncPlayerChatEvent event;
     private final PurpleBot bot;
+    private final String ircChannel;
 
     /**
      *
      * @param event
      * @param bot
+     * @param ircChannel
      */
-    public VentureChatEvent(AsyncPlayerChatEvent event, PurpleBot bot) {
+    public VentureChatEvent(AsyncPlayerChatEvent event, PurpleBot bot, String ircChannel) {
         this.event = event;
         this.bot = bot;
+        this.ircChannel = ircChannel;
     }
 
     /**
@@ -65,6 +68,14 @@ public class VentureChatEvent extends Event {
      */
     public PurpleBot getBot() {
         return bot;
+    }
+    
+    /**
+     *
+     * @return
+     */
+    public String getIrcChannel() {
+        return ircChannel;
     }
 
     /**

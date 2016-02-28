@@ -50,17 +50,19 @@ public class VentureChatListener implements Listener {
      */
     @EventHandler(ignoreCancelled = true, priority = EventPriority.NORMAL)
     public void onVentureChatEvent(VentureChatEvent event) {
-        ventureChat(event.getPlayer(), event.getMessage(), event.getBot());
+        plugin.logDebug("Entering onVentureChatEvent: " + event.getMessage());
+        ventureChat(event.getPlayer(), event.getMessage(), event.getBot(), event.getIrcChannel());
     }
 
     /**
      * VentureChat from game to IRC
      *
-     * @param player
-     * @param message
+     * @param player the player
+     * @param message the message
      * @param bot the calling bot
+     * @param channelName destination IRC channel
      */
-    public void ventureChat(Player player, String message, PurpleBot bot) {
+    public void ventureChat(Player player, String message, PurpleBot bot, String channelName) {
         MineverseChatPlayer mcp = MineverseChatAPI.getMineverseChatPlayer(player);
         ChatChannel eventChannel = mcp.getCurrentChannel();
         if (mcp.isQuickChat()) { //for single message chat detection
@@ -75,23 +77,21 @@ public class VentureChatListener implements Listener {
         }
         String vcChannel = eventChannel.getName();
         String vcColor = eventChannel.getColor();
-        for (String channelName : bot.botChannels) {
-            if (!bot.isPlayerInValidWorld(player, channelName)) {
-                continue;
-            }
-            plugin.logDebug("VC Channel: " + vcChannel);
-            String channelTemplateName = "venture-" + vcChannel + "-chat";
-            if (bot.isMessageEnabled(channelName, channelTemplateName)
-                    || bot.isMessageEnabled(channelName, TemplateName.VENTURE_CHAT)) {
-                String template = plugin.getVentureChatTemplate(bot.botNick, vcChannel);
-                plugin.logDebug("VC Template: " + template);
-                bot.asyncIRCMessage(channelName, plugin.tokenizer
-                        .ventureChatTokenizer(player, vcChannel, vcColor, message, template));
-            } else {
-                plugin.logDebug("Player " + player.getName() + " is in VentureChat channel "
-                        + vcChannel + ". Message types " + channelTemplateName + " and "
-                        + TemplateName.VENTURE_CHAT + " are disabled. No message sent to IRC.");
-            }
+        if (!bot.isPlayerInValidWorld(player, channelName)) {
+            return;
+        }
+        plugin.logDebug("VC Channel: " + vcChannel);
+        String channelTemplateName = "venture-" + vcChannel + "-chat";
+        if (bot.isMessageEnabled(channelName, channelTemplateName)
+                || bot.isMessageEnabled(channelName, TemplateName.VENTURE_CHAT)) {
+            String template = plugin.getVentureChatTemplate(bot.botNick, vcChannel);
+            plugin.logDebug("VC Template: " + template);
+            bot.asyncIRCMessage(channelName, plugin.tokenizer
+                    .ventureChatTokenizer(player, vcChannel, vcColor, message, template));
+        } else {
+            plugin.logDebug("Player " + player.getName() + " is in VentureChat channel "
+                    + vcChannel + ". Message types " + channelTemplateName + " and "
+                    + TemplateName.VENTURE_CHAT + " are disabled. No message sent to IRC.");
         }
     }
 

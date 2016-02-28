@@ -1243,7 +1243,8 @@ public final class PurpleBot {
                     plugin.logDebug("No Factions");
                 }
                 if (plugin.ventureChatEnabled) {
-                    plugin.getServer().getPluginManager().callEvent(new VentureChatEvent(event, this));
+                    plugin.logDebug("Calling VentureChatEvent: " + event.getMessage());
+                    plugin.getServer().getPluginManager().callEvent(new VentureChatEvent(event, this, channelName));
                 }
                 if (isMessageEnabled(channelName, TemplateName.GAME_CHAT)) {
                     asyncIRCMessage(channelName, plugin.tokenizer
