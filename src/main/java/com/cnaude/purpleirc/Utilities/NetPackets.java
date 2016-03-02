@@ -129,7 +129,7 @@ public class NetPackets {
                 if (add) {
                     return NetPacket_183.add(displayName);
                 } else {
-                    plugin.logDebug("T: Removing: " + name);
+                    plugin.logDebug("T183: Removing: " + name);
                     return NetPacket_183.rem(displayName);
                 }
             } catch (Exception ex) {
@@ -144,8 +144,19 @@ public class NetPackets {
                 if (add) {
                     return NetPacket_184_185_186_187_188.add(displayName);
                 } else {
-                    plugin.logDebug("T: Removing: " + name);
+                    plugin.logDebug("T184_188: Removing: " + name);
                     return NetPacket_184_185_186_187_188.rem(displayName);
+                }
+            } catch (Exception ex) {
+                plugin.logError("tabPacket: " + ex.getMessage());
+            }
+        } else if (version.contains("MC: 1.9")) {
+            try {
+                if (add) {
+                    return NetPacket_19.add(displayName);
+                } else {
+                    plugin.logDebug("T19: Removing: " + name);
+                    return NetPacket_19.rem(displayName);
                 }
             } catch (Exception ex) {
                 plugin.logError("tabPacket: " + ex.getMessage());
