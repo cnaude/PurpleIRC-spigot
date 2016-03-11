@@ -203,6 +203,7 @@ public class PurpleIRC extends JavaPlugin {
     public IRCMessageHandler ircMessageHandler;
 
     public CommandQueueWatcher commandQueue;
+    public MessageQueueWatcher messageQueue;
     public UpdateChecker updateChecker;
     public ChatTokenizer tokenizer;
     private File heroConfigFile;
@@ -333,6 +334,7 @@ public class PurpleIRC extends JavaPlugin {
         botWatcher = new BotWatcher(this);
         ircMessageHandler = new IRCMessageHandler(this);
         commandQueue = new CommandQueueWatcher(this);
+        messageQueue = new MessageQueueWatcher(this);
         updateChecker = new UpdateChecker(this);
     }
 
@@ -363,6 +365,7 @@ public class PurpleIRC extends JavaPlugin {
             logInfo("Disconnecting IRC bots.");
             for (PurpleBot ircBot : ircBots.values()) {
                 commandQueue.cancel();
+                messageQueue.cancel();
                 ircBot.stopTailers();
                 if (autoSave) {
                     ircBot.saveConfig(getServer().getConsoleSender());
@@ -1751,7 +1754,7 @@ public class PurpleIRC extends JavaPlugin {
         String fixedMessage = message.replace("\u200B", "");
         if (broadcastChatToConsole) {
             logDebug("Broadcast All [" + permission + "]: " + fixedMessage);
-            getServer().broadcast(fixedMessage, permission);
+            messageQueue.add(new Message(fixedMessage, permission));
         } else {
             logDebug("Broadcast Players [" + permission + "]: " + fixedMessage);
             for (Player player : getServer().getOnlinePlayers()) {

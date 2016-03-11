@@ -53,7 +53,8 @@ public class MessageListener extends ListenerAdapter {
         Channel channel = event.getChannel();
         User user = event.getUser();
 
-        plugin.logDebug("Message caught <" + user.getNick() + ">: " + message);
+        plugin.logDebug("IRC message caught [channel: " + channel + "] [nick: " + user.getNick() + "] [[message: " + message + "]");
+        
         try {
             if (plugin.shortifyHook != null && ircBot.isShortifyEnabled(channel.getName())) {
                 plugin.logDebug("Shortifying message (before): " + message);
@@ -70,6 +71,7 @@ public class MessageListener extends ListenerAdapter {
             }
         } catch (Exception ex) {
             plugin.logError("onMessage: " + ex.getMessage());
+            ex.printStackTrace();
         }
     }
 }
