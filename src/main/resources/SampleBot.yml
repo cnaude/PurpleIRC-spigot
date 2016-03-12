@@ -53,6 +53,8 @@ finger-reply: ''
 raw-message-on-connect: false
 # the raw message
 raw-message: auth name pass
+# Additional raw messages to send
+raw-message-list: []
 # relay-private-chat - Allow private chat to the bot to relay to the game
 relay-private-chat: false
 # Log private chat messages

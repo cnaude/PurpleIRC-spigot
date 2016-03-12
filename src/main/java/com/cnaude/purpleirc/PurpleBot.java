@@ -118,8 +118,8 @@ public final class PurpleBot {
     public String charSet;
     public String commandPrefix;
     public String quitMessage;
-    public String botIdentPassword;
-    public String rawMessage;
+    public String botIdentPassword;    
+    public List<String> rawMessages;
     public String channelCmdNotifyMode;
     public String partInvalidChannelsMsg;
     private String connectMessage;
@@ -256,6 +256,7 @@ public final class PurpleBot {
         this.filters = new CaseInsensitiveMap<>();
         this.tailerFilters = new ArrayList<>();
         this.channelNicks = new CaseInsensitiveMap<>();
+        this.rawMessages = new ArrayList<>();        
         this.channelTopicChanserv = new CaseInsensitiveMap<>();
         this.joinMsg = new CaseInsensitiveMap<>();
         this.msgOnJoin = new CaseInsensitiveMap<>();
@@ -661,6 +662,12 @@ public final class PurpleBot {
             }
         });
     }
+    
+    public void asyncRawlineNow(final List<String> messages) {
+        for (String s : messages) {
+                bot.sendRaw().rawLineNow(s);
+        }
+    }
 
     public void asyncRawlineNow(final String message) {
         plugin.getServer().getScheduler().runTaskAsynchronously(plugin, new Runnable() {
@@ -731,7 +738,8 @@ public final class PurpleBot {
             trustAllCerts = config.getBoolean("trust-all-certs", false);
             disableDiffieHellman = config.getBoolean("disable-diffie-hellman", false);
             sendRawMessageOnConnect = config.getBoolean("raw-message-on-connect", false);
-            rawMessage = config.getString("raw-message", "");
+            rawMessages.add(config.getString("raw-message")); 
+            rawMessages.addAll(config.getStringList("raw-message-list"));
             relayPrivateChat = config.getBoolean("relay-private-chat", false);
             logPrivateChat = config.getBoolean("log-private-chat", false);
             partInvalidChannels = config.getBoolean("part-invalid-channels", false);
