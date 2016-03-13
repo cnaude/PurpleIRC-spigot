@@ -69,7 +69,9 @@ command-notify:
     - '#minecraft-test'
     - example
   ignore:
-    - /example
+    - /login
+    - /register
+    - /auth
 # File tailer
 file-tailer:
     enabled: false
