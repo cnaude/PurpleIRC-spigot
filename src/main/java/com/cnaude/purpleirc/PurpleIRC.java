@@ -220,6 +220,7 @@ public class PurpleIRC extends JavaPlugin {
     final String PL_SIMPLETICKET = "SimpleTicketManager";
     final String PL_NTHE_END_AGAIN = "NTheEndAgain";
     final String PL_SUPERVANISH = "SuperVanish";
+    final String PL_PREMIUMVANISH = "PremiumVanish";
     final String PL_VANISHNOPACKET = "VanishNoPacket";
     final String PL_OREBROADCAST = "OreBroadcast";
     final String PL_DYNMAP = "dynmap";
@@ -1694,6 +1695,12 @@ public class PurpleIRC extends JavaPlugin {
         }
         if (isPluginEnabled(PL_SUPERVANISH)) {
             hookList.add(hookFormat(PL_SUPERVANISH, true));
+            superVanishHook = new SuperVanishHook(this);
+        } else {
+            hookList.add(hookFormat(PL_SUPERVANISH, false));
+        }
+        if (isPluginEnabled(PL_PREMIUMVANISH)) {
+            hookList.add(hookFormat(PL_PREMIUMVANISH, true));
             superVanishHook = new SuperVanishHook(this);
         } else {
             hookList.add(hookFormat(PL_SUPERVANISH, false));
