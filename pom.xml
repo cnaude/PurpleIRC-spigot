@@ -37,6 +37,15 @@
             </snapshots>
         </repository>
         
+        <!-- FactionChat -->
+        <repository>
+            <id>FactionChat-repo</id>
+            <url>http://jenkins.lolnet.co.nz/plugin/repository/everything/</url>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </repository>
+        
         <!-- Bukkit -->
         <repository>
             <id>bukkit-repo</id>
@@ -236,9 +245,9 @@
         
         <!-- FactionChat -->
         <dependency>
-            <groupId>com.cnaude.factionchat</groupId>
-            <artifactId>FactionChat</artifactId>
-            <version>1.9.8</version>
+            <groupId>nz.co.lolnet.james137137</groupId>
+            <artifactId>factionchat</artifactId>
+            <version>1.9.16</version>
         </dependency>
 
         <!-- TitanChat -->

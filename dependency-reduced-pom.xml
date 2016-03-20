@@ -112,6 +112,13 @@
       <snapshots>
         <enabled>false</enabled>
       </snapshots>
+      <id>FactionChat-repo</id>
+      <url>http://jenkins.lolnet.co.nz/plugin/repository/everything/</url>
+    </repository>
+    <repository>
+      <snapshots>
+        <enabled>false</enabled>
+      </snapshots>
       <id>bukkit-repo</id>
       <url>http://repo.bukkit.org/content/groups/public/</url>
     </repository>
@@ -252,9 +259,9 @@
       <scope>compile</scope>
     </dependency>
     <dependency>
-      <groupId>com.cnaude.factionchat</groupId>
-      <artifactId>FactionChat</artifactId>
-      <version>1.9.8</version>
+      <groupId>nz.co.lolnet.james137137</groupId>
+      <artifactId>factionchat</artifactId>
+      <version>1.9.16</version>
       <scope>compile</scope>
     </dependency>
     <dependency>

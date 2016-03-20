@@ -17,7 +17,7 @@
 package com.cnaude.purpleirc.Hooks;
 
 import com.cnaude.purpleirc.PurpleIRC;
-import nz.co.lolnet.james137137.FactionChat.FactionChatAPI;
+import nz.co.lolnet.james137137.FactionChat.API.FactionChatAPI;
 import org.bukkit.entity.Player;
 
 /**
