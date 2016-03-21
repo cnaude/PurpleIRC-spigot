@@ -20,7 +20,7 @@ import com.cnaude.purpleirc.PlayerList;
 import com.cnaude.purpleirc.PurpleBot;
 import com.cnaude.purpleirc.PurpleIRC;
 import com.cnaude.purpleirc.TemplateName;
-import com.dthielke.herochat.ChannelManager;
+import com.dthielke.channel.ChannelManager;
 import com.gmail.nossr50.util.player.UserManager;
 import com.nyancraft.reportrts.data.Ticket;
 import com.palmergames.bukkit.TownyChat.channels.Channel;
