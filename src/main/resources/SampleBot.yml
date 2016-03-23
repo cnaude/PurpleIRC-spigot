@@ -252,6 +252,11 @@ channels:
     #- titan-[CHANNEL]-chat
     # ReportRTS ticket notifications to irc
     - rts-notify
+    # SimpleTicketManager notifications to irc
+    - stm-create
+    - stm-claim
+    - stm-close
+    - stm-comment
     # Catch /broadcast messages
     #- broadcast-console-message
     #- broadcast-message
