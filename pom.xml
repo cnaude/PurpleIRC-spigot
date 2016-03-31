@@ -6,7 +6,7 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <!-- Bukkit API Version, change if out dated -->
-        <bukkit.version>1.9</bukkit.version>
+        <bukkit.version>1.9.2</bukkit.version>
         <build.number>SNAPSHOT</build.number>
     </properties>
 
@@ -352,7 +352,7 @@
         <dependency>
             <groupId>com.cnaude.supervanish</groupId>
             <artifactId>SuperVanish</artifactId>
-            <version>5.5.0</version>
+            <version>5.6.2</version>
         </dependency>
         
         <!-- SimpleTicketManager -->
