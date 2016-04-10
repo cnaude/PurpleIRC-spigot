@@ -118,7 +118,7 @@ public final class PurpleBot {
     public String charSet;
     public String commandPrefix;
     public String quitMessage;
-    public String botIdentPassword;    
+    public String botIdentPassword;
     public List<String> rawMessages;
     public String channelCmdNotifyMode;
     public String partInvalidChannelsMsg;
@@ -256,7 +256,7 @@ public final class PurpleBot {
         this.filters = new CaseInsensitiveMap<>();
         this.tailerFilters = new ArrayList<>();
         this.channelNicks = new CaseInsensitiveMap<>();
-        this.rawMessages = new ArrayList<>();        
+        this.rawMessages = new ArrayList<>();
         this.channelTopicChanserv = new CaseInsensitiveMap<>();
         this.joinMsg = new CaseInsensitiveMap<>();
         this.msgOnJoin = new CaseInsensitiveMap<>();
@@ -662,10 +662,10 @@ public final class PurpleBot {
             }
         });
     }
-    
+
     public void asyncRawlineNow(final List<String> messages) {
         for (String s : messages) {
-                bot.sendRaw().rawLineNow(s);
+            bot.sendRaw().rawLineNow(s);
         }
     }
 
@@ -687,7 +687,7 @@ public final class PurpleBot {
             }
         });
     }
-    
+
     public void zncResponse(String message) {
         if (zncSender != null) {
             zncSender.sendMessage(message);
@@ -738,7 +738,7 @@ public final class PurpleBot {
             trustAllCerts = config.getBoolean("trust-all-certs", false);
             disableDiffieHellman = config.getBoolean("disable-diffie-hellman", false);
             sendRawMessageOnConnect = config.getBoolean("raw-message-on-connect", false);
-            rawMessages.add(config.getString("raw-message")); 
+            rawMessages.add(config.getString("raw-message"));
             rawMessages.addAll(config.getStringList("raw-message-list"));
             relayPrivateChat = config.getBoolean("relay-private-chat", false);
             logPrivateChat = config.getBoolean("log-private-chat", false);
@@ -2763,11 +2763,15 @@ public final class PurpleBot {
             String rawHCMessage = filterMessage(
                     plugin.tokenizer.ircChatToHeroChatTokenizer(this, user, channel, tmpl, message, Herochat.getChannelManager(), hChannel), channelName);
             if (!rawHCMessage.isEmpty()) {
-                Herochat.getChannelManager().getChannel(hChannel).sendRawMessage(rawHCMessage);
-                messageSent = true;
-                if (logIrcToHeroChat.containsKey(channelName)) {
-                    if (logIrcToHeroChat.get(channelName)) {
-                        plugin.getServer().getConsoleSender().sendMessage(rawHCMessage);
+                if (Herochat.getChannelManager().getChannel(hChannel) == null) {
+                    plugin.logError("Herochat channel is invalid: " + hChannel);
+                } else {
+                    Herochat.getChannelManager().getChannel(hChannel).sendRawMessage(rawHCMessage);
+                    messageSent = true;
+                    if (logIrcToHeroChat.containsKey(channelName)) {
+                        if (logIrcToHeroChat.get(channelName)) {
+                            plugin.getServer().getConsoleSender().sendMessage(rawHCMessage);
+                        }
                     }
                 }
             }
