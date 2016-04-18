@@ -156,7 +156,7 @@
         <dependency>
             <groupId>com.nyancraft.reportrts</groupId>
             <artifactId>ReportRTS</artifactId>
-            <version>1.2.3</version>
+            <version>2.0.0-54</version>
             <exclusions>
                 <exclusion>
                     <groupId>com.comphenix.protocol</groupId>

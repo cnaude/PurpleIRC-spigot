@@ -18,7 +18,6 @@ package com.cnaude.purpleirc.Hooks;
 
 import com.cnaude.purpleirc.PurpleIRC;
 import com.nyancraft.reportrts.RTSFunctions;
-import com.nyancraft.reportrts.util.Message;
 
 /**
  *
@@ -37,7 +36,7 @@ public class ReportRTSHook {
     }
 
     public void modBroadcast(String name, String message) {
-        RTSFunctions.messageMods(Message.parse("broadcastMessage", name, message), false);
+        RTSFunctions.messageStaff(message, true);
         plugin.logDebug("RTSMB: " + message);
     }
 }

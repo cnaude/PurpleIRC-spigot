@@ -643,11 +643,11 @@ public class ChatTokenizer {
      */
     public String reportRTSTokenizer(String pName, String template, Ticket ticket) {
         String message = ticket.getMessage();
-        String modName = ticket.getModName();
+        String modName = ticket.getStaffName();
         String displayModName = "";
         String name = ticket.getName();
         String world = ticket.getWorld();
-        String modComment = ticket.getModComment();
+        String modComment = ticket.getComments().last().getComment();
         int id = ticket.getId();
         if (message == null) {
             message = "";
@@ -729,9 +729,6 @@ public class ChatTokenizer {
         }
         if (world == null) {
             world = "";
-        }
-        if (modComment == null) {
-            modComment = "";
         }
         if (modName == null) {
             modName = "";

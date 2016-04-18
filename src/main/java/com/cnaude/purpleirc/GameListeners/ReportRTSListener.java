@@ -20,12 +20,12 @@ import com.cnaude.purpleirc.PurpleBot;
 import com.cnaude.purpleirc.PurpleIRC;
 import com.nyancraft.reportrts.event.TicketAssignEvent;
 import com.nyancraft.reportrts.event.TicketClaimEvent;
-import com.nyancraft.reportrts.event.TicketCompleteEvent;
-import com.nyancraft.reportrts.event.TicketCreateEvent;
 import com.nyancraft.reportrts.event.TicketHoldEvent;
 import com.nyancraft.reportrts.event.TicketBroadcastEvent;
+import com.nyancraft.reportrts.event.TicketCloseEvent;
 import com.nyancraft.reportrts.event.TicketReopenEvent;
 import com.nyancraft.reportrts.event.TicketUnclaimEvent;
+import com.nyancraft.reportrts.event.TicketOpenEvent;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 
@@ -50,7 +50,7 @@ public class ReportRTSListener implements Listener {
      * @param event
      */
     @EventHandler
-    public void onTicketCreateEvent(TicketCreateEvent event) {
+    public void onTicketCreateEvent(TicketOpenEvent event) {
         for (PurpleBot ircBot : plugin.ircBots.values()) {
             ircBot.reportRTSNotify(event.getTicket().getName(),
                     event.getTicket(), ircBot.botNick, "rts-notify");
@@ -58,7 +58,7 @@ public class ReportRTSListener implements Listener {
     }
 
     @EventHandler
-    public void onTicketCompleteEvent(TicketCompleteEvent event) {
+    public void onTicketCompleteEvent(TicketCloseEvent event) {
         for (PurpleBot ircBot : plugin.ircBots.values()) {
             ircBot.reportRTSNotify(event.getTicket().getName(),
                     event.getTicket(), ircBot.botNick, "rts-complete");
