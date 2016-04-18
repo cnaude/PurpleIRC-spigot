@@ -647,7 +647,10 @@ public class ChatTokenizer {
         String displayModName = "";
         String name = ticket.getName();
         String world = ticket.getWorld();
-        String modComment = ticket.getComments().last().getComment();
+        String modComment = "";
+        if (!ticket.getComments().isEmpty()) {
+            modComment = ticket.getComments().last().getComment();
+        }
         int id = ticket.getId();
         if (message == null) {
             message = "";
