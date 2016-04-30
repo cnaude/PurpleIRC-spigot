@@ -16,10 +16,8 @@
  */
 package com.cnaude.purpleirc.Commands;
 
-import com.cnaude.purpleirc.PurpleBot;
 import com.cnaude.purpleirc.PurpleIRC;
-import java.util.ArrayList;
-import java.util.List;
+import com.cnaude.purpleirc.Utilities.BotsAndChannels;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -34,7 +32,7 @@ public class Send implements IRCCommandInterface {
     private final String usage = "([bot]) ([channel]) [message]";
     private final String desc = "Send a message to an IRC channel.";
     private final String name = "send";
-    private final String fullUsage = ChatColor.WHITE + "Usage: " + ChatColor.GOLD + "/irc " + name + " " + usage; 
+    private final String fullUsage = ChatColor.WHITE + "Usage: " + ChatColor.GOLD + "/irc " + name + " " + usage;
 
     /**
      *
@@ -51,46 +49,35 @@ public class Send implements IRCCommandInterface {
      */
     @Override
     public void dispatch(CommandSender sender, String[] args) {
-        if (args.length >= 2) {
-            int msgIdx = 1;
-            String channelName = null;
-            List<PurpleBot> myBots = new ArrayList<>();
-            if (plugin.ircBots.containsKey(args[1])) {
-                myBots.add(plugin.ircBots.get(args[1]));
-                msgIdx = 2;
-                if (args.length >= 3) {
-                    if (plugin.ircBots.get(args[1]).isValidChannel(args[2])) {
-                        channelName = args[2];
-                    }
-                }
-            } else {
-                myBots.addAll(plugin.ircBots.values());
-            }
-            for (PurpleBot ircBot : myBots) {
-                String msg = "";
-                for (int i = msgIdx; i < args.length; i++) {
-                    msg = msg + " " + args[i];
-                }
-                if (channelName == null) {
-                    for (String c : ircBot.botChannels) {
-                        if (sender instanceof Player) {
-                            ircBot.gameChat((Player) sender, c, msg.substring(1));
-                        } else {
-                            ircBot.consoleChat(c, msg.substring(1));
-                        }
-                    }
-                } else {
-                    if (sender instanceof Player) {
-                        ircBot.gameChat((Player) sender, channelName, msg.substring(1));
-                    } else {
-                        ircBot.consoleChat(channelName, msg.substring(1));
-                    }
-                }
+        BotsAndChannels bac;
+        int idx;
 
-            }
+        if (args.length >= 4) {
+            bac = new BotsAndChannels(plugin, sender, args[1], args[2]);
+            idx = 3;                
+        } else if (args.length >= 3) {
+            bac = new BotsAndChannels(plugin, sender, args[1]);
+            idx = 2;
         } else {
             sender.sendMessage(fullUsage);
+            return;
         }
+        if (bac.bot.size() > 0 && bac.channel.size() > 0) {
+            for (String botName : bac.bot) {
+                for (String channelName : bac.channel) {
+                    String msg = "";
+                    for (int i = idx; i < args.length; i++) {
+                        msg = msg + " " + args[i];
+                    }
+                    if (sender instanceof Player) {
+                        plugin.ircBots.get(botName).gameChat((Player) sender, channelName, msg.substring(1));
+                    } else {
+                        plugin.ircBots.get(botName).consoleChat(channelName, msg.substring(1));
+                    }
+
+                }
+            }
+        }        
     }
 
     @Override
