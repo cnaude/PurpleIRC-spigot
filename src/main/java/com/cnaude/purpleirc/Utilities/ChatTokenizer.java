@@ -770,10 +770,13 @@ public class ChatTokenizer {
      */
     public String playerTokenizer(Player player, String message) {
         String pName;
+        String displayName;
         if (plugin.pingFixTemplate) {
             pName = addZeroWidthSpace(player.getName());
+            displayName = addZeroWidthSpace(player.getDisplayName());
         } else {
             pName = player.getName();
+            displayName = player.getDisplayName();
         }
         plugin.logDebug("Tokenizing " + pName + "(O: " + player.isOnline() + ")");
         String pSuffix = plugin.getPlayerSuffix(player);
@@ -781,7 +784,7 @@ public class ChatTokenizer {
         String gPrefix = plugin.getGroupPrefix(player);
         String gSuffix = plugin.getGroupSuffix(player);
         String group = plugin.getPlayerGroup(player);
-        String displayName = player.getDisplayName();
+        
         UUID uuid = player.getUniqueId();
         String playerIP = "";
         try {
