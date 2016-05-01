@@ -18,9 +18,11 @@ package com.cnaude.purpleirc.GameListeners;
 
 import com.cnaude.purpleirc.PurpleBot;
 import com.cnaude.purpleirc.PurpleIRC;
+import com.dthielke.api.Channel;
 import com.dthielke.api.ChatResult;
 import com.dthielke.api.Chatter;
 import com.dthielke.api.event.ChannelChatEvent;
+import com.dthielke.channel.ConversationChannel;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -50,6 +52,11 @@ public class HeroChatListener implements Listener {
     @EventHandler(ignoreCancelled = true, priority = EventPriority.NORMAL)
     public void onChannelChatEvent(ChannelChatEvent event) {
         Chatter chatter = event.getChatter();
+        Channel channel = chatter.getActiveChannel();
+        if ((channel instanceof ConversationChannel)) {
+            plugin.logDebug("Ignoring private message: " + chatter.getPrivateMessageFocus() + ":" + event.getMessage());
+            return;
+        }
         ChatResult result = event.getResult();
         plugin.logDebug("HC Format: " + event.getFormat());
         plugin.logDebug("HC Result: " + event.getResult());
