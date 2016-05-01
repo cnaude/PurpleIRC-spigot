@@ -773,7 +773,7 @@ public class ChatTokenizer {
         String displayName;
         if (plugin.pingFixTemplate) {
             pName = addZeroWidthSpace(player.getName());
-            displayName = addZeroWidthSpace(player.getDisplayName());
+            displayName = player.getDisplayName().replace(player.getName(), pName);
         } else {
             pName = player.getName();
             displayName = player.getDisplayName();
