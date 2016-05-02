@@ -60,6 +60,10 @@ public class HeroChatListener implements Listener {
         ChatResult result = event.getResult();
         plugin.logDebug("HC Format: " + event.getFormat());
         plugin.logDebug("HC Result: " + event.getResult());
+        if (plugin.heroPrivateChatFormat.equals(event.getFormat())) {
+            plugin.logDebug("HC Private: TRUE");
+            return;
+        }
 
         ChatColor chatColor = event.getChannel().getColor();
         Player player = chatter.getPlayer();

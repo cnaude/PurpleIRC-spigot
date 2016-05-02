@@ -138,6 +138,7 @@ public class PurpleIRC extends JavaPlugin {
             defaultGroupSuffix,
             customTabPrefix,
             heroChatEmoteFormat,
+            heroPrivateChatFormat,
             listFormat,
             listSeparator,
             listPlayer,
@@ -1540,6 +1541,7 @@ public class PurpleIRC extends JavaPlugin {
                 logError(ex.getMessage());
             }
             heroChatEmoteFormat = heroConfig.getString("format.emote", "");
+            heroPrivateChatFormat = heroConfig.getString("format.private-message");
         } else {
             hookList.add(hookFormat(PL_HEROCHAT, false));
         }
