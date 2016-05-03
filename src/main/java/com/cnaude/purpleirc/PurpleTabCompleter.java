@@ -16,8 +16,11 @@
  */
 package com.cnaude.purpleirc;
 
+import java.text.Collator;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
@@ -71,11 +74,18 @@ public class PurpleTabCompleter implements TabCompleter {
                                     continue;
                                 }
                             }
-                                list.add(user.getNick());
-                            }
+                            list.add(user.getNick());
                         }
                     }
                 }
+                if (ircBot.botLinkingEnabled) {
+                    for (String remoteBot : ircBot.remotePlayers.keySet()) {
+                        for (String playerName : ircBot.remotePlayers.get(remoteBot)) {
+                            list.add(playerName);
+                        }
+                    }
+                }
+            }
             for (Player player : plugin.getServer().getOnlinePlayers()) {
                 if (plugin.vanishHook != null) {
                     if (plugin.vanishHook.isVanished(player)) {
