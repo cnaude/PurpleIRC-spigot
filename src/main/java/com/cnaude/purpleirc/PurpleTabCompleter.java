@@ -76,11 +76,16 @@ public class PurpleTabCompleter implements TabCompleter {
                     }
                 }
                 if (ircBot.botLinkingEnabled) {
+                    plugin.logDebug("T2");
                     for (String remoteBot : ircBot.remotePlayers.keySet()) {
+                        plugin.logDebug("T3: " + remoteBot);
                         for (String playerName : ircBot.remotePlayers.get(remoteBot)) {
+                            plugin.logDebug("T4: " + playerName);
                             list.add(playerName);
                         }
                     }
+                } else {
+                    plugin.logDebug("T1");
                 }
             }
             for (Player player : plugin.getServer().getOnlinePlayers()) {
