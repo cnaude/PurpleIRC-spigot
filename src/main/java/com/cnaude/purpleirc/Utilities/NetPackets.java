@@ -150,6 +150,17 @@ public class NetPackets {
             } catch (Exception ex) {
                 plugin.logError("tabPacket: " + ex.getMessage());
             }
+        } else if (version.contains("MC: 1.9.4")) {
+            try {
+                if (add) {
+                    return NetPacket_194.add(displayName);
+                } else {
+                    plugin.logDebug("T194: Removing: " + name);
+                    return NetPacket_194.rem(displayName);
+                }
+            } catch (Exception ex) {
+                plugin.logError("tabPacket: " + ex.getMessage());
+            }
         } else if (version.contains("MC: 1.9")) {
             try {
                 if (add) {

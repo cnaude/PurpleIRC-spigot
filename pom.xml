@@ -109,6 +109,14 @@
             <type>jar</type>
             <scope>provided</scope>
         </dependency>
+        
+        <dependency>
+            <groupId>org.bukkit</groupId>
+            <artifactId>spigot-194</artifactId>
+            <version>1.9.4</version>
+            <type>jar</type>
+            <scope>provided</scope>
+        </dependency>
                
         <!-- PircBotX -->
         <dependency>
