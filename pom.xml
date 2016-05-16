@@ -74,6 +74,11 @@
              <url>http://nexus.theyeticave.net/content/repositories/pub_releases</url>
          </repository>
         -->
+        <repository>
+            <id>dmulloy2-repo</id>
+            <url>http://repo.dmulloy2.net/content/groups/public/</url>
+        </repository>
+
     </repositories>
     
     <dependencies>
@@ -295,9 +300,9 @@
         
         <!-- ProtocolLib -->
         <dependency>
-            <groupId>com.cnaude.protocol</groupId>
-            <artifactId>ProtocolLib</artifactId>
-            <version>3.6.5</version>
+            <groupId>com.comphenix.protocol</groupId>
+            <artifactId>ProtocolLib-API</artifactId>
+            <version>4.0</version>
         </dependency>
                         
         <!-- CleverNotch -->
