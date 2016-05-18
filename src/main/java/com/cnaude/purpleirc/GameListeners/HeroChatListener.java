@@ -53,7 +53,7 @@ public class HeroChatListener implements Listener {
     public void onChannelChatEvent(ChannelChatEvent event) {
         Chatter chatter = event.getChatter();
         Channel channel = chatter.getActiveChannel();
-        if ((channel instanceof ConversationChannel)) {
+        if (channel instanceof ConversationChannel || event.getFormat().contains("{convopartner}")) {
             plugin.logDebug("Ignoring private message: " + chatter.getPrivateMessageFocus() + ":" + event.getMessage());
             return;
         }
