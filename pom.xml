@@ -465,28 +465,6 @@
                     </execution>
                 </executions>
             </plugin>  
-            <plugin>
-                <artifactId>maven-antrun-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <phase>package</phase>
-                        <configuration>
-                            <tasks>                                                                              
-                                <copy file="../${project.name}/target/PurpleIRC-${project.version}.jar" tofile="../${project.name}/target/PurpleIRC.jar"/>
-                                <exec dir="../${project.name}/target" executable="scp">
-                                    <arg line="PurpleIRC.jar cnaude@h.cnaude.org:spigottest/plugins/PurpleIRC.jar"/>
-                                </exec>
-                                <exec dir="../${project.name}/target" executable="scp">
-                                    <arg line="PurpleIRC.jar cnaude@h.cnaude.org:minetest/plugins/PurpleIRC.jar"/>
-                                </exec>
-                            </tasks>
-                        </configuration>
-                        <goals>
-                            <goal>run</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
         </plugins>
     </build>
             
