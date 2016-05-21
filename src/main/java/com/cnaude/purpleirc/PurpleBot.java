@@ -201,6 +201,7 @@ public final class PurpleBot {
     private String tailerRecipient;
     private boolean tailerCtcp;
     private CommandSender zncSender;
+    public boolean joinOnKick;
     /**
      * Map of player names to IRC nicks.
      */
@@ -650,6 +651,18 @@ public final class PurpleBot {
             }
         });
     }
+    
+    public void asyncJoinChannel(final String channelName) {
+        if (!this.isConnected()) {
+            return;
+        }
+        plugin.getServer().getScheduler().runTaskAsynchronously(plugin, new Runnable() {
+            @Override
+            public void run() {
+                bot.sendIRC().joinChannel(channelName);
+            }
+        });
+    }
 
     public void asyncNotice(final String target, final String message) {
         if (!this.isConnected()) {
@@ -853,6 +866,8 @@ public final class PurpleBot {
 
             // load tailer settings
             tailerEnabled = config.getBoolean("file-tailer.enabled", false);
+            
+            joinOnKick = config.getBoolean("join-on-kick", true);
 
             String tailerFile = config.getString("file-tailer.file", "server.log");
             if (!tailerFiles.contains(tailerFile)) {

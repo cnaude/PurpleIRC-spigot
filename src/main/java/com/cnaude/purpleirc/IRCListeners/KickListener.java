@@ -49,8 +49,23 @@ public class KickListener extends ListenerAdapter {
     @Override
     public void onKick(KickEvent event) {
         Channel channel = event.getChannel();
+        String channelName = channel.getName();
         User recipient = event.getRecipient();
         User user = event.getUser();
+        
+        if (recipient.getNick().equalsIgnoreCase(ircBot.botNick)) {
+            plugin.logDebug("onKick: " + recipient.getNick());
+            if (ircBot.joinOnKick) {
+                plugin.logDebug("onKick: rejoining");
+                if (ircBot.channelPassword.get(channelName).isEmpty()) {
+                    ircBot.asyncJoinChannel(channelName);
+                } else {
+                    ircBot.asyncJoinChannel(channelName, ircBot.channelPassword.get(channelName));
+                }
+            } else {
+                plugin.logDebug("onKick: NOT rejoining");
+            }
+        }
 
         if (ircBot.isValidChannel(channel.getName())) {
             ircBot.broadcastIRCKick(recipient, user, event.getReason(), channel);
