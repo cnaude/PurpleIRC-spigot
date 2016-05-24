@@ -651,7 +651,7 @@ public final class PurpleBot {
             }
         });
     }
-    
+
     public void asyncJoinChannel(final String channelName) {
         if (!this.isConnected()) {
             return;
@@ -866,7 +866,7 @@ public final class PurpleBot {
 
             // load tailer settings
             tailerEnabled = config.getBoolean("file-tailer.enabled", false);
-            
+
             joinOnKick = config.getBoolean("join-on-kick", true);
 
             String tailerFile = config.getString("file-tailer.file", "server.log");
@@ -2395,6 +2395,8 @@ public final class PurpleBot {
             if (user.getChannels() != null) {
                 if (user.isIrcop()) {
                     return plugin.ircNickPrefixIrcOp;
+                } else if (user.getChannelsOwnerIn().contains(channel)) {
+                    return plugin.ircNickPrefixOwner;
                 } else if (user.getChannelsSuperOpIn().contains(channel)) {
                     return plugin.ircNickPrefixSuperOp;
                 } else if (user.getChannelsOpIn().contains(channel)) {

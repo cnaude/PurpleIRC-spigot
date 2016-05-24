@@ -322,6 +322,7 @@ nick-exact-match: true
 # IRC nick prefixes (can include & color codes)
 nick-prefixes:
     ircop: '&4~'
+    owner: '&5@'
     ircsuperop: '&6&&'
     op: '&c@'
     halfop: '&3%'
