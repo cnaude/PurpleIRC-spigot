@@ -18,11 +18,11 @@ package com.cnaude.purpleirc.GameListeners;
 
 import com.cnaude.purpleirc.PurpleBot;
 import com.cnaude.purpleirc.PurpleIRC;
-import com.dthielke.api.Channel;
-import com.dthielke.api.ChatResult;
-import com.dthielke.api.Chatter;
-import com.dthielke.api.event.ChannelChatEvent;
-import com.dthielke.channel.ConversationChannel;
+import com.dthielke.herochat.Channel;
+import com.dthielke.herochat.ChannelChatEvent;
+import com.dthielke.herochat.Chatter;
+import com.dthielke.herochat.Chatter.Result;
+import com.dthielke.herochat.ConversationChannel;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -51,13 +51,13 @@ public class HeroChatListener implements Listener {
      */
     @EventHandler(ignoreCancelled = true, priority = EventPriority.NORMAL)
     public void onChannelChatEvent(ChannelChatEvent event) {
-        Chatter chatter = event.getChatter();
+        Chatter chatter = event.getSender();
         Channel channel = chatter.getActiveChannel();
         if (channel instanceof ConversationChannel || event.getFormat().contains("{convopartner}")) {
-            plugin.logDebug("Ignoring private message: " + chatter.getPrivateMessageFocus() + ":" + event.getMessage());
+            plugin.logDebug("Ignoring private message: " + event.getMessage());
             return;
         }
-        ChatResult result = event.getResult();
+        Result result = event.getResult();
         plugin.logDebug("HC Format: " + event.getFormat());
         plugin.logDebug("HC Result: " + event.getResult());
         if (plugin.heroPrivateChatFormat.equals(event.getFormat())) {
@@ -69,7 +69,7 @@ public class HeroChatListener implements Listener {
         Player player = chatter.getPlayer();
         if (player.hasPermission("irc.message.gamechat")
                 && chatter.getChannels().contains(event.getChannel())
-                && result.equals(ChatResult.ALLOWED)) {
+                && result.equals(Result.ALLOWED)) {
             for (PurpleBot ircBot : plugin.ircBots.values()) {
                 if (plugin.heroChatEmoteFormat.equals(event.getFormat())) {
                     plugin.logDebug("HC Emote: TRUE");
