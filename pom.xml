@@ -6,7 +6,7 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <!-- Bukkit API Version, change if out dated -->
-        <bukkit.version>1.9.4</bukkit.version>
+        <bukkit.version>1.10</bukkit.version>
         <build.number>SNAPSHOT</build.number>
     </properties>
 
@@ -119,6 +119,14 @@
             <groupId>org.bukkit</groupId>
             <artifactId>spigot-194</artifactId>
             <version>1.9.4</version>
+            <type>jar</type>
+            <scope>provided</scope>
+        </dependency>
+        
+        <dependency>
+            <groupId>org.bukkit</groupId>
+            <artifactId>spigot-110</artifactId>
+            <version>1.10</version>
             <type>jar</type>
             <scope>provided</scope>
         </dependency>

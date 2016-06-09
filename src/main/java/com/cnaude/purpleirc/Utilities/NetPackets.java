@@ -172,6 +172,17 @@ public class NetPackets {
             } catch (Exception ex) {
                 plugin.logError("tabPacket: " + ex.getMessage());
             }
+        } else if (version.contains("MC: 1.10")) {
+            try {
+                if (add) {
+                    return NetPacket_19.add(displayName);
+                } else {
+                    plugin.logDebug("T110: Removing: " + name);
+                    return NetPacket_110.rem(displayName);
+                }
+            } catch (Exception ex) {
+                plugin.logError("tabPacket: " + ex.getMessage());
+            }
         } else {
             plugin.logDebug("tabPacket: deprecated ");
             playerListConstructor = protocolManager.createPacketConstructor(Packets.Server.PLAYER_INFO, "", false, (int) 0);
