@@ -175,7 +175,7 @@ public class NetPackets {
         } else if (version.contains("MC: 1.10")) {
             try {
                 if (add) {
-                    return NetPacket_19.add(displayName);
+                    return NetPacket_110.add(displayName);
                 } else {
                     plugin.logDebug("T110: Removing: " + name);
                     return NetPacket_110.rem(displayName);
