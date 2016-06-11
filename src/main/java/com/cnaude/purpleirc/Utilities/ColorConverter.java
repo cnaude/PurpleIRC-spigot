@@ -34,6 +34,7 @@ public class ColorConverter {
     private final boolean stripGameColors;
     private final boolean stripIRCColors;
     private final boolean stripIRCBackgroundColors;
+    private final boolean stripGameColorsFromIrc;
     private final EnumMap<ChatColor, String> ircColorMap = new EnumMap<>(ChatColor.class);
     private final HashMap<String, ChatColor> gameColorMap = new HashMap<>();
     private final Pattern bgColorPattern;
@@ -46,11 +47,14 @@ public class ColorConverter {
      * @param stripGameColors
      * @param stripIRCColors
      * @param stripIRCBackgroundColors
+     * @param stripGameColorsFromIrc
      */
-    public ColorConverter(PurpleIRC plugin, boolean stripGameColors, boolean stripIRCColors, boolean stripIRCBackgroundColors) {
+    public ColorConverter(PurpleIRC plugin, boolean stripGameColors, 
+            boolean stripIRCColors, boolean stripIRCBackgroundColors, boolean stripGameColorsFromIrc) {
         this.stripGameColors = stripGameColors;
         this.stripIRCColors = stripIRCColors;
         this.stripIRCBackgroundColors = stripIRCBackgroundColors;
+        this.stripGameColorsFromIrc = stripGameColorsFromIrc;
         this.plugin = plugin;
         buildDefaultColorMaps();
         this.bgColorPattern = Pattern.compile("((\\u0003\\d+),\\d+)");
@@ -81,7 +85,7 @@ public class ColorConverter {
      * @param message
      * @return
      */
-    public String ircColorsToGame(String message) {
+    public String ircColorsToGame(String message) {        
         Matcher matcher;
         if (stripIRCBackgroundColors) {
             matcher = bgColorPattern.matcher(message);
@@ -148,6 +152,10 @@ public class ColorConverter {
                     break;
             }
             message = message + s;
+        }
+        
+        if (stripGameColorsFromIrc) {
+            message = ChatColor.stripColor(message);
         }
 
         if (stripIRCColors) {

@@ -311,6 +311,8 @@ strip-game-colors: false
 strip-irc-colors: false
 # Strip IRC background colors (recommend leaving this as true)
 strip-irc-bg-colors: true
+# Strip game color codes from IRC to game chat. (Removes §)
+strip-game-colors-from-irc: true
 # Add IRC names to in-game tab list
 custom-tab-list: false
 # Nothing to see here

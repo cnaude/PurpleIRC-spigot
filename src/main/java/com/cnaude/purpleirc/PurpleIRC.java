@@ -171,6 +171,7 @@ public class PurpleIRC extends JavaPlugin {
     private boolean stripGameColors;
     private boolean stripIRCColors;
     private boolean stripIRCBackgroundColors;
+    private boolean stripGameColorsFromIrc;
     private boolean broadcastChatToConsole;
     public boolean customTabList;
     public String customTabGamemode;
@@ -675,9 +676,10 @@ public class PurpleIRC extends JavaPlugin {
         stripGameColors = getConfig().getBoolean("strip-game-colors", false);
         stripIRCColors = getConfig().getBoolean("strip-irc-colors", false);
         stripIRCBackgroundColors = getConfig().getBoolean("strip-irc-bg-colors", true);
+        stripGameColorsFromIrc = getConfig().getBoolean("strip-game-colors-from-irc", true);
         exactNickMatch = getConfig().getBoolean("nick-exact-match", true);
         ignoreChatCancel = getConfig().getBoolean("ignore-chat-cancel", false);
-        colorConverter = new ColorConverter(this, stripGameColors, stripIRCColors, stripIRCBackgroundColors);
+        colorConverter = new ColorConverter(this, stripGameColors, stripIRCColors, stripIRCBackgroundColors, stripGameColorsFromIrc);
         logDebug("strip-game-colors: " + stripGameColors);
         logDebug("strip-irc-colors: " + stripIRCColors);
 
