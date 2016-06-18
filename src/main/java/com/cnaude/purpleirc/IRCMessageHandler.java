@@ -76,9 +76,9 @@ public class IRCMessageHandler {
             plugin.logDebug("User is muted. Ignoring message from " + user.getNick() + ": " + message);
             return;
         }
-        if (message.startsWith(ircBot.commandPrefix) && (!message.startsWith(ircBot.commandPrefix + ircBot.commandPrefix))) {
-            String command = message.split(" ")[0].substring(ircBot.commandPrefix.length());
-
+        String command = message.split(" ")[0].substring(ircBot.commandPrefix.length());
+        
+        if (message.startsWith(ircBot.commandPrefix) && command.matches("^\\w.*")) {
             String commandArgs = null;
             if (message.contains(" ")) {
                 commandArgs = message.split(" ", 2)[1];
@@ -280,6 +280,7 @@ public class IRCMessageHandler {
                         ircBot.botNick, channelName, TemplateName.INVALID_IRC_COMMAND)
                         .replace("%NICK%", user.getNick())
                         .replace("%CMDPREFIX%", ircBot.commandPrefix);
+                plugin.logDebug("invalidIrcCommand: " + invalidIrcCommand);
                 if (!invalidIrcCommand.isEmpty()) {
                     if (ircBot.invalidCommandCTCP.get(channelName)) {
                         ircBot.asyncCTCPCommand(target, invalidIrcCommand);
