@@ -6,7 +6,7 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <!-- Bukkit API Version, change if out dated -->
-        <bukkit.version>1.10</bukkit.version>
+        <bukkit.version>1.10.2</bukkit.version>
         <build.number>SNAPSHOT</build.number>
     </properties>
 
@@ -37,14 +37,14 @@
             </snapshots>
         </repository>
         
-        <!-- FactionChat -->
+        <!-- FactionChat 
         <repository>
             <id>FactionChat-repo</id>
             <url>http://jenkins.lolnet.co.nz/plugin/repository/everything/</url>
             <snapshots>
                 <enabled>false</enabled>
             </snapshots>
-        </repository>
+        </repository> -->
         
         <!-- Bukkit -->
         <repository>
