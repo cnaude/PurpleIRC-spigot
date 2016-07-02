@@ -185,9 +185,17 @@ public class ChatTokenizer {
             plugin.logDebug("ircChatToGameTokenizer: null player: " + ircNick);
             tmpl = playerTokenizer(ircNick, template);
         }
+        String nickPrefix = ircBot.getNickPrefix(user, channel);
+        String channelPrefix = ircBot.getChannelPrefix(channel);
+        if (nickPrefix == null) {
+            nickPrefix = "";
+        }
+        if (channelPrefix == null) {
+            channelPrefix = "";
+        }
         return plugin.colorConverter.ircColorsToGame(ircUserTokenizer(tmpl, user, ircBot)
-                .replace("%NICKPREFIX%", ircBot.getNickPrefix(user, channel))
-                .replace("%CHANNELPREFIX%", ircBot.getChannelPrefix(channel))
+                .replace("%NICKPREFIX%", nickPrefix)
+                .replace("%CHANNELPREFIX%", channelPrefix)
                 .replace("%MESSAGE%", message)
                 .replace("%CHANNEL%", channel.getName()));
     }
