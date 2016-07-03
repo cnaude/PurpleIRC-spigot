@@ -3588,6 +3588,46 @@ public final class PurpleBot {
             }
         }
     }
+    
+    public void gamePrismRollback(String name, QueryParameters queryParams, ArrayList<BlockStateChange> blockStateChange) {
+        if (!this.isConnected()) {
+            return;
+        }
+        String keyword = queryParams.getKeyword();
+        String sortDirection = queryParams.getSortDirection();
+        String worldName = queryParams.getWorld();
+        String id = String.valueOf(queryParams.getId());
+        String radius = String.valueOf(queryParams.getRadius());
+        if (keyword == null) {
+            keyword = "";
+        }
+        if (sortDirection == null) {
+            sortDirection = "";
+        }
+        if (worldName == null) {
+            worldName = "";
+        }
+        if (id == null) {
+            id = "";
+        }
+        if (radius == null) {
+            radius = "";
+        }
+        for (String channelName : botChannels) {
+            if (isMessageEnabled(channelName, TemplateName.PRISM_ROLLBACK)) {
+                asyncIRCMessage(channelName, prismBlockStateChangeTokens(plugin.tokenizer
+                        .gameChatToIRCTokenizer(name, plugin.getMessageTemplate(botNick, channelName, TemplateName.PRISM_ROLLBACK))
+                        .replace("%NAME%", name)
+                        .replace("%COMMAND%", queryParams.getOriginalCommand())
+                        .replace("%KEYWORD%", keyword)
+                        .replace("%SORTDIRECTION%", sortDirection)
+                        .replace("%PARAMWORLD%", worldName)
+                        .replace("%ID%", id)
+                        .replace("%RADIUS%", radius), blockStateChange
+                ));
+            }
+        }
+    }
 
     public void gamePrismDrainOrExtinguish(String template, Player player, int radius, ArrayList<BlockStateChange> blockStateChange) {
         if (!this.isConnected()) {

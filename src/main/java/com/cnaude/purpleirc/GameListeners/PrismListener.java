@@ -23,6 +23,7 @@ import me.botsko.prism.events.PrismBlocksDrainEvent;
 import me.botsko.prism.events.PrismBlocksExtinguishEvent;
 import me.botsko.prism.events.PrismBlocksRollbackEvent;
 import me.botsko.prism.events.PrismCustomPlayerActionEvent;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 
@@ -49,8 +50,13 @@ public class PrismListener implements Listener {
     @EventHandler
     public void onPrismBlocksRollbackEvent(PrismBlocksRollbackEvent event) {
         plugin.logDebug("onPrismBlocksRollbackEvent caught");
+        Player player = event.onBehalfOf();
         for (PurpleBot ircBot : plugin.ircBots.values()) {
-            ircBot.gamePrismRollback(event.onBehalfOf(), event.getQueryParameters(), event.getResult().getBlockStateChanges());
+            if (player == null) {
+                ircBot.gamePrismRollback("CONSOLE", event.getQueryParameters(), event.getResult().getBlockStateChanges());
+            } else {
+                ircBot.gamePrismRollback(event.onBehalfOf(), event.getQueryParameters(), event.getResult().getBlockStateChanges());
+            }
         }
     }
 
