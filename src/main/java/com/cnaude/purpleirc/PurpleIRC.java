@@ -171,7 +171,7 @@ public class PurpleIRC extends JavaPlugin {
     private boolean stripGameColors;
     private boolean stripIRCColors;
     private boolean stripIRCBackgroundColors;
-    private boolean stripGameColorsFromIrc;
+    protected boolean stripGameColorsFromIrc;
     private boolean broadcastChatToConsole;
     public boolean customTabList;
     public String customTabGamemode;

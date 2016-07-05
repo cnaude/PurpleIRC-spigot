@@ -77,7 +77,7 @@ public class IRCMessageHandler {
             return;
         }
         String command = message.split(" ")[0].substring(ircBot.commandPrefix.length());
-        
+
         if (message.startsWith(ircBot.commandPrefix) && command.matches("^\\w.*")) {
             String commandArgs = null;
             if (message.contains(" ")) {
@@ -303,6 +303,9 @@ public class IRCMessageHandler {
                 return;
             }
             plugin.logDebug("Message dispatched for broadcast...");
+            if (plugin.stripGameColorsFromIrc) {
+                message = ChatColor.stripColor(message);
+            }
             ircBot.broadcastChat(user, channel, null, message, false, false);
         }
     }

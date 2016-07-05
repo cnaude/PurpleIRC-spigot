@@ -153,10 +153,6 @@ public class ColorConverter {
             }
             message = message + s;
         }
-        
-        if (stripGameColorsFromIrc) {
-            message = ChatColor.stripColor(message);
-        }
 
         if (stripIRCColors) {
             return Colors.removeFormattingAndColors(message);
