@@ -76,7 +76,11 @@ public class IRCMessageHandler {
             plugin.logDebug("User is muted. Ignoring message from " + user.getNick() + ": " + message);
             return;
         }
-        String command = message.split(" ")[0].substring(ircBot.commandPrefix.length());
+        plugin.logDebug("commandPrefix.length(): " + ircBot.commandPrefix.length());
+        String command = message.split(" ")[0];
+        if (command.length() > ircBot.commandPrefix.length()) {
+            command = command.substring(ircBot.commandPrefix.length());
+        }
 
         if (message.startsWith(ircBot.commandPrefix) && command.matches("^\\w.*")) {
             String commandArgs = null;
@@ -201,7 +205,7 @@ public class IRCMessageHandler {
                                 sendMessage(ircBot, target, plugin.getRemotePlayers(commandArgs), ctcpResponse);
                                 break;
                             case "@a":
-                                if (plugin.adminPrivateChatHook != null) {
+                                if (plugin.adminPrivateChatHook != null && commandArgs != null) {
                                     String newMessage = ircBot.filterMessage(
                                             plugin.tokenizer.ircChatToGameTokenizer(ircBot, user, channel, plugin.getMessageTemplate(ircBot.botNick, channelName, TemplateName.IRC_ADMIN_CHAT), commandArgs), channelName);
                                     plugin.adminPrivateChatHook.sendMessage(newMessage, user.getNick());

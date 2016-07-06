@@ -792,7 +792,7 @@ public class ChatTokenizer {
         String gPrefix = plugin.getGroupPrefix(player);
         String gSuffix = plugin.getGroupSuffix(player);
         String group = plugin.getPlayerGroup(player);
-        
+
         UUID uuid = player.getUniqueId();
         String playerIP = "";
         try {
