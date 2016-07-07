@@ -389,7 +389,9 @@ public class ChatTokenizer {
     public String gameChatToIRCTokenizer(String pName, String template, String message) {
         return plugin.colorConverter.gameColorsToIrc(template
                 .replace("%NAME%", pName)
-                .replace("%MESSAGE%", plugin.colorConverter.gameColorsToIrc(message)));
+                .replace("%MESSAGE%", plugin.colorConverter.gameColorsToIrc(message))
+                .replace("%RAWMESSAGE%", ChatColor.stripColor(message))
+        );
     }
 
     /**
@@ -425,7 +427,11 @@ public class ChatTokenizer {
         if (message == null) {
             message = "";
         }
-        return plugin.colorConverter.gameColorsToIrc(playerTokenizer(player, template).replace("%MESSAGE%", message));
+        return plugin.colorConverter.gameColorsToIrc(
+                playerTokenizer(player, template)
+                .replace("%MESSAGE%", message)
+                .replace("%RAWMESSAGE%", ChatColor.stripColor(message))
+        );
     }
 
     /**
@@ -445,6 +451,7 @@ public class ChatTokenizer {
         PlayerList pl = plugin.getMCPlayerList(ircBot, channelName);
         return plugin.colorConverter.gameColorsToIrc(playerTokenizer(player, template)
                 .replace("%MESSAGE%", message)
+                .replace("%RAWMESSAGE%", ChatColor.stripColor(message))
                 .replace("%COUNT%", Integer.toString(pl.count))
                 .replace("%MAX%", Integer.toString(pl.max))
                 .replace("%PLAYERS%", pl.list)
@@ -469,7 +476,9 @@ public class ChatTokenizer {
         return plugin.colorConverter.gameColorsToIrc(
                 playerTokenizer(name, template)
                 .replace("%SOURCE%", source)
-                .replace("%MESSAGE%", message));
+                .replace("%MESSAGE%", message)
+                .replace("%RAWMESSAGE%", ChatColor.stripColor(message))
+        );
     }
 
     /**
@@ -622,7 +631,9 @@ public class ChatTokenizer {
      */
     public String gameChatToIRCTokenizer(String template, String message) {
         return plugin.colorConverter.gameColorsToIrc(template
-                .replace("%MESSAGE%", message));
+                .replace("%MESSAGE%", message)
+                .replace("%RAWMESSAGE%", ChatColor.stripColor(message))
+        );
     }
 
     /**
@@ -638,6 +649,7 @@ public class ChatTokenizer {
         return plugin.colorConverter.gameColorsToIrc(
                 gameChatToIRCTokenizer(player, template, message)
                 .replace("%MESSAGE%", message)
+                .replace("%RAWMESSAGE%", ChatColor.stripColor(message))
                 .replace("%REASON%", reason));
     }
 
@@ -684,6 +696,7 @@ public class ChatTokenizer {
         }
         return plugin.colorConverter.gameColorsToIrc(playerTokenizer(pName, template)
                 .replace("%MESSAGE%", message)
+                .replace("%RAWMESSAGE%", ChatColor.stripColor(message))
                 .replace("%MODNAME%", modName)
                 .replace("%DISPLAYMODNAME%", displayModName)
                 .replace("%MODCOMMENT%", modComment)
@@ -979,6 +992,7 @@ public class ChatTokenizer {
         return plugin.colorConverter.gameColorsToIrc(template
                 .replace("%TARGET%", target)
                 .replace("%MESSAGE%", message)
+                .replace("%RAWMESSAGE%", ChatColor.stripColor(message))
         );
     }
 
