@@ -42,6 +42,12 @@ public class McMMOChatListener implements Listener {
     public void onMcMMOChatEvent(McMMOChatEvent event) {
         String sender = event.getSender();
         Player player = plugin.getServer().getPlayer(sender);
+        if (plugin.adminPrivateChatHook != null) {
+            if (plugin.adminPrivateChatHook.ac.toggledPlayers.contains(player.getName())) {
+                plugin.logDebug("[onMcMMOChatEvent]: Ignoring chat due to AdminPrivate chat message");
+                return;
+            }
+        }
         plugin.logDebug("[onMcMMOChatEvent]: " + sender);
         if (player != null && !sender.isEmpty()) {
             if (player.hasPermission("irc.message.gamechat")) {
@@ -56,6 +62,12 @@ public class McMMOChatListener implements Listener {
     public void onMcMMOAdminChatEvent(McMMOAdminChatEvent event) {
         String sender = event.getSender();
         Player player = plugin.getServer().getPlayer(sender);
+        if (plugin.adminPrivateChatHook != null) {
+            if (plugin.adminPrivateChatHook.ac.toggledPlayers.contains(player.getName())) {
+                plugin.logDebug("[onMcMMOAdminChatEvent]: Ignoring chat due to AdminPrivate chat message");
+                return;
+            }
+        }
         plugin.logDebug("[onMcMMOAdminChatEvent]: " + sender);
         if (player != null && !sender.isEmpty()) {
             if (player.hasPermission("irc.message.gamechat")) {
@@ -72,6 +84,12 @@ public class McMMOChatListener implements Listener {
         Player player = plugin.getServer().getPlayer(sender);
         String party = event.getParty();
         plugin.logDebug("onMcMMOPartyChatEvent caught: " + sender);
+        if (plugin.adminPrivateChatHook != null) {
+            if (plugin.adminPrivateChatHook.ac.toggledPlayers.contains(player.getName())) {
+                plugin.logDebug("[onMcMMOPartyChatEvent]: Ignoring chat due to AdminPrivate chat message");
+                return;
+            }
+        }
         if (player != null && !sender.isEmpty()) {
             if (player.hasPermission("irc.message.gamechat")) {
                 for (PurpleBot ircBot : plugin.ircBots.values()) {
@@ -149,5 +167,5 @@ public class McMMOChatListener implements Listener {
             }
         }
     }
-    
+
 }
