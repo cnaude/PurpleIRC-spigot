@@ -129,6 +129,16 @@ channels:
   # Use %2E instead of dots in the channel names.
   # Example: minecraft%2Etest == minecraft.test
   '#minecraft-test':
+    permissions: 
+      chat: 'irc.message.chat'
+      kick: 'irc.message.kick'
+      action: 'irc.message.action'
+      mode: 'irc.message.mode'
+      notice: 'irc.message.notice'
+      join: 'irc.message.join'
+      part: 'irc.message.part'
+      quit: 'irc.message.quit'
+      topic: 'irc.message.topic'
     # message prefix (replaces %CHANNELPREFIX%
     prefix: ''
     # worlds we listen to for this channel
