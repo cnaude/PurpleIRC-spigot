@@ -1057,16 +1057,22 @@ public final class PurpleBot {
                         plugin.logInfo("There are no enabled messages!");
                     }
 
+                    String permKeys[] = {
+                        "chat",
+                        "kick",
+                        "action",
+                        "mode",
+                        "notice",
+                        "join",
+                        "part",
+                        "quit",
+                        "topic"
+                    };
                     // build channel message permissions
                     CaseInsensitiveMap p = new CaseInsensitiveMap<>();
-                    p.put("kick", config.getString("channels." + enChannelName + ".permissions.chat", "irc.message.kick"));
-                    p.put("action", config.getString("channels." + enChannelName + ".permissions.action", "irc.message.action"));
-                    p.put("mode", config.getString("channels." + enChannelName + ".permissions.mode", "irc.message.mode"));
-                    p.put("notice", config.getString("channels." + enChannelName + ".permissions.notice", "irc.message.notice"));
-                    p.put("join", config.getString("channels." + enChannelName + ".permissions.join", "irc.message.join"));
-                    p.put("part", config.getString("channels." + enChannelName + ".permissions.part", "irc.message.part"));
-                    p.put("quit", config.getString("channels." + enChannelName + ".permissions.quit", "irc.message.quit"));
-                    p.put("topic", config.getString("channels." + enChannelName + ".permissions.topic", "irc.message.topic"));
+                    for (String key : permKeys) {
+                        p.put(key, config.getString("channels." + enChannelName + ".permissions." + key, "irc.message." + key));
+                    }
                     permissions.put(channelName, p);
                     for (String key : permissions.get(channelName).keySet()) {
                         plugin.logDebug("Permission node[" + channelName + "]: " + key + ": " + permissions.get(channelName).get(key));
