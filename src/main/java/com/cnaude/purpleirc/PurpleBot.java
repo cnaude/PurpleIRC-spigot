@@ -2823,7 +2823,7 @@ public final class PurpleBot {
          */
         if (isMessageEnabled(channelName, TemplateName.IRC_VENTURE_CHAT) && plugin.ventureChatEnabled) {
             String vcChannel = ventureChatChannel.get(channelName);
-            String vcTemplate = plugin.getIrcVentureChatTemplate(botNick, vcChannel);
+            String vcTemplate = plugin.getVentureChatTemplate(botNick, vcChannel, TemplateName.IRC_VENTURE_CHAT);
             plugin.logDebug("broadcastChat [MV]: " + vcChannel + ": " + vcTemplate);
             String rawMvMessage = filterMessage(
                     plugin.tokenizer.ircChatToVentureChatTokenizer(this, user, channel, vcTemplate, message, vcChannel), channelName);
@@ -3108,6 +3108,22 @@ public final class PurpleBot {
                             )
                     );
         }
+        
+        // Broadcast kick message to VentureChat
+        if (isMessageEnabled(channelName, TemplateName.IRC_VENTURE_KICK) && plugin.ventureChatEnabled) {
+            String vcChannel = ventureChatChannel.get(channelName);
+            String vcTemplate = plugin.getVentureChatTemplate(botNick, vcChannel, TemplateName.IRC_VENTURE_KICK);
+            plugin.logDebug("broadcastIRCkick [VC]: " + vcChannel + ": " + vcTemplate);
+            String rawVcMessage = plugin.tokenizer.ircKickTokenizer(this, recipient, kicker, reason, channel, vcTemplate);
+            if (!rawVcMessage.isEmpty()) {
+                plugin.vcHook.sendMessage(vcChannel, rawVcMessage);
+                if (logIrcToVentureChat.containsKey(channelName)) {
+                    if (logIrcToVentureChat.get(channelName)) {
+                        plugin.getServer().getConsoleSender().sendMessage(rawVcMessage);
+                    }
+                }
+            }
+        }
     }
 
     /**
@@ -3165,6 +3181,7 @@ public final class PurpleBot {
             plugin.logDebug("[broadcastIRCJoin] NOT broadcasting join message because irc-join is false.");
         }
 
+        // Broadcast join message to HeroChat
         if (isMessageEnabled(channel, TemplateName.IRC_HERO_JOIN)) {
             Herochat.getChannelManager().getChannel(heroChannel.get(channel.getName()))
                     .sendRawMessage(plugin.tokenizer.ircChatToHeroChatTokenizer(
@@ -3173,6 +3190,23 @@ public final class PurpleBot {
                             Herochat.getChannelManager(),
                             heroChannel.get(channel.getName())));
         }
+        
+        // Broadcast join message to VentureChat
+        if (isMessageEnabled(channelName, TemplateName.IRC_VENTURE_JOIN) && plugin.ventureChatEnabled) {
+            String vcChannel = ventureChatChannel.get(channelName);
+            String vcTemplate = plugin.getVentureChatTemplate(botNick, vcChannel, TemplateName.IRC_VENTURE_JOIN);
+            plugin.logDebug("broadcastIRCJoin [VC]: " + vcChannel + ": " + vcTemplate);
+            String rawVcMessage = plugin.tokenizer.chatIRCTokenizer(this, user, channel, vcTemplate);
+            if (!rawVcMessage.isEmpty()) {
+                plugin.vcHook.sendMessage(vcChannel, rawVcMessage);
+                if (logIrcToVentureChat.containsKey(channelName)) {
+                    if (logIrcToVentureChat.get(channelName)) {
+                        plugin.getServer().getConsoleSender().sendMessage(rawVcMessage);
+                    }
+                }
+            }
+        }
+        
     }
 
     public void broadcastIRCPart(User user, org.pircbotx.Channel channel) {
@@ -3196,6 +3230,22 @@ public final class PurpleBot {
                             Herochat.getChannelManager(),
                             heroChannel.get(channel.getName())));
         }
+        
+        // Broadcast part message to VentureChat
+        if (isMessageEnabled(channelName, TemplateName.IRC_VENTURE_PART) && plugin.ventureChatEnabled) {
+            String vcChannel = ventureChatChannel.get(channelName);
+            String vcTemplate = plugin.getVentureChatTemplate(botNick, vcChannel, TemplateName.IRC_VENTURE_PART);
+            plugin.logDebug("broadcastIRCPart [VC]: " + vcChannel + ": " + vcTemplate);
+            String rawVcMessage = plugin.tokenizer.chatIRCTokenizer(this, user, channel, vcTemplate);
+            if (!rawVcMessage.isEmpty()) {
+                plugin.vcHook.sendMessage(vcChannel, rawVcMessage);
+                if (logIrcToVentureChat.containsKey(channelName)) {
+                    if (logIrcToVentureChat.get(channelName)) {
+                        plugin.getServer().getConsoleSender().sendMessage(rawVcMessage);
+                    }
+                }
+            }
+        }
     }
 
     public void broadcastIRCQuit(User user, org.pircbotx.Channel channel, String reason) {
@@ -3218,6 +3268,22 @@ public final class PurpleBot {
                                     botNick, channelName, TemplateName.IRC_HERO_QUIT),
                             Herochat.getChannelManager(),
                             heroChannel.get(channel.getName())));
+        }
+        
+        // Broadcast part message to VentureChat
+        if (isMessageEnabled(channelName, TemplateName.IRC_VENTURE_QUIT) && plugin.ventureChatEnabled) {
+            String vcChannel = ventureChatChannel.get(channelName);
+            String vcTemplate = plugin.getVentureChatTemplate(botNick, vcChannel, TemplateName.IRC_VENTURE_QUIT);
+            plugin.logDebug("broadcastIRCQuit [VC]: " + vcChannel + ": " + vcTemplate);
+            String rawVcMessage = plugin.tokenizer.chatIRCTokenizer(this, user, channel, vcTemplate);
+            if (!rawVcMessage.isEmpty()) {
+                plugin.vcHook.sendMessage(vcChannel, rawVcMessage);
+                if (logIrcToVentureChat.containsKey(channelName)) {
+                    if (logIrcToVentureChat.get(channelName)) {
+                        plugin.getServer().getConsoleSender().sendMessage(rawVcMessage);
+                    }
+                }
+            }
         }
 
     }
@@ -3243,6 +3309,22 @@ public final class PurpleBot {
                             this, user, channel, plugin.getMessageTemplate(botNick, channelName, TemplateName.IRC_HERO_TOPIC), message,
                             Herochat.getChannelManager(),
                             heroChannel.get(channel.getName())));
+        }
+        
+        // Broadcast topic message to VentureChat
+        if (isMessageEnabled(channelName, TemplateName.IRC_VENTURE_TOPIC) && plugin.ventureChatEnabled) {
+            String vcChannel = ventureChatChannel.get(channelName);
+            String vcTemplate = plugin.getVentureChatTemplate(botNick, vcChannel, TemplateName.IRC_VENTURE_TOPIC);
+            plugin.logDebug("broadcastIRCTopic [VC]: " + vcChannel + ": " + vcTemplate);
+            String rawVcMessage = plugin.tokenizer.chatIRCTokenizer(this, user, channel, vcTemplate);
+            if (!rawVcMessage.isEmpty()) {
+                plugin.vcHook.sendMessage(vcChannel, rawVcMessage);
+                if (logIrcToVentureChat.containsKey(channelName)) {
+                    if (logIrcToVentureChat.get(channelName)) {
+                        plugin.getServer().getConsoleSender().sendMessage(rawVcMessage);
+                    }
+                }
+            }
         }
     }
 
