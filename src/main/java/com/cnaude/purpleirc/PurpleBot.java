@@ -3134,7 +3134,7 @@ public final class PurpleBot {
         // Broadcast kick message to VentureChat
         if (isMessageEnabled(channelName, TemplateName.IRC_VENTURE_KICK) && plugin.ventureChatEnabled) {
             String vcChannel = ventureChatChannel.get(channelName);
-            String vcTemplate = plugin.getVentureChatTemplate(botNick, vcChannel, TemplateName.IRC_VENTURE_KICK);
+            String vcTemplate = plugin.getMessageTemplate(botNick, vcChannel, TemplateName.IRC_VENTURE_KICK);
             plugin.logDebug("broadcastIRCkick [VC]: " + vcChannel + ": " + vcTemplate);
             String rawVcMessage = plugin.tokenizer.ircKickTokenizer(this, recipient, kicker, reason, channel, vcTemplate);
             if (!rawVcMessage.isEmpty()) {
@@ -3216,7 +3216,7 @@ public final class PurpleBot {
         // Broadcast join message to VentureChat
         if (isMessageEnabled(channelName, TemplateName.IRC_VENTURE_JOIN) && plugin.ventureChatEnabled) {
             String vcChannel = ventureChatChannel.get(channelName);
-            String vcTemplate = plugin.getVentureChatTemplate(botNick, vcChannel, TemplateName.IRC_VENTURE_JOIN);
+            String vcTemplate = plugin.getMessageTemplate(botNick, vcChannel, TemplateName.IRC_VENTURE_JOIN);
             plugin.logDebug("broadcastIRCJoin [VC]: " + vcChannel + ": " + vcTemplate);
             String rawVcMessage = plugin.tokenizer.chatIRCTokenizer(this, user, channel, vcTemplate);
             if (!rawVcMessage.isEmpty()) {
@@ -3256,7 +3256,7 @@ public final class PurpleBot {
         // Broadcast part message to VentureChat
         if (isMessageEnabled(channelName, TemplateName.IRC_VENTURE_PART) && plugin.ventureChatEnabled) {
             String vcChannel = ventureChatChannel.get(channelName);
-            String vcTemplate = plugin.getVentureChatTemplate(botNick, vcChannel, TemplateName.IRC_VENTURE_PART);
+            String vcTemplate = plugin.getMessageTemplate(botNick, vcChannel, TemplateName.IRC_VENTURE_PART);
             plugin.logDebug("broadcastIRCPart [VC]: " + vcChannel + ": " + vcTemplate);
             String rawVcMessage = plugin.tokenizer.chatIRCTokenizer(this, user, channel, vcTemplate);
             if (!rawVcMessage.isEmpty()) {
@@ -3295,7 +3295,7 @@ public final class PurpleBot {
         // Broadcast part message to VentureChat
         if (isMessageEnabled(channelName, TemplateName.IRC_VENTURE_QUIT) && plugin.ventureChatEnabled) {
             String vcChannel = ventureChatChannel.get(channelName);
-            String vcTemplate = plugin.getVentureChatTemplate(botNick, vcChannel, TemplateName.IRC_VENTURE_QUIT);
+            String vcTemplate = plugin.getMessageTemplate(botNick, vcChannel, TemplateName.IRC_VENTURE_QUIT);
             plugin.logDebug("broadcastIRCQuit [VC]: " + vcChannel + ": " + vcTemplate);
             String rawVcMessage = plugin.tokenizer.chatIRCTokenizer(this, user, channel, vcTemplate);
             if (!rawVcMessage.isEmpty()) {
@@ -3315,9 +3315,10 @@ public final class PurpleBot {
      *
      * @param user
      * @param channel
-     * @param message
+     * @param oldTopic
+     * @param topic
      */
-    public void broadcastIRCTopic(User user, org.pircbotx.Channel channel, String message) {
+    public void broadcastIRCTopic(User user, org.pircbotx.Channel channel, String oldTopic, String topic) {
         String channelName = channel.getName();
         if (isMessageEnabled(channel, TemplateName.IRC_TOPIC)) {
             plugin.broadcastToGame(plugin.tokenizer.chatIRCTokenizer(
@@ -3328,7 +3329,7 @@ public final class PurpleBot {
         if (isMessageEnabled(channel, TemplateName.IRC_HERO_TOPIC)) {
             Herochat.getChannelManager().getChannel(heroChannel.get(channel.getName()))
                     .sendRawMessage(plugin.tokenizer.ircChatToHeroChatTokenizer(
-                            this, user, channel, plugin.getMessageTemplate(botNick, channelName, TemplateName.IRC_HERO_TOPIC), message,
+                            this, user, channel, plugin.getMessageTemplate(botNick, channelName, TemplateName.IRC_HERO_TOPIC), topic,
                             Herochat.getChannelManager(),
                             heroChannel.get(channel.getName())));
         }
@@ -3336,9 +3337,9 @@ public final class PurpleBot {
         // Broadcast topic message to VentureChat
         if (isMessageEnabled(channelName, TemplateName.IRC_VENTURE_TOPIC) && plugin.ventureChatEnabled) {
             String vcChannel = ventureChatChannel.get(channelName);
-            String vcTemplate = plugin.getVentureChatTemplate(botNick, vcChannel, TemplateName.IRC_VENTURE_TOPIC);
+            String vcTemplate = plugin.getMessageTemplate(botNick, vcChannel, TemplateName.IRC_VENTURE_TOPIC);
             plugin.logDebug("broadcastIRCTopic [VC]: " + vcChannel + ": " + vcTemplate);
-            String rawVcMessage = plugin.tokenizer.chatIRCTokenizer(this, user, channel, vcTemplate);
+            String rawVcMessage = plugin.tokenizer.ircTopicToGameTokenizer(this, user, channel, vcTemplate, oldTopic, topic);
             if (!rawVcMessage.isEmpty()) {
                 plugin.vcHook.sendMessage(vcChannel, rawVcMessage);
                 if (logIrcToVentureChat.containsKey(channelName)) {

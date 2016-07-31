@@ -43,6 +43,7 @@ chat-ping-fix: false
 #  %CHANNEL%
 #  %MESSAGE%
 #  %KICKER% - IRC kicker name
+#  %OLDTOPIC%
 #  %TOPIC%
 #  %REASON%
 #  %GROUP% - Requires Vault if you want to use this.

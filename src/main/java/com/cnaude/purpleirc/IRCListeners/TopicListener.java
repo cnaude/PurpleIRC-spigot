@@ -16,7 +16,6 @@
  */
 package com.cnaude.purpleirc.IRCListeners;
 
-import com.cnaude.purpleirc.TemplateName;
 import com.cnaude.purpleirc.PurpleBot;
 import com.cnaude.purpleirc.PurpleIRC;
 import org.pircbotx.Channel;
@@ -50,22 +49,14 @@ public class TopicListener extends ListenerAdapter {
     @Override
     public void onTopic(TopicEvent event) {
         Channel channel = event.getChannel();
-        String channelName = channel.getName();
         User user = event.getUser();
+        String oldTopic = event.getOldTopic();
+        String topic = event.getTopic();
 
         if (ircBot.isValidChannel(channel.getName())) {
             ircBot.fixTopic(channel, event.getTopic(), event.getUser().getNick());
             if (event.isChanged()) {
-                if (ircBot.enabledMessages.get(channel.getName()).contains(TemplateName.IRC_TOPIC)) {
-                    String message = plugin.colorConverter.ircColorsToGame(
-                            plugin.getMessageTemplate(ircBot.botNick, channelName, TemplateName.IRC_TOPIC)
-                            .replace("%NAME%", user.getNick())
-                            .replace("%TOPIC%", event.getTopic())
-                            .replace("%CHANNEL%", channel.getName()));
-                    plugin.logDebug("Sending topic notification due to "
-                            + TemplateName.IRC_TOPIC + " being true: " + message);
-                    plugin.broadcastToGame(message, "irc.message.topic");
-                }
+                ircBot.broadcastIRCTopic(user, channel, oldTopic, topic);
             }
             ircBot.activeTopic.put(channel.getName(), event.getTopic());
         }

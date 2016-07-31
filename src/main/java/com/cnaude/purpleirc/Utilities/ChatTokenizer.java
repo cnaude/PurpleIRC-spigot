@@ -199,6 +199,44 @@ public class ChatTokenizer {
                 .replace("%MESSAGE%", message)
                 .replace("%CHANNEL%", channel.getName()));
     }
+    
+        /**
+     * Normal IRC to game chat tokenizer
+     *
+     * @param ircBot
+     * @param user
+     * @param channel
+     * @param template
+     * @param oldTopic
+     * @param topic
+     * @return
+     */
+    public String ircTopicToGameTokenizer(PurpleBot ircBot, User user, org.pircbotx.Channel channel, String template, String oldTopic, String topic) {
+        String ircNick = user.getNick();
+        String tmpl;
+        Player player = this.getPlayer(ircNick);
+        if (player != null) {
+            tmpl = playerTokenizer(player, template);
+        } else {
+            plugin.logDebug("ircTopicToGameTokenizer: null player: " + ircNick);
+            tmpl = playerTokenizer(ircNick, template);
+        }
+        String nickPrefix = ircBot.getNickPrefix(user, channel);
+        String channelPrefix = ircBot.getChannelPrefix(channel);
+        if (nickPrefix == null) {
+            nickPrefix = "";
+        }
+        if (channelPrefix == null) {
+            channelPrefix = "";
+        }
+        return plugin.colorConverter.ircColorsToGame(ircUserTokenizer(tmpl, user, ircBot)
+                .replace("%NICKPREFIX%", nickPrefix)
+                .replace("%CHANNELPREFIX%", channelPrefix)
+                .replace("%MESSAGE%", topic)
+                .replace("%TOPIC%", topic)
+                .replace("%OLDTOPIC%", oldTopic)
+                .replace("%CHANNEL%", channel.getName()));
+    }
 
     /**
      * IRC to Hero chat channel tokenizer
