@@ -504,9 +504,25 @@ public class PurpleIRC extends JavaPlugin {
     public String getIrcHeroActionTemplate(String botName, String channel) {
         return getMessageTemplate(ircHeroActionChannelMessages, botName, channel, TemplateName.IRC_HERO_ACTION);
     }
-     
+
     public String getVentureChatTemplate(String botName, String channel, String template) {
-        return getMessageTemplate(ircVentureChatChannelMessages, botName, channel, template);
+        return getMessageTemplate(botName, channel, template);
+    }
+
+    public String getGameVentureChatTemplate(String botName, String channel) {
+        return getMessageTemplate(ventureChatChannelMessages, botName, channel, TemplateName.VENTURE_CHAT);
+    }
+
+    public String getGameVentureChatActionTemplate(String botName, String channel) {
+        return getMessageTemplate(ventureChatActionChannelMessages, botName, channel, TemplateName.VENTURE_CHAT_ACTION);
+    }
+
+    public String getIrcVentureChatTemplate(String botName, String channel) {
+        return getMessageTemplate(ircVentureChatChannelMessages, botName, channel, TemplateName.IRC_VENTURE_CHAT);
+    }
+
+    public String getIrcVentureChatActionTemplate(String botName, String channel) {
+        return getMessageTemplate(ircVentureChatActionChannelMessages, botName, channel, TemplateName.IRC_VENTURE_ACTION);
     }
 
     public String getIrcTownyChatTemplate(String botName, String channel) {

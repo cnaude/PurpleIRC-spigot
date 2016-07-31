@@ -2823,16 +2823,16 @@ public final class PurpleBot {
          */
         if (isMessageEnabled(channelName, TemplateName.IRC_VENTURE_CHAT) && plugin.ventureChatEnabled) {
             String vcChannel = ventureChatChannel.get(channelName);
-            String vcTemplate = plugin.getVentureChatTemplate(botNick, vcChannel, TemplateName.IRC_VENTURE_CHAT);
-            plugin.logDebug("broadcastChat [MV]: " + vcChannel + ": " + vcTemplate);
-            String rawMvMessage = filterMessage(
+            String vcTemplate = plugin.getIrcVentureChatTemplate(botNick, vcChannel);
+            plugin.logDebug("broadcastChat [VC]: " + vcChannel + ": " + vcTemplate);
+            String rawVcMessage = filterMessage(
                     plugin.tokenizer.ircChatToVentureChatTokenizer(this, user, channel, vcTemplate, message, vcChannel), channelName);
-            if (!rawMvMessage.isEmpty()) {
-                plugin.vcHook.sendMessage(vcChannel, rawMvMessage);
+            if (!rawVcMessage.isEmpty()) {
+                plugin.vcHook.sendMessage(vcChannel, rawVcMessage);
                 messageSent = true;
                 if (logIrcToVentureChat.containsKey(channelName)) {
                     if (logIrcToVentureChat.get(channelName)) {
-                        plugin.getServer().getConsoleSender().sendMessage(rawMvMessage);
+                        plugin.getServer().getConsoleSender().sendMessage(rawVcMessage);
                     }
                 }
             }
@@ -3036,8 +3036,8 @@ public final class PurpleBot {
         }
     }
 
-// Broadcast action messages from IRC
     /**
+     * Broadcast action messages from IRC
      *
      * @param user
      * @param channel
@@ -3053,7 +3053,10 @@ public final class PurpleBot {
             plugin.logDebug("Ignoring action due to "
                     + TemplateName.IRC_ACTION + " is false");
         }
-
+        
+        /*
+         Send IRC action messages to HeroChat if enabled
+         */
         if (isMessageEnabled(channelName, TemplateName.IRC_HERO_ACTION)) {
             String hChannel = heroChannel.get(channelName);
             String tmpl = plugin.getIrcHeroActionTemplate(botNick, hChannel);
@@ -3065,6 +3068,25 @@ public final class PurpleBot {
                 if (logIrcToHeroChat.containsKey(channelName)) {
                     if (logIrcToHeroChat.get(channelName)) {
                         plugin.getServer().getConsoleSender().sendMessage(rawHCMessage);
+                    }
+                }
+            }
+        }
+        
+        /*
+         Send IRC action messages to VentureChat if enabled
+         */
+        if (isMessageEnabled(channelName, TemplateName.IRC_VENTURE_ACTION) && plugin.ventureChatEnabled) {
+            String vcChannel = ventureChatChannel.get(channelName);
+            String vcTemplate = plugin.getIrcVentureChatActionTemplate(botNick, vcChannel);
+            plugin.logDebug("broadcastAction [VC]: " + vcChannel + ": " + vcTemplate);
+            String rawVcMessage = filterMessage(
+                    plugin.tokenizer.ircChatToVentureChatTokenizer(this, user, channel, vcTemplate, message, vcChannel), channelName);
+            if (!rawVcMessage.isEmpty()) {
+                plugin.vcHook.sendMessage(vcChannel, rawVcMessage);
+                if (logIrcToVentureChat.containsKey(channelName)) {
+                    if (logIrcToVentureChat.get(channelName)) {
+                        plugin.getServer().getConsoleSender().sendMessage(rawVcMessage);
                     }
                 }
             }

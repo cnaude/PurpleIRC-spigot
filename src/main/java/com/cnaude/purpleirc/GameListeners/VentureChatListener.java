@@ -84,7 +84,7 @@ public class VentureChatListener implements Listener {
         String channelTemplateName = "venture-" + vcChannel + "-chat";
         if (bot.isMessageEnabled(channelName, channelTemplateName)
                 || bot.isMessageEnabled(channelName, TemplateName.VENTURE_CHAT)) {
-            String template = plugin.getVentureChatTemplate(bot.botNick, vcChannel, TemplateName.VENTURE_CHAT);
+            String template = plugin.getGameVentureChatTemplate(bot.botNick, vcChannel);
             plugin.logDebug("VC Template: " + template);
             bot.asyncIRCMessage(channelName, plugin.tokenizer
                     .ventureChatTokenizer(player, vcChannel, vcColor, message, template));
