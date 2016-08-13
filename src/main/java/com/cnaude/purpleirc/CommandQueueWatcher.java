@@ -61,13 +61,20 @@ public class CommandQueueWatcher {
                     isCommandBookCommand = plugin.commandBookHook.isCommandBookCommand(cmd);
                     plugin.logDebug("Is this is a CommandBook command? " + Boolean.toString(isCommandBookCommand));
                 }
-                if ((plugin.getServer().getVersion().contains("MC: 1.8") 
-                        && plugin.getServer().getVersion().contains("Spigot")
+                if (
+                        (plugin.getServer().getVersion().contains("MC: 1.8") 
+                        && (plugin.getServer().getVersion().contains("Spigot"))
                         && plugin.getServer().getPluginCommand(cmd) == null
                         && !isCommandBookCommand)
-                        || (plugin.getServer().getVersion().contains("MC: 1.9")
+                        || 
+                        (plugin.getServer().getVersion().contains("MC: 1.9")
                         && plugin.getServer().getPluginCommand(cmd) == null
-                        && !isCommandBookCommand)) {
+                        && !isCommandBookCommand)
+                        || 
+                        (plugin.getServer().getVersion().contains("MC: 1.10")
+                        && plugin.getServer().getPluginCommand(cmd) == null
+                        && !isCommandBookCommand)
+                        ) {
                     plugin.logDebug("Dispatching command as ConsoleSender: " + ircCommand.getGameCommand());
 
                     plugin.getServer().dispatchCommand(ircCommand.getIRCConsoleCommandSender(), ircCommand.getGameCommand());
