@@ -16,6 +16,7 @@
  */
 package com.cnaude.purpleirc.Hooks;
 
+import com.cnaude.purpleirc.PurpleIRC;
 import me.clip.placeholderapi.PlaceholderAPI;
 import org.bukkit.entity.Player;
 
@@ -24,11 +25,24 @@ import org.bukkit.entity.Player;
  * @author Chris Naude
  */
 public class PlaceholderApiHook {
+    
+    private final PurpleIRC plugin;
+    
+    /**
+     *
+     * @param plugin the PurpleIRC plugin
+     */
+    public PlaceholderApiHook(PurpleIRC plugin) {
+        this.plugin = plugin;
+    }
 
     public String setPlaceholders(Player player, String message) {
+        String m = message;
+        plugin.logDebug("[setPlaceholders: before] " + m);
         if (player != null && message != null) {
-            return PlaceholderAPI.setPlaceholders(player, message);
+            m =  PlaceholderAPI.setPlaceholders(player, message);
         }
-        return "";
+        plugin.logDebug("[setPlaceholders: after] " + m);
+        return m;
     }
 }

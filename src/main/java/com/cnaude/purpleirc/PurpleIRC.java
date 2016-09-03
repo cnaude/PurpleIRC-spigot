@@ -1741,7 +1741,7 @@ public class PurpleIRC extends JavaPlugin {
         }
         if (isPluginEnabled(PL_PLACEHOLDERAPI)) {
             hookList.add(hookFormat(PL_PLACEHOLDERAPI, true));
-            placeholderApiHook = new PlaceholderApiHook();
+            placeholderApiHook = new PlaceholderApiHook(this);
         } else {
             hookList.add(hookFormat(PL_PLACEHOLDERAPI, false));
         }

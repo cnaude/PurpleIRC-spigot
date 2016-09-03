@@ -199,8 +199,8 @@ public class ChatTokenizer {
                 .replace("%MESSAGE%", message)
                 .replace("%CHANNEL%", channel.getName()));
     }
-    
-        /**
+
+    /**
      * Normal IRC to game chat tokenizer
      *
      * @param ircBot
@@ -890,6 +890,11 @@ public class ChatTokenizer {
             }
         }
         plugin.logDebug("[P]Raw message: " + message);
+
+        if (plugin.placeholderApiHook != null) {
+            message = plugin.placeholderApiHook.setPlaceholders(player, message);
+        }
+
         return message.replace("%DISPLAYNAME%", displayName)
                 .replace("%UUID%", uuid.toString())
                 .replace("%JOBS%", job)
@@ -976,10 +981,10 @@ public class ChatTokenizer {
                 }
             }
         }
-        
+
         if (plugin.placeholderApiHook != null) {
             message = plugin.placeholderApiHook.setPlaceholders(player, message);
-        }
+        } 
 
         plugin.logDebug("[S]Raw message: " + message);
         return message.replace("%DISPLAYNAME%", displayName)
