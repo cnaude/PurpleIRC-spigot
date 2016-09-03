@@ -976,6 +976,10 @@ public class ChatTokenizer {
                 }
             }
         }
+        
+        if (plugin.placeholderApiHook != null) {
+            message = plugin.placeholderApiHook.setPlaceholders(player, message);
+        }
 
         plugin.logDebug("[S]Raw message: " + message);
         return message.replace("%DISPLAYNAME%", displayName)

@@ -50,6 +50,7 @@ import com.cnaude.purpleirc.Hooks.FactionChatHook;
 import com.cnaude.purpleirc.Hooks.GriefPreventionHook;
 import com.cnaude.purpleirc.Hooks.JobsHook;
 import com.cnaude.purpleirc.Hooks.McMMOChatHook;
+import com.cnaude.purpleirc.Hooks.PlaceholderApiHook;
 import com.cnaude.purpleirc.Hooks.VentureChatHook;
 import com.cnaude.purpleirc.Hooks.ReportRTSHook;
 import com.cnaude.purpleirc.Hooks.ShortifyHook;
@@ -199,6 +200,7 @@ public class PurpleIRC extends JavaPlugin {
     public ReportRTSHook reportRTSHook;
     public CommandBookHook commandBookHook;
     public McMMOChatHook mcMMOChatHook;
+    public PlaceholderApiHook placeholderApiHook;
     public NetPackets netPackets;
     public CommandHandlers commandHandlers;
     public PurpleTabCompleter ircTabCompleter;
@@ -242,6 +244,7 @@ public class PurpleIRC extends JavaPlugin {
     final String PL_VENTURECHAT = "VentureChat";
     final String PL_HEROCHAT = "Herochat";
     final String PL_GRIEFPREVENTION = "GriefPrevention";
+    final String PL_PLACEHOLDERAPI = "PlaceholderAPI";
     List<String> hookList = new ArrayList<>();
     public static final String PURPLETAG = "UHVycGxlSVJDCg==";
     public static final String TOWNYTAG = "VG93bnlDaGF0Cg==";
@@ -1735,6 +1738,12 @@ public class PurpleIRC extends JavaPlugin {
             getServer().getPluginManager().registerEvents(new EssentialsListener(this), this);
         } else {
             hookList.add(hookFormat(PL_ESSENTIALS, false));
+        }
+        if (isPluginEnabled(PL_PLACEHOLDERAPI)) {
+            hookList.add(hookFormat(PL_PLACEHOLDERAPI, true));
+            placeholderApiHook = new PlaceholderApiHook();
+        } else {
+            hookList.add(hookFormat(PL_PLACEHOLDERAPI, false));
         }
     }
 
