@@ -20,6 +20,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
+import java.util.regex.Matcher;
 import org.pircbotx.Channel;
 import org.pircbotx.User;
 
@@ -99,18 +100,21 @@ public class IRCMessageQueueWatcher {
                         continue;
                     }
                     if (message.toLowerCase().contains(user.getNick().toLowerCase())) {
-                        message = message.replaceAll("(?i)" + user.getNick(), plugin.tokenizer.addZeroWidthSpace(user.getNick()));
+                        message = message.replaceAll(
+                                "(?i)" + user.getNick(),
+                                Matcher.quoteReplacement(plugin.tokenizer.addZeroWidthSpace(user.getNick()))
+                        );
                         plugin.logDebug("Adding ZWS to " + user.getNick());
                     }
                 }
             }
         } catch (Exception ex) {
             plugin.logDebug(ex.getMessage());
-        }    
-    return message ;
-}
+        }
+        return message;
+    }
 
-private String[] cleanupAndSplitMessage(String message) {
+    private String[] cleanupAndSplitMessage(String message) {
         if (ircBot.pingFixFull) {
             message = pingFix(message);
         }
