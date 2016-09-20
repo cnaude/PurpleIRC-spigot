@@ -269,6 +269,10 @@ channels:
     - stm-claim
     - stm-close
     - stm-comment
+    # Messages from Discord
+    - discord-chat
+    # Messages from IRC to discord
+    - irc-discord-chat
     # Catch /broadcast messages
     #- broadcast-console-message
     #- broadcast-message
@@ -284,6 +288,8 @@ channels:
     venture-channel: global
     # Towny channel destination for IRC messages
     towny-channel: irc
+    # Discord channel destination for IRC messages
+    discord-channel: general
     # Log all messages from IRC to HeroChat
     log-irc-to-hero-chat: false
     # ops - IRC hostname mask styled ops list
