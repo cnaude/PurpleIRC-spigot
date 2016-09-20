@@ -153,6 +153,7 @@ public final class PurpleBot {
     public CaseInsensitiveMap<String> heroChannel;
     public CaseInsensitiveMap<String> ventureChatChannel;
     public CaseInsensitiveMap<String> townyChannel;
+    public CaseInsensitiveMap<String> discordChannel;
     public CaseInsensitiveMap<Collection<String>> opsList;
     public CaseInsensitiveMap<Collection<String>> banList;
     public CaseInsensitiveMap<Collection<String>> voicesList;
@@ -239,6 +240,7 @@ public final class PurpleBot {
         this.heroChannel = new CaseInsensitiveMap<>();
         this.ventureChatChannel = new CaseInsensitiveMap<>();
         this.townyChannel = new CaseInsensitiveMap<>();
+        this.discordChannel = new CaseInsensitiveMap<>();
         this.invalidCommandCTCP = new CaseInsensitiveMap<>();
         this.logIrcToHeroChat = new CaseInsensitiveMap<>();
         this.logIrcToVentureChat = new CaseInsensitiveMap<>();
@@ -949,6 +951,9 @@ public final class PurpleBot {
 
                     townyChannel.put(channelName, config.getString("channels." + enChannelName + ".towny-channel", ""));
                     plugin.logDebug("  TownyChannel => " + townyChannel.get(channelName));
+                    
+                    discordChannel.put(channelName, config.getString("channels." + enChannelName + ".discord-channel", ""));
+                    plugin.logDebug("  DiscordChannel => " + discordChannel.get(channelName));
 
                     logIrcToHeroChat.put(channelName, config.getBoolean("channels." + enChannelName + ".log-irc-to-hero-chat", false));
                     plugin.logDebug("  LogIrcToHeroChat => " + logIrcToHeroChat.get(channelName));
@@ -1460,6 +1465,28 @@ public final class PurpleBot {
                 asyncIRCMessage(channelName, plugin.tokenizer
                         .gameChatToIRCTokenizer(name, plugin.getMessageTemplate(botNick, channelName, TemplateName.GAME_ADMIN_CHAT), message)
                         .replace("%WORLD%", world)
+                );
+            }
+        }
+    }
+
+    /**
+     * Called from Discord ProcessChatEvent
+     *
+     * @param username
+     * @param channelId
+     * @param message
+     */
+    public void discordChat(String username, String channelId, String message) {
+        if (!this.isConnected()) {
+            return;
+        }
+        for (String channelName : botChannels) {
+            if (isMessageEnabled(channelName, TemplateName.GAME_DISCORD_CHAT)) {
+                asyncIRCMessage(channelName, plugin.tokenizer
+                        .gameChatToIRCTokenizer(username, plugin.getMessageTemplate(
+                                botNick, channelName, TemplateName.GAME_DISCORD_CHAT), message)
+                        .replace("%CHANNEL%", channelId)
                 );
             }
         }
@@ -2866,6 +2893,21 @@ public final class PurpleBot {
                 }
             }
         }
+        
+        /*
+         Send messages to VentureChat if enabled
+         */
+        if (isMessageEnabled(channelName, TemplateName.IRC_DISCORD_CHAT) && plugin.discHook != null) {
+            String discordChannelName = discordChannel.get(channelName);
+            String discordTemplate = plugin.getMessageTemplate(botNick, channelName, TemplateName.IRC_DISCORD_CHAT);
+            plugin.logDebug("broadcastChat [Discord]: " + discordChannelName + ": " + discordTemplate);
+            String rawDiscordMessage = filterMessage(
+                    plugin.tokenizer.ircChatToDiscordTokenizer(this, user, channel, discordTemplate, message, discordChannelName), channelName);
+            if (!rawDiscordMessage.isEmpty()) {
+                plugin.discHook.sendMessage(discordChannelName, rawDiscordMessage);
+                messageSent = true;
+            }
+        }
 
         /*
          Notify IRC user that message was sent.
@@ -3053,7 +3095,7 @@ public final class PurpleBot {
             plugin.logDebug("Ignoring action due to "
                     + TemplateName.IRC_ACTION + " is false");
         }
-        
+
         /*
          Send IRC action messages to HeroChat if enabled
          */
@@ -3072,7 +3114,7 @@ public final class PurpleBot {
                 }
             }
         }
-        
+
         /*
          Send IRC action messages to VentureChat if enabled
          */
@@ -3130,7 +3172,7 @@ public final class PurpleBot {
                             )
                     );
         }
-        
+
         // Broadcast kick message to VentureChat
         if (isMessageEnabled(channelName, TemplateName.IRC_VENTURE_KICK) && plugin.ventureChatEnabled) {
             String vcChannel = ventureChatChannel.get(channelName);
@@ -3197,7 +3239,7 @@ public final class PurpleBot {
         if (isMessageEnabled(channel, TemplateName.IRC_JOIN)) {
             plugin.logDebug("[broadcastIRCJoin] Broadcasting join message because " + TemplateName.IRC_JOIN + " is true.");
             plugin.broadcastToGame(plugin.tokenizer.chatIRCTokenizer(
-                    this, user, channel, plugin.getMessageTemplate(botNick, channelName, TemplateName.IRC_JOIN)), 
+                    this, user, channel, plugin.getMessageTemplate(botNick, channelName, TemplateName.IRC_JOIN)),
                     getIrcMessagePermission(channelName, "join"));
         } else {
             plugin.logDebug("[broadcastIRCJoin] NOT broadcasting join message because irc-join is false.");
@@ -3212,7 +3254,7 @@ public final class PurpleBot {
                             Herochat.getChannelManager(),
                             heroChannel.get(channel.getName())));
         }
-        
+
         // Broadcast join message to VentureChat
         if (isMessageEnabled(channelName, TemplateName.IRC_VENTURE_JOIN) && plugin.ventureChatEnabled) {
             String vcChannel = ventureChatChannel.get(channelName);
@@ -3228,7 +3270,7 @@ public final class PurpleBot {
                 }
             }
         }
-        
+
     }
 
     public void broadcastIRCPart(User user, org.pircbotx.Channel channel) {
@@ -3252,7 +3294,7 @@ public final class PurpleBot {
                             Herochat.getChannelManager(),
                             heroChannel.get(channel.getName())));
         }
-        
+
         // Broadcast part message to VentureChat
         if (isMessageEnabled(channelName, TemplateName.IRC_VENTURE_PART) && plugin.ventureChatEnabled) {
             String vcChannel = ventureChatChannel.get(channelName);
@@ -3291,7 +3333,7 @@ public final class PurpleBot {
                             Herochat.getChannelManager(),
                             heroChannel.get(channel.getName())));
         }
-        
+
         // Broadcast part message to VentureChat
         if (isMessageEnabled(channelName, TemplateName.IRC_VENTURE_QUIT) && plugin.ventureChatEnabled) {
             String vcChannel = ventureChatChannel.get(channelName);
@@ -3322,7 +3364,7 @@ public final class PurpleBot {
         String channelName = channel.getName();
         if (isMessageEnabled(channel, TemplateName.IRC_TOPIC)) {
             plugin.broadcastToGame(plugin.tokenizer.chatIRCTokenizer(
-                    this, user, channel, plugin.getMessageTemplate(botNick, channelName, TemplateName.IRC_TOPIC)), 
+                    this, user, channel, plugin.getMessageTemplate(botNick, channelName, TemplateName.IRC_TOPIC)),
                     getIrcMessagePermission(channelName, "topic"));
         }
 
@@ -3333,7 +3375,7 @@ public final class PurpleBot {
                             Herochat.getChannelManager(),
                             heroChannel.get(channel.getName())));
         }
-        
+
         // Broadcast topic message to VentureChat
         if (isMessageEnabled(channelName, TemplateName.IRC_VENTURE_TOPIC) && plugin.ventureChatEnabled) {
             String vcChannel = ventureChatChannel.get(channelName);
@@ -3851,14 +3893,14 @@ public final class PurpleBot {
         plugin.logInfo("Trying alternate nick " + botNick);
         bot.sendIRC().changeNick(botNick);
     }
-    
-   public String getIrcMessagePermission(String channelName, String node) {
-       if (permissions.containsKey(channelName)) {
-           if (permissions.get(channelName).containsKey(node)) {
-               return permissions.get(channelName).get(node);
-           }
-       }
-       return "irc.message." + node;
-   } 
+
+    public String getIrcMessagePermission(String channelName, String node) {
+        if (permissions.containsKey(channelName)) {
+            if (permissions.get(channelName).containsKey(node)) {
+                return permissions.get(channelName).get(node);
+            }
+        }
+        return "irc.message." + node;
+    }
 
 }

@@ -148,6 +148,10 @@ message-format:
   game-a-chat: '[%WORLD%] <%NAME%> -> [AdminChat]: %MESSAGE%'
   # AdminPrivateChat message from IRC to game
   irc-a-chat: '[AdminChat] [&4IRC&r] %MESSAGE%'
+  # Messages from Discord
+  discord-chat: '[Discord] %MESSAGE%'
+  # Messages from IRC to Discord
+  irc-discord-chat: '[&4IRC&r]<%NAME%> %MESSAGE%'
   # Message template for Clevernotch bot to IRC messages
   clever-send: '[&4BOT]<%NAME%> %MESSAGE%'
   # Message templates for mcMMO to IRC messages

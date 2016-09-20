@@ -83,6 +83,11 @@
             <id>placeholderapi</id>
             <url>http://repo.extendedclip.com/content/repositories/placeholderapi/</url>
         </repository>
+        
+        <repository>
+            <id>Scarsz-Jenkins</id>
+            <url>http://scarsz.tech:8080/plugin/repository/everything/</url>
+        </repository>
 
     </repositories>
     
@@ -400,6 +405,14 @@
             <groupId>me.clip</groupId>
             <artifactId>placeholderapi</artifactId>
             <version>2.5.1</version>
+            <scope>provided</scope>
+        </dependency>
+        
+        <!-- DiscordSRV -->
+        <dependency>
+            <groupId>com.scarsz.discordsrv</groupId>
+            <artifactId>DiscordSRV</artifactId>
+            <version>11.0</version>
             <scope>provided</scope>
         </dependency>
         

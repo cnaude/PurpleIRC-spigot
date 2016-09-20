@@ -20,6 +20,7 @@ import com.cnaude.purpleirc.Events.IRCMessageEvent;
 import com.cnaude.purpleirc.GameListeners.AdminChatListener;
 import com.cnaude.purpleirc.GameListeners.CleverNotchListener;
 import com.cnaude.purpleirc.GameListeners.DeathMessagesListener;
+import com.cnaude.purpleirc.GameListeners.DiscordListener;
 import com.cnaude.purpleirc.GameListeners.DynmapListener;
 import com.cnaude.purpleirc.GameListeners.EssentialsListener;
 import com.cnaude.purpleirc.GameListeners.GamePlayerChatListener;
@@ -45,6 +46,7 @@ import com.cnaude.purpleirc.GameListeners.TownyChatListener;
 import com.cnaude.purpleirc.GameListeners.VanishNoPacketListener;
 import com.cnaude.purpleirc.Hooks.AdminPrivateChatHook;
 import com.cnaude.purpleirc.Hooks.CommandBookHook;
+import com.cnaude.purpleirc.Hooks.DiscordSRVHook;
 import com.cnaude.purpleirc.Hooks.DynmapHook;
 import com.cnaude.purpleirc.Hooks.FactionChatHook;
 import com.cnaude.purpleirc.Hooks.GriefPreventionHook;
@@ -68,6 +70,7 @@ import com.cnaude.purpleirc.Utilities.UpdateChecker;
 import com.google.common.base.Joiner;
 import com.onarandombox.MultiverseCore.api.MVPlugin;
 import com.onarandombox.MultiverseCore.api.MultiverseWorld;
+import com.scarsz.discordsrv.api.DiscordSRVAPI;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -192,6 +195,7 @@ public class PurpleIRC extends JavaPlugin {
     public FactionChatHook fcHook;
     public TownyChatHook tcHook;
     public VentureChatHook vcHook;
+    public DiscordSRVHook discHook;
     public DynmapHook dynmapHook;
     public JobsHook jobsHook;
     public AdminPrivateChatHook adminPrivateChatHook;
@@ -245,6 +249,7 @@ public class PurpleIRC extends JavaPlugin {
     final String PL_HEROCHAT = "Herochat";
     final String PL_GRIEFPREVENTION = "GriefPrevention";
     final String PL_PLACEHOLDERAPI = "PlaceholderAPI";
+    final String PL_DISCORDSRV = "DiscordSRV";
     List<String> hookList = new ArrayList<>();
     public static final String PURPLETAG = "UHVycGxlSVJDCg==";
     public static final String TOWNYTAG = "VG93bnlDaGF0Cg==";
@@ -253,6 +258,7 @@ public class PurpleIRC extends JavaPlugin {
     public String smsgAlias = "/m";
     public String smsgReplyAlias = "/r";
     public CaseInsensitiveMap<String> privateMsgReply;
+    
 
     public PurpleIRC() {
         this.MAINCONFIG = "MAIN-CONFIG";
@@ -349,7 +355,11 @@ public class PurpleIRC extends JavaPlugin {
      * Called when plugin is told to stop.
      */
     @Override
-    public void onDisable() {
+    public void onDisable() {     
+        if (discHook != null) {
+            logDebug("Disabling discHook ...");
+            discHook.removeListener();
+        }
         if (channelWatcher != null) {
             logDebug("Disabling channelWatcher ...");
             channelWatcher.cancel();
@@ -1745,6 +1755,14 @@ public class PurpleIRC extends JavaPlugin {
         } else {
             hookList.add(hookFormat(PL_PLACEHOLDERAPI, false));
         }
+        
+        if (isPluginEnabled(PL_DISCORDSRV)) {
+            discHook = new DiscordSRVHook(this);
+        } else {
+            hookList.add(hookFormat(PL_DISCORDSRV, false));
+        }
+         
+        
     }
 
     public void getPurpleHooks(CommandSender sender, boolean colors) {
