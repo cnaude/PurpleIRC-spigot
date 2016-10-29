@@ -45,7 +45,7 @@ public class GamePlayerCommandPreprocessingListener implements Listener {
      *
      * @param event
      */
-    @EventHandler(priority = EventPriority.LOWEST)
+    @EventHandler(priority = EventPriority.HIGH)
     public void onPlayerCommandPreprocessEvent(PlayerCommandPreprocessEvent event) {
         if (event.isCancelled()) {
             return;
