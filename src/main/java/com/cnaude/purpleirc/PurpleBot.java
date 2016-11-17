@@ -34,6 +34,10 @@ import com.cnaude.purpleirc.IRCListeners.QuitListener;
 import com.cnaude.purpleirc.IRCListeners.ServerResponseListener;
 import com.cnaude.purpleirc.IRCListeners.TopicListener;
 import com.cnaude.purpleirc.IRCListeners.WhoisListener;
+import com.cnaude.purpleirc.IRCMessage.Type;
+import static com.cnaude.purpleirc.IRCMessage.Type.CTCP;
+import static com.cnaude.purpleirc.IRCMessage.Type.MESSAGE;
+import static com.cnaude.purpleirc.IRCMessage.Type.NOTICE;
 import com.cnaude.purpleirc.Utilities.CaseInsensitiveMap;
 import com.dthielke.herochat.Herochat;
 import com.dthielke.herochat.Chatter;
@@ -183,6 +187,8 @@ public final class PurpleBot {
     boolean joinNoticeEnabled;
     boolean joinNoticePrivate;
     boolean joinNoticeCtcp;
+    boolean joinNoticeNotice;
+    Type joinResponseType;
     String joinNoticeMessage;
     String version;
     String finger;
@@ -559,13 +565,19 @@ public final class PurpleBot {
 
     public void asyncIRCMessage(final String target, final String message) {
         plugin.logDebug("Entering aysncIRCMessage");
-        IRCMessage ircMessage = new IRCMessage(target, plugin.colorConverter.gameColorsToIrc(message), false);
+        IRCMessage ircMessage = new IRCMessage(target, plugin.colorConverter.gameColorsToIrc(message), MESSAGE);
         messageQueue.add(ircMessage);
     }
 
     public void asyncCTCPMessage(final String target, final String message) {
         plugin.logDebug("Entering asyncCTCPMessage");
-        IRCMessage ircMessage = new IRCMessage(target, plugin.colorConverter.gameColorsToIrc(message), true);
+        IRCMessage ircMessage = new IRCMessage(target, plugin.colorConverter.gameColorsToIrc(message), CTCP);
+        messageQueue.add(ircMessage);
+    }
+
+    public void asyncNoticeMessage(final String target, final String message) {
+        plugin.logDebug("Entering asyncNoticeMessage");
+        IRCMessage ircMessage = new IRCMessage(target, plugin.colorConverter.gameColorsToIrc(message), NOTICE);
         messageQueue.add(ircMessage);
     }
 
@@ -951,7 +963,7 @@ public final class PurpleBot {
 
                     townyChannel.put(channelName, config.getString("channels." + enChannelName + ".towny-channel", ""));
                     plugin.logDebug("  TownyChannel => " + townyChannel.get(channelName));
-                    
+
                     discordChannel.put(channelName, config.getString("channels." + enChannelName + ".discord-channel", ""));
                     plugin.logDebug("  DiscordChannel => " + discordChannel.get(channelName));
 
@@ -1137,8 +1149,16 @@ public final class PurpleBot {
                     joinNoticeCoolDown = config.getInt("channels." + enChannelName + ".join-notice.cooldown", 60);
                     joinNoticeEnabled = config.getBoolean("channels." + enChannelName + ".join-notice.enabled", false);
                     joinNoticePrivate = config.getBoolean("channels." + enChannelName + ".join-notice.private", true);
-                    joinNoticeCtcp = config.getBoolean("channels." + enChannelName + ".join-notice.ctcp", true);
                     joinNoticeMessage = config.getString("channels." + enChannelName + ".join-notice.message", "");
+                    
+                    joinResponseType = Type.MESSAGE;
+                    if (config.getBoolean("channels." + enChannelName + ".join-notice.ctcp", true)) {
+                        joinResponseType = Type.CTCP;
+                    }
+                    if (config.getBoolean("channels." + enChannelName + ".join-notice.notice", false)) {
+                        joinResponseType = Type.NOTICE;
+                    } 
+                    
                     plugin.logDebug("join-notice.cooldown: " + joinNoticeCoolDown);
                     plugin.logDebug("join-notice.enabled: " + joinNoticeEnabled);
                     plugin.logDebug("join-notice.private: " + joinNoticePrivate);
@@ -2355,7 +2375,7 @@ public final class PurpleBot {
                         + " IRC topic for " + ChatColor.WHITE + channelName
                         + ChatColor.RESET + ": \""
                         + ChatColor.WHITE + plugin.colorConverter
-                        .ircColorsToGame(activeTopic.get(channelName))
+                                .ircColorsToGame(activeTopic.get(channelName))
                         + ChatColor.RESET + "\"");
             }
         }
@@ -2702,9 +2722,9 @@ public final class PurpleBot {
      * @param target
      * @param message
      * @param override
-     * @param ctcpResponse
+     * @param responseType
      */
-    public void broadcastChat(User user, org.pircbotx.Channel channel, String target, String message, boolean override, boolean ctcpResponse) {
+    public void broadcastChat(User user, org.pircbotx.Channel channel, String target, String message, boolean override, Type responseType) {
         boolean messageSent = false;
         String channelName = channel.getName();
 
@@ -2893,7 +2913,7 @@ public final class PurpleBot {
                 }
             }
         }
-        
+
         /*
          Send messages to VentureChat if enabled
          */
@@ -2916,10 +2936,16 @@ public final class PurpleBot {
             // Let the sender know the message was sent
             String responseTemplate = plugin.getMessageTemplate(botNick, channelName, TemplateName.IRC_CHAT_RESPONSE);
             if (!responseTemplate.isEmpty()) {
-                if (ctcpResponse) {
-                    asyncCTCPMessage(target, plugin.tokenizer.targetChatResponseTokenizer(target, message, responseTemplate));
-                } else {
-                    asyncIRCMessage(target, plugin.tokenizer.targetChatResponseTokenizer(target, message, responseTemplate));
+                switch (responseType) {
+                    case CTCP:
+                        asyncCTCPMessage(target, plugin.tokenizer.targetChatResponseTokenizer(target, message, responseTemplate));
+                        break;
+                    case MESSAGE:
+                        asyncIRCMessage(target, plugin.tokenizer.targetChatResponseTokenizer(target, message, responseTemplate));
+                        break;
+                    case NOTICE:
+                        asyncNoticeMessage(target, plugin.tokenizer.targetChatResponseTokenizer(target, message, responseTemplate));
+                        break;
                 }
             }
         }
@@ -3866,8 +3892,8 @@ public final class PurpleBot {
             String myMessage = ChatColor.translateAlternateColorCodes('&', plugin.colorConverter.gameColorsToIrc(joinNoticeMessage.replace("%NAME%", user.getNick())));
             if (joinNoticeMessage.startsWith("/")) {
                 plugin.commandQueue.add(new IRCCommand(
-                        new IRCCommandSender(this, target, plugin, joinNoticeCtcp, "CONSOLE", "%RESULT%"),
-                        new IRCConsoleCommandSender(this, target, plugin, joinNoticeCtcp, "CONSOLE"),
+                        new IRCCommandSender(this, target, plugin, joinResponseType, "CONSOLE", "%RESULT%"),
+                        new IRCConsoleCommandSender(this, target, plugin, joinResponseType, "CONSOLE"),
                         myMessage.trim().substring(1)));
             } else if (joinNoticeCtcp) {
                 asyncCTCPMessage(target, myMessage);

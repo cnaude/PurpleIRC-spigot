@@ -16,6 +16,7 @@
  */
 package com.cnaude.purpleirc;
 
+import com.cnaude.purpleirc.IRCMessage.Type;
 import java.util.Set;
 import org.bukkit.Bukkit;
 import org.bukkit.Server;
@@ -35,7 +36,7 @@ public class IRCCommandSender implements CommandSender {
     private final PurpleBot ircBot;
     private final String target;
     private final PurpleIRC plugin;
-    private final boolean ctcpResponse;
+    private final Type responseType;
     private final String name;
     private final String template;
 
@@ -67,7 +68,7 @@ public class IRCCommandSender implements CommandSender {
 
     private void addMessageToQueue(String message) {
         ircBot.messageQueue.add(new IRCMessage(target,
-                plugin.colorConverter.gameColorsToIrc(message), ctcpResponse));
+                plugin.colorConverter.gameColorsToIrc(message), responseType));
     }
 
     /**
@@ -75,16 +76,16 @@ public class IRCCommandSender implements CommandSender {
      * @param ircBot
      * @param target
      * @param plugin the PurpleIRC plugin
-     * @param ctcpResponse
+     * @param responseType
      * @param name
      * @param template
      */
-    public IRCCommandSender(PurpleBot ircBot, String target, PurpleIRC plugin, boolean ctcpResponse, String name, String template) {
+    public IRCCommandSender(PurpleBot ircBot, String target, PurpleIRC plugin, Type responseType, String name, String template) {
         super();
         this.target = target;
         this.ircBot = ircBot;
         this.plugin = plugin;
-        this.ctcpResponse = ctcpResponse;
+        this.responseType = responseType;
         this.name = name;
         this.template = template;
     }

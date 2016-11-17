@@ -24,11 +24,17 @@ public class IRCMessage {
 
     public String target;
     public String message;
-    public boolean ctcpResponse;
+    public Type type;
 
-    public IRCMessage(String target, String message, boolean ctcpResponse) {
+    public enum Type {
+        MESSAGE,
+        CTCP,
+        NOTICE
+    }
+
+    public IRCMessage(String target, String message, Type type) {
         this.target = target;
         this.message = message;
-        this.ctcpResponse = ctcpResponse;
+        this.type = type;
     }
 }

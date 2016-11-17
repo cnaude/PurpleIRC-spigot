@@ -65,10 +65,15 @@ public class IRCMessageQueueWatcher {
         if (ircMessage != null) {
             plugin.logDebug("[" + queue.size() + "]: queueAndSend message detected");
             for (String s : cleanupAndSplitMessage(ircMessage.message)) {
-                if (ircMessage.ctcpResponse) {
-                    blockingCTCPMessage(ircMessage.target, s);
-                } else {
-                    blockingIRCMessage(ircMessage.target, s);
+                switch (ircMessage.type) {
+                    case MESSAGE:
+                        blockingIRCMessage(ircMessage.target, s);
+                        break;
+                    case CTCP:
+                        blockingCTCPMessage(ircMessage.target, s);
+                        break;
+                    case NOTICE:
+                        blockingNoticeMessage(ircMessage.target, s);
                 }
             }
         }
@@ -90,6 +95,15 @@ public class IRCMessageQueueWatcher {
         plugin.logDebug("[blockingCTCPMessage] About to send IRC message to " + target + ": " + message);
         ircBot.bot.sendIRC().ctcpResponse(target, message);
         plugin.logDebug("[blockingCTCPMessage] Message sent to " + target + ": " + message);
+    }
+
+    private void blockingNoticeMessage(final String target, final String message) {
+        if (!ircBot.isConnected()) {
+            return;
+        }
+        plugin.logDebug("[blockingNoticeMessage] About to send IRC notice to " + target + ": " + message);
+        ircBot.bot.sendIRC().notice(target, message);
+        plugin.logDebug("[blockingNoticeMessage] Notice sent to " + target + ": " + message);
     }
 
     private String pingFix(String message) {
