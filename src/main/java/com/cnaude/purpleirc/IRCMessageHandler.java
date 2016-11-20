@@ -217,7 +217,7 @@ public class IRCMessageHandler {
                                     String newMessage = ircBot.filterMessage(
                                             plugin.tokenizer.ircChatToGameTokenizer(ircBot, user, channel, plugin.getMessageTemplate(ircBot.botNick, channelName, TemplateName.IRC_ADMIN_CHAT), commandArgs), channelName);
                                     plugin.adminPrivateChatHook.sendMessage(newMessage, user.getNick());
-                                    String acResponse = plugin.tokenizer.msgChatResponseTokenizer(target, commandArgs, plugin.getMessageTemplate(TemplateName.IRC_ADMIN_RESPONSE));
+                                    String acResponse = plugin.tokenizer.msgChatResponseTokenizer(user.getNick(), target, commandArgs, plugin.getMessageTemplate(TemplateName.IRC_ADMIN_RESPONSE));
                                     if (!acResponse.isEmpty()) {
                                         sendMessage(ircBot, target, acResponse, responseType);
                                     }
