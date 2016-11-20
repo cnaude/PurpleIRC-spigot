@@ -1058,13 +1058,15 @@ public class ChatTokenizer {
 
     /**
      *
+     * @param nick
      * @param target
      * @param message
      * @param template
      * @return
      */
-    public String targetChatResponseTokenizer(String target, String message, String template) {
+    public String targetChatResponseTokenizer(String nick, String target, String message, String template) {
         return plugin.colorConverter.gameColorsToIrc(template
+                .replace("%NICK%", nick)
                 .replace("%TARGET%", target)
                 .replace("%MESSAGE%", message)
                 .replace("%RAWMESSAGE%", ChatColor.stripColor(message))

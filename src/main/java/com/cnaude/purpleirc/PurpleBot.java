@@ -2938,13 +2938,13 @@ public final class PurpleBot {
             if (!responseTemplate.isEmpty()) {
                 switch (responseType) {
                     case CTCP:
-                        asyncCTCPMessage(target, plugin.tokenizer.targetChatResponseTokenizer(target, message, responseTemplate));
+                        asyncCTCPMessage(target, plugin.tokenizer.targetChatResponseTokenizer(user.getNick(), target, message, responseTemplate));
                         break;
                     case MESSAGE:
-                        asyncIRCMessage(target, plugin.tokenizer.targetChatResponseTokenizer(target, message, responseTemplate));
+                        asyncIRCMessage(target, plugin.tokenizer.targetChatResponseTokenizer(user.getNick(), target, message, responseTemplate));
                         break;
                     case NOTICE:
-                        asyncNoticeMessage(target, plugin.tokenizer.targetChatResponseTokenizer(target, message, responseTemplate));
+                        asyncNoticeMessage(target, plugin.tokenizer.targetChatResponseTokenizer(user.getNick(), target, message, responseTemplate));
                         break;
                 }
             }
@@ -2989,7 +2989,7 @@ public final class PurpleBot {
                     String responseTemplate = plugin.getMessageTemplate(botNick, channelName, TemplateName.IRC_HCHAT_RESPONSE);
                     if (!responseTemplate.isEmpty()) {
                         asyncIRCMessage(target, plugin.tokenizer
-                                .targetChatResponseTokenizer(hChannel, msg, responseTemplate));
+                                .targetChatResponseTokenizer(user.getNick(), hChannel, msg, responseTemplate));
                     }
                 } else {
                     asyncIRCMessage(target, "Hero channel \"" + hChannel + "\" does not exist!");
@@ -3054,7 +3054,7 @@ public final class PurpleBot {
                                 botNick, channelName, TemplateName.IRC_PCHAT_RESPONSE);
                         if (!responseTemplate.isEmpty()) {
                             asyncIRCMessage(target, plugin.tokenizer
-                                    .targetChatResponseTokenizer(pName, msg, responseTemplate));
+                                    .targetChatResponseTokenizer(user.getNick(), pName, msg, responseTemplate));
                         }
                         plugin.logDebug("Tokenized message: " + t);
                         player.sendMessage(t);
