@@ -507,6 +507,24 @@
                     </execution>
                 </executions>
             </plugin>  
+            
+            <plugin>
+                <artifactId>maven-antrun-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <configuration>
+                            <tasks>                                                                                             
+                                <copy file="../${project.name}/target/${project.name}-${project.version}.jar" tofile="../${project.name}/target/PurpleIRC.jar"/>                         
+                            </tasks>
+                        </configuration>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>            
+            
         </plugins>
     </build>
             
