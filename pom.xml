@@ -515,7 +515,7 @@
                         <phase>package</phase>
                         <configuration>
                             <tasks>                                                                                             
-                                <copy file="../${project.name}/target/${project.name}-${project.version}.jar" tofile="../${project.name}/target/PurpleIRC.jar"/>                         
+                                <copy file="../${project.name}/target/PurpleIRC-${project.version}.jar" tofile="../${project.name}/target/PurpleIRC.jar"/>                         
                             </tasks>
                         </configuration>
                         <goals>
