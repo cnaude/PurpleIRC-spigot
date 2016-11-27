@@ -127,6 +127,7 @@ public class IRCMessageHandler {
                     }
                 }
                 String gcUsage = (String) ircBot.commandMap.get(channelName).get(command).get("game_command_usage");
+                boolean argsRequired = Boolean.parseBoolean(ircBot.commandMap.get(channelName).get(command).get("args_required"));
                 List<String> extraCommands = ircBot.extraCommandMap.get(channelName).get(command);
                 List<String> gameCommands = new ArrayList<>();
                 List<String> userMasks = ircBot.commandUsermasksMap.get(channelName).get(command);
@@ -228,6 +229,14 @@ public class IRCMessageHandler {
                                     commandArgs = "";
                                 }
 
+                                if (commandArgs.isEmpty() && argsRequired) {
+                                    plugin.logDebug("GM BAIL: \"" + gameCommand.trim() + "\"");
+                                    String usageResponse = plugin.colorConverter.gameColorsToIrc(
+                                            ChatColor.translateAlternateColorCodes('&', gcUsage));
+                                    sendMessage(ircBot, target, usageResponse, responseType);
+                                    break gc_loop;
+                                }
+
                                 if (gameCommand.contains("%ARGS%")) {
                                     gameCommand = gameCommand.replace("%ARGS%", commandArgs);
                                 }
@@ -254,25 +263,17 @@ public class IRCMessageHandler {
                                     }
                                 }
 
-                                if (gameCommand.matches(".*%ARG\\d+%.*")
-                                        || gameCommand.matches(".*%ARG(\\d+)\\+%.*")
-                                        || gameCommand.contains("%ARGS%")) {
-                                    plugin.logDebug("GM BAIL: \"" + gameCommand.trim() + "\"");
-                                    ircBot.asyncIRCMessage(target, plugin.colorConverter.gameColorsToIrc(
-                                            ChatColor.translateAlternateColorCodes('&', gcUsage)));
-                                    break gc_loop;
-                                } else {
-                                    plugin.logDebug("GM: \"" + gameCommand.trim() + "\"");
-                                    try {
-                                        plugin.commandQueue.add(new IRCCommand(
-                                                new IRCCommandSender(ircBot, target, plugin, responseType, senderName, outputTemplate),
-                                                new IRCConsoleCommandSender(ircBot, target, plugin, responseType, senderName),
-                                                gameCommand.trim()
-                                        ));
-                                    } catch (Exception ex) {
-                                        plugin.logError(ex.getMessage());
-                                    }
+                                plugin.logDebug("GM: \"" + gameCommand.trim() + "\"");
+                                try {
+                                    plugin.commandQueue.add(new IRCCommand(
+                                            new IRCCommandSender(ircBot, target, plugin, responseType, senderName, outputTemplate),
+                                            new IRCConsoleCommandSender(ircBot, target, plugin, responseType, senderName),
+                                            gameCommand.trim()
+                                    ));
+                                } catch (Exception ex) {
+                                    plugin.logError(ex.getMessage());
                                 }
+
                                 break;
                         }
                     }

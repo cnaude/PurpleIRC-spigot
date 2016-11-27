@@ -1186,9 +1186,11 @@ public final class PurpleBot {
                             optionPair.put("modes", config.getString(commandKey + "modes", "*"));
                             optionPair.put("private", config.getString(commandKey + "private", "false"));
                             optionPair.put("ctcp", config.getString(commandKey + "ctcp", "false"));
+                            optionPair.put("notice", config.getString(commandKey + "notice", "false"));
                             optionPair.put("game_command", config.getString(commandKey + "game_command", ""));
                             optionPair.put("cool_down", config.getString(commandKey + "cool_down", "0"));
                             optionPair.put("game_command_usage", config.getString(commandKey + "game_command_usage", ""));
+                            optionPair.put("args_required", config.getString(commandKey + "args_required", "false"));
                             optionPair.put("sender", config.getString(commandKey + "sender", "CONSOLE"));
                             optionPair.put("private_listen", config.getString(commandKey + "private_listen", "true"));
                             optionPair.put("channel_listen", config.getString(commandKey + "channel_listen", "true"));
