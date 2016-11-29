@@ -16,19 +16,22 @@
  */
 package com.cnaude.purpleirc.Events;
 
+import com.cnaude.purpleirc.PurpleIRC;
+import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 
 /**
  *
- * @author Chris Naude Event listener for plugins that want to catch irc message events
- * from PurpleIRC
+ * @author Chris Naude Event listener for plugins that want to catch irc message
+ * events from PurpleIRC
  */
 public class IRCMessageEvent extends Event {
 
     private static final HandlerList HANDLERS = new HandlerList();
     private String message;
     private final String permission;
+    private final Player player;
 
     /**
      *
@@ -38,6 +41,27 @@ public class IRCMessageEvent extends Event {
     public IRCMessageEvent(String message, String permission) {
         this.message = message;
         this.permission = permission;
+        this.player = null;
+    }
+
+    /**
+     *
+     * @param message
+     * @param permission
+     * @param player
+     */
+    public IRCMessageEvent(String message, String permission, Player player) {
+        this.message = message;
+        this.permission = permission;
+        this.player = player;
+    }
+
+    /**
+     *
+     * @return
+     */
+    public Player getPlayer() {
+        return this.player;
     }
 
     /**
@@ -47,7 +71,7 @@ public class IRCMessageEvent extends Event {
     public String getMessage() {
         return this.message;
     }
-    
+
     /**
      *
      * @return
@@ -72,7 +96,7 @@ public class IRCMessageEvent extends Event {
     public static HandlerList getHandlerList() {
         return HANDLERS;
     }
-    
+
     /**
      * Change the IRC message being sent to the game
      *

@@ -20,7 +20,6 @@ import com.cnaude.purpleirc.Events.IRCMessageEvent;
 import com.cnaude.purpleirc.GameListeners.AdminChatListener;
 import com.cnaude.purpleirc.GameListeners.CleverNotchListener;
 import com.cnaude.purpleirc.GameListeners.DeathMessagesListener;
-import com.cnaude.purpleirc.GameListeners.DiscordListener;
 import com.cnaude.purpleirc.GameListeners.DynmapListener;
 import com.cnaude.purpleirc.GameListeners.EssentialsListener;
 import com.cnaude.purpleirc.GameListeners.GamePlayerChatListener;
@@ -33,6 +32,7 @@ import com.cnaude.purpleirc.GameListeners.GamePlayerPlayerAchievementAwardedList
 import com.cnaude.purpleirc.GameListeners.GamePlayerQuitListener;
 import com.cnaude.purpleirc.GameListeners.GameServerCommandListener;
 import com.cnaude.purpleirc.GameListeners.HeroChatListener;
+import com.cnaude.purpleirc.GameListeners.IRCMessageListener;
 import com.cnaude.purpleirc.GameListeners.McMMOChatListener;
 import com.cnaude.purpleirc.GameListeners.VentureChatListener;
 import com.cnaude.purpleirc.GameListeners.NTheEndAgainListener;
@@ -70,7 +70,6 @@ import com.cnaude.purpleirc.Utilities.UpdateChecker;
 import com.google.common.base.Joiner;
 import com.onarandombox.MultiverseCore.api.MVPlugin;
 import com.onarandombox.MultiverseCore.api.MultiverseWorld;
-import com.scarsz.discordsrv.api.DiscordSRVAPI;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -176,7 +175,7 @@ public class PurpleIRC extends JavaPlugin {
     private boolean stripIRCColors;
     private boolean stripIRCBackgroundColors;
     protected boolean stripGameColorsFromIrc;
-    private boolean broadcastChatToConsole;
+    public boolean broadcastChatToConsole;
     public boolean customTabList;
     public String customTabGamemode;
     private boolean listSortByName;
@@ -258,7 +257,6 @@ public class PurpleIRC extends JavaPlugin {
     public String smsgAlias = "/m";
     public String smsgReplyAlias = "/r";
     public CaseInsensitiveMap<String> privateMsgReply;
-    
 
     public PurpleIRC() {
         this.MAINCONFIG = "MAIN-CONFIG";
@@ -309,6 +307,7 @@ public class PurpleIRC extends JavaPlugin {
                 logError(ex.getMessage());
             }
         }
+        getServer().getPluginManager().registerEvents(new IRCMessageListener(this), this);
         getServer().getPluginManager().registerEvents(new GamePlayerPlayerAchievementAwardedListener(this), this);
         getServer().getPluginManager().registerEvents(new GamePlayerGameModeChangeListener(this), this);
         getServer().getPluginManager().registerEvents(new GamePlayerChatListener(this), this);
@@ -355,7 +354,7 @@ public class PurpleIRC extends JavaPlugin {
      * Called when plugin is told to stop.
      */
     @Override
-    public void onDisable() {     
+    public void onDisable() {
         if (discHook != null) {
             logDebug("Disabling discHook ...");
             discHook.removeListener();
@@ -1004,7 +1003,7 @@ public class PurpleIRC extends JavaPlugin {
                 m = "Players on " + host + "("
                         + players.length
                         + "): " + Joiner.on(", ")
-                        .join(players);
+                                .join(players);
             }
             return m;
         } else {
@@ -1755,14 +1754,13 @@ public class PurpleIRC extends JavaPlugin {
         } else {
             hookList.add(hookFormat(PL_PLACEHOLDERAPI, false));
         }
-        
+
         if (isPluginEnabled(PL_DISCORDSRV)) {
             discHook = new DiscordSRVHook(this);
         } else {
             hookList.add(hookFormat(PL_DISCORDSRV, false));
         }
-         
-        
+
     }
 
     public void getPurpleHooks(CommandSender sender, boolean colors) {
@@ -1791,26 +1789,10 @@ public class PurpleIRC extends JavaPlugin {
 
     public void broadcastToGame(final String message, final String permission) {
         getServer().getPluginManager().callEvent(new IRCMessageEvent(message, permission));
-        String fixedMessage = message.replace("\u200B", "");
-        if (broadcastChatToConsole) {
-            logDebug("Broadcast All [" + permission + "]: " + fixedMessage);
-            messageQueue.add(new Message(fixedMessage, permission));
-        } else {
-            logDebug("Broadcast Players [" + permission + "]: " + fixedMessage);
-            for (Player player : getServer().getOnlinePlayers()) {
-                if (player.hasPermission(permission)) {
-                    player.sendMessage(fixedMessage);
-                }
-            }
-        }
     }
 
     public void broadcastToPlayer(final Player player, final String message, final String permission) {
-        getServer().getPluginManager().callEvent(new IRCMessageEvent(message, permission));
-        String fixedMessage = message.replace("\u200B", "");
-        if (player.hasPermission(permission)) {
-            player.sendMessage(fixedMessage);
-        }
+        getServer().getPluginManager().callEvent(new IRCMessageEvent(message, permission, player));
     }
 
     /**
