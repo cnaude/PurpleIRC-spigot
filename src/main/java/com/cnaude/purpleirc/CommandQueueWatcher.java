@@ -74,6 +74,10 @@ public class CommandQueueWatcher {
                         (plugin.getServer().getVersion().contains("MC: 1.10")
                         && plugin.getServer().getPluginCommand(cmd) == null
                         && !isCommandBookCommand)
+                        || 
+                        (plugin.getServer().getVersion().contains("MC: 1.11")
+                        && plugin.getServer().getPluginCommand(cmd) == null
+                        && !isCommandBookCommand)
                         ) {
                     plugin.logDebug("Dispatching command as ConsoleSender: " + ircCommand.getGameCommand());
 
