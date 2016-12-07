@@ -16,7 +16,6 @@
  */
 package com.cnaude.purpleirc.Events;
 
-import com.cnaude.purpleirc.PurpleIRC;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;

@@ -484,14 +484,14 @@ public final class PurpleBot {
      *
      * @param channelName
      * @param sender
-     * @param user
+     * @param userMask
      */
-    public void mute(String channelName, CommandSender sender, String user) {
-        if (muteList.get(channelName).contains(user)) {
-            sender.sendMessage("User '" + user + "' is already muted.");
+    public void mute(String channelName, CommandSender sender, String userMask) {
+        if (muteList.get(channelName).contains(userMask)) {
+            sender.sendMessage("User '" + userMask + "' is already muted.");
         } else {
-            sender.sendMessage("User '" + user + "' is now muted.");
-            muteList.get(channelName).add(user);
+            sender.sendMessage("User '" + userMask + "' is now muted.");
+            muteList.get(channelName).add(userMask);
             saveConfig("channels." + encodeChannel(getConfigChannelName(channelName)) + ".muted", muteList.get(channelName));
         }
     }

@@ -73,10 +73,19 @@ public class IRCMessageHandler {
         }
         plugin.logDebug("processMessage: " + message);
         String channelName = channel.getName();
+
+        for (String userMask : ircBot.muteList.get(channelName)) {
+            if (ircBot.checkUserMask(user, userMask)) {
+                plugin.logDebug("User " + user.getNick() + " matches mute mask " + userMask + ". Ignoring message.");
+                return;
+            }
+        }
+
         if (ircBot.muteList.get(channelName).contains(user.getNick())) {
             plugin.logDebug("User is muted. Ignoring message from " + user.getNick() + ": " + message);
             return;
         }
+
         plugin.logDebug("commandPrefix.length(): " + ircBot.commandPrefix.length());
         String command = message.split(" ")[0];
         if (command.length() > ircBot.commandPrefix.length()) {

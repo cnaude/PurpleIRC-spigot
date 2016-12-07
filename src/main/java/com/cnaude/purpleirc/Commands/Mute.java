@@ -20,6 +20,8 @@ import com.cnaude.purpleirc.PurpleIRC;
 import com.cnaude.purpleirc.Utilities.BotsAndChannels;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
+import org.pircbotx.Channel;
+import org.pircbotx.User;
 
 /**
  *
@@ -65,7 +67,24 @@ public class Mute implements IRCCommandInterface {
             for (String botName : bac.bot) {
                 for (String channelName : bac.channel) {
                     for (int i = idx; i < args.length; i++) {
-                        plugin.ircBots.get(botName).mute(channelName, sender, args[i]);
+
+                        String nick = args[i];
+                        String mask = nick;
+                        Channel channel = plugin.ircBots.get(botName).getChannel(channelName);
+                        if (channel != null) {
+                            for (User user : channel.getUsers()) {
+                                if (user.getNick().equalsIgnoreCase(nick)) {
+                                    mask = "*!*" + user.getLogin() + "@" + user.getHostmask();
+                                }
+                            }
+                        }
+                        if (mask.split("[\\!\\@]", 3).length == 3) {
+                            plugin.ircBots.get(botName).mute(channelName, sender, mask);
+                        } else {
+                            sender.sendMessage(ChatColor.RED + "Invalid user or mask: "
+                                    + ChatColor.WHITE + mask);
+                        }
+
                     }
                 }
             }
