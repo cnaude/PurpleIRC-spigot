@@ -256,12 +256,15 @@ channels:
     # OreBroadcast messages
     #- ore-broadcast
     - titan-chat
+    - ultimatechat-chat
     - towny-chat
     # Specific TownyChat channel or tag
     #- towny-[CHANNEL]-chat
     #- towny-[CHANNELTAG]-chat
     # Specific TitanChat channel
     #- titan-[CHANNEL]-chat
+    # Specific UltimateChat channel
+    #- ultimatechat-[CHANNEL]-chat
     # ReportRTS ticket notifications to irc
     - rts-notify
     # SimpleTicketManager notifications to irc
