@@ -424,6 +424,14 @@
             <scope>provided</scope>
         </dependency>
         
+        <!-- UltimateChat -->
+        <dependency>
+            <groupId>com.cnaude.uchat</groupId>
+            <artifactId>UltimateChat</artifactId>
+            <version>1.6.8-b502</version>
+            <scope>provided</scope>
+        </dependency>
+        
         <!-- Testing only -->
         <dependency>
             <groupId>junit</groupId>

@@ -17,6 +17,7 @@
 package com.cnaude.purpleirc;
 
 import com.cnaude.purpleirc.Events.VentureChatEvent;
+import com.cnaude.purpleirc.GameListeners.UltimateChatListener;
 import com.cnaude.purpleirc.IRCListeners.ActionListener;
 import com.cnaude.purpleirc.IRCListeners.AwayListener;
 import com.cnaude.purpleirc.IRCListeners.ConnectListener;
@@ -1430,6 +1431,40 @@ public final class PurpleBot {
             } else {
                 plugin.logDebug("Player " + player.getName() + " is in \""
                         + tChannel + "\" but titan-" + tChannel + "-chat is disabled.");
+            }
+        }
+    }
+    
+    /**
+     * Called from UltimateChat listener
+     *
+     * @param sender
+     * @param uChannel
+     * @param uColor
+     * @param message
+     */
+    public void ultimateChat(CommandSender sender, String uChannel, String uColor, String message) {
+        if (!this.isConnected()) {
+            return;
+        }
+        Player player = plugin.getServer().getPlayer(sender.getName());
+        if (floodChecker.isSpam(player)) {
+            sendFloodWarning(player);
+            return;
+        }
+        for (String channelName : botChannels) {
+            if (!isPlayerInValidWorld(player, channelName)) {
+                continue;
+            }
+            plugin.logDebug("UC Channel: " + uChannel);
+            if (isMessageEnabled(channelName, "ultimatechat-" + uChannel + "-chat")
+                    || isMessageEnabled(channelName, TemplateName.ULTIMATE_CHAT)) {
+                asyncIRCMessage(channelName, plugin.tokenizer
+                        .ultimateChatTokenizer(player, uChannel, uColor, message,
+                                plugin.getMessageTemplate(botNick, channelName, TemplateName.ULTIMATE_CHAT)));
+            } else {
+                plugin.logDebug("Player " + player.getName() + " is in \""
+                        + uChannel + "\" but ultimatechat-" + uChannel + "-chat is disabled.");
             }
         }
     }

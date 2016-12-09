@@ -43,6 +43,7 @@ import com.cnaude.purpleirc.GameListeners.ReportRTSListener;
 import com.cnaude.purpleirc.GameListeners.SimpleTicketManagerListener;
 import com.cnaude.purpleirc.GameListeners.TitanChatListener;
 import com.cnaude.purpleirc.GameListeners.TownyChatListener;
+import com.cnaude.purpleirc.GameListeners.UltimateChatListener;
 import com.cnaude.purpleirc.GameListeners.VanishNoPacketListener;
 import com.cnaude.purpleirc.Hooks.AdminPrivateChatHook;
 import com.cnaude.purpleirc.Hooks.CommandBookHook;
@@ -249,6 +250,7 @@ public class PurpleIRC extends JavaPlugin {
     final String PL_GRIEFPREVENTION = "GriefPrevention";
     final String PL_PLACEHOLDERAPI = "PlaceholderAPI";
     final String PL_DISCORDSRV = "DiscordSRV";
+    final String PL_UCHAT = "UltimateChat";
     List<String> hookList = new ArrayList<>();
     public static final String PURPLETAG = "UHVycGxlSVJDCg==";
     public static final String TOWNYTAG = "VG93bnlDaGF0Cg==";
@@ -1759,6 +1761,12 @@ public class PurpleIRC extends JavaPlugin {
             discHook = new DiscordSRVHook(this);
         } else {
             hookList.add(hookFormat(PL_DISCORDSRV, false));
+        }
+        
+        if (isPluginEnabled(PL_UCHAT)) {
+            getServer().getPluginManager().registerEvents(new UltimateChatListener(this), this);
+        } else {
+            hookList.add(hookFormat(PL_UCHAT, false));
         }
 
     }

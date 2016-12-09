@@ -60,6 +60,8 @@ chat-ping-fix: false
 #  %HEROCOLOR% - HeroChat channel color
 #  %TITANCHANNEL% - TitanChat channel name
 #  %TITANCOLOR% - TitanChat channel color
+#  %UCHATCHANNEL% - UltimateChat channel name
+#  %UCHATCOLOR% - UltimateChat channel color
 #  %WORLDALIAS% - World alias name
 #  ReportRTS ticket: %MESSAGE%, %MODNAME% %DISPLAYMODNAME% %RTSNAME% %RTSWORLD% %TICKETNUMBER% %MODCOMMENT%
 #  %TOWNYCHANNEL% - Towny channel name
@@ -188,6 +190,10 @@ message-format:
   titan-chat: '[%CHANNEL%]<%NAME%> %MESSAGE%'
   # Message templates for IRC to TitanChat messages
   irc-titan-chat: '[&3IRC&r]<%NAME%> %MESSAGE%'
+  # Message template for TitanChat to IRC messages
+  ultimatechat-chat: '[%CHANNEL%]<%NAME%> %MESSAGE%'
+  # Message templates for IRC to TitanChat messages
+  irc-ultimatechat-chat: '[&3IRC&r]<%NAME%> %MESSAGE%'  
   # Help reply message
   valid-irc-commands: 'Valid commands: %COMMANDS%'
   # Invalid IRC command message

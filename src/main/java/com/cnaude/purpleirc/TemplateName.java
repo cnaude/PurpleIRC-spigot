@@ -167,5 +167,8 @@ public class TemplateName {
     public final static String LOG_TAILER = "log-tailer";
     
     public final static String COMMAND_SENT = "command-sent";
+    
+    public final static String ULTIMATE_CHAT = "ultimatechat-chat";
+    public final static String IRC_ULTIMATE_CHAT = "irc-ultimatechat-chat";
 
 }
