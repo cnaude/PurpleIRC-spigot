@@ -163,6 +163,9 @@ channels:
     # Filters. These wll be removed from IRC to game messages.
     filter-list:
        - AwesomeBot
+    # List of Factions to filter our of chat
+    faction-tag-filters:
+       - FactionNameToFilter
     # enabled-messages - These are the message types that are either sent to the game or IRC
     # config.yml. Remove or comment the messages you don't want.
     enabled-messages:

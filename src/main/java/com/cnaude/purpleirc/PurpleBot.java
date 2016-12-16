@@ -134,6 +134,7 @@ public final class PurpleBot {
     public CaseInsensitiveMap<Boolean> tabIgnoreDuplicates;
     public CaseInsensitiveMap<Collection<String>> filters;
     public ArrayList<String> tailerFilters;
+    public ArrayList<String> factionTagFilters;
     public CaseInsensitiveMap<String> channelPassword;
     public CaseInsensitiveMap<String> channelTopic;
     public CaseInsensitiveMap<Boolean> channelTopicChanserv;
@@ -267,6 +268,7 @@ public final class PurpleBot {
         this.tabIgnoreDuplicates = new CaseInsensitiveMap<>();
         this.filters = new CaseInsensitiveMap<>();
         this.tailerFilters = new ArrayList<>();
+        this.factionTagFilters = new ArrayList<>();
         this.channelNicks = new CaseInsensitiveMap<>();
         this.rawMessages = new ArrayList<>();
         this.channelTopicChanserv = new CaseInsensitiveMap<>();
@@ -828,6 +830,7 @@ public final class PurpleBot {
             extraCommandMap.clear();
             commandUsermasksMap.clear();
             tailerFilters.clear();
+            factionTagFilters.clear();
 
             channelCmdNotifyEnabled = config.getBoolean("command-notify.enabled", false);
             plugin.logDebug(" CommandNotifyEnabled => " + channelCmdNotifyEnabled);
@@ -1146,20 +1149,33 @@ public final class PurpleBot {
                         plugin.logInfo("Filter list is empty!");
                     }
 
+                    // build faction tag filters 
+                    Collection<String> ft = new ArrayList<>();
+                    for (String word : config.getStringList("channels." + enChannelName + ".faction-tag-filters")) {
+                        if (!ft.contains(word)) {
+                            ft.add(word);
+                        }
+                        plugin.logDebug("  Filtered Faction Tag => " + word);
+                    }
+                    filters.put(channelName, ft);
+                    if (factionTagFilters.isEmpty()) {
+                        plugin.logInfo("Faction Filter list is empty!");
+                    }
+
                     // build join notice
                     joinNoticeCoolDown = config.getInt("channels." + enChannelName + ".join-notice.cooldown", 60);
                     joinNoticeEnabled = config.getBoolean("channels." + enChannelName + ".join-notice.enabled", false);
                     joinNoticePrivate = config.getBoolean("channels." + enChannelName + ".join-notice.private", true);
                     joinNoticeMessage = config.getString("channels." + enChannelName + ".join-notice.message", "");
-                    
+
                     joinResponseType = Type.MESSAGE;
                     if (config.getBoolean("channels." + enChannelName + ".join-notice.ctcp", true)) {
                         joinResponseType = Type.CTCP;
                     }
                     if (config.getBoolean("channels." + enChannelName + ".join-notice.notice", false)) {
                         joinResponseType = Type.NOTICE;
-                    } 
-                    
+                    }
+
                     plugin.logDebug("join-notice.cooldown: " + joinNoticeCoolDown);
                     plugin.logDebug("join-notice.enabled: " + joinNoticeEnabled);
                     plugin.logDebug("join-notice.private: " + joinNoticePrivate);
@@ -1305,14 +1321,18 @@ public final class PurpleBot {
                     plugin.logDebug("Faction [Player: " + player.getName()
                             + "] [Tag: " + playerFactionName + "] [Mode: "
                             + playerChatMode + "]");
-                    if (enabledMessages.get(channelName)
-                            .contains(chatName)) {
-                        asyncIRCMessage(channelName, plugin.tokenizer
-                                .chatFactionTokenizer(player, botNick, message,
-                                        playerFactionName, playerChatMode));
+                    if (factionTagFilters.contains(playerFactionName)) {
+                        plugin.logDebug("Filtered out message due to tag filter.");
                     } else {
-                        plugin.logDebug("Player " + player.getName() + " is in chat mode \""
-                                + playerChatMode + "\" but \"" + chatName + "\" is disabled.");
+                        if (enabledMessages.get(channelName)
+                                .contains(chatName)) {
+                            asyncIRCMessage(channelName, plugin.tokenizer
+                                    .chatFactionTokenizer(player, botNick, message,
+                                            playerFactionName, playerChatMode));
+                        } else {
+                            plugin.logDebug("Player " + player.getName() + " is in chat mode \""
+                                    + playerChatMode + "\" but \"" + chatName + "\" is disabled.");
+                        }
                     }
                 } else {
                     plugin.logDebug("No Factions");
@@ -1434,7 +1454,7 @@ public final class PurpleBot {
             }
         }
     }
-    
+
     /**
      * Called from UltimateChat listener
      *
@@ -2952,7 +2972,7 @@ public final class PurpleBot {
         }
 
         /*
-         Send messages to VentureChat if enabled
+         Send messages to Discord if enabled
          */
         if (isMessageEnabled(channelName, TemplateName.IRC_DISCORD_CHAT) && plugin.discHook != null) {
             String discordChannelName = discordChannel.get(channelName);

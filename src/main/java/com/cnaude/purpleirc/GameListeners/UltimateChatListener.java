@@ -17,7 +17,6 @@
 package com.cnaude.purpleirc.GameListeners;
 
 import br.net.fabiozumbi12.UltimateChat.API.SendChannelMessageEvent;
-import br.net.fabiozumbi12.UltimateChat.UCChannel;
 import com.cnaude.purpleirc.PurpleBot;
 import com.cnaude.purpleirc.PurpleIRC;
 import org.bukkit.command.CommandSender;
