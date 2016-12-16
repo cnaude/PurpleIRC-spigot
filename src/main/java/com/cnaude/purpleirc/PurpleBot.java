@@ -17,7 +17,6 @@
 package com.cnaude.purpleirc;
 
 import com.cnaude.purpleirc.Events.VentureChatEvent;
-import com.cnaude.purpleirc.GameListeners.UltimateChatListener;
 import com.cnaude.purpleirc.IRCListeners.ActionListener;
 import com.cnaude.purpleirc.IRCListeners.AwayListener;
 import com.cnaude.purpleirc.IRCListeners.ConnectListener;
@@ -59,6 +58,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.Lock;
@@ -69,6 +69,7 @@ import me.botsko.prism.events.BlockStateChange;
 import org.bukkit.Achievement;
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
+import org.bukkit.block.Block;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -1721,18 +1722,16 @@ public final class PurpleBot {
     /**
      *
      * @param player
-     * @param message
+     * @param block
+     * @param vein
      */
-    public void gameOreBroadcast(Player player, String message) {
+    public void gameOreBroadcast(Player player, Block block, Set<Block> vein) {
         if (!this.isConnected()) {
             return;
         }
         for (String channelName : botChannels) {
             if (isMessageEnabled(channelName, TemplateName.ORE_BROADCAST)) {
-                asyncIRCMessage(channelName, plugin.tokenizer
-                        .gameChatToIRCTokenizer(player, plugin
-                                .getMessageTemplate(botNick, channelName, TemplateName.ORE_BROADCAST),
-                                ChatColor.translateAlternateColorCodes('&', message)));
+                asyncIRCMessage(channelName, plugin.tokenizer.oreBroadcastTokenizer(player, botNick, block, vein));
             }
         }
     }

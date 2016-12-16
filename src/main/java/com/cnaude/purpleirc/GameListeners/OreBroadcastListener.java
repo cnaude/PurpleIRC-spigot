@@ -16,7 +16,7 @@
  */
 package com.cnaude.purpleirc.GameListeners;
 
-import be.bendem.orebroadcast.OreBroadcastEvent;
+import be.bendem.bukkit.orebroadcast.OreBroadcastEvent;
 import com.cnaude.purpleirc.PurpleBot;
 import com.cnaude.purpleirc.PurpleIRC;
 import org.bukkit.event.EventHandler;
@@ -46,7 +46,7 @@ public class OreBroadcastListener implements Listener {
     public void onOreBroadcastEvent(OreBroadcastEvent event) {
         plugin.logDebug("onOreBroadcastEvent caught");
         for (PurpleBot ircBot : plugin.ircBots.values()) {
-            ircBot.gameOreBroadcast(event.getPlayer(), event.getMessage());
+            ircBot.gameOreBroadcast(event.getSource(), event.getBlockMined(), event.getVein());
         }
     }
 }

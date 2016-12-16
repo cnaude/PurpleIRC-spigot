@@ -24,9 +24,11 @@ import com.dthielke.herochat.ChannelManager;
 import com.gmail.nossr50.util.player.UserManager;
 import com.nyancraft.reportrts.data.Ticket;
 import com.palmergames.bukkit.TownyChat.channels.Channel;
+import java.util.Set;
 import java.util.UUID;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.block.Block;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.pircbotx.User;
@@ -1167,5 +1169,30 @@ public class ChatTokenizer {
             return a + "\u200B" + b;
         }
         return s;
+    }
+    
+    /**
+     * OreBroadcast to IRC
+     *
+     * @param player
+     * @param botNick
+     * @param block
+     * @param vein
+     * @return
+     */
+    public String oreBroadcastTokenizer(Player player, String botNick, Block block, Set<Block> vein) {
+        String template = plugin.getMessageTemplate(botNick, "", TemplateName.ORE_BROADCAST);
+        String blockName = block.getType().name();
+        String veinSize = String.valueOf(vein.size());
+        String plural = "";
+        if (vein.isEmpty() || vein.size() > 1) {
+            plural = "s";
+        }
+        return plugin.colorConverter.gameColorsToIrc(
+                playerTokenizer(player, template)
+                        .replace("%ORE%", blockName)
+                        .replace("%PLURAL%", plural)
+                        .replace("%COUNT%", veinSize)
+        );
     }
 }
