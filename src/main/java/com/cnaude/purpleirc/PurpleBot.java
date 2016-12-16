@@ -69,6 +69,7 @@ import me.botsko.prism.events.BlockStateChange;
 import org.bukkit.Achievement;
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
+import org.bukkit.Location;
 import org.bukkit.block.Block;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.InvalidConfigurationException;
@@ -1722,16 +1723,15 @@ public final class PurpleBot {
     /**
      *
      * @param player
-     * @param block
      * @param vein
      */
-    public void gameOreBroadcast(Player player, Block block, Set<Block> vein) {
+    public void gameOreBroadcast(Player player, String blockName, ChatColor oreColor, Set<Block> vein, Location loc) {
         if (!this.isConnected()) {
             return;
         }
         for (String channelName : botChannels) {
             if (isMessageEnabled(channelName, TemplateName.ORE_BROADCAST)) {
-                asyncIRCMessage(channelName, plugin.tokenizer.oreBroadcastTokenizer(player, botNick, block, vein));
+                asyncIRCMessage(channelName, plugin.tokenizer.oreBroadcastTokenizer(player, botNick, blockName, oreColor, vein, loc));
             }
         }
     }

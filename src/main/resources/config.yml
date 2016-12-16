@@ -223,7 +223,7 @@ message-format:
   # IRC to dynmap action nick template
   irc-dynmap-action-nick: '[IRC] ***%NICK%'
   # OreBroadcast message
-  ore-broadcast: '[OreBroadcast] &l%NAME%&c has found &6&l%COUNT%&c block%PLURAL% of [&l&k%ORE%&c]'
+  ore-broadcast: '[OreBroadcast] &l%NAME%&c has found &6&l%COUNT%&c block%PLURAL% of [&l&k%ORECOLOR%%ORE%&c]'
   # Jobs seperator
   jobs-separator: ', '
   # Message format per hero channel. From IRC to game.

@@ -28,6 +28,7 @@ import java.util.Set;
 import java.util.UUID;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.Location;
 import org.bukkit.block.Block;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -1176,13 +1177,14 @@ public class ChatTokenizer {
      *
      * @param player
      * @param botNick
-     * @param block
+     * @param blockName
+     * @param oreColor
      * @param vein
+     * @param loc
      * @return
      */
-    public String oreBroadcastTokenizer(Player player, String botNick, Block block, Set<Block> vein) {
+    public String oreBroadcastTokenizer(Player player, String botNick, String blockName, ChatColor oreColor, Set<Block> vein, Location loc) {
         String template = plugin.getMessageTemplate(botNick, "", TemplateName.ORE_BROADCAST);
-        String blockName = block.getType().name();
         String veinSize = String.valueOf(vein.size());
         String plural = "";
         if (vein.isEmpty() || vein.size() > 1) {
@@ -1190,6 +1192,10 @@ public class ChatTokenizer {
         }
         return plugin.colorConverter.gameColorsToIrc(
                 playerTokenizer(player, template)
+                        .replace("%ORECOLOR%", oreColor.toString())
+                        .replace("%X%", String.valueOf(loc.getX()))
+                        .replace("%Y%", String.valueOf(loc.getY()))
+                        .replace("%Z%", String.valueOf(loc.getZ()))
                         .replace("%ORE%", blockName)
                         .replace("%PLURAL%", plural)
                         .replace("%COUNT%", veinSize)
