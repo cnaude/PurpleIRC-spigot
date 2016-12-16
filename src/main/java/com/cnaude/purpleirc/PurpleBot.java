@@ -134,8 +134,8 @@ public final class PurpleBot {
     public CaseInsensitiveMap<Collection<String>> tabIgnoreNicks;
     public CaseInsensitiveMap<Boolean> tabIgnoreDuplicates;
     public CaseInsensitiveMap<Collection<String>> filters;
-    public ArrayList<String> tailerFilters;
-    public ArrayList<String> factionTagFilters;
+    public CaseInsensitiveMap<Collection<String>> factionTagFilters;
+    public ArrayList<String> tailerFilters;    
     public CaseInsensitiveMap<String> channelPassword;
     public CaseInsensitiveMap<String> channelTopic;
     public CaseInsensitiveMap<Boolean> channelTopicChanserv;
@@ -269,7 +269,7 @@ public final class PurpleBot {
         this.tabIgnoreDuplicates = new CaseInsensitiveMap<>();
         this.filters = new CaseInsensitiveMap<>();
         this.tailerFilters = new ArrayList<>();
-        this.factionTagFilters = new ArrayList<>();
+        this.factionTagFilters = new CaseInsensitiveMap<>();
         this.channelNicks = new CaseInsensitiveMap<>();
         this.rawMessages = new ArrayList<>();
         this.channelTopicChanserv = new CaseInsensitiveMap<>();
@@ -1158,7 +1158,7 @@ public final class PurpleBot {
                         }
                         plugin.logDebug("  Filtered Faction Tag => " + word);
                     }
-                    filters.put(channelName, ft);
+                    factionTagFilters.put(channelName, ft);
                     if (factionTagFilters.isEmpty()) {
                         plugin.logInfo("Faction Filter list is empty!");
                     }
@@ -1322,7 +1322,7 @@ public final class PurpleBot {
                     plugin.logDebug("Faction [Player: " + player.getName()
                             + "] [Tag: " + playerFactionName + "] [Mode: "
                             + playerChatMode + "]");
-                    if (factionTagFilters.contains(playerFactionName)) {
+                    if (factionTagFilters.get(channelName).contains(playerFactionName)) {
                         plugin.logDebug("Filtered out message due to tag filter.");
                     } else {
                         if (enabledMessages.get(channelName)
