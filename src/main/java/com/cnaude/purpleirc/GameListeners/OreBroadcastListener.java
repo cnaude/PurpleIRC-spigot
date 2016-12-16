@@ -16,7 +16,7 @@
  */
 package com.cnaude.purpleirc.GameListeners;
 
-import be.bendem.bukkit.orebroadcast.OreBroadcastEvent;
+import be.smexhy.spigot.orebroadcast.OreBroadcastEvent;
 import com.cnaude.purpleirc.PurpleBot;
 import com.cnaude.purpleirc.PurpleIRC;
 import org.bukkit.event.EventHandler;
