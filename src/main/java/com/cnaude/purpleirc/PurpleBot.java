@@ -1725,13 +1725,13 @@ public final class PurpleBot {
      * @param player
      * @param vein
      */
-    public void gameOreBroadcast(Player player, String blockName, ChatColor oreColor, Set<Block> vein, Location loc) {
+    public void gameOreBroadcast(Player player, String blockName, String oreName, ChatColor oreColor, Set<Block> vein, Location loc) {
         if (!this.isConnected()) {
             return;
         }
         for (String channelName : botChannels) {
             if (isMessageEnabled(channelName, TemplateName.ORE_BROADCAST)) {
-                asyncIRCMessage(channelName, plugin.tokenizer.oreBroadcastTokenizer(player, botNick, blockName, oreColor, vein, loc));
+                asyncIRCMessage(channelName, plugin.tokenizer.oreBroadcastTokenizer(player, botNick, blockName, oreName, oreColor, vein, loc));
             }
         }
     }

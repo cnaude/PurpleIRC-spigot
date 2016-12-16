@@ -58,11 +58,16 @@ public class OreBroadcastListener implements Listener {
         }
         String color = ob.getConfig().getString("colors." + blockName, "white").toUpperCase();
         ChatColor oreColor = ChatColor.valueOf(color);
+        String oreName = translateOre(blockName, color);
 
         plugin.logDebug("onOreBroadcastEvent caught");
         for (PurpleBot ircBot : plugin.ircBots.values()) {
-            ircBot.gameOreBroadcast(e.getSource(), blockName, oreColor, e.getVein(), e.getBlockMined().getLocation());
+            ircBot.gameOreBroadcast(e.getSource(), blockName, oreName, oreColor, e.getVein(), e.getBlockMined().getLocation());
         }
+    }
+
+    private String translateOre(String ore, String color) {
+        return "&" + ChatColor.valueOf(color).getChar() + ob.getConfig().getString(new StringBuilder("ore-translations.").append(ore).toString(), ore);
     }
 
 }

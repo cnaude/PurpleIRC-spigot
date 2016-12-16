@@ -1171,19 +1171,20 @@ public class ChatTokenizer {
         }
         return s;
     }
-    
+
     /**
      * OreBroadcast to IRC
      *
      * @param player
      * @param botNick
      * @param blockName
+     * @param oreName
      * @param oreColor
      * @param vein
      * @param loc
      * @return
      */
-    public String oreBroadcastTokenizer(Player player, String botNick, String blockName, ChatColor oreColor, Set<Block> vein, Location loc) {
+    public String oreBroadcastTokenizer(Player player, String botNick, String blockName, String oreName, ChatColor oreColor, Set<Block> vein, Location loc) {
         String template = plugin.getMessageTemplate(botNick, "", TemplateName.ORE_BROADCAST);
         String veinSize = String.valueOf(vein.size());
         String plural = "";
@@ -1192,11 +1193,12 @@ public class ChatTokenizer {
         }
         return plugin.colorConverter.gameColorsToIrc(
                 playerTokenizer(player, template)
+                        .replace("%BLOCKNAME%", blockName)
+                        .replace("%ORE%", oreName)
                         .replace("%ORECOLOR%", oreColor.toString())
                         .replace("%X%", String.valueOf(loc.getX()))
                         .replace("%Y%", String.valueOf(loc.getY()))
                         .replace("%Z%", String.valueOf(loc.getZ()))
-                        .replace("%ORE%", blockName)
                         .replace("%PLURAL%", plural)
                         .replace("%COUNT%", veinSize)
         );
