@@ -58,7 +58,7 @@ public class OreBroadcastListener implements Listener {
         }
         String color = ob.getConfig().getString("colors." + blockName, "white").toUpperCase();
         ChatColor oreColor = ChatColor.valueOf(color);
-        String oreName = translateOre(blockName, color);
+        String oreName = ChatColor.translateAlternateColorCodes('&', translateOre(blockName, color));
 
         plugin.logDebug("onOreBroadcastEvent caught");
         for (PurpleBot ircBot : plugin.ircBots.values()) {
