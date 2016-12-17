@@ -16,8 +16,8 @@
  */
 package com.cnaude.purpleirc.GameListeners;
 
+import be.smexhy.spigot.orebroadcast.OreBroadcast;
 import be.smexhy.spigot.orebroadcast.OreBroadcastEvent;
-import com.ammaraskar.adminonly.AdminChat;
 import com.cnaude.purpleirc.PurpleBot;
 import com.cnaude.purpleirc.PurpleIRC;
 import org.bukkit.ChatColor;
@@ -32,7 +32,7 @@ import org.bukkit.event.Listener;
 public class OreBroadcastListener implements Listener {
 
     private final PurpleIRC plugin;
-    public final AdminChat ob;
+    public final OreBroadcast ob;
 
     /**
      *
@@ -40,7 +40,7 @@ public class OreBroadcastListener implements Listener {
      */
     public OreBroadcastListener(PurpleIRC plugin) {
         this.plugin = plugin;
-        this.ob = (AdminChat) plugin.getServer().getPluginManager().getPlugin("OreBroadcast");
+        this.ob = (OreBroadcast) plugin.getServer().getPluginManager().getPlugin("OreBroadcast");
     }
 
     /**
