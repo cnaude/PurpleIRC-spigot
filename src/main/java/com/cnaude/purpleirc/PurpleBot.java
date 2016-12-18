@@ -1561,10 +1561,10 @@ public final class PurpleBot {
             return;
         }
         for (String channelName : botChannels) {
-            if (isMessageEnabled(channelName, TemplateName.GAME_DISCORD_CHAT)) {
+            if (isMessageEnabled(channelName, TemplateName.DISCORD_CHAT)) {
                 asyncIRCMessage(channelName, plugin.tokenizer
                         .gameChatToIRCTokenizer(username, plugin.getMessageTemplate(
-                                botNick, channelName, TemplateName.GAME_DISCORD_CHAT), message)
+                                botNick, channelName, TemplateName.DISCORD_CHAT), message)
                         .replace("%CHANNEL%", channelId)
                 );
             }

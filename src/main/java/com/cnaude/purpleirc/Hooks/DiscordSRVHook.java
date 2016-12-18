@@ -48,11 +48,15 @@ public class DiscordSRVHook {
 
     public void sendMessage(String channelName, String message) {
         TextChannel textChannel = DiscordSRV.getTextChannelFromChannelName(channelName);
+        TextChannel chatChannel = DiscordSRV.chatChannel;
+        plugin.logDebug("DiscordSRVHook: Message to be sent: " + message);
         if (textChannel != null) {
-            plugin.logDebug("DiscordSRVHook[" + channelName + "]: " + message);
+            plugin.logDebug("DiscordSRVHook: Sending mssage to channel " + channelName);
             textChannel.sendMessage(message);
         } else {
-            plugin.logDebug("DiscordSRVHook: " + message);
+            plugin.logDebug("DiscordSRVHook: Unable to find channel: " + channelName);
+            plugin.logDebug("DiscordSRVHook: Channel list: " + DiscordSRV.channels.keySet());
+            plugin.logDebug("DiscordSRVHook: Sending message to ChatChannel instead: " + chatChannel.getName());
             DiscordSRV.sendMessageToChatChannel(message);
         }
 

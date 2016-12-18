@@ -149,7 +149,7 @@ public class TemplateName {
     public final static String GAME_ADMIN_CHAT = "game-a-chat";
     public final static String IRC_ADMIN_CHAT = "irc-a-chat";
     
-    public final static String GAME_DISCORD_CHAT = "discord-chat";
+    public final static String DISCORD_CHAT = "discord-chat";
     public final static String IRC_DISCORD_CHAT = "irc-discord-chat";
 
     public final static String FAKE_JOIN = "fake-join";
