@@ -151,7 +151,7 @@ message-format:
   # AdminPrivateChat message from IRC to game
   irc-a-chat: '[AdminChat] [&4IRC&r] %MESSAGE%'
   # Messages from Discord
-  discord-chat: '[Discord] %MESSAGE%'
+  discord-chat: '[Discord]<%NAME%> %MESSAGE%'
   # Messages from IRC to Discord
   irc-discord-chat: '[IRC]<%NAME%> %MESSAGE%'
   # Message template for Clevernotch bot to IRC messages
