@@ -153,7 +153,7 @@ message-format:
   # Messages from Discord
   discord-chat: '[Discord] %MESSAGE%'
   # Messages from IRC to Discord
-  irc-discord-chat: '[&4IRC&r]<%NAME%> %MESSAGE%'
+  irc-discord-chat: '[IRC]<%NAME%> %MESSAGE%'
   # Message template for Clevernotch bot to IRC messages
   clever-send: '[&4BOT]<%NAME%> %MESSAGE%'
   # Message templates for mcMMO to IRC messages
