@@ -19,9 +19,8 @@ package com.cnaude.purpleirc.GameListeners;
 import com.cnaude.purpleirc.PurpleBot;
 import com.cnaude.purpleirc.PurpleIRC;
 import com.scarsz.discordsrv.api.DiscordSRVListener;
-import com.scarsz.discordsrv.api.events.ProcessChatEvent;
-import com.scarsz.discordsrv.jda.events.message.MessageReceivedEvent;
-import org.bukkit.event.EventHandler;
+import com.scarsz.discordsrv.jda.events.Event;
+import com.scarsz.discordsrv.jda.events.message.guild.GuildMessageReceivedEvent;
 
 /**
  *
@@ -39,32 +38,17 @@ public class DiscordListener extends DiscordSRVListener {
         this.plugin = plugin;
     }
 
-    /**
-     *
-     * @param event
-     */
-    @EventHandler
-    public void onProcessChatEvent(ProcessChatEvent event) {
-
-    }
-
     @Override
-    public void onDiscordMessageReceived(MessageReceivedEvent event) {
-        plugin.logDebug("onDiscordMessageReceived: " + event.getMessage().getContent());
-        for (PurpleBot ircBot : plugin.ircBots.values()) {
-            ircBot.discordChat(event.getMessage().getAuthor().getUsername(),
-                    event.getMessage().getChannelId(),
-                    event.getMessage().getContent());
+    public void onRawDiscordEventReceived(Event event) {
+        if (event instanceof GuildMessageReceivedEvent) {
+            GuildMessageReceivedEvent guildMessageEvent = (GuildMessageReceivedEvent) event;
+            for (PurpleBot ircBot : plugin.ircBots.values()) {
+                ircBot.discordChat(guildMessageEvent.getMessage().getAuthor().getUsername(),
+                        guildMessageEvent.getMessage().getChannelId(),
+                        guildMessageEvent.getMessage().getContent());
+            }
         }
+
     }
 
-    /*
-    @Override
-    public void onProcessChat(ProcessChatEvent event) {
-        plugin.logDebug("onProcessChat: " + event.message);
-        for (PurpleBot ircBot : plugin.ircBots.values()) {
-            ircBot.discordChat(event.sender, event.channel, event.message);
-        }
-    }
-     */
 }
