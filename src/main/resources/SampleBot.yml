@@ -277,6 +277,7 @@ channels:
     - stm-comment
     # Messages from Discord
     - discord-chat
+    #- discord-[CHANNEL]-chat
     # Messages from IRC to discord
     - irc-discord-chat
     # Catch /broadcast messages

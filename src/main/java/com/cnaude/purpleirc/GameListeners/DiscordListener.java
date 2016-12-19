@@ -18,9 +18,13 @@ package com.cnaude.purpleirc.GameListeners;
 
 import com.cnaude.purpleirc.PurpleBot;
 import com.cnaude.purpleirc.PurpleIRC;
+import com.scarsz.discordsrv.DiscordSRV;
 import com.scarsz.discordsrv.api.DiscordSRVListener;
+import com.scarsz.discordsrv.jda.entities.TextChannel;
 import com.scarsz.discordsrv.jda.events.Event;
 import com.scarsz.discordsrv.jda.events.message.guild.GuildMessageReceivedEvent;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  *
@@ -41,10 +45,11 @@ public class DiscordListener extends DiscordSRVListener {
     @Override
     public void onRawDiscordEventReceived(Event event) {
         if (event instanceof GuildMessageReceivedEvent) {
+            
             GuildMessageReceivedEvent guildMessageEvent = (GuildMessageReceivedEvent) event;
             for (PurpleBot ircBot : plugin.ircBots.values()) {
                 ircBot.discordChat(guildMessageEvent.getMessage().getAuthor().getUsername(),
-                        guildMessageEvent.getMessage().getChannelId(),
+                        guildMessageEvent.getChannel().getName(),
                         guildMessageEvent.getMessage().getContent());
             }
         }

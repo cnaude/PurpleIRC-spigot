@@ -1553,19 +1553,20 @@ public final class PurpleBot {
      * Called from Discord ProcessChatEvent
      *
      * @param username
-     * @param channelId
+     * @param discordChannel
      * @param message
      */
-    public void discordChat(String username, String channelId, String message) {
+    public void discordChat(String username, String discordChannel, String message) {
         if (!this.isConnected()) {
             return;
         }
         for (String channelName : botChannels) {
-            if (isMessageEnabled(channelName, TemplateName.DISCORD_CHAT)) {
+            if (isMessageEnabled(channelName, TemplateName.DISCORD_CHAT)
+                    || isMessageEnabled(channelName, "discord-" + discordChannel + "-chat")) {
                 asyncIRCMessage(channelName, plugin.tokenizer
                         .gameChatToIRCTokenizer(username, plugin.getMessageTemplate(
                                 botNick, channelName, TemplateName.DISCORD_CHAT), message)
-                        .replace("%CHANNEL%", channelId)
+                        .replace("%CHANNEL%", discordChannel)
                 );
             }
         }
@@ -1723,7 +1724,11 @@ public final class PurpleBot {
     /**
      *
      * @param player
+     * @param blockName
+     * @param oreName
      * @param vein
+     * @param oreColor
+     * @param loc
      */
     public void gameOreBroadcast(Player player, String blockName, String oreName, ChatColor oreColor, Set<Block> vein, Location loc) {
         if (!this.isConnected()) {
