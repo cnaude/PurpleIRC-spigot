@@ -20,6 +20,8 @@ import com.cnaude.purpleirc.Events.VentureChatEvent;
 import com.cnaude.purpleirc.PurpleBot;
 import com.cnaude.purpleirc.PurpleIRC;
 import com.cnaude.purpleirc.TemplateName;
+import java.util.Set;
+import mineverse.Aust1n46.chat.MineverseChat;
 import mineverse.Aust1n46.chat.api.MineverseChatAPI;
 import mineverse.Aust1n46.chat.api.MineverseChatPlayer;
 import mineverse.Aust1n46.chat.channel.ChatChannel;
@@ -35,6 +37,7 @@ import org.bukkit.event.Listener;
 public class VentureChatListener implements Listener {
 
     final PurpleIRC plugin;
+    final MineverseChat vcPlugin;
 
     /**
      *
@@ -42,6 +45,7 @@ public class VentureChatListener implements Listener {
      */
     public VentureChatListener(PurpleIRC plugin) {
         this.plugin = plugin;
+        this.vcPlugin = (MineverseChat)plugin.getServer().getPluginManager().getPlugin("VentureChat");
     }
 
     /**
@@ -51,7 +55,7 @@ public class VentureChatListener implements Listener {
     @EventHandler(ignoreCancelled = true, priority = EventPriority.NORMAL)
     public void onVentureChatEvent(VentureChatEvent event) {
         plugin.logDebug("Entering onVentureChatEvent: " + event.getMessage());
-        ventureChat(event.getPlayer(), event.getMessage(), event.getBot(), event.getIrcChannel());
+        ventureChat(event.getPlayer(), event.getMessage(), event.getFormat(), event.getBot(), event.getIrcChannel());
     }
 
     /**
@@ -59,13 +63,15 @@ public class VentureChatListener implements Listener {
      *
      * @param player the player
      * @param message the message
+     * @param format
      * @param bot the calling bot
      * @param channelName destination IRC channel
      */
-    public void ventureChat(Player player, String message, PurpleBot bot, String channelName) {
+    public void ventureChat(Player player, String message, String format, PurpleBot bot, String channelName) {        
         MineverseChatPlayer mcp = MineverseChatAPI.getMineverseChatPlayer(player);
         ChatChannel eventChannel = mcp.getCurrentChannel();
-        if (mcp.isQuickChat()) { //for single message chat detection
+        Set<String>vcChannels = vcPlugin.getConfig().getConfigurationSection("channels").getKeys(false);        
+        if (mcp.isQuickChat()) { //for single message chat detection (not alias commands)
             eventChannel = mcp.getQuickChannel();
         }
         if (!bot.isConnected()) {
@@ -80,7 +86,12 @@ public class VentureChatListener implements Listener {
         if (!bot.isPlayerInValidWorld(player, channelName)) {
             return;
         }
-        plugin.logDebug("VC Channel: " + vcChannel);
+        for (String vcc : vcChannels) {
+            if (format.contains(vcc)) {
+                vcChannel = vcc;
+            }
+        }
+        plugin.logDebug("VC [format: " + format + "] [channel " + vcChannel + "]");
         String channelTemplateName = "venture-" + vcChannel + "-chat";
         if (bot.isMessageEnabled(channelName, channelTemplateName)
                 || bot.isMessageEnabled(channelName, TemplateName.VENTURE_CHAT)) {

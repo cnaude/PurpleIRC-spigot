@@ -6,7 +6,7 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <!-- Bukkit API Version, change if out dated -->
-        <bukkit.version>1.11</bukkit.version>
+        <bukkit.version>1.11.1</bukkit.version>
         <build.number>SNAPSHOT</build.number>
     </properties>
 
@@ -148,7 +148,7 @@
             <type>jar</type>
             <scope>provided</scope>
         </dependency>
-               
+        
         <!-- PircBotX -->
         <dependency>
             <groupId>com.cnaude.pircbotx</groupId>
@@ -230,7 +230,7 @@
         <dependency>
             <groupId>com.cnaude.venturechat</groupId>
             <artifactId>VentureChat</artifactId>
-            <version>2.7.3</version>
+            <version>2.11.0</version>
         </dependency>
         
         <!-- Jobs -->
