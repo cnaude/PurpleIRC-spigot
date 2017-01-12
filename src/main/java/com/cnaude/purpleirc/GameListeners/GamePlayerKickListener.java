@@ -45,12 +45,18 @@ public class GamePlayerKickListener implements Listener {
      */
     @EventHandler(priority = EventPriority.LOWEST)
     public void onPlayerKickEvent(PlayerKickEvent event) {
-        plugin.logDebug("KICK: " + event.getPlayer().getName());
-        if (!plugin.kickedPlayers.contains(event.getPlayer().getName())) {
-            plugin.kickedPlayers.add(event.getPlayer().getName());
+        plugin.logDebug("KICK: " + event.getPlayer().getName());        
+        if (plugin.kickedPlayers.contains(event.getPlayer().getName())) {
+            plugin.logDebug("Player "
+                    + event.getPlayer().getName()
+                    + " is in the recently kicked list. Not sending kick message.");
+            return;
         }
         for (PurpleBot ircBot : plugin.ircBots.values()) {
             ircBot.gameKick(event.getPlayer(), event.getLeaveMessage(), event.getReason());
+        }
+        if (!plugin.kickedPlayers.contains(event.getPlayer().getName())) {
+            plugin.kickedPlayers.add(event.getPlayer().getName());
         }
     }
 
