@@ -20,6 +20,7 @@ import com.cnaude.purpleirc.Events.IRCMessageEvent;
 import com.cnaude.purpleirc.GameListeners.AdminChatListener;
 import com.cnaude.purpleirc.GameListeners.CleverNotchListener;
 import com.cnaude.purpleirc.GameListeners.DeathMessagesListener;
+import com.cnaude.purpleirc.GameListeners.DeathMessagesPrimeListener;
 import com.cnaude.purpleirc.GameListeners.DynmapListener;
 import com.cnaude.purpleirc.GameListeners.EssentialsListener;
 import com.cnaude.purpleirc.GameListeners.GamePlayerChatListener;
@@ -235,6 +236,7 @@ public class PurpleIRC extends JavaPlugin {
     final String PL_DYNMAP = "dynmap";
     final String PL_SHORTIFY = "Shortify";
     final String PL_DEATHMESSAGES = "DeathMessages";
+    final String PL_DEATHMESSAGESPRIME = "DeathMessagesPrime";
     final String PL_JOBS = "Jobs";
     final String PL_COMMANDBOOK = "CommandBook";
     final String PL_ADMINPRIVATECHAT = "AdminPrivateChat";
@@ -1680,6 +1682,12 @@ public class PurpleIRC extends JavaPlugin {
             getServer().getPluginManager().registerEvents(new DeathMessagesListener(this), this);
         } else {
             hookList.add(hookFormat(PL_DEATHMESSAGES, false));
+        }
+        if (isPluginEnabled(PL_DEATHMESSAGESPRIME)) {
+            hookList.add(hookFormat(PL_DEATHMESSAGESPRIME, true));
+            getServer().getPluginManager().registerEvents(new DeathMessagesPrimeListener(this), this);
+        } else {
+            hookList.add(hookFormat(PL_DEATHMESSAGESPRIME, false));
         }
         if (isPluginEnabled(PL_SHORTIFY)) {
             String shortifyVersion = getServer().getPluginManager().getPlugin(PL_SHORTIFY).getDescription().getVersion();
