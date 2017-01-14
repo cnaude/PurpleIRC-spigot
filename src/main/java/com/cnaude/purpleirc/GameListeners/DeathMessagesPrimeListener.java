@@ -19,7 +19,7 @@ package com.cnaude.purpleirc.GameListeners;
 import com.cnaude.purpleirc.PurpleBot;
 import com.cnaude.purpleirc.PurpleIRC;
 import com.cnaude.purpleirc.TemplateName;
-import net.memmove.bukkit.deathmsg.DeathMessageBroadcastEvent;
+import net.memmove.bukkit.deathmsg.DeathMessagePreparedEvent;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 
@@ -44,10 +44,11 @@ public class DeathMessagesPrimeListener implements Listener {
      * @param event
      */
     @EventHandler
-    public void onDeathMessageEvent(DeathMessageBroadcastEvent event) {
-        plugin.logDebug("onDeathMessageBroadcastEvent caught");
+    public void onDeathMessageEvent(DeathMessagePreparedEvent event) {
+        String message = event.getMessage().duplicate().toLegacyText();
+        plugin.logDebug("onDeathMessageBroadcastEvent caught: " + message);
         for (PurpleBot ircBot : plugin.ircBots.values()) {
-            ircBot.gameDeath(event.getPlayer(), event.getMessage().getText(), TemplateName.DEATH_MESSAGES);
+            ircBot.gameDeath(event.getPlayer(), message, TemplateName.DEATH_MESSAGES);
         }
     }
 }
