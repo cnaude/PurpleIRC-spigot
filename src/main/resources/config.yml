@@ -340,8 +340,8 @@ nick-prefixes:
     op: '&c@'
     halfop: '&3%'
     voice: '&2+'
-# See http://site.pircbotx.googlecode.com/hg/apidocs/org/pircbotx/Colors.html for IRC color names
-# See http://jd.bukkit.org/rb/doxygen/d7/dc0/enumorg_1_1bukkit_1_1ChatColor.html for game color names
+# See http://thelq.github.io/pircbotx/latest/apidocs/org/pircbotx/Colors.html#field.summary for IRC color names
+# See https://hub.spigotmc.org/javadocs/spigot/org/bukkit/ChatColor.html#enum_constant_summary for game color names
 # Game to IRC color map: Game Color Code => IRC Color Code
 irc-color-map:
     AQUA: CYAN
