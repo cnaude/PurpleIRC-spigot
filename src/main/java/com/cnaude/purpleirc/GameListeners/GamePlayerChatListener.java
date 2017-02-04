@@ -48,6 +48,12 @@ public class GamePlayerChatListener implements Listener {
      */
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onAsyncPlayerChat(AsyncPlayerChatEvent event) {
+        if (plugin.essentialsChatHook != null) {
+            if (plugin.essentialsChatHook.isMuted(event.getPlayer())) {
+                plugin.logDebug("Ignore chat message due to Essentials mute: " + event.getMessage());
+                return;
+            }
+        }
         String message = event.getMessage();
         plugin.logDebug("ChatFormat [" + event.isCancelled() + "]: " + event.getFormat());
         if (message.startsWith(PurpleIRC.TOWNYTAG)) {

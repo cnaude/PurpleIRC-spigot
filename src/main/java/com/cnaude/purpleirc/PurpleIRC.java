@@ -50,6 +50,7 @@ import com.cnaude.purpleirc.Hooks.AdminPrivateChatHook;
 import com.cnaude.purpleirc.Hooks.CommandBookHook;
 import com.cnaude.purpleirc.Hooks.DiscordSRVHook;
 import com.cnaude.purpleirc.Hooks.DynmapHook;
+import com.cnaude.purpleirc.Hooks.EssentialsHook;
 import com.cnaude.purpleirc.Hooks.FactionChatHook;
 import com.cnaude.purpleirc.Hooks.GriefPreventionHook;
 import com.cnaude.purpleirc.Hooks.JobsHook;
@@ -206,6 +207,7 @@ public class PurpleIRC extends JavaPlugin {
     public CommandBookHook commandBookHook;
     public McMMOChatHook mcMMOChatHook;
     public PlaceholderApiHook placeholderApiHook;
+    public EssentialsHook essentialsChatHook;
     public NetPackets netPackets;
     public CommandHandlers commandHandlers;
     public PurpleTabCompleter ircTabCompleter;
@@ -225,7 +227,7 @@ public class PurpleIRC extends JavaPlugin {
     private final File uuidCacheFile;
     public int reconnectSuppression;
 
-    final String PL_ESSENTIALS = "Essentials";
+    public final String PL_ESSENTIALS = "Essentials";
     final String PL_REPORTRTS = "ReportRTS";
     final String PL_SIMPLETICKET = "SimpleTicketManager";
     final String PL_NTHE_END_AGAIN = "NTheEndAgain";
@@ -1007,7 +1009,7 @@ public class PurpleIRC extends JavaPlugin {
                 m = "Players on " + host + "("
                         + players.length
                         + "): " + Joiner.on(", ")
-                                .join(players);
+                        .join(players);
             }
             return m;
         } else {
@@ -1755,6 +1757,7 @@ public class PurpleIRC extends JavaPlugin {
         if (isPluginEnabled(PL_ESSENTIALS)) {
             hookList.add(hookFormat(PL_ESSENTIALS, true));
             getServer().getPluginManager().registerEvents(new EssentialsListener(this), this);
+            essentialsChatHook = new EssentialsHook(this);
         } else {
             hookList.add(hookFormat(PL_ESSENTIALS, false));
         }
@@ -1770,7 +1773,7 @@ public class PurpleIRC extends JavaPlugin {
         } else {
             hookList.add(hookFormat(PL_DISCORDSRV, false));
         }
-        
+
         if (isPluginEnabled(PL_UCHAT)) {
             getServer().getPluginManager().registerEvents(new UltimateChatListener(this), this);
         } else {
