@@ -41,7 +41,8 @@ chat-ping-fix: false
 #  %DISPLAYNAME% - Player's custom name
 #  %PLAYERIP% - IP address of a player
 #  %CHANNEL%
-#  %MESSAGE%
+#  %MESSAGE% - Message as is (may include colors from other plugins)
+#  %RAWMESSAGE% - Raw message with colors stripped out.
 #  %KICKER% - IRC kicker name
 #  %OLDTOPIC%
 #  %TOPIC%
