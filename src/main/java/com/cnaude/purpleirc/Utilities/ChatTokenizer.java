@@ -108,6 +108,25 @@ public class ChatTokenizer {
                 .replace("%SERVER%", server)
                 .replace("%AWAY%", away);
     }
+    
+    /**
+     *
+     * @param user
+     * @param oldNick
+     * @param newNick
+     * @param channelName
+     * @param ircBot
+     * @return
+     */
+    public String ircNickChangeTokenizer(User user, String oldNick, String newNick, String channelName, PurpleBot ircBot) {
+        String template = plugin.getMessageTemplate(ircBot.botNick, channelName, TemplateName.IRC_NICK_CHANGE);
+        String message = template.replace("%NEWNICK%", newNick)
+                            .replace("%OLDNICK%", oldNick)
+                            .replace("%CHANNEL%", channelName);
+        message = plugin.colorConverter.ircColorsToGame(ircUserTokenizer(message, user, ircBot));
+        
+        return plugin.colorConverter.ircColorsToGame(message);
+    }
 
     /**
      *

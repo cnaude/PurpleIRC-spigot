@@ -20,6 +20,7 @@ import com.cnaude.purpleirc.TemplateName;
 import com.cnaude.purpleirc.PurpleBot;
 import com.cnaude.purpleirc.PurpleIRC;
 import org.pircbotx.Channel;
+import org.pircbotx.User;
 import org.pircbotx.hooks.ListenerAdapter;
 import org.pircbotx.hooks.events.NickChangeEvent;
 
@@ -50,18 +51,16 @@ public class NickChangeListener extends ListenerAdapter {
     public void onNickChange(NickChangeEvent event) {
         String newNick = event.getNewNick();
         String oldNick = event.getOldNick();
+        User user = event.getUser();
         plugin.logDebug("OLD: " + oldNick);
         plugin.logDebug("NEW: " + newNick);
 
         for (String channelName : ircBot.channelNicks.keySet()) {
             Channel channel = ircBot.getChannel(channelName);
             if (channel != null) {
-                if (ircBot.enabledMessages.get(channelName).contains(TemplateName.IRC_NICK_CHANGE)) {
-                    plugin.broadcastToGame(plugin.colorConverter.ircColorsToGame(
-                            plugin.getMessageTemplate(ircBot.botNick, channelName, TemplateName.IRC_NICK_CHANGE)                            
-                            .replace("%NEWNICK%", newNick)
-                            .replace("%OLDNICK%", oldNick)
-                            .replace("%CHANNEL%", channelName)), "irc.message.nickchange");
+                if (ircBot.enabledMessages.get(channelName).contains(TemplateName.IRC_NICK_CHANGE)) {                   
+                    String message = plugin.tokenizer.ircNickChangeTokenizer(user, oldNick, newNick, channelName, ircBot);
+                    plugin.broadcastToGame(message, "irc.message.nickchange");
                 }
                 if (plugin.netPackets != null) {
                     plugin.netPackets.remFromTabList(oldNick);
