@@ -17,8 +17,9 @@
 package com.cnaude.purpleirc.Hooks;
 
 import com.cnaude.purpleirc.PurpleIRC;
-import java.util.List;
 import de.myzelyam.api.vanish.VanishAPI;
+import java.util.List;
+import java.util.UUID;
 import org.bukkit.entity.Player;
 
 /**
@@ -43,9 +44,9 @@ public class SuperVanishHook {
      * @return
      */
     public boolean isVanished(Player player) {
-        List<String> invisiblePlayers = VanishAPI.getInvisiblePlayers();
-        for (String uuid : invisiblePlayers) {
-            if (uuid.equalsIgnoreCase(player.getUniqueId().toString())) {
+        List<UUID> invisiblePlayers = VanishAPI.getInvisiblePlayers();
+        for (UUID uuid : invisiblePlayers) {
+            if (uuid.equals(player.getUniqueId())) {
                 plugin.logDebug("Player " + player.getName() + " is vanished.");
                 return true;
             }
