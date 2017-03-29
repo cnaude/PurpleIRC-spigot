@@ -17,11 +17,9 @@
 package com.cnaude.purpleirc.Hooks;
 
 import com.cnaude.purpleirc.GameListeners.DiscordListener;
-import com.cnaude.purpleirc.PurpleIRC;
-import com.scarsz.discordsrv.DiscordSRV;
-import com.scarsz.discordsrv.api.DiscordSRVAPI;
-import com.scarsz.discordsrv.api.DiscordSRVListener;
-import com.scarsz.discordsrv.jda.entities.TextChannel;
+import com.cnaude.purpleirc.PurpleIRC;import github.scarsz.discordsrv.DiscordSRV;
+import github.scarsz.discordsrv.dependancies.jda.core.entities.TextChannel;
+;
 
 /**
  *
@@ -30,7 +28,7 @@ import com.scarsz.discordsrv.jda.entities.TextChannel;
 public class DiscordSRVHook {
 
     private final PurpleIRC plugin;
-    private final DiscordSRVListener discordListener;
+    private final DiscordListener discordListener;
 
     /**
      *
@@ -39,25 +37,25 @@ public class DiscordSRVHook {
     public DiscordSRVHook(PurpleIRC plugin) {
         this.plugin = plugin;
         discordListener = new DiscordListener(this.plugin);
-        DiscordSRVAPI.addListener(discordListener);
+        DiscordSRV.api.subscribe(discordListener);
     }
     
     public void removeListener() {
-        DiscordSRVAPI.removeListener(discordListener);
+        DiscordSRV.api.unsubscribe(discordListener);
     }
 
     public void sendMessage(String channelName, String message) {
-        TextChannel textChannel = DiscordSRV.getTextChannelFromChannelName(channelName);
-        TextChannel chatChannel = DiscordSRV.chatChannel;
+        TextChannel textChannel = DiscordSRV.getPlugin().getDestinationTextChannelForGameChannelName(channelName);
+        TextChannel chatChannel = DiscordSRV.getPlugin().getMainTextChannel();
         plugin.logDebug("DiscordSRVHook: Message to be sent: " + message);
         if (textChannel != null) {
             plugin.logDebug("DiscordSRVHook: Sending mssage to channel " + channelName);
             textChannel.sendMessage(message);
         } else {
             plugin.logDebug("DiscordSRVHook: Unable to find channel: " + channelName);
-            plugin.logDebug("DiscordSRVHook: Channel list: " + DiscordSRV.channels.keySet());
+            plugin.logDebug("DiscordSRVHook: Channel list: " + DiscordSRV.getPlugin().getChannels().keySet());
             plugin.logDebug("DiscordSRVHook: Sending message to ChatChannel instead: " + chatChannel.getName());
-            DiscordSRV.sendMessageToChatChannel(message);
+            chatChannel.sendMessage(message);
         }
 
     }
