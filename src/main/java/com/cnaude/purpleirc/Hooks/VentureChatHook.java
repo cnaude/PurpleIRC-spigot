@@ -48,7 +48,7 @@ public class VentureChatHook {
             if (mcp != null) {
                 for (String listen : mcp.getListening()) {
                     if (listen.equalsIgnoreCase(channel)) {
-                        plugin.broadcastToPlayer(player, message, "irc.message.chat");
+                        plugin.broadcastToPlayer(message, channel, "irc.message.chat", player);
                     }
                 }
             }

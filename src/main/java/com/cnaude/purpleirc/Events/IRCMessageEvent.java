@@ -29,16 +29,19 @@ public class IRCMessageEvent extends Event {
 
     private static final HandlerList HANDLERS = new HandlerList();
     private String message;
+    private final String channel;
     private final String permission;
     private final Player player;
 
     /**
      *
      * @param message
+     * @param channel
      * @param permission
      */
-    public IRCMessageEvent(String message, String permission) {
+    public IRCMessageEvent(String message, String channel, String permission) {
         this.message = message;
+        this.channel = channel;
         this.permission = permission;
         this.player = null;
     }
@@ -46,11 +49,13 @@ public class IRCMessageEvent extends Event {
     /**
      *
      * @param message
+     * @param channel
      * @param permission
      * @param player
      */
-    public IRCMessageEvent(String message, String permission, Player player) {
+    public IRCMessageEvent(String message, String channel, String permission, Player player) {
         this.message = message;
+        this.channel = channel;
         this.permission = permission;
         this.player = player;
     }

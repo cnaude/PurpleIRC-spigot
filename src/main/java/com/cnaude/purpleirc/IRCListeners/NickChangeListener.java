@@ -60,7 +60,7 @@ public class NickChangeListener extends ListenerAdapter {
             if (channel != null) {
                 if (ircBot.enabledMessages.get(channelName).contains(TemplateName.IRC_NICK_CHANGE)) {                   
                     String message = plugin.tokenizer.ircNickChangeTokenizer(user, oldNick, newNick, channelName, ircBot);
-                    plugin.broadcastToGame(message, "irc.message.nickchange");
+                    plugin.broadcastToGame(message, channelName, "irc.message.nickchange");
                 }
                 if (plugin.netPackets != null) {
                     plugin.netPackets.remFromTabList(oldNick);

@@ -73,11 +73,11 @@ public class NoticeListener extends ListenerAdapter {
                     ircBot.linkRequests.put(user.getNick(), code);
                     plugin.broadcastToGame(ChatColor.LIGHT_PURPLE 
                             + "PurpleIRC bot link request from " 
-                            + ChatColor.WHITE + user.getNick(), "irc.link");
+                            + ChatColor.WHITE + user.getNick(), channel.getName(), "irc.link");
                     plugin.broadcastToGame(ChatColor.LIGHT_PURPLE + "To accept: "
                             + ChatColor.WHITE + "/irc linkaccept "
                             + ircBot.getFileName().replace(".yml", "") 
-                            + " " + user.getNick(), "irc.link");
+                            + " " + user.getNick(), channel.getName(), "irc.link");
                     return;
                 }
 

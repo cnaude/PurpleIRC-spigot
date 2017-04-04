@@ -1806,12 +1806,12 @@ public class PurpleIRC extends JavaPlugin {
         }
     }
 
-    public void broadcastToGame(final String message, final String permission) {
-        getServer().getPluginManager().callEvent(new IRCMessageEvent(message, permission));
+    public void broadcastToGame(final String message, final String channel, final String permission) {
+        getServer().getPluginManager().callEvent(new IRCMessageEvent(message, channel, permission));
     }
 
-    public void broadcastToPlayer(final Player player, final String message, final String permission) {
-        getServer().getPluginManager().callEvent(new IRCMessageEvent(message, permission, player));
+    public void broadcastToPlayer(final String message, final String channel, final String permission, final Player player) {
+        getServer().getPluginManager().callEvent(new IRCMessageEvent(message, channel, permission, player));
     }
 
     /**
