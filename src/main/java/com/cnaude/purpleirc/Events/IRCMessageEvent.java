@@ -88,6 +88,14 @@ public class IRCMessageEvent extends Event {
      *
      * @return
      */
+    public String getChannel() {
+        return this.channel;
+    }
+
+    /**
+     *
+     * @return
+     */
     @Override
     public HandlerList getHandlers() {
         return HANDLERS;
