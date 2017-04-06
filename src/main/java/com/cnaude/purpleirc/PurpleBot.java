@@ -3118,7 +3118,7 @@ public final class PurpleBot {
                                     .targetChatResponseTokenizer(user.getNick(), pName, msg, responseTemplate));
                         }
                         plugin.logDebug("Tokenized message: " + t);
-                        player.sendMessage(t);
+                        plugin.broadcastToPlayer(t, channelName, "irc.message.chat", player);
                         ircPrivateMsgMap.put(pName, user.getNick());
                         if (logPrivateChat) {
                             plugin.logInfo("Private message from IRC: " + user.getNick() + " -> " + pName + ": " + msg);
