@@ -37,7 +37,7 @@ public class DiscordListener {
     public DiscordListener(PurpleIRC plugin) {
         this.plugin = plugin;
     }
-
+    
     @Subscribe(priority = ListenerPriority.MONITOR)
     public void discordMessageReceived(DiscordGuildMessageReceivedEvent event) {
         for (PurpleBot ircBot : plugin.ircBots.values()) {

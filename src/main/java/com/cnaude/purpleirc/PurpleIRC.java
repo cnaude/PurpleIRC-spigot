@@ -1770,6 +1770,7 @@ public class PurpleIRC extends JavaPlugin {
 
         if (isPluginEnabled(PL_DISCORDSRV)) {
             discHook = new DiscordSRVHook(this);
+            hookList.add(hookFormat(PL_DISCORDSRV, true));
         } else {
             hookList.add(hookFormat(PL_DISCORDSRV, false));
         }
@@ -1779,7 +1780,7 @@ public class PurpleIRC extends JavaPlugin {
         } else {
             hookList.add(hookFormat(PL_UCHAT, false));
         }
-
+        Collections.sort(hookList);
     }
 
     public void getPurpleHooks(CommandSender sender, boolean colors) {
@@ -1791,7 +1792,7 @@ public class PurpleIRC extends JavaPlugin {
             sender.sendMessage(header);
         } else {
             sender.sendMessage(ChatColor.stripColor(header));
-        }
+        }         
         for (String s : hookList) {
             if (colors) {
                 sender.sendMessage(s);
