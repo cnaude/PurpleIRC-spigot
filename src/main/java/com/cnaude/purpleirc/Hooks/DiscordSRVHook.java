@@ -19,6 +19,7 @@ package com.cnaude.purpleirc.Hooks;
 import com.cnaude.purpleirc.GameListeners.DiscordListener;
 import com.cnaude.purpleirc.PurpleIRC;import github.scarsz.discordsrv.DiscordSRV;
 import github.scarsz.discordsrv.dependancies.jda.core.entities.TextChannel;
+import github.scarsz.discordsrv.util.DiscordUtil;
 ;
 
 /**
@@ -49,13 +50,13 @@ public class DiscordSRVHook {
         TextChannel chatChannel = DiscordSRV.getPlugin().getMainTextChannel();
         plugin.logDebug("DiscordSRVHook: Message to be sent: " + message);
         if (textChannel != null) {
-            plugin.logDebug("DiscordSRVHook: Sending mssage to channel " + channelName);
-            textChannel.sendMessage(message);
+            plugin.logDebug("DiscordSRVHook: Sending message to channel " + channelName);
+            DiscordUtil.sendMessage(textChannel, message);
         } else {
             plugin.logDebug("DiscordSRVHook: Unable to find channel: " + channelName);
             plugin.logDebug("DiscordSRVHook: Channel list: " + DiscordSRV.getPlugin().getChannels().keySet());
             plugin.logDebug("DiscordSRVHook: Sending message to ChatChannel instead: " + chatChannel.getName());
-            chatChannel.sendMessage(message);
+            DiscordUtil.sendMessage(chatChannel, message);
         }
 
     }

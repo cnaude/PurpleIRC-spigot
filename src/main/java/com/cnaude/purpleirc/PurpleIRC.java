@@ -1774,9 +1774,9 @@ public class PurpleIRC extends JavaPlugin {
         } else {
             hookList.add(hookFormat(PL_DISCORDSRV, false));
         }
-
         if (isPluginEnabled(PL_UCHAT)) {
             getServer().getPluginManager().registerEvents(new UltimateChatListener(this), this);
+            hookList.add(hookFormat(PL_UCHAT, true));
         } else {
             hookList.add(hookFormat(PL_UCHAT, false));
         }
