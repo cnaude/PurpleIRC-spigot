@@ -44,13 +44,14 @@ public class SuperVanishHook {
      * @return
      */
     public boolean isVanished(Player player) {
-        List<UUID> invisiblePlayers = VanishAPI.getInvisiblePlayers();
-        for (UUID uuid : invisiblePlayers) {
+        List<UUID> allinvisiblePlayers = VanishAPI.getAllInvisiblePlayers();
+        for (UUID uuid : allinvisiblePlayers) {
             if (uuid.equals(player.getUniqueId())) {
                 plugin.logDebug("Player " + player.getName() + " is vanished.");
                 return true;
             }
         }
+        plugin.logDebug("Player " + player.getName() + " is not vanished.");
         return false;
     }
 }
