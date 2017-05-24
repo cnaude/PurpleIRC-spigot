@@ -1899,7 +1899,7 @@ public final class PurpleBot {
         if (!this.isConnected() || advancement == null || player == null) {
             return;
         }
-        String message = advancement.toString();
+        String message = Joiner.on(" ").join(advancement.getCriteria());
         for (String channelName : botChannels) {
             if (isMessageEnabled(channelName, TemplateName.GAME_ADVANCEMENT)
                     && isPlayerInValidWorld(player, channelName)) {
