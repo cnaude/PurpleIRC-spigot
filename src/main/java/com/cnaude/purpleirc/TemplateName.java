@@ -23,6 +23,7 @@ package com.cnaude.purpleirc;
 public class TemplateName {
 
     public final static String GAME_ACHIEVEMENT = "game-achievement";
+    public final static String GAME_ADVANCEMENT = "game-advancement";
     public final static String GAME_ACTION = "game-action";
     public final static String GAME_AFK = "game-afk";
     public final static String GAME_CHAT = "game-chat";

@@ -70,6 +70,7 @@ import org.bukkit.Achievement;
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
+import org.bukkit.advancement.Advancement;
 import org.bukkit.block.Block;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.InvalidConfigurationException;
@@ -1889,6 +1890,26 @@ public final class PurpleBot {
         }
     }
 
+    /**
+     *
+     * @param player
+     * @param advancement
+     */
+    public void gameAdvancement(Player player, Advancement advancement) {
+        if (!this.isConnected() || advancement == null || player == null) {
+            return;
+        }
+        String message = advancement.toString();
+        for (String channelName : botChannels) {
+            if (isMessageEnabled(channelName, TemplateName.GAME_ADVANCEMENT)
+                    && isPlayerInValidWorld(player, channelName)) {
+                asyncIRCMessage(channelName, plugin.tokenizer
+                        .gameChatToIRCTokenizer(player, plugin
+                                .getMessageTemplate(botNick, channelName, TemplateName.GAME_ADVANCEMENT), message));
+            }
+        }
+    }
+    
     /**
      *
      * @param player

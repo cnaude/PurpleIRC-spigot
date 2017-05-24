@@ -30,6 +30,7 @@ import com.cnaude.purpleirc.GameListeners.GamePlayerGameModeChangeListener;
 import com.cnaude.purpleirc.GameListeners.GamePlayerJoinListener;
 import com.cnaude.purpleirc.GameListeners.GamePlayerKickListener;
 import com.cnaude.purpleirc.GameListeners.GamePlayerPlayerAchievementAwardedListener;
+import com.cnaude.purpleirc.GameListeners.GamePlayerPlayerAdvancementDoneListener;
 import com.cnaude.purpleirc.GameListeners.GamePlayerQuitListener;
 import com.cnaude.purpleirc.GameListeners.GameServerCommandListener;
 import com.cnaude.purpleirc.GameListeners.HeroChatListener;
@@ -314,7 +315,11 @@ public class PurpleIRC extends JavaPlugin {
             }
         }
         getServer().getPluginManager().registerEvents(new IRCMessageListener(this), this);
-        getServer().getPluginManager().registerEvents(new GamePlayerPlayerAchievementAwardedListener(this), this);
+        if (getServer().getVersion().contains("MC: 1.12")) {
+            getServer().getPluginManager().registerEvents(new GamePlayerPlayerAdvancementDoneListener(this), this);
+        } else {
+            getServer().getPluginManager().registerEvents(new GamePlayerPlayerAchievementAwardedListener(this), this);
+        }
         getServer().getPluginManager().registerEvents(new GamePlayerGameModeChangeListener(this), this);
         getServer().getPluginManager().registerEvents(new GamePlayerChatListener(this), this);
         getServer().getPluginManager().registerEvents(new GamePlayerCommandPreprocessingListener(this), this);
@@ -1009,7 +1014,7 @@ public class PurpleIRC extends JavaPlugin {
                 m = "Players on " + host + "("
                         + players.length
                         + "): " + Joiner.on(", ")
-                        .join(players);
+                                .join(players);
             }
             return m;
         } else {
@@ -1792,7 +1797,7 @@ public class PurpleIRC extends JavaPlugin {
             sender.sendMessage(header);
         } else {
             sender.sendMessage(ChatColor.stripColor(header));
-        }         
+        }
         for (String s : hookList) {
             if (colors) {
                 sender.sendMessage(s);

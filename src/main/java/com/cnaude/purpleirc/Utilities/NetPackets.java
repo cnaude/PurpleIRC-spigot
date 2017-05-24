@@ -121,7 +121,7 @@ public class NetPackets {
                 packet.getIntegers().write(1, 0);
                 packet.getIntegers().write(2, 0);
                 packet.getStrings().write(0, displayName);
-            } catch (Exception ex) {
+            } catch (FieldAccessException ex) {
                 plugin.logError("tabPacket: " + ex.getMessage());
             }
         } else if (version.contains("MC: 1.8.3")) {

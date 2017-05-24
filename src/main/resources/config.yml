@@ -103,6 +103,7 @@ message-format:
   # Command sent notification. Blank this to disable this message.
   command-sent: 'Command sent: %COMMAND%'
   game-achievement: '[&2%WORLD%&r] %NAME% has just earned the achievement [%MESSAGE%]'
+  game-advancement: '[&2%WORLD%&r] %NAME% has just earned the advancement [%MESSAGE%]'
   game-mode: '[&2%WORLD%&r] %NAME% has changed game mode: [%MESSAGE%]'
   game-action: '[&2%WORLD%&r]***%NAME% %MESSAGE%'
   game-pchat: '[&2%WORLD%] <%NAME%> %MESSAGE%'

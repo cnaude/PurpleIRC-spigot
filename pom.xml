@@ -6,13 +6,13 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <!-- Bukkit API Version, change if out dated -->
-        <bukkit.version>1.11.2</bukkit.version>
+        <bukkit.version>1.12</bukkit.version>
         <build.number>SNAPSHOT</build.number>
     </properties>
 
     <groupId>com.cnaude</groupId>
     <artifactId>PurpleIRC</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>1.0-${build.number}</version>
     <name>PurpleIRC-spigot</name>
     <description>Minecraft IRC integration for CraftBukkit/Spigot servers.</description>
     <url>http://www.spigotmc.org/resources/purpleirc.2836/</url>
