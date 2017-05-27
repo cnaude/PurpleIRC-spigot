@@ -49,6 +49,10 @@ public class DynmapHook {
         if (message == null) {
             return;
         }
-        dynmapAPI.sendBroadcastToWeb(nick, message);
+        try {
+            dynmapAPI.sendBroadcastToWeb(nick, message);
+        } catch (Exception ex) {
+            plugin.logError("DynmapHook:sendMessage: " + ex.getMessage());
+        }
     }
 }
