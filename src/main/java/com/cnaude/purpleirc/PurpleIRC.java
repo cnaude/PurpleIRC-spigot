@@ -98,6 +98,7 @@ import java.util.UUID;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.apache.commons.codec.binary.Base64;
+import org.apache.commons.lang3.RandomStringUtils;
 import org.bukkit.ChatColor;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandSender;
@@ -257,8 +258,8 @@ public class PurpleIRC extends JavaPlugin {
     final String PL_DISCORDSRV = "DiscordSRV";
     final String PL_UCHAT = "UltimateChat";
     List<String> hookList = new ArrayList<>();
-    public static final String PURPLETAG = "UHVycGxlSVJDCg==";
-    public static final String TOWNYTAG = "VG93bnlDaGF0Cg==";
+    public static final String PURPLETAG = RandomStringUtils.randomAlphanumeric(10) + "UHVycGxlSVJDCg==";
+    public static final String TOWNYTAG = RandomStringUtils.randomAlphanumeric(10) + "VG93bnlDaGF0Cg==";
     public static final String LINK_CMD = "PurpleIRC-Link:";
     public boolean overrideMsgCmd = false;
     public String smsgAlias = "/m";
