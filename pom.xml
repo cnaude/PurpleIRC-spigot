@@ -130,6 +130,14 @@
             <scope>provided</scope>
         </dependency>
         
+        <dependency>
+            <groupId>org.bukkit</groupId>
+            <artifactId>spigot-112</artifactId>
+            <version>1.12</version>
+            <type>jar</type>
+            <scope>provided</scope>
+        </dependency>
+        
         <!-- PircBotX -->
         <dependency>
             <groupId>com.cnaude.pircbotx</groupId>

@@ -183,13 +183,24 @@ public class NetPackets {
             } catch (Exception ex) {
                 plugin.logError("tabPacket: " + ex.getMessage());
             }
-            } else if (version.contains("MC: 1.11")) {
+        } else if (version.contains("MC: 1.11")) {
             try {
                 if (add) {
                     return NetPacket_111.add(displayName);
                 } else {
                     plugin.logDebug("T111: Removing: " + name);
                     return NetPacket_111.rem(displayName);
+                }
+            } catch (Exception ex) {
+                plugin.logError("tabPacket: " + ex.getMessage());
+            }
+        } else if (version.contains("MC: 1.12")) {
+            try {
+                if (add) {
+                    return NetPacket_112.add(displayName);
+                } else {
+                    plugin.logDebug("T112: Removing: " + name);
+                    return NetPacket_112.rem(displayName);
                 }
             } catch (Exception ex) {
                 plugin.logError("tabPacket: " + ex.getMessage());
