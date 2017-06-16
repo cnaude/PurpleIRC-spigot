@@ -1814,11 +1814,17 @@ public class PurpleIRC extends JavaPlugin {
     }
 
     public void broadcastToGame(final String message, final String channel, final String permission) {
-        getServer().getPluginManager().callEvent(new IRCMessageEvent(message, channel, permission));
+        IRCMessageEvent event = new IRCMessageEvent(message, channel, permission);
+        if (!event.isCancelled()) {
+            getServer().getPluginManager().callEvent(event);
+        }
     }
 
     public void broadcastToPlayer(final String message, final String channel, final String permission, final Player player) {
-        getServer().getPluginManager().callEvent(new IRCMessageEvent(message, channel, permission, player));
+        IRCMessageEvent event = new IRCMessageEvent(message, channel, permission, player);
+        if (!event.isCancelled()) {
+            getServer().getPluginManager().callEvent(event);
+        }
     }
 
     /**

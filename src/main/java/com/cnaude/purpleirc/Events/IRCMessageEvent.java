@@ -17,6 +17,7 @@
 package com.cnaude.purpleirc.Events;
 
 import org.bukkit.entity.Player;
+import org.bukkit.event.Cancellable;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 
@@ -25,13 +26,14 @@ import org.bukkit.event.HandlerList;
  * @author Chris Naude Event listener for plugins that want to catch irc message
  * events from PurpleIRC
  */
-public class IRCMessageEvent extends Event {
+public class IRCMessageEvent extends Event implements Cancellable{
 
     private static final HandlerList HANDLERS = new HandlerList();
     private String message;
     private final String channel;
     private final String permission;
     private final Player player;
+    private boolean cancelled;
 
     /**
      *
@@ -116,5 +118,15 @@ public class IRCMessageEvent extends Event {
      */
     public void setMessage(String message) {
         this.message = message;
+    }
+
+    @Override
+    public boolean isCancelled() {
+        return cancelled;
+    }
+
+    @Override
+    public void setCancelled(boolean cancel) {
+        cancelled = cancel;
     }
 }
