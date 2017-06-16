@@ -17,6 +17,7 @@
 package com.cnaude.purpleirc.Events;
 
 import com.cnaude.purpleirc.IRCCommand;
+import org.bukkit.event.Cancellable;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 
@@ -25,10 +26,11 @@ import org.bukkit.event.HandlerList;
  * @author Chris Naude Event listener for plugins that want to catch command events
  * from PurpleIRC
  */
-public class IRCCommandEvent extends Event {
+public class IRCCommandEvent extends Event implements Cancellable {
 
     private static final HandlerList HANDLERS = new HandlerList();
     private final IRCCommand ircCommand;
+    private boolean cancelled;
 
     /**
      *
@@ -61,5 +63,15 @@ public class IRCCommandEvent extends Event {
      */
     public static HandlerList getHandlerList() {
         return HANDLERS;
+    }
+
+    @Override
+    public boolean isCancelled() {
+        return cancelled;
+    }
+
+    @Override
+    public void setCancelled(boolean cancel) {
+        cancelled = cancel;
     }
 }
