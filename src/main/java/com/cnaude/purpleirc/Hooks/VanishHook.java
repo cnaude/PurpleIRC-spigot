@@ -19,6 +19,7 @@ package com.cnaude.purpleirc.Hooks;
 import com.cnaude.purpleirc.PurpleIRC;
 import org.bukkit.entity.Player;
 import org.bukkit.metadata.MetadataValue;
+import org.kitteh.vanish.staticaccess.VanishNoPacket;
 
 /**
  *
@@ -45,10 +46,12 @@ public class VanishHook {
         // Try SuperVanish first
         if (plugin.superVanishHook != null) {
             return plugin.superVanishHook.isVanished(player);
+        } else if (plugin.vanishNoPacketHook != null) {
+            return plugin.vanishNoPacketHook.isVanished(player);
         } else {
             // Fallback to other Vanish
             if (player.hasMetadata("vanished")) {
-                plugin.logDebug("Player " + player.getName() + " has vanished metadata.");
+                plugin.logDebug("Player " + player.getName() + " has vanished metadata" + player.getMetadata("vanished").get(0).asString());
                 MetadataValue md = player.getMetadata("vanished").get(0);
                 if (md.asBoolean()) {
                     plugin.logDebug("Player " + player.getName() + " is vanished.");

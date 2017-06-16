@@ -63,6 +63,7 @@ import com.cnaude.purpleirc.Hooks.ShortifyHook;
 import com.cnaude.purpleirc.Hooks.SuperVanishHook;
 import com.cnaude.purpleirc.Hooks.TownyChatHook;
 import com.cnaude.purpleirc.Hooks.VanishHook;
+import com.cnaude.purpleirc.Hooks.VanishNoPacketHook;
 import com.cnaude.purpleirc.Hooks.VaultHook;
 import com.cnaude.purpleirc.Utilities.CaseInsensitiveMap;
 import com.cnaude.purpleirc.Utilities.ChatTokenizer;
@@ -224,6 +225,7 @@ public class PurpleIRC extends JavaPlugin {
     public VaultHook vaultHelpers;
     public VanishHook vanishHook;
     public SuperVanishHook superVanishHook;
+    public VanishNoPacketHook vanishNoPacketHook;
     private YamlConfiguration heroConfig;
     private final File cacheFile;
     private final File uuidCacheFile;
@@ -1726,6 +1728,7 @@ public class PurpleIRC extends JavaPlugin {
         if (isPluginEnabled(PL_VANISHNOPACKET)) {
             hookList.add(hookFormat(PL_VANISHNOPACKET, true));
             getServer().getPluginManager().registerEvents(new VanishNoPacketListener(this), this);
+            vanishNoPacketHook = new VanishNoPacketHook(this);
         } else {
             hookList.add(hookFormat(PL_VANISHNOPACKET, false));
         }
@@ -1815,16 +1818,12 @@ public class PurpleIRC extends JavaPlugin {
 
     public void broadcastToGame(final String message, final String channel, final String permission) {
         IRCMessageEvent event = new IRCMessageEvent(message, channel, permission);
-        if (!event.isCancelled()) {
-            getServer().getPluginManager().callEvent(event);
-        }
+        getServer().getPluginManager().callEvent(event);
     }
 
     public void broadcastToPlayer(final String message, final String channel, final String permission, final Player player) {
         IRCMessageEvent event = new IRCMessageEvent(message, channel, permission, player);
-        if (!event.isCancelled()) {
-            getServer().getPluginManager().callEvent(event);
-        }
+        getServer().getPluginManager().callEvent(event);
     }
 
     /**

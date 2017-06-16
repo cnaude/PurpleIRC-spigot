@@ -86,9 +86,7 @@ public class CommandQueueWatcher {
                 plugin.logError("Error running command: " + ce.getMessage());
             }
             IRCCommandEvent event = new IRCCommandEvent(ircCommand);
-            if (!event.isCancelled()) {
-                plugin.getServer().getPluginManager().callEvent(event);
-            }
+            plugin.getServer().getPluginManager().callEvent(event);
         }
     }
 

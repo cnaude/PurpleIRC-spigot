@@ -45,6 +45,10 @@ public class IRCMessageListener implements Listener {
      */
     @EventHandler
     public void onIRCMessageEvent(IRCMessageEvent event) {
+        if (event.isCancelled()) {
+            plugin.logDebug("onIRCMessageEvent cancelled");
+            return;
+        }
         String permission = event.getPermission();
         String message = event.getMessage();        
         Player player = event.getPlayer();
