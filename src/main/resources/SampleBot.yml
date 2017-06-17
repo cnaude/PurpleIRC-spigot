@@ -41,6 +41,12 @@ autoconnect: 'false'
 password: ''
 # identify password (sent to NickServ)
 ident-password: ''
+# Attempt sasl connection
+sasl: false
+# SASL password
+sasl-password: ''
+# SASL username
+sasl-username: ''
 # command-prefix - The bot will listen for commands that start with this.
 command-prefix: '.'
 # quit-message - Message the bot will send when it quits the server

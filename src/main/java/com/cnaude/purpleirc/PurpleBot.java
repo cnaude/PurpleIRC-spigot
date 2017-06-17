@@ -82,6 +82,7 @@ import org.pircbotx.Configuration;
 import org.pircbotx.PircBotX;
 import org.pircbotx.User;
 import org.pircbotx.UtilSSLSocketFactory;
+import org.pircbotx.cap.SASLCapHandler;
 import org.pircbotx.cap.TLSCapHandler;
 import org.pircbotx.exception.IrcException;
 import org.pircbotx.hooks.ListenerAdapter;
@@ -102,6 +103,7 @@ public final class PurpleBot {
     public boolean autoConnect;
     public boolean ssl;
     public boolean tls;
+    public boolean sasl;
     public boolean trustAllCerts;
     public boolean disableDiffieHellman;
     public boolean sendRawMessageOnConnect;
@@ -127,6 +129,8 @@ public final class PurpleBot {
     public String commandPrefix;
     public String quitMessage;
     public String botIdentPassword;
+    public String saslUsername;
+    public String saslPassword;
     public List<String> rawMessages;
     public String channelCmdNotifyMode;
     public String partInvalidChannelsMsg;
@@ -137,7 +141,7 @@ public final class PurpleBot {
     public CaseInsensitiveMap<Boolean> tabIgnoreDuplicates;
     public CaseInsensitiveMap<Collection<String>> filters;
     public CaseInsensitiveMap<Collection<String>> factionTagFilters;
-    public ArrayList<String> tailerFilters;    
+    public ArrayList<String> tailerFilters;
     public CaseInsensitiveMap<String> channelPassword;
     public CaseInsensitiveMap<String> channelTopic;
     public CaseInsensitiveMap<Boolean> channelTopicChanserv;
@@ -323,6 +327,7 @@ public final class PurpleBot {
             }
         }
         Configuration.Builder configBuilder = new Configuration.Builder()
+                .setCapEnabled(sasl)
                 .setName(botNick)
                 .setLogin(botLogin)
                 .setAutoNickChange(true)
@@ -346,6 +351,10 @@ public final class PurpleBot {
                 plugin.logInfo("Setting IdentPassword ...");
             }
             configBuilder.setNickservPassword(botIdentPassword);
+        }
+        if (sasl) {
+            plugin.logInfo("Enabling SASL ...");
+            configBuilder.addCapHandler(new SASLCapHandler(saslUsername, saslPassword));
         }
         if (tls) {
             plugin.logInfo("Enabling TLS ...");
@@ -768,6 +777,7 @@ public final class PurpleBot {
             autoConnect = config.getBoolean("autoconnect", true);
             tls = config.getBoolean("tls", false);
             ssl = config.getBoolean("ssl", false);
+            sasl = config.getBoolean("sasl", false);
             ciphers = config.getStringList("ciphers");
             plugin.logDebug("Ciphers => " + ciphers);
             trustAllCerts = config.getBoolean("trust-all-certs", false);
@@ -801,6 +811,8 @@ public final class PurpleBot {
             botServerPort = config.getInt("port");
             botServerPass = config.getString("password", "");
             botIdentPassword = config.getString("ident-password", "");
+            saslUsername = config.getString("sasl-username", "");
+            saslPassword = config.getString("sasl-password", "");
             commandPrefix = config.getString("command-prefix", ".");
             chatDelay = config.getLong("message-delay", 1000);
             finger = config.getString("finger-reply", "PurpleIRC");
@@ -1248,7 +1260,7 @@ public final class PurpleBot {
                     connectMessage = "Connecting to " + botServer + ":"
                             + botServerPort + ": [Nick: " + botNick
                             + "] [SSL: " + ssl + "]" + " [TrustAllCerts: "
-                            + trustAllCerts + "] [TLS: " + tls + "]";
+                            + trustAllCerts + "] [TLS: " + tls + "] [SASL: " + sasl + "]";
                 }
             }
         } catch (IOException | InvalidConfigurationException ex) {
@@ -1909,7 +1921,7 @@ public final class PurpleBot {
             }
         }
     }
-    
+
     /**
      *
      * @param player
@@ -3198,7 +3210,7 @@ public final class PurpleBot {
         if (isMessageEnabled(channelName, TemplateName.IRC_ACTION)) {
             plugin.broadcastToGame(plugin.tokenizer.ircChatToGameTokenizer(
                     this, user, channel, plugin.getMessageTemplate(
-                            botNick, channelName, TemplateName.IRC_ACTION), message), 
+                            botNick, channelName, TemplateName.IRC_ACTION), message),
                     channelName, getIrcMessagePermission(channelName, "action"));
         } else {
             plugin.logDebug("Ignoring action due to "
@@ -3319,7 +3331,7 @@ public final class PurpleBot {
         if (isMessageEnabled(channel, TemplateName.IRC_MODE)) {
             plugin.broadcastToGame(plugin.tokenizer.ircModeTokenizer(this, user, mode,
                     channel, plugin.getMessageTemplate(
-                            botNick, channelName, TemplateName.IRC_MODE)), 
+                            botNick, channelName, TemplateName.IRC_MODE)),
                     channelName, getIrcMessagePermission(channelName, "mode"));
         }
     }
@@ -3336,7 +3348,7 @@ public final class PurpleBot {
         if (isMessageEnabled(channel, TemplateName.IRC_NOTICE)) {
             plugin.broadcastToGame(plugin.tokenizer.ircNoticeTokenizer(this, user,
                     message, notice, channel, plugin.getMessageTemplate(
-                            botNick, channelName, TemplateName.IRC_NOTICE)), 
+                            botNick, channelName, TemplateName.IRC_NOTICE)),
                     channelName, getIrcMessagePermission(channelName, "notice"));
         }
     }
