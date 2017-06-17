@@ -65,7 +65,7 @@ public class Nickserv implements IRCCommandInterface {
                     msg = msg + " " + args[i];
                 }
                 plugin.logDebug("Sending nickserv message to the server: " + msg.substring(1));
-                ircBot.asyncRawlineNow(msg.substring(1));                  
+                ircBot.asyncRawlineNow("nickserv " + msg.substring(1));                  
             }
         } else {
             sender.sendMessage(fullUsage);
