@@ -55,10 +55,12 @@
             <url>http://nexus.hc.to/content/repositories/pub_releases</url>
         </repository>
         
+        <!--
         <repository>
             <id>dmulloy2-repo</id>
             <url>http://repo.dmulloy2.net/content/groups/public/</url>
         </repository>
+        -->
         
         <repository>
             <id>placeholderapi</id>
@@ -429,7 +431,7 @@
         <dependency>
             <groupId>com.scarsz.discordsrv</groupId>
             <artifactId>DiscordSRV</artifactId>
-            <version>14.1</version>
+            <version>14.3</version>
             <scope>provided</scope>
         </dependency>
         
