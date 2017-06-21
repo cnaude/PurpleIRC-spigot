@@ -55,12 +55,27 @@ public class CommandQueueWatcher {
         if (ircCommand != null) {
             try {
                 String cmd = ircCommand.getGameCommand().split(" ")[0];
-                boolean isCommandBookCommand = false;
+
                 plugin.logDebug("CMD: " + cmd);
+                /*
+                boolean isCommandBookCommand = false;
                 if (plugin.commandBookHook != null) {
                     isCommandBookCommand = plugin.commandBookHook.isCommandBookCommand(cmd);
                     plugin.logDebug("Is this is a CommandBook command? " + Boolean.toString(isCommandBookCommand));
                 }
+                 */
+
+                try {
+                    plugin.logDebug("Dispatching command as IRCCommandSender: " + ircCommand.getGameCommand());
+                    plugin.getServer().dispatchCommand(ircCommand.getIRCCommandSender(), ircCommand.getGameCommand());
+                } catch (CommandException ex) {
+                    plugin.logDebug("Falling back to ConsoleSender: " + ircCommand.getGameCommand());
+
+                    plugin.getServer().dispatchCommand(ircCommand.getIRCConsoleCommandSender(), ircCommand.getGameCommand());
+                    ircCommand.getIRCConsoleCommandSender().sendMessage(plugin.tokenizer.ircCommandSentTokenizer(ircCommand.getGameCommand()));
+                }
+
+                /*
                 if ((plugin.getServer().getVersion().contains("MC: 1.8")
                         && (plugin.getServer().getVersion().contains("Spigot"))
                         && plugin.getServer().getPluginCommand(cmd) == null
@@ -81,7 +96,8 @@ public class CommandQueueWatcher {
                 } else {
                     plugin.logDebug("Dispatching command as IRCCommandSender: " + ircCommand.getGameCommand());
                     plugin.getServer().dispatchCommand(ircCommand.getIRCCommandSender(), ircCommand.getGameCommand());
-                }
+                } 
+                 */
             } catch (CommandException ce) {
                 plugin.logError("Error running command: " + ce.getMessage());
             }
