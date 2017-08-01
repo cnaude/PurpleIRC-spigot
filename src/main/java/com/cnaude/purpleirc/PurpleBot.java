@@ -3255,6 +3255,9 @@ public final class PurpleBot {
             }
         }
 
+        /*
+         Send IRC action messages to VentureChat if enabled
+         */
         if (plugin.dynmapHook != null) {
             if (isMessageEnabled(channelName, TemplateName.IRC_ACTION_DYNMAP_WEB_CHAT)) {
                 String template = plugin.getMessageTemplate(botNick, channelName, TemplateName.IRC_ACTION_DYNMAP_WEB_CHAT);
@@ -3263,6 +3266,21 @@ public final class PurpleBot {
                 plugin.dynmapHook.sendMessage(user.getNick(), rawDWMessage);
             }
         }
+
+        /*
+         Send IRC action messages to Discord if enabled
+         */
+        if (isMessageEnabled(channelName, TemplateName.IRC_DISCORD_ACTION) && plugin.discHook != null) {
+            String discordChannelName = discordChannel.get(channelName);
+            String discordTemplate = plugin.getMessageTemplate(botNick, channelName, TemplateName.IRC_DISCORD_ACTION);
+            plugin.logDebug("broadcastAction [Discord]: " + discordChannelName + ": " + discordTemplate);
+            String rawDiscordMessage = filterMessage(
+                    plugin.tokenizer.ircChatToDiscordTokenizer(this, user, channel, discordTemplate, message, discordChannelName), channelName);
+            if (!rawDiscordMessage.isEmpty()) {
+                plugin.discHook.sendMessage(discordChannelName, rawDiscordMessage);
+            }
+        }
+
     }
 
     /**
