@@ -347,7 +347,7 @@
         <dependency>
             <groupId>com.cnaude.deathmessagesprime</groupId>
             <artifactId>DeathMessagesPrime</artifactId>
-            <version>1.11.11</version>
+            <version>1.12.13</version>
         </dependency>
 
         <!-- Shortify -->

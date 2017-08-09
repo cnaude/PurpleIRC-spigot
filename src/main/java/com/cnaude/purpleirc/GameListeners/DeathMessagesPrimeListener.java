@@ -19,7 +19,7 @@ package com.cnaude.purpleirc.GameListeners;
 import com.cnaude.purpleirc.PurpleBot;
 import com.cnaude.purpleirc.PurpleIRC;
 import com.cnaude.purpleirc.TemplateName;
-import net.memmove.bukkit.deathmsg.DeathMessagePreparedEvent;
+import email.com.gmail.cosmoconsole.bukkit.deathmsg.DeathMessagePreparedEvent;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 
