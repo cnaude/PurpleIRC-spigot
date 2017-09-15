@@ -502,7 +502,6 @@ public class ChatTokenizer {
         if (hex.length() == 8) {
             hex = hex.substring(2);
         }
-        plugin.logError("HEX: " + hex);
         if (nickname == null) {
             nickname = "";
         }
