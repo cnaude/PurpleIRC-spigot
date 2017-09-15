@@ -47,6 +47,7 @@ import com.massivecraft.factions.entity.Faction;
 import com.massivecraft.factions.entity.MPlayer;
 import com.nyancraft.reportrts.data.Ticket;
 import com.titankingdoms.dev.titanchat.core.participant.Participant;
+import java.awt.Color;
 import java.io.File;
 import java.io.IOException;
 import java.net.InetAddress;
@@ -1566,20 +1567,21 @@ public final class PurpleBot {
      * Called from Discord ProcessChatEvent
      *
      * @param username
+     * @param nickname
      * @param discordChannel
+     * @param color
+     * @param effectiveName
      * @param message
      */
-    public void discordChat(String username, String discordChannel, String message) {
+    public void discordChat(String username, String nickname, String effectiveName, Color color, String discordChannel, String message) {
         if (!this.isConnected()) {
             return;
         }
         for (String channelName : botChannels) {
-            if (isMessageEnabled(channelName, TemplateName.DISCORD_CHAT)
-                    || isMessageEnabled(channelName, "discord-" + discordChannel + "-chat")) {
+            if (isMessageEnabled(channelName, TemplateName.DISCORD_CHAT) || isMessageEnabled(channelName, "discord-" + discordChannel + "-chat")) {
+                String template = plugin.getMessageTemplate(botNick, channelName, TemplateName.DISCORD_CHAT);
                 asyncIRCMessage(channelName, plugin.tokenizer
-                        .gameChatToIRCTokenizer(username, plugin.getMessageTemplate(
-                                botNick, channelName, TemplateName.DISCORD_CHAT), message)
-                        .replace("%CHANNEL%", discordChannel)
+                        .discordChatToIRCTokenizer(template, username, nickname, effectiveName, color, discordChannel, message)
                 );
             }
         }

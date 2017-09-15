@@ -24,6 +24,8 @@ import com.dthielke.herochat.ChannelManager;
 import com.gmail.nossr50.util.player.UserManager;
 import com.nyancraft.reportrts.data.Ticket;
 import com.palmergames.bukkit.TownyChat.channels.Channel;
+import github.scarsz.discordsrv.DiscordSRV;
+import java.awt.Color;
 import java.util.Set;
 import java.util.UUID;
 import org.bukkit.Bukkit;
@@ -108,7 +110,7 @@ public class ChatTokenizer {
                 .replace("%SERVER%", server)
                 .replace("%AWAY%", away);
     }
-    
+
     /**
      *
      * @param user
@@ -121,10 +123,10 @@ public class ChatTokenizer {
     public String ircNickChangeTokenizer(User user, String oldNick, String newNick, String channelName, PurpleBot ircBot) {
         String template = plugin.getMessageTemplate(ircBot.botNick, channelName, TemplateName.IRC_NICK_CHANGE);
         String message = template.replace("%NEWNICK%", newNick)
-                            .replace("%OLDNICK%", oldNick)
-                            .replace("%CHANNEL%", channelName);
+                .replace("%OLDNICK%", oldNick)
+                .replace("%CHANNEL%", channelName);
         message = plugin.colorConverter.ircColorsToGame(ircUserTokenizer(message, user, ircBot));
-        
+
         return plugin.colorConverter.ircColorsToGame(message);
     }
 
@@ -477,6 +479,43 @@ public class ChatTokenizer {
     public String gameChatToIRCTokenizer(String pName, String template, String message) {
         return plugin.colorConverter.gameColorsToIrc(template
                 .replace("%NAME%", pName)
+                .replace("%MESSAGE%", plugin.colorConverter.gameColorsToIrc(message))
+                .replace("%RAWMESSAGE%", ChatColor.stripColor(message))
+        );
+    }
+
+    /**
+     * Game chat to IRC
+     *
+     * @param username
+     * @param nickname
+     * @param effectiveName
+     * @param color
+     * @param discordChannel
+     * @param template
+     *
+     * @param message
+     * @return
+     */
+    public String discordChatToIRCTokenizer(String template, String username, String nickname, String effectiveName, Color color, String discordChannel, String message) {
+        String hex = Integer.toHexString(color.getRGB()).toUpperCase();
+        if (hex.length() == 8) {
+            hex = hex.substring(2);
+        }
+        plugin.logError("HEX: " + hex);
+        if (nickname == null) {
+            nickname = "";
+        }
+        if (effectiveName == null) {
+            effectiveName = "";
+        }
+        String colorCode = ChatColor.translateAlternateColorCodes('&', DiscordSRV.getPlugin().getColors().get(hex));
+        return plugin.colorConverter.gameColorsToIrc(template
+                .replace("%NAME%", username)
+                .replace("%NICKNAME%", nickname)
+                .replace("%EFFNAME%", effectiveName)
+                .replace("%COLOR%", colorCode)
+                .replace("%CHANNEL%", discordChannel)
                 .replace("%MESSAGE%", plugin.colorConverter.gameColorsToIrc(message))
                 .replace("%RAWMESSAGE%", ChatColor.stripColor(message))
         );

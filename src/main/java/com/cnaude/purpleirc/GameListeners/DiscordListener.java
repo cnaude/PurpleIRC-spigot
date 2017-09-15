@@ -42,9 +42,13 @@ public class DiscordListener {
     public void onDiscordGuildMessageReceivedEvent(DiscordGuildMessageReceivedEvent event) {
         for (PurpleBot ircBot : plugin.ircBots.values()) {
             ircBot.discordChat(event.getMessage().getAuthor().getName(),
+                    event.getMember().getNickname(),
+                    event.getMember().getEffectiveName(),
+                    event.getMember().getColor(),
                     event.getChannel().getName(),
                     event.getMessage().getContent());
         }
+
     }
 
 }
