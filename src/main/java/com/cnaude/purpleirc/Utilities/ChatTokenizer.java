@@ -498,7 +498,7 @@ public class ChatTokenizer {
      * @return
      */
     public String discordChatToIRCTokenizer(String template, String username, String nickname, String effectiveName, Color color, String discordChannel, String message) {
-        String hex = Integer.toHexString(color.getRGB()).toUpperCase();
+        String hex = color != null ? Integer.toHexString(color.getRGB()).toUpperCase() : "99AAB5";
         if (hex.length() == 8) {
             hex = hex.substring(2);
         }
@@ -509,7 +509,11 @@ public class ChatTokenizer {
         if (effectiveName == null) {
             effectiveName = "";
         }
-        String colorCode = ChatColor.translateAlternateColorCodes('&', DiscordSRV.getPlugin().getColors().get(hex));
+        String translatedColor = DiscordSRV.getPlugin().getColors().get(hex);
+        String colorCode = ChatColor.translateAlternateColorCodes('&', translatedColor);
+        if (colorCode == null) {
+            colorCode = "";
+        }
         return plugin.colorConverter.gameColorsToIrc(template
                 .replace("%NAME%", username)
                 .replace("%NICKNAME%", nickname)
