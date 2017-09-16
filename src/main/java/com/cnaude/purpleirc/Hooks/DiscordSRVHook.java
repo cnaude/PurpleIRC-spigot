@@ -48,15 +48,16 @@ public class DiscordSRVHook {
     public void sendMessage(String channelName, String message) {
         TextChannel textChannel = DiscordSRV.getPlugin().getDestinationTextChannelForGameChannelName(channelName);
         TextChannel chatChannel = DiscordSRV.getPlugin().getMainTextChannel();
+        String discordMessage = DiscordUtil.convertMentionsFromNames(message, DiscordSRV.getPlugin().getMainGuild());
         plugin.logDebug("DiscordSRVHook: Message to be sent: " + message);
         if (textChannel != null) {
             plugin.logDebug("DiscordSRVHook: Sending message to channel " + channelName);
-            DiscordUtil.sendMessage(textChannel, message);
+            DiscordUtil.sendMessage(textChannel, discordMessage);
         } else {
             plugin.logDebug("DiscordSRVHook: Unable to find channel: " + channelName);
             plugin.logDebug("DiscordSRVHook: Channel list: " + DiscordSRV.getPlugin().getChannels().keySet());
             plugin.logDebug("DiscordSRVHook: Sending message to ChatChannel instead: " + chatChannel.getName());
-            DiscordUtil.sendMessage(chatChannel, message);
+            DiscordUtil.sendMessage(chatChannel, discordMessage);
         }
 
     }
