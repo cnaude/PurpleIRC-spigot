@@ -54,6 +54,7 @@ import com.cnaude.purpleirc.Hooks.DynmapHook;
 import com.cnaude.purpleirc.Hooks.EssentialsHook;
 import com.cnaude.purpleirc.Hooks.FactionChatHook;
 import com.cnaude.purpleirc.Hooks.GriefPreventionHook;
+import com.cnaude.purpleirc.Hooks.HerochatHook;
 import com.cnaude.purpleirc.Hooks.JobsHook;
 import com.cnaude.purpleirc.Hooks.McMMOChatHook;
 import com.cnaude.purpleirc.Hooks.PlaceholderApiHook;
@@ -224,6 +225,7 @@ public class PurpleIRC extends JavaPlugin {
     public VaultHook vaultHelpers;
     public VanishHook vanishHook;
     public SuperVanishHook superVanishHook;
+    public HerochatHook herochatHook;
     private YamlConfiguration heroConfig;
     private final File cacheFile;
     private final File uuidCacheFile;
@@ -1560,6 +1562,7 @@ public class PurpleIRC extends JavaPlugin {
         if (isPluginEnabled(PL_HEROCHAT)) {
             hookList.add(hookFormat(PL_HEROCHAT, true));
             getServer().getPluginManager().registerEvents(new HeroChatListener(this), this);
+            herochatHook = new HerochatHook(this);
             heroConfig = new YamlConfiguration();
             heroConfigFile = new File(getServer().getPluginManager()
                     .getPlugin(PL_HEROCHAT).getDataFolder(), "config.yml");

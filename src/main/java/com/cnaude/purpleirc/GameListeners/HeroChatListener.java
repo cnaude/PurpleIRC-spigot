@@ -18,6 +18,7 @@ package com.cnaude.purpleirc.GameListeners;
 
 import com.cnaude.purpleirc.PurpleBot;
 import com.cnaude.purpleirc.PurpleIRC;
+import com.cnaude.purpleirc.TemplateName;
 import com.dthielke.herochat.Channel;
 import com.dthielke.herochat.ChannelChatEvent;
 import com.dthielke.herochat.Chatter;
@@ -73,11 +74,83 @@ public class HeroChatListener implements Listener {
             for (PurpleBot ircBot : plugin.ircBots.values()) {
                 if (plugin.heroChatEmoteFormat.equals(event.getFormat())) {
                     plugin.logDebug("HC Emote: TRUE");
-                    ircBot.heroAction(chatter, chatColor, event.getMessage());
+                    heroAction(ircBot, chatter, chatColor, event.getMessage());
                 } else {
                     plugin.logDebug("HC Emote: FALSE");
-                    ircBot.heroChat(chatter, chatColor, event.getMessage());
+                    heroChat(ircBot, chatter, chatColor, event.getMessage());
                 }
+            }
+        }
+    }
+
+    /**
+     * Called from HeroChat listener
+     *
+     * @param ircBot
+     * @param chatter
+     * @param chatColor
+     * @param message
+     */
+    public void heroChat(PurpleBot ircBot, Chatter chatter, ChatColor chatColor, String message) {
+        if (!ircBot.isConnected()) {
+            return;
+        }
+        Player player = chatter.getPlayer();
+        if (ircBot.floodChecker.isSpam(player)) {
+            ircBot.sendFloodWarning(player);
+            return;
+        }
+        for (String channelName : ircBot.botChannels) {
+            if (ircBot.isPlayerInValidWorld(player, channelName)) {
+                String hChannel = chatter.getActiveChannel().getName();
+                String hNick = chatter.getActiveChannel().getNick();
+                String hColor = chatColor.toString();
+                plugin.logDebug("HC Channel: " + hChannel);
+                if (ircBot.isMessageEnabled(channelName, "hero-" + hChannel + "-chat")
+                        || ircBot.isMessageEnabled(channelName, TemplateName.HERO_CHAT)) {
+                    ircBot.asyncIRCMessage(channelName, plugin.tokenizer
+                            .chatHeroTokenizer(player, message, hColor, hChannel,
+                                    hNick, plugin.getHeroChatTemplate(ircBot.botNick, hChannel)));
+                } else {
+                    plugin.logDebug("Player " + player.getName() + " is in \""
+                            + hChannel + "\" but hero-" + hChannel + "-chat is disabled.");
+                }
+            }
+        }
+    }
+
+    /**
+     *
+     * @param ircBot
+     * @param chatter
+     * @param chatColor
+     * @param message
+     */
+    public void heroAction(PurpleBot ircBot, Chatter chatter, ChatColor chatColor, String message) {
+        if (!ircBot.isConnected()) {
+            return;
+        }
+        Player player = chatter.getPlayer();
+        if (ircBot.floodChecker.isSpam(player)) {
+            ircBot.sendFloodWarning(player);
+            return;
+        }
+        for (String channelName : ircBot.botChannels) {
+            if (!ircBot.isPlayerInValidWorld(player, channelName)) {
+                continue;
+            }
+            String hChannel = chatter.getActiveChannel().getName();
+            String hNick = chatter.getActiveChannel().getNick();
+            String hColor = chatColor.toString();
+            plugin.logDebug("HC Channel: " + hChannel);
+            if (ircBot.isMessageEnabled(channelName, "hero-" + hChannel + "-action")
+                    || ircBot.isMessageEnabled(channelName, "hero-action")) {
+                ircBot.asyncIRCMessage(channelName, plugin.tokenizer
+                        .chatHeroTokenizer(player, message, hColor, hChannel,
+                                hNick, plugin.getHeroActionTemplate(ircBot.botNick, hChannel)));
+            } else {
+                plugin.logDebug("Player " + player.getName() + " is in \""
+                        + hChannel + "\" but hero-" + hChannel + "-action is disabled.");
             }
         }
     }

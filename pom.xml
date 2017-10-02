@@ -223,6 +223,12 @@
             <artifactId>Herochat</artifactId>
             <version>5.6.5</version>
         </dependency>
+        <!-- Herochat Premium 
+        <dependency>
+            <groupId>com.cnaude.herochat</groupId>
+            <artifactId>HerochatPremium</artifactId>
+            <version>6.0.0</version>
+        </dependency> -->
                
         <!-- VentureChat -->
         <dependency>

@@ -20,7 +20,6 @@ import com.cnaude.purpleirc.PlayerList;
 import com.cnaude.purpleirc.PurpleBot;
 import com.cnaude.purpleirc.PurpleIRC;
 import com.cnaude.purpleirc.TemplateName;
-import com.dthielke.herochat.ChannelManager;
 import com.gmail.nossr50.util.player.UserManager;
 import com.nyancraft.reportrts.data.Ticket;
 import com.palmergames.bukkit.TownyChat.channels.Channel;
@@ -166,11 +165,10 @@ public class ChatTokenizer {
      * @param user
      * @param channel
      * @param template
-     * @param channelManager
-     * @param hChannel
+     * @param heroChannel
      * @return
      */
-    public String ircChatToHeroChatTokenizer(PurpleBot ircBot, User user, org.pircbotx.Channel channel, String template, ChannelManager channelManager, String hChannel) {
+    public String ircChatToHeroChatTokenizer(PurpleBot ircBot, User user, org.pircbotx.Channel channel, String template, String heroChannel) {
         String ircNick = user.getNick();
         String tmpl;
         Player player = this.getPlayer(ircNick);
@@ -181,9 +179,9 @@ public class ChatTokenizer {
             tmpl = playerTokenizer(ircNick, template);
         }
         return plugin.colorConverter.ircColorsToGame(ircUserTokenizer(tmpl, user, ircBot)
-                .replace("%HEROCHANNEL%", hChannel)
-                .replace("%HERONICK%", channelManager.getChannel(hChannel).getNick())
-                .replace("%HEROCOLOR%", channelManager.getChannel(hChannel).getColor().toString())
+                .replace("%HEROCHANNEL%", heroChannel)
+                .replace("%HERONICK%", plugin.herochatHook.getHeroNick(heroChannel))
+                .replace("%HEROCOLOR%", plugin.herochatHook.getHeroColor(heroChannel))
                 .replace("%NICKPREFIX%", ircBot.getNickPrefix(user, channel))
                 .replace("%CHANNELPREFIX%", ircBot.getChannelPrefix(channel))
                 .replace("%CHANNEL%", channel.getName()));
@@ -274,16 +272,16 @@ public class ChatTokenizer {
      * @param hChannel
      * @return
      */
-    public String ircChatToHeroChatTokenizer(PurpleBot ircBot, User user, org.pircbotx.Channel channel, String template, String message, ChannelManager channelManager, String hChannel) {
+    public String ircChatToHeroChatTokenizer(PurpleBot ircBot, User user, org.pircbotx.Channel channel, String template, String message, String hChannel) {
         String ircNick = user.getNick();
         String heroNick = "";
         String heroColor = "";
         String tmpl;
-        if (channelManager.getChannel(hChannel) == null) {
+        if (!plugin.herochatHook.isValidChannel(hChannel)) {
             plugin.logError("Herochat channel is invalid: " + hChannel);
         } else {
-            heroNick = channelManager.getChannel(hChannel).getNick();
-            heroColor = channelManager.getChannel(hChannel).getColor().toString();
+            heroNick = plugin.herochatHook.getHeroNick(hChannel);
+            heroColor = plugin.herochatHook.getHeroColor(hChannel);
         }
         Player player = this.getPlayer(ircNick);
         if (player != null) {
@@ -414,15 +412,14 @@ public class ChatTokenizer {
      * @param reason
      * @param channel
      * @param template
-     * @param channelManager
      * @param hChannel
      * @return
      */
-    public String ircKickToHeroChatTokenizer(PurpleBot ircBot, User recipient, User kicker, String reason, org.pircbotx.Channel channel, String template, ChannelManager channelManager, String hChannel) {
+    public String ircKickToHeroChatTokenizer(PurpleBot ircBot, User recipient, User kicker, String reason, org.pircbotx.Channel channel, String template, String hChannel) {
         return plugin.colorConverter.ircColorsToGame(ircUserTokenizer(template, recipient, kicker, ircBot)
                 .replace("%HEROCHANNEL%", hChannel)
-                .replace("%HERONICK%", channelManager.getChannel(hChannel).getNick())
-                .replace("%HEROCOLOR%", channelManager.getChannel(hChannel).getColor().toString())
+                .replace("%HERONICK%", plugin.herochatHook.getHeroNick(hChannel))
+                .replace("%HEROCOLOR%", plugin.herochatHook.getHeroColor(hChannel))
                 .replace("%NICKPREFIX%", ircBot.getNickPrefix(kicker, channel))
                 .replace("%CHANNELPREFIX%", ircBot.getChannelPrefix(channel))
                 .replace("%REASON%", reason)
