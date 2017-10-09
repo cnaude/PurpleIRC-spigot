@@ -506,7 +506,13 @@ public class ChatTokenizer {
             effectiveName = "";
         }
         String translatedColor = DiscordSRV.getPlugin().getColors().get(hex);
-        String colorCode = ChatColor.translateAlternateColorCodes('&', translatedColor);
+        String colorCode;
+        try {
+            colorCode = ChatColor.translateAlternateColorCodes('&', translatedColor);
+        } catch (Exception ex) {
+            colorCode = "";
+            plugin.logDebug(ex.getMessage());
+        }
         if (colorCode == null) {
             colorCode = "";
         }
