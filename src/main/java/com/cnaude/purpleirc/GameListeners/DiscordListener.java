@@ -44,7 +44,7 @@ public class DiscordListener {
     @Subscribe(priority = ListenerPriority.MONITOR)
     public void onDiscordGuildMessageReceivedEvent(DiscordGuildMessageReceivedEvent event) {
         if (discordPlugin.getConfig().getBoolean("DiscordChatChannelListCommandEnabled")
-                && event.getMessage().getContent().equalsIgnoreCase(discordPlugin.getConfig().getString("DiscordChatChannelListCommandMessage"))) {
+                && event.getMessage().getContentRaw().equalsIgnoreCase(discordPlugin.getConfig().getString("DiscordChatChannelListCommandMessage"))) {
             plugin.logDebug("[onDiscordGuildMessageReceivedEvent] Ignoring DiscordChatChannelListCommandMessage");
             return;
         }
@@ -54,7 +54,7 @@ public class DiscordListener {
                     event.getMember().getEffectiveName(),
                     event.getMember().getColor(),
                     event.getChannel().getName(),
-                    event.getMessage().getContent());
+                    event.getMessage().getContentDisplay());
         }
 
     }
