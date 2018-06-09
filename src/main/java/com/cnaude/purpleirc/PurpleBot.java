@@ -119,7 +119,8 @@ public final class PurpleBot {
     public String nick;
     public String botNick;
     public List<String> altNicks;
-    private int nickIndex = 0;
+    public int nickTimer;
+    public int nickIndex = 0;
     public String botLogin;
     public String botRealName;
     public int ircMaxLineLength;
@@ -186,6 +187,7 @@ public final class PurpleBot {
     private final ArrayList<ListenerAdapter> ircListeners;
     public IRCMessageQueueWatcher messageQueue;
     public FloodChecker floodChecker;
+    public NickWatcher nickWatcher;
     protected boolean floodControlEnabled;
     protected int floodControlMaxMessages;
     protected long floodControlTimeInterval;
@@ -316,6 +318,9 @@ public final class PurpleBot {
 
         messageQueue = new IRCMessageQueueWatcher(this, plugin);
         floodChecker = new FloodChecker(this, plugin);
+        if (nickTimer > 0) {
+            nickWatcher = new NickWatcher(this, plugin);
+        }
 
     }
 
@@ -792,6 +797,7 @@ public final class PurpleBot {
             nick = config.getString("nick", "");
             botNick = nick;
             altNicks = config.getStringList("alt-nicks");
+            nickTimer = config.getInt("alt-nick-timer", 1200);
             plugin.loadTemplates(config, botNick, "message-format");
             botLogin = config.getString("login", "PircBot");
             botRealName = config.getString("realname", "");
@@ -3357,7 +3363,7 @@ public final class PurpleBot {
         if (isMessageEnabled(channel, TemplateName.IRC_HERO_PART)) {
             String hChannel = heroChannelMap.get(channel.getName());
             String template = plugin.getMessageTemplate(botNick, channelName, TemplateName.IRC_HERO_PART);
-            String message = plugin.tokenizer.ircChatToHeroChatTokenizer(this, user, channel, template,hChannel);
+            String message = plugin.tokenizer.ircChatToHeroChatTokenizer(this, user, channel, template, hChannel);
             plugin.herochatHook.sendHeroMessage(hChannel, message);
         }
 
@@ -3435,7 +3441,7 @@ public final class PurpleBot {
         if (isMessageEnabled(channel, TemplateName.IRC_HERO_TOPIC)) {
             String hChannel = heroChannelMap.get(channel.getName());
             String template = plugin.getMessageTemplate(botNick, channelName, TemplateName.IRC_HERO_TOPIC);
-            String message = plugin.tokenizer.ircChatToHeroChatTokenizer(this, user, channel, template, topic,hChannel);
+            String message = plugin.tokenizer.ircChatToHeroChatTokenizer(this, user, channel, template, topic, hChannel);
             plugin.herochatHook.sendHeroMessage(hChannel, message);
         }
 
