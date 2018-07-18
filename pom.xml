@@ -21,7 +21,7 @@
         <!-- For anything else without its own repo -->
         <repository>
             <id>cnaude-repo</id>
-            <url>http://cnaude.org/repo/</url>
+            <url>http://repo.chrisnaude.com/</url>
         </repository>
         
         <repository>
