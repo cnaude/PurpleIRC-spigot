@@ -52,7 +52,7 @@ public class ModeListener extends ListenerAdapter {
         String mode = event.getMode();
         User user = event.getUser();
 
-        if (!ircBot.isValidChannel(channel.getName())) {
+        if (ircBot.isValidChannel(channel.getName())) {
             ircBot.broadcastIRCMode(user, mode, channel);
         }
     }
