@@ -21,10 +21,11 @@ import com.comphenix.protocol.wrappers.WrappedGameProfile;
 import com.google.common.base.Charsets;
 import com.mojang.authlib.GameProfile;
 import java.util.UUID;
-import net.minecraft.server.v1_13_R1.EntityPlayer;
-import net.minecraft.server.v1_13_R1.MinecraftServer;
-import net.minecraft.server.v1_13_R1.PacketPlayOutPlayerInfo;
-import net.minecraft.server.v1_13_R1.PlayerInteractManager;
+import net.minecraft.server.v1_13_R2.EntityPlayer;
+import net.minecraft.server.v1_13_R2.MinecraftServer;
+import net.minecraft.server.v1_13_R2.PacketPlayOutPlayerInfo;
+import net.minecraft.server.v1_13_R2.PlayerInteractManager;
+import net.minecraft.server.v1_13_R2.WorldServer;
 
 /**
  *
@@ -33,12 +34,13 @@ import net.minecraft.server.v1_13_R1.PlayerInteractManager;
 public class NetPacket_113 {
 
     public static PacketContainer add(String displayName) {
+        WorldServer ws = (WorldServer) MinecraftServer.getServer().worldServer.values().toArray()[0];
         UUID uuid = UUID.nameUUIDFromBytes(("OfflinePlayer:" + displayName).getBytes(Charsets.UTF_8));
         EntityPlayer pl = new EntityPlayer(
                 MinecraftServer.getServer(),
-                MinecraftServer.getServer().getWorldServer(0),
+                ws,
                 (GameProfile) (new WrappedGameProfile(uuid, displayName)).getHandle(),
-                new PlayerInteractManager(MinecraftServer.getServer().getWorldServer(0))
+                new PlayerInteractManager(ws)
         );
         PacketPlayOutPlayerInfo pi
                 = new PacketPlayOutPlayerInfo(
@@ -47,12 +49,13 @@ public class NetPacket_113 {
     }
 
     public static PacketContainer rem(String displayName) {
+        WorldServer ws = (WorldServer) MinecraftServer.getServer().worldServer.values().toArray()[0];
         UUID uuid = UUID.nameUUIDFromBytes(("OfflinePlayer:" + displayName).getBytes(Charsets.UTF_8));
         EntityPlayer pl = new EntityPlayer(
                 MinecraftServer.getServer(),
-                MinecraftServer.getServer().getWorldServer(0),
+                ws,
                 (GameProfile) (new WrappedGameProfile(uuid, displayName)).getHandle(),
-                new PlayerInteractManager(MinecraftServer.getServer().getWorldServer(0))
+                new PlayerInteractManager(ws)
         );
         PacketPlayOutPlayerInfo pi
                 = new PacketPlayOutPlayerInfo(
