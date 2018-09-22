@@ -122,7 +122,7 @@ public class CommandHandlers implements CommandExecutor {
      */
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args) {
-        if (commandLabel.equalsIgnoreCase("irc")) {
+        if (cmd.getName().equalsIgnoreCase("irc")) {
             if (args.length >= 1) {
                 String subCmd = args[0].toLowerCase();
                 if (commands.containsKey(subCmd)) {
