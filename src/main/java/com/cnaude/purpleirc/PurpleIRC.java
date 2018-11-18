@@ -318,7 +318,7 @@ public class PurpleIRC extends JavaPlugin {
             }
         }
         getServer().getPluginManager().registerEvents(new IRCMessageListener(this), this);
-        if (getServer().getVersion().contains("MC: 1.12")) {
+        if (getServer().getVersion().contains("MC: 1.12") || getServer().getVersion().contains("MC: 1.13")) {
             getServer().getPluginManager().registerEvents(new GamePlayerPlayerAdvancementDoneListener(this), this);
         } else {
             getServer().getPluginManager().registerEvents(new GamePlayerPlayerAchievementAwardedListener(this), this);
