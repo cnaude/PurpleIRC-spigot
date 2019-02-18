@@ -1228,6 +1228,9 @@ public class ChatTokenizer {
     }
 
     public String addZeroWidthSpace(String s) {
+        if (s.contains("\u200B")) {
+            return s;
+        }
         if (s.length() > 1) {
             String a = s.substring(0, 1);
             String b = s.substring(1);

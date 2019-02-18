@@ -98,6 +98,8 @@ import java.util.TreeMap;
 import java.util.UUID;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.bukkit.ChatColor;
@@ -318,10 +320,18 @@ public class PurpleIRC extends JavaPlugin {
             }
         }
         getServer().getPluginManager().registerEvents(new IRCMessageListener(this), this);
-        if (getServer().getVersion().contains("MC: 1.12") || getServer().getVersion().contains("MC: 1.13")) {
-            getServer().getPluginManager().registerEvents(new GamePlayerPlayerAdvancementDoneListener(this), this);
-        } else {
-            getServer().getPluginManager().registerEvents(new GamePlayerPlayerAchievementAwardedListener(this), this);
+        Pattern p = Pattern.compile("^MC: [0-9]\\.([0-9]+).*");
+        Matcher m = p.matcher(getServer().getVersion());
+        if (m.find()) {
+            int x = Integer.parseInt(m.group(1));
+            if (x >= 12) {
+                logInfo("Registering GamePlayerPlayerAdvancementDoneListener because version >= 1.12");
+                getServer().getPluginManager().registerEvents(new GamePlayerPlayerAdvancementDoneListener(this), this);
+            } else {
+                logInfo("Registering GamePlayerPlayerAchievementAwardedListener because version < 1.12");
+                getServer().getPluginManager().registerEvents(new GamePlayerPlayerAchievementAwardedListener(this), this);
+            }
+            logInfo("Pattern mismatch!: " + getServer().getVersion());
         }
         getServer().getPluginManager().registerEvents(new GamePlayerGameModeChangeListener(this), this);
         getServer().getPluginManager().registerEvents(new GamePlayerChatListener(this), this);
