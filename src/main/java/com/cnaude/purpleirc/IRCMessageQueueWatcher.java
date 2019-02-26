@@ -118,7 +118,6 @@ public class IRCMessageQueueWatcher {
                                 "(?i)" + user.getNick(),
                                 Matcher.quoteReplacement(plugin.tokenizer.addZeroWidthSpace(user.getNick()))
                         );
-                        plugin.logDebug("Adding ZWS to " + user.getNick());
                     }
                 }
             }

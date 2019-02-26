@@ -1229,13 +1229,18 @@ public class ChatTokenizer {
 
     public String addZeroWidthSpace(String s) {
         if (s.contains("\u200B")) {
+            plugin.logDebug("Nick already contains ZWS: " + s);
             return s;
         }
+        
         if (s.length() > 1) {
             String a = s.substring(0, 1);
             String b = s.substring(1);
-            return a + "\u200B" + b;
+            String n = a + "\u200B" + b;
+            plugin.logDebug("Adding ZWS: " + s + " -> " + n);
+            return n;
         }
+        plugin.logDebug("Nick too short for ZWS: " + s);
         return s;
     }
 
