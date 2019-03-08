@@ -56,8 +56,12 @@ public class DiscordSRVHook {
         } else {
             plugin.logDebug("DiscordSRVHook: Unable to find channel: " + channelName);
             plugin.logDebug("DiscordSRVHook: Channel list: " + DiscordSRV.getPlugin().getChannels().keySet());
-            plugin.logDebug("DiscordSRVHook: Sending message to ChatChannel instead: " + chatChannel.getName());
-            DiscordUtil.sendMessage(chatChannel, discordMessage);
+            if (chatChannel != null) {
+                plugin.logDebug("DiscordSRVHook: Sending message to ChatChannel instead: " + chatChannel.getName());
+                DiscordUtil.sendMessage(chatChannel, discordMessage);
+            } else {
+                plugin.logDebug("DiscordSRVHook: No default channel found");
+            }
         }
 
     }
