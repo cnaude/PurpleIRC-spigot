@@ -1271,19 +1271,19 @@ public class PurpleIRC extends JavaPlugin {
      */
     public String getGroupPrefix(Player player) {
         String prefix = "";
-        if (vaultHelpers != null) {
-            if (vaultHelpers.chat != null && vaultHelpers.permission != null) {
-                String group = "";
-                try {
-                    group = vaultHelpers.permission.getPrimaryGroup(player);
-                } catch (Exception ex) {
-                    logDebug("getGroupPrefix (" + player.getName() + "): " + ex.getMessage());
+        try {
+            if (vaultHelpers != null) {
+                if (vaultHelpers.chat != null && vaultHelpers.permission != null) {
+                    String group = vaultHelpers.permission.getPrimaryGroup(player);
+                    if (group == null) {
+                        group = "";
+                    }
+                    prefix = vaultHelpers.chat.getGroupPrefix(player.getLocation().getWorld(), group);
                 }
-                if (group == null) {
-                    group = "";
-                }
-                prefix = vaultHelpers.chat.getGroupPrefix(player.getLocation().getWorld(), group);
             }
+        } catch (Exception ex) {
+            logDebug("getGroupPrefix (" + player.getName() + "): " + ex.getMessage());
+            return "";
         }
         if (prefix == null) {
             prefix = "";
