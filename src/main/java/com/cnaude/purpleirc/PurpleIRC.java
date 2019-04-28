@@ -220,6 +220,7 @@ public class PurpleIRC extends JavaPlugin {
     public IRCMessageHandler ircMessageHandler;
 
     public CommandQueueWatcher commandQueue;
+    public SynchronousEventWatcher eventQueue;
     public MessageQueueWatcher messageQueue;
     public UpdateChecker updateChecker;
     public ChatTokenizer tokenizer;
@@ -372,6 +373,7 @@ public class PurpleIRC extends JavaPlugin {
         commandQueue = new CommandQueueWatcher(this);
         messageQueue = new MessageQueueWatcher(this);
         updateChecker = new UpdateChecker(this);
+        eventQueue = new SynchronousEventWatcher(this);
     }
 
     /**
@@ -1827,13 +1829,11 @@ public class PurpleIRC extends JavaPlugin {
     }
 
     public void broadcastToGame(final String message, final String channel, final String permission) {
-        IRCMessageEvent event = new IRCMessageEvent(message, channel, permission);
-        getServer().getPluginManager().callEvent(event);
+        eventQueue.add(new IRCMessageEvent(message, channel, permission));
     }
 
     public void broadcastToPlayer(final String message, final String channel, final String permission, final Player player) {
-        IRCMessageEvent event = new IRCMessageEvent(message, channel, permission, player);
-        getServer().getPluginManager().callEvent(event);
+        eventQueue.add(new IRCMessageEvent(message, channel, permission, player));
     }
 
     /**

@@ -6,7 +6,7 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <!-- Bukkit API Version, change if out dated -->
-        <bukkit.version>1.13.2</bukkit.version>
+        <bukkit.version>1.14</bukkit.version>
         <build.number>SNAPSHOT</build.number>
     </properties>
 
@@ -50,10 +50,10 @@
         </repository>
               
         <!-- Vault
-        <repository>
-            <id>vault-repo</id>
-            <url>http://nexus.hc.to/content/repositories/pub_releases</url>
-    </repository> -->
+            <repository>
+                <id>vault-repo</id>
+                <url>http://nexus.hc.to/content/repositories/pub_releases</url>
+        </repository> -->
         
         <!--
         <repository>
@@ -158,22 +158,15 @@
         <dependency>
             <groupId>commons-codec</groupId>
             <artifactId>commons-codec</artifactId>
-            <version>1.10</version>
+            <version>1.12</version>
         </dependency>
         
         <dependency>
             <groupId>commons-io</groupId>
             <artifactId>commons-io</artifactId>
-            <version>2.4</version>
+            <version>2.6</version>
         </dependency>
-
-        <!-- Following dependency is provided by CraftBukkit -->
-        <dependency>
-            <groupId>com.google.guava</groupId>
-            <artifactId>guava</artifactId>
-            <version>19.0</version>
-        </dependency>
-        
+                                       
         <!-- NTheEndAgain -->
         <dependency>
             <groupId>com.cnaude.nplugins</groupId>

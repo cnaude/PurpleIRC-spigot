@@ -42,12 +42,7 @@ public class CommandQueueWatcher {
 
     private void startWatcher() {
         plugin.logDebug("Starting command queue");
-        bt = this.plugin.getServer().getScheduler().scheduleSyncRepeatingTask(this.plugin, new Runnable() {
-            @Override
-            public void run() {
-                queueAndSend();
-            }
-        }, 0, 5);
+        bt = this.plugin.getServer().getScheduler().scheduleSyncRepeatingTask(this.plugin, this::queueAndSend, 0, 5);
     }
 
     private void queueAndSend() {
