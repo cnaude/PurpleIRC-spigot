@@ -152,7 +152,7 @@ message-format:
   game-a-chat: '[%WORLD%] <%NAME%> -> [AdminChat]: %MESSAGE%'
   # AdminPrivateChat message from IRC to game
   irc-a-chat: '[AdminChat] [&4IRC&r] %MESSAGE%'
-  # Messages from Discord
+  # Messages from Discord (Valid tokens: %NAME%, %NICKNAME%, %EFFNAME%, %COLOR%, %CHANNEL%, %MESSAGE%, %RAWMESSAGE%)
   discord-chat: '[Discord]<%NAME%> %MESSAGE%'
   # Messages from IRC to Discord
   irc-discord-chat: '[IRC]<%NAME%> %MESSAGE%'
