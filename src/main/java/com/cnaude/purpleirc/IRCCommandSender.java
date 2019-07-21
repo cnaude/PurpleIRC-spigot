@@ -234,5 +234,11 @@ public class IRCCommandSender implements CommandSender {
     public PermissionAttachment addAttachment(final Plugin arg0, final String arg1, final boolean arg2, final int arg3) {
         return null;
     }
+    
+        @Override
+    public Spigot spigot() {
+        plugin.logDebug("Spigot?");
+        return null;
+    }
 
 }

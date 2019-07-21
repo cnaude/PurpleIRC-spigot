@@ -226,4 +226,10 @@ public class IRCConsoleCommandSender implements ConsoleCommandSender {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
+    @Override
+    public Spigot spigot() {
+        plugin.logDebug("Spigot?");
+        return null;
+    }
+
 }
