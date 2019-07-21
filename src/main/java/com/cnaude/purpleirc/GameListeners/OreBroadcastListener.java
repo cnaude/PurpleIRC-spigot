@@ -51,7 +51,7 @@ public class OreBroadcastListener implements Listener {
     public void onOreBroadcastEvent(OreBroadcastEvent e) {
 
         String blockName;
-        if (e.getBlockMined().getType().equals(Material.LEGACY_GLOWING_REDSTONE_ORE)) {
+        if (e.getBlockMined().getType().equals(Material.REDSTONE_ORE)) {
             blockName = "redstone";
         } else {
             blockName = e.getBlockMined().getType().name().toLowerCase().replace("_ore", "");

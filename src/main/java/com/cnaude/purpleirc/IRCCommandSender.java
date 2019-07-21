@@ -235,10 +235,4 @@ public class IRCCommandSender implements CommandSender {
         return null;
     }
 
-    @Override
-    public Spigot spigot() {
-        plugin.logDebug("Spigot?");
-        return null;
-    }
-
 }
