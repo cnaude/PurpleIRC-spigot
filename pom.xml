@@ -36,19 +36,7 @@
                 <enabled>false</enabled>
             </snapshots>
         </repository>
-
-        <!-- ReportRTS -->
-        <repository>
-            <id>regularbox-repo</id>
-            <url>http://ci.regularbox.com/plugin/repository/everything/</url>
-            <releases>
-                <enabled>true</enabled>
-            </releases>
-            <snapshots>
-                <enabled>true</enabled>
-            </snapshots>
-        </repository>
-              
+             
         <!-- Vault
             <repository>
                 <id>vault-repo</id>
@@ -350,11 +338,11 @@
             <version>2.9.1-SNAPSHOT</version>
         </dependency>
         
-        <!-- DeathMessages -->
+        <!-- DeathMessagesPrime -->
         <dependency>
             <groupId>com.cnaude.deathmessagesprime</groupId>
             <artifactId>DeathMessagesPrime</artifactId>
-            <version>1.12.13</version>
+            <version>1.14.13</version>
         </dependency>
 
         <!-- Shortify -->
