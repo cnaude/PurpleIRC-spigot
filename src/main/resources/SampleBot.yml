@@ -192,6 +192,8 @@ channels:
     - fake-quit    
     # Essentials helpop messages (/helpop /amsg /ac)
     - ess-helpop
+    # DeathMessagesPrime
+    #- death-messages
     # Prism
     #- prism-rollback
     #- prism-drain
