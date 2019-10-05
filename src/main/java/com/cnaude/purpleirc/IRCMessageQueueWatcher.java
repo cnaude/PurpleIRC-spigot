@@ -80,7 +80,7 @@ public class IRCMessageQueueWatcher {
     }
 
     private void blockingIRCMessage(final String target, final String message) {
-        if (!ircBot.isConnected()) {
+        if (!ircBot.isConnected() || message.isEmpty()) {
             return;
         }
         plugin.logDebug("[blockingIRCMessage] About to send IRC message to " + target + ": " + message);
@@ -89,7 +89,7 @@ public class IRCMessageQueueWatcher {
     }
 
     private void blockingCTCPMessage(final String target, final String message) {
-        if (!ircBot.isConnected()) {
+        if (!ircBot.isConnected() || message.isEmpty()) {
             return;
         }
         plugin.logDebug("[blockingCTCPMessage] About to send IRC message to " + target + ": " + message);
@@ -98,7 +98,7 @@ public class IRCMessageQueueWatcher {
     }
 
     private void blockingNoticeMessage(final String target, final String message) {
-        if (!ircBot.isConnected()) {
+        if (!ircBot.isConnected() || message.isEmpty()) {
             return;
         }
         plugin.logDebug("[blockingNoticeMessage] About to send IRC notice to " + target + ": " + message);
