@@ -146,7 +146,7 @@
         <dependency>
             <groupId>commons-codec</groupId>
             <artifactId>commons-codec</artifactId>
-            <version>1.12</version>
+            <version>1.13</version>
         </dependency>
         
         <dependency>
@@ -206,18 +206,18 @@
             </exclusions>
         </dependency>
 
-        <!-- Herochat -->
+        <!-- Herochat
         <dependency>
             <groupId>com.cnaude.herochat</groupId>
             <artifactId>Herochat</artifactId>
             <version>5.6.5</version>
-        </dependency>
-        <!-- Herochat Premium 
+        </dependency> -->
+        <!-- Herochat Premium -->
         <dependency>
             <groupId>com.cnaude.herochat</groupId>
-            <artifactId>HerochatPremium</artifactId>
-            <version>6.0.0</version>
-        </dependency> -->
+            <artifactId>Herochat</artifactId>
+            <version>6.0.1-SNAPSHOT-bb34</version>
+        </dependency>
                
         <!-- VentureChat -->
         <dependency>
@@ -476,7 +476,7 @@
         <plugins>
             <plugin>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.6.1</version>
+                <version>3.8.1</version>
                 <configuration>
                     <source>1.8</source>
                     <target>1.8</target>
@@ -486,7 +486,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-shade-plugin</artifactId>
-                <version>3.0.0</version>
+                <version>3.2.1</version>
                 <executions>
                     <execution>
                         <phase>package</phase>
