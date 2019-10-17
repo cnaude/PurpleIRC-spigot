@@ -187,6 +187,7 @@ channels:
     - game-join
     - game-quit
     - game-achievement
+    - game-advancement
     - game-mode
     - fake-join
     - fake-quit    
