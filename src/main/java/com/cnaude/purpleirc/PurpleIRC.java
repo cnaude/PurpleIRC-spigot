@@ -321,7 +321,8 @@ public class PurpleIRC extends JavaPlugin {
             }
         }
         getServer().getPluginManager().registerEvents(new IRCMessageListener(this), this);
-        Pattern p = Pattern.compile("^MC: [0-9]\\.([0-9]+).*");
+        Pattern p = Pattern.compile("MC: [0-9]\\.([0-9]+).*");
+        logInfo("MC version detected: " + getServer().getVersion());
         Matcher m = p.matcher(getServer().getVersion());
         if (m.find()) {
             int x = Integer.parseInt(m.group(1));
@@ -331,8 +332,9 @@ public class PurpleIRC extends JavaPlugin {
             } else {
                 logInfo("Registering GamePlayerPlayerAchievementAwardedListener because version < 1.12");
                 getServer().getPluginManager().registerEvents(new GamePlayerPlayerAchievementAwardedListener(this), this);
-            }
-            logInfo("Pattern mismatch!: " + getServer().getVersion());
+            }            
+        } else {
+            logError("Pattern mismatch!: " + getServer().getVersion());
         }
         getServer().getPluginManager().registerEvents(new GamePlayerGameModeChangeListener(this), this);
         getServer().getPluginManager().registerEvents(new GamePlayerChatListener(this), this);
