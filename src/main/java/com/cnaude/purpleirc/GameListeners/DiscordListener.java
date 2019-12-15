@@ -43,10 +43,14 @@ public class DiscordListener {
 
     @Subscribe(priority = ListenerPriority.MONITOR)
     public void onDiscordGuildMessageReceivedEvent(DiscordGuildMessageReceivedEvent event) {
-        if (discordPlugin.getConfig().getBoolean("DiscordChatChannelListCommandEnabled")
-                && event.getMessage().getContentRaw().equalsIgnoreCase(discordPlugin.getConfig().getString("DiscordChatChannelListCommandMessage"))) {
-            plugin.logDebug("[onDiscordGuildMessageReceivedEvent] Ignoring DiscordChatChannelListCommandMessage");
-            return;
+        try {
+            if (discordPlugin.getConfig().getBoolean("DiscordChatChannelListCommandEnabled")
+                    && event.getMessage().getContentRaw().equalsIgnoreCase(discordPlugin.getConfig().getString("DiscordChatChannelListCommandMessage"))) {
+                plugin.logDebug("[onDiscordGuildMessageReceivedEvent] Ignoring DiscordChatChannelListCommandMessage");
+                return;
+            }
+        } catch (Exception ex) {
+            plugin.logDebug(ex.getMessage());
         }
         for (PurpleBot ircBot : plugin.ircBots.values()) {
             ircBot.discordChat(event.getMessage().getAuthor().getName(),
