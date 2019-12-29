@@ -66,6 +66,7 @@ import java.util.concurrent.locks.ReentrantReadWriteLock;
 import me.botsko.prism.actionlibs.QueryParameters;
 import me.botsko.prism.events.BlockStateChange;
 import org.bukkit.Achievement;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
@@ -1359,7 +1360,7 @@ public final class PurpleBot {
                 }
                 if (plugin.ventureChatEnabled) {
                     plugin.logDebug("Calling VentureChatEvent: " + event.getMessage());
-                    plugin.getServer().getPluginManager().callEvent(new VentureChatEvent(event, this, channelName));
+                    plugin.getServer().getScheduler().runTask(plugin, () -> plugin.getServer().getPluginManager().callEvent(new VentureChatEvent(event, this, channelName)));                    
                 }
                 if (isMessageEnabled(channelName, TemplateName.GAME_CHAT)) {
                     asyncIRCMessage(channelName, plugin.tokenizer
