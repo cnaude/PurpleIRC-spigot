@@ -208,17 +208,11 @@
             </exclusions>
         </dependency>
 
-        <!-- Herochat
+        <!-- Herochat Pro -->
         <dependency>
-            <groupId>com.cnaude.herochat</groupId>
+            <groupId>com.dthielke.herochat</groupId>
             <artifactId>Herochat</artifactId>
-            <version>5.6.5</version>
-        </dependency> -->
-        <!-- Herochat Premium -->
-        <dependency>
-            <groupId>com.cnaude.herochat</groupId>
-            <artifactId>Herochat</artifactId>
-            <version>6.0.1-SNAPSHOT-bb34</version>
+            <version>6.0.1-B34A</version>
         </dependency>
                
         <!-- VentureChat -->
