@@ -128,6 +128,7 @@ public class PurpleIRC extends JavaPlugin {
     private File configFile;
     public static long startTime;
     public boolean identServerEnabled;
+    public boolean identServerStarted = false;
     private boolean autoSave;
     public boolean pingFixTemplate;
     private final CaseInsensitiveMap<HashMap<String, String>> messageTmpl;
@@ -316,7 +317,8 @@ public class PurpleIRC extends JavaPlugin {
             logInfo("Starting Ident Server ...");
             try {
                 IdentServer.startServer();
-            } catch (Exception ex) {
+                identServerStarted = true;
+            } catch (Exception ex) {                
                 logError(ex.getMessage());
             }
         }
@@ -418,7 +420,7 @@ public class PurpleIRC extends JavaPlugin {
             }
             ircBots.clear();
         }
-        if (identServerEnabled) {
+        if (identServerEnabled && identServerStarted) {
             logInfo("Stopping Ident Server");
             try {
                 IdentServer.stopServer();
