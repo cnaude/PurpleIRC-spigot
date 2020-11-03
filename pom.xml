@@ -6,7 +6,7 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <!-- Bukkit API Version, change if out dated -->
-        <bukkit.version>1.15.1</bukkit.version>
+        <bukkit.version>1.16.4</bukkit.version>
         <build.number>SNAPSHOT</build.number>
     </properties>
 
@@ -50,12 +50,10 @@
         </repository>
         -->
         
-        <!--
         <repository>
             <id>placeholderapi</id>
             <url>http://repo.extendedclip.com/content/repositories/placeholderapi/</url>
         </repository>
-        -->
         
         <repository>
             <id>dynmap</id>
@@ -414,7 +412,7 @@
         <dependency>
             <groupId>me.clip</groupId>
             <artifactId>placeholderapi</artifactId>
-            <version>2.10.4</version>
+            <version>2.10.9</version>
             <scope>provided</scope>
         </dependency>
         

@@ -18,6 +18,8 @@ package com.cnaude.purpleirc;
 
 import com.cnaude.purpleirc.IRCMessage.Type;
 import java.util.Set;
+import java.util.UUID;
+
 import org.bukkit.Bukkit;
 import org.bukkit.Server;
 import org.bukkit.command.ConsoleCommandSender;
@@ -27,6 +29,8 @@ import org.bukkit.permissions.Permission;
 import org.bukkit.permissions.PermissionAttachment;
 import org.bukkit.permissions.PermissionAttachmentInfo;
 import org.bukkit.plugin.Plugin;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 /**
  *
@@ -65,6 +69,16 @@ public class IRCConsoleCommandSender implements ConsoleCommandSender {
                 addMessageToQueue(message);
             }
         }
+    }
+
+    @Override
+    public void sendMessage(UUID uuid, String s) {
+
+    }
+
+    @Override
+    public void sendMessage(UUID uuid, String[] strings) {
+
     }
 
     private void addMessageToQueue(String message) {
@@ -159,6 +173,11 @@ public class IRCConsoleCommandSender implements ConsoleCommandSender {
     @Override
     public void sendRawMessage(String string) {
         plugin.logDebug("sendRawMessage: " + string);
+    }
+
+    @Override
+    public void sendRawMessage(@Nullable UUID uuid, @NotNull String s) {
+
     }
 
     @Override

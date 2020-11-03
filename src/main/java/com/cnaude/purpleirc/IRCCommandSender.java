@@ -18,6 +18,8 @@ package com.cnaude.purpleirc;
 
 import com.cnaude.purpleirc.IRCMessage.Type;
 import java.util.Set;
+import java.util.UUID;
+
 import org.bukkit.Bukkit;
 import org.bukkit.Server;
 import org.bukkit.command.CommandSender;
@@ -25,6 +27,8 @@ import org.bukkit.permissions.Permission;
 import org.bukkit.permissions.PermissionAttachment;
 import org.bukkit.permissions.PermissionAttachmentInfo;
 import org.bukkit.plugin.Plugin;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 /**
  *
@@ -64,6 +68,16 @@ public class IRCCommandSender implements CommandSender {
                 addMessageToQueue(template.replace("%RESULT%", message));
             }
         }
+    }
+
+    @Override
+    public void sendMessage(UUID uuid, String s) {
+
+    }
+
+    @Override
+    public void sendMessage(UUID uuid, String[] strings) {
+
     }
 
     private void addMessageToQueue(String message) {

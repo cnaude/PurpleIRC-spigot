@@ -2377,6 +2377,7 @@ public final class PurpleBot {
      * @param reload
      */
     public void asyncQuit(final Boolean reload) {
+        plugin.logInfo("asyncQuit: " + reload);
         plugin.getServer().getScheduler().runTaskAsynchronously(plugin, new Runnable() {
             @Override
             public void run() {
