@@ -29,8 +29,6 @@ import org.bukkit.permissions.Permission;
 import org.bukkit.permissions.PermissionAttachment;
 import org.bukkit.permissions.PermissionAttachmentInfo;
 import org.bukkit.plugin.Plugin;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 /**
  *
@@ -176,7 +174,7 @@ public class IRCConsoleCommandSender implements ConsoleCommandSender {
     }
 
     @Override
-    public void sendRawMessage(@Nullable UUID uuid, @NotNull String s) {
+    public void sendRawMessage(UUID uuid, String s) {
 
     }
 
