@@ -27,6 +27,8 @@ import github.scarsz.discordsrv.DiscordSRV;
 import java.awt.Color;
 import java.util.Set;
 import java.util.UUID;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -1232,7 +1234,7 @@ public class ChatTokenizer {
             plugin.logDebug("Nick already contains ZWS: " + s);
             return s;
         }
-        
+
         if (s.length() > 1) {
             String a = s.substring(0, 1);
             String b = s.substring(1);

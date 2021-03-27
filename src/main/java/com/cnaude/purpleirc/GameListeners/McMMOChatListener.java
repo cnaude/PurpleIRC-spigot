@@ -19,6 +19,7 @@ package com.cnaude.purpleirc.GameListeners;
 import com.cnaude.purpleirc.PurpleBot;
 import com.cnaude.purpleirc.PurpleIRC;
 import com.cnaude.purpleirc.TemplateName;
+import com.gmail.nossr50.datatypes.chat.ChatChannel;
 import com.gmail.nossr50.events.chat.McMMOAdminChatEvent;
 import com.gmail.nossr50.events.chat.McMMOChatEvent;
 import com.gmail.nossr50.events.chat.McMMOPartyChatEvent;
@@ -40,7 +41,7 @@ public class McMMOChatListener implements Listener {
 
     @EventHandler
     public void onMcMMOChatEvent(McMMOChatEvent event) {
-        String sender = event.getSender();
+        String sender = event.getDisplayName(ChatChannel.NONE);
         Player player = plugin.getServer().getPlayer(sender);
         if (plugin.adminPrivateChatHook != null) {
             if (plugin.adminPrivateChatHook.ac.toggledPlayers.contains(player.getName())) {
@@ -60,7 +61,7 @@ public class McMMOChatListener implements Listener {
 
     @EventHandler
     public void onMcMMOAdminChatEvent(McMMOAdminChatEvent event) {
-        String sender = event.getSender();
+        String sender = event.getDisplayName(ChatChannel.ADMIN);
         Player player = plugin.getServer().getPlayer(sender);
         if (plugin.adminPrivateChatHook != null) {
             if (plugin.adminPrivateChatHook.ac.toggledPlayers.contains(player.getName())) {
@@ -80,9 +81,9 @@ public class McMMOChatListener implements Listener {
 
     @EventHandler
     public void onMcMMOPartyChatEvent(McMMOPartyChatEvent event) {
-        String sender = event.getSender();
+        String sender = event.getDisplayName(ChatChannel.PARTY);
         Player player = plugin.getServer().getPlayer(sender);
-        String party = event.getParty();
+        String party = event.getAuthorParty().getName();
         plugin.logDebug("onMcMMOPartyChatEvent caught: " + sender);
         if (plugin.adminPrivateChatHook != null) {
             if (plugin.adminPrivateChatHook.ac.toggledPlayers.contains(player.getName())) {

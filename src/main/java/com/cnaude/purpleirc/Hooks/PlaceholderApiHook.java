@@ -17,6 +17,8 @@
 package com.cnaude.purpleirc.Hooks;
 
 import com.cnaude.purpleirc.PurpleIRC;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import me.clip.placeholderapi.PlaceholderAPI;
 import org.bukkit.entity.Player;
 
@@ -25,9 +27,9 @@ import org.bukkit.entity.Player;
  * @author Chris Naude
  */
 public class PlaceholderApiHook {
-    
+
     private final PurpleIRC plugin;
-    
+
     /**
      *
      * @param plugin the PurpleIRC plugin
@@ -40,9 +42,15 @@ public class PlaceholderApiHook {
         String m = message;
         plugin.logDebug("[setPlaceholders: before] " + m);
         if (player != null && message != null) {
-            m =  PlaceholderAPI.setPlaceholders(player, message);
+            m = PlaceholderAPI.setPlaceholders(player, message);
         }
         plugin.logDebug("[setPlaceholders: after] " + m);
+        // put my tokens back toupper case
+        Matcher matcher = Pattern.compile("(%\\w+%)").matcher(m);
+        while (matcher.find()) {
+            m = m.replace(matcher.group(), matcher.group().toUpperCase());
+        }
+        plugin.logDebug("[setPlaceholders: after case fix] " + m);
         return m;
     }
 }
