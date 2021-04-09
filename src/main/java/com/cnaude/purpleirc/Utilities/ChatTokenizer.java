@@ -36,6 +36,7 @@ import org.bukkit.block.Block;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.pircbotx.User;
+import github.scarsz.discordsrv.objects.MessageFormat;
 
 /**
  * Main class containing all message template token expanding methods
@@ -497,27 +498,17 @@ public class ChatTokenizer {
      * @return
      */
     public String discordChatToIRCTokenizer(String template, String username, String nickname, String effectiveName, Color color, String discordChannel, String message) {
-        String hex = color != null ? Integer.toHexString(color.getRGB()).toUpperCase() : "99AAB5";
-        if (hex.length() == 8) {
-            hex = hex.substring(2);
-        }
+//        String hex = color != null ? Integer.toHexString(color.getRGB()).toUpperCase() : "99AAB5";
+//        if (hex.length() == 8) {
+//            hex = hex.substring(2);
+//        }
         if (nickname == null) {
             nickname = "";
         }
         if (effectiveName == null) {
             effectiveName = "";
         }
-        String translatedColor = DiscordSRV.getPlugin().getColors().get(hex);
-        String colorCode;
-        try {
-            colorCode = ChatColor.translateAlternateColorCodes('&', translatedColor);
-        } catch (Exception ex) {
-            colorCode = "";
-            plugin.logDebug(ex.getMessage());
-        }
-        if (colorCode == null) {
-            colorCode = "";
-        }
+        String colorCode = "";
         return plugin.colorConverter.gameColorsToIrc(template
                 .replace("%NAME%", username)
                 .replace("%NICKNAME%", nickname)

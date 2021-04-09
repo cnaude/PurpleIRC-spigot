@@ -24,6 +24,12 @@
             <url>http://repo.chrisnaude.com/</url>
         </repository>
         
+        <!-- DiscordSRV -->
+        <repository>
+            <id>Scarsz-Nexus</id>
+            <url>https://nexus.scarsz.me/content/groups/public/</url>
+        </repository>  
+        
         <repository>
             <id>sonatype-nexus-public</id>
             <name>SonaType public snapshots and releases repository</name>
@@ -418,9 +424,9 @@
         
         <!-- DiscordSRV -->
         <dependency>
-            <groupId>com.cnaude.discordsrv</groupId>
-            <artifactId>DiscordSRV</artifactId>
-            <version>1.18.4</version>
+            <groupId>com.discordsrv</groupId>
+            <artifactId>discordsrv</artifactId>
+            <version>1.22.0</version>
             <scope>provided</scope>
         </dependency>
         
