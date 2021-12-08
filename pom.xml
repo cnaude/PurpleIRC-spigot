@@ -6,7 +6,7 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <!-- Bukkit API Version, change if out dated -->
-        <bukkit.version>1.16.5</bukkit.version>
+        <bukkit.version>1.18</bukkit.version>
         <build.number>SNAPSHOT</build.number>
     </properties>
 
@@ -16,6 +16,14 @@
     <name>PurpleIRC-spigot</name>
     <description>Minecraft IRC integration for CraftBukkit/Spigot servers.</description>
     <url>http://www.spigotmc.org/resources/purpleirc.2836/</url>
+
+    <pluginRepositories>
+        <pluginRepository>
+            <id>maven-snapshots</id>
+            <url>https://repository.apache.org/content/repositories/snapshots/</url>
+        </pluginRepository>
+    </pluginRepositories>
+
 
     <repositories>
         <!-- For anything else without its own repo -->
@@ -221,9 +229,9 @@
                
         <!-- VentureChat -->
         <dependency>
-            <groupId>com.cnaude.venturechat</groupId>
+            <groupId>mineverse.Aust1n46.chat</groupId>
             <artifactId>VentureChat</artifactId>
-            <version>2.17.1</version>
+            <version>2.22.8</version>
         </dependency>
         
         <!-- Jobs -->
@@ -438,6 +446,13 @@
             <scope>provided</scope>
         </dependency>
         
+        <!-- https://mvnrepository.com/artifact/com.google.guava/guava -->
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+            <version>31.0.1-jre</version>
+        </dependency>
+        
         <!-- Testing only -->
         <dependency>
             <groupId>junit</groupId>
@@ -478,15 +493,15 @@
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.8.1</version>
                 <configuration>
-                    <source>1.8</source>
-                    <target>1.8</target>
+                    <source>17</source>
+                    <target>17</target>
                 </configuration>
             </plugin>
 
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-shade-plugin</artifactId>
-                <version>3.2.1</version>
+                <version>3.3.0-SNAPSHOT</version>
                 <executions>
                     <execution>
                         <phase>package</phase>
@@ -499,6 +514,7 @@
                                 <includes>
                                     <include>com.cnaude.pircbotx</include>                             
                                     <include>commons-codec</include>
+                                    <include>com.google.common</include>
                                 </includes>
                             </artifactSet>
                             <filters>
@@ -515,6 +531,10 @@
                                 <relocation>
                                     <pattern>org.apache.commons.codec</pattern>
                                     <shadedPattern>com.cnaude.purpleirc.ext.org.apache.commons.codec</shadedPattern>
+                                </relocation>
+                                <relocation>
+                                    <pattern>com.google.common</pattern>
+                                    <shadedPattern>com.cnaude.purpleirc.ext.com.google.common</shadedPattern>
                                 </relocation>
                             </relocations>
                         </configuration>
