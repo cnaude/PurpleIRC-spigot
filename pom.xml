@@ -15,7 +15,7 @@
     <version>1.0-${build.number}</version>
     <name>PurpleIRC-spigot</name>
     <description>Minecraft IRC integration for CraftBukkit/Spigot servers.</description>
-    <url>http://www.spigotmc.org/resources/purpleirc.2836/</url>
+    <url>https://www.spigotmc.org/resources/purpleirc.2836/</url>
 
     <pluginRepositories>
         <pluginRepository>
@@ -29,7 +29,7 @@
         <!-- For anything else without its own repo -->
         <repository>
             <id>cnaude-repo</id>
-            <url>http://repo.chrisnaude.com/</url>
+            <url>https://repo.chrisnaude.com/</url>
         </repository>
         
         <!-- DiscordSRV -->
@@ -54,24 +54,24 @@
         <!-- Vault
             <repository>
                 <id>vault-repo</id>
-                <url>http://nexus.hc.to/content/repositories/pub_releases</url>
+                <url>https://nexus.hc.to/content/repositories/pub_releases</url>
         </repository> -->
         
         <!--
         <repository>
             <id>dmulloy2-repo</id>
-            <url>http://repo.dmulloy2.net/content/groups/public/</url>
+            <url>https://repo.dmulloy2.net/content/groups/public/</url>
         </repository>
         -->
         
         <repository>
             <id>placeholderapi</id>
-            <url>http://repo.extendedclip.com/content/repositories/placeholderapi/</url>
+            <url>https://repo.extendedclip.com/content/repositories/placeholderapi/</url>
         </repository>
         
         <repository>
             <id>dynmap</id>
-            <url>http://repo.mikeprimm.com/</url>
+            <url>https://repo.mikeprimm.com/</url>
         </repository>        
 
     </repositories>
