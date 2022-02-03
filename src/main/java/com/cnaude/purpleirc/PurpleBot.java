@@ -2779,6 +2779,11 @@ public final class PurpleBot {
                 }
             }
         }
+        
+        // https://github.com/cnaude/PurpleIRC-spigot/issues/49
+        if (message == null){
+            return;
+        }
 
         /*
          Send messages to Dynmap if enabled
