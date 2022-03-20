@@ -91,6 +91,10 @@ public class UpdateChecker {
                 final BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
                 final String response = reader.readLine();
                 final JSONObject obj = (JSONObject) JSONValue.parse(response);
+		if (obj == null) {
+                    sender.sendMessage(plugin.LOG_HEADER_F + " No files found, or Feed URL is bad.");
+                    return;
+		}
                 if (obj.isEmpty()) {
                     sender.sendMessage(plugin.LOG_HEADER_F + " No files found, or Feed URL is bad.");
                     return;
