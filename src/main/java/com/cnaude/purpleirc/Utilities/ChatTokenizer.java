@@ -23,12 +23,9 @@ import com.cnaude.purpleirc.TemplateName;
 import com.gmail.nossr50.util.player.UserManager;
 import com.nyancraft.reportrts.data.Ticket;
 import com.palmergames.bukkit.TownyChat.channels.Channel;
-import github.scarsz.discordsrv.DiscordSRV;
 import java.awt.Color;
 import java.util.Set;
 import java.util.UUID;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -36,7 +33,6 @@ import org.bukkit.block.Block;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.pircbotx.User;
-import github.scarsz.discordsrv.objects.MessageFormat;
 
 /**
  * Main class containing all message template token expanding methods
@@ -493,11 +489,20 @@ public class ChatTokenizer {
      * @param color
      * @param discordChannel
      * @param template
-     *
      * @param message
+     * @param attUrls
      * @return
      */
-    public String discordChatToIRCTokenizer(String template, String username, String nickname, String effectiveName, Color color, String discordChannel, String message) {
+    public String discordChatToIRCTokenizer(
+            String template,
+            String username,
+            String nickname,
+            String effectiveName,
+            Color color,
+            String discordChannel,
+            String message,
+            String attUrls
+    ) {
 //        String hex = color != null ? Integer.toHexString(color.getRGB()).toUpperCase() : "99AAB5";
 //        if (hex.length() == 8) {
 //            hex = hex.substring(2);
@@ -517,6 +522,7 @@ public class ChatTokenizer {
                 .replace("%CHANNEL%", discordChannel)
                 .replace("%MESSAGE%", plugin.colorConverter.gameColorsToIrc(message))
                 .replace("%RAWMESSAGE%", ChatColor.stripColor(message))
+                .replace("%ATTACHMENTURLS%", attUrls)
         );
     }
 

@@ -22,6 +22,9 @@ import github.scarsz.discordsrv.DiscordSRV;
 import github.scarsz.discordsrv.api.ListenerPriority;
 import github.scarsz.discordsrv.api.Subscribe;
 import github.scarsz.discordsrv.api.events.DiscordGuildMessageReceivedEvent;
+import github.scarsz.discordsrv.dependencies.jda.api.entities.Message.Attachment;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -58,7 +61,8 @@ public class DiscordListener {
                     event.getMember().getEffectiveName(),
                     event.getMember().getColor(),
                     event.getChannel().getName(),
-                    event.getMessage().getContentDisplay());
+                    event.getMessage().getContentDisplay(),
+                    event.getMessage().getAttachments());
         }
 
     }

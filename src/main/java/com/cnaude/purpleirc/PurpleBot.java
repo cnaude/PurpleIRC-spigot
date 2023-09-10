@@ -45,6 +45,7 @@ import com.massivecraft.factions.entity.Faction;
 import com.massivecraft.factions.entity.MPlayer;
 import com.nyancraft.reportrts.data.Ticket;
 import com.titankingdoms.dev.titanchat.core.participant.Participant;
+import github.scarsz.discordsrv.dependencies.jda.api.entities.Message.Attachment;
 import java.awt.Color;
 import java.io.File;
 import java.io.IOException;
@@ -66,7 +67,6 @@ import java.util.concurrent.locks.ReentrantReadWriteLock;
 import me.botsko.prism.actionlibs.QueryParameters;
 import me.botsko.prism.events.BlockStateChange;
 import org.bukkit.Achievement;
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
@@ -1360,7 +1360,7 @@ public final class PurpleBot {
                 }
                 if (plugin.ventureChatEnabled) {
                     plugin.logDebug("Calling VentureChatEvent: " + event.getMessage());
-                    plugin.getServer().getScheduler().runTask(plugin, () -> plugin.getServer().getPluginManager().callEvent(new VentureChatEvent(event, this, channelName)));                    
+                    plugin.getServer().getScheduler().runTask(plugin, () -> plugin.getServer().getPluginManager().callEvent(new VentureChatEvent(event, this, channelName)));
                 }
                 if (isMessageEnabled(channelName, TemplateName.GAME_CHAT)) {
                     asyncIRCMessage(channelName, plugin.tokenizer
@@ -1513,16 +1513,29 @@ public final class PurpleBot {
      * @param color
      * @param effectiveName
      * @param message
+     * @param attachments
      */
-    public void discordChat(String username, String nickname, String effectiveName, Color color, String discordChannel, String message) {
+    public void discordChat(
+            String username,
+            String nickname,
+            String effectiveName,
+            Color color,
+            String discordChannel,
+            String message,
+            List<Attachment> attachments) {
         if (!this.isConnected()) {
             return;
         }
+        List<String> aList = new ArrayList<>();
+        for (Attachment a : attachments) {
+            aList.add(a.getUrl());
+        }
+        String attUrls = String.join(", ", aList);
         for (String channelName : botChannels) {
             if (isMessageEnabled(channelName, TemplateName.DISCORD_CHAT) || isMessageEnabled(channelName, "discord-" + discordChannel + "-chat")) {
                 String template = plugin.getMessageTemplate(botNick, channelName, TemplateName.DISCORD_CHAT);
                 asyncIRCMessage(channelName, plugin.tokenizer
-                        .discordChatToIRCTokenizer(template, username, nickname, effectiveName, color, discordChannel, message)
+                        .discordChatToIRCTokenizer(template, username, nickname, effectiveName, color, discordChannel, message, attUrls)
                 );
             }
         }
@@ -2779,9 +2792,9 @@ public final class PurpleBot {
                 }
             }
         }
-        
+
         // https://github.com/cnaude/PurpleIRC-spigot/issues/49
-        if (message == null){
+        if (message == null) {
             return;
         }
 
