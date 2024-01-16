@@ -1235,6 +1235,31 @@ public class PurpleIRC extends JavaPlugin {
     /**
      *
      * @param player
+     * @return
+     */
+    public String getNickname(String player) {
+        String nickname = "";
+        try {
+            UUID uuid = getPlayerUuid(player);
+            if (essentialsChatHook != null && uuid != null) {
+                Player user = getServer().getPlayer(uuid);
+                if (user != null) {
+                    logDebug("getNickname: " + user.getName());
+                    nickname = essentialsChatHook.getNickname(user);
+                }
+            }
+        } catch (Exception ex) {
+            logDebug("getNickname (" + player + "): " + ex.getMessage());
+        }
+        if (nickname == null) {
+            nickname = "";
+        }
+        return ChatColor.translateAlternateColorCodes('&', nickname);
+    }
+
+    /**
+     *
+     * @param player
      */
     public void updateDisplayNameCache(Player player) {
         logDebug("Caching displayName for " + player.getName() + " = " + player.getDisplayName());

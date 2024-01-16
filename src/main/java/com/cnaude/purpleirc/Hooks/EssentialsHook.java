@@ -49,4 +49,14 @@ public class EssentialsHook {
         return false;
     }
 
+    public String getNickname(Player player) {
+        if (essentials != null) {
+            User user = essentials.getUser(player);
+            if (user != null) {
+                return user.getNickname();
+            }
+        }
+        return "";
+    }
+
 }
