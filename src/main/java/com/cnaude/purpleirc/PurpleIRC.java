@@ -1252,7 +1252,7 @@ public class PurpleIRC extends JavaPlugin {
             logDebug("getNickname (" + player + "): " + ex.getMessage());
         }
         if (nickname == null) {
-            nickname = "";
+            nickname = player;
         }
         return ChatColor.translateAlternateColorCodes('&', nickname);
     }
