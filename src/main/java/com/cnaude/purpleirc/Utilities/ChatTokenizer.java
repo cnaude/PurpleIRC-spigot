@@ -941,11 +941,14 @@ public class ChatTokenizer {
     public String playerTokenizer(Player player, String message) {
         String pName;
         String displayName;
+        String pNickname;
         if (plugin.pingFixTemplate) {
             pName = addZeroWidthSpace(player.getName());
+            pNickname = addZeroWidthSpace(plugin.getNickname(player.getName()));
             displayName = player.getDisplayName().replace(player.getName(), pName);
         } else {
             pName = player.getName();
+            pNickname = plugin.getNickname(pName);
             displayName = player.getDisplayName();
         }
         plugin.logDebug("Tokenizing " + pName + "(O: " + player.isOnline() + ")");
@@ -968,6 +971,9 @@ public class ChatTokenizer {
         String worldColor = "";
         String jobShort = "";
         String job = "";
+        if (pNickname == null) {
+            pNickname = "";
+        }
         if (pSuffix == null) {
             pSuffix = "";
         }
@@ -1007,6 +1013,7 @@ public class ChatTokenizer {
         }
 
         return message.replace("%DISPLAYNAME%", displayName)
+                .replace("%NICKNAME%", pNickname)
                 .replace("%UUID%", uuid.toString())
                 .replace("%JOBS%", job)
                 .replace("%JOBSSHORT%", jobShort)
@@ -1051,6 +1058,7 @@ public class ChatTokenizer {
         }
 
         String displayName = plugin.getDisplayName(playerName);
+        String nickname = plugin.getNickname(playerName);
         String uuid = "";
         plugin.logDebug("playerTokenizer: 7 ");
         String worldAlias = "";
@@ -1099,6 +1107,7 @@ public class ChatTokenizer {
 
         plugin.logDebug("[S]Raw message: " + message);
         return message.replace("%DISPLAYNAME%", displayName)
+                .replace("%NICKNAME%", nickname)
                 .replace("%UUID%", uuid)
                 .replace("%JOBS%", job)
                 .replace("%JOBSSHORT%", jobShort)
