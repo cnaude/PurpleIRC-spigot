@@ -1,7 +1,7 @@
 /target/
 /nbactions.xml
 /dependency-reduced-pom.xml
-
+/.vscode/
 /.idea/
 /*.iml
 
