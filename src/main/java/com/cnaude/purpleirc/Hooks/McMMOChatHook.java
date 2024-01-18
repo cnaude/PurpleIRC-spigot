@@ -45,7 +45,9 @@ public class McMMOChatHook {
         if (mcMMOPlugin != null) {
             plugin.logDebug("[mcMMOChatHook:sendAdminMessage]: " + message);
             message = LocaleLoader.getTextComponent("Chat.Style.Admin", message).content();
-            plugin.broadcastToGame(message, "", "mcmmo.chat.adminchat");
+            if (message != null && message != "") {
+                plugin.broadcastToGame(message, "", "mcmmo.chat.adminchat");
+            }
         }
     }
 
