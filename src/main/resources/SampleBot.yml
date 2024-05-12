@@ -47,6 +47,8 @@ ident-password: ''
 sasl: false
 # SASL password
 sasl-password: ''
+# Load SASL password from a file instead of this YAML file
+sasl-password-file: ''
 # SASL username
 sasl-username: ''
 # command-prefix - The bot will listen for commands that start with this.

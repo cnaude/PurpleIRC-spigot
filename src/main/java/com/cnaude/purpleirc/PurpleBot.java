@@ -39,6 +39,7 @@ import static com.cnaude.purpleirc.IRCMessage.Type.CTCP;
 import static com.cnaude.purpleirc.IRCMessage.Type.MESSAGE;
 import static com.cnaude.purpleirc.IRCMessage.Type.NOTICE;
 import com.cnaude.purpleirc.Utilities.CaseInsensitiveMap;
+import com.cnaude.purpleirc.Utilities.FileHelpers;
 import com.google.common.base.Joiner;
 import com.google.common.collect.ImmutableSortedSet;
 import com.massivecraft.factions.entity.Faction;
@@ -132,6 +133,7 @@ public final class PurpleBot {
     public String botIdentPassword;
     public String saslUsername;
     public String saslPassword;
+    public String saslPasswordFile;
     public List<String> rawMessages;
     public String channelCmdNotifyMode;
     public String partInvalidChannelsMsg;
@@ -818,7 +820,14 @@ public final class PurpleBot {
             botServerPass = config.getString("password", "");
             botIdentPassword = config.getString("ident-password", "");
             saslUsername = config.getString("sasl-username", "");
-            saslPassword = config.getString("sasl-password", "");
+            saslPasswordFile = config.getString("sasl-password-file", "");
+            if (!saslPasswordFile.isEmpty()) {
+                plugin.logInfo("Loading sasl password from file: " + saslPasswordFile);
+                saslPassword = FileHelpers.loadFirstLineFromFile(saslPasswordFile);
+            } else {
+                saslPassword = config.getString("sasl-password", "");
+            }
+//            plugin.logDebug("saslPassword: " + saslPassword);
             commandPrefix = config.getString("command-prefix", ".");
             chatDelay = config.getLong("message-delay", 1000);
             finger = config.getString("finger-reply", "PurpleIRC");
