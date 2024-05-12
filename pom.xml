@@ -6,7 +6,7 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <!-- Bukkit API Version, change if out dated -->
-        <bukkit.version>1.20-R0.1-SNAPSHOT</bukkit.version>
+        <bukkit.version>1.20.6-R0.1-SNAPSHOT</bukkit.version>
         <build.number>SNAPSHOT</build.number>
     </properties>
 
@@ -23,7 +23,6 @@
             <url>https://repository.apache.org/content/repositories/snapshots/</url>
         </pluginRepository>
     </pluginRepositories>
-
 
     <repositories>
         <!-- For anything else without its own repo -->
@@ -72,7 +71,18 @@
         <repository>
             <id>dynmap</id>
             <url>https://repo.mikeprimm.com/</url>
-        </repository>        
+        </repository>
+        
+        <repository>
+            <id>sk89q-repo</id>
+            <url>https://maven.sk89q.com/repo/</url>
+            <releases>
+                <enabled>false</enabled>
+            </releases>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </repository>
 
     </repositories>
     
