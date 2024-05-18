@@ -30,49 +30,36 @@
             <id>cnaude-repo</id>
             <url>https://repo.chrisnaude.com/</url>
         </repository>
-        
+      
         <!-- DiscordSRV -->
         <repository>
             <id>Scarsz-Nexus</id>
             <url>https://nexus.scarsz.me/content/groups/public/</url>
-        </repository>  
-        
+        </repository>
+      
         <repository>
             <id>sonatype-nexus-public</id>
             <name>SonaType public snapshots and releases repository</name>
             <url>https://oss.sonatype.org/content/groups/public</url>
-            <releases> 
+            <releases>
                 <!-- set to true if you wish to fetch releases from this repo too. -->
                 <enabled>false</enabled>
-            </releases> 
+            </releases>
             <snapshots>
                 <enabled>false</enabled>
             </snapshots>
         </repository>
-             
-        <!-- Vault
-            <repository>
-                <id>vault-repo</id>
-                <url>https://nexus.hc.to/content/repositories/pub_releases</url>
-        </repository> -->
-        
-        <!--
-        <repository>
-            <id>dmulloy2-repo</id>
-            <url>https://repo.dmulloy2.net/content/groups/public/</url>
-        </repository>
-        -->
-        
+           
         <repository>
             <id>placeholderapi</id>
             <url>https://repo.extendedclip.com/content/repositories/placeholderapi/</url>
         </repository>
-        
+      
         <repository>
             <id>dynmap</id>
             <url>https://repo.mikeprimm.com/</url>
         </repository>
-        
+      
         <repository>
             <id>sk89q-repo</id>
             <url>https://maven.sk89q.com/repo/</url>
@@ -85,9 +72,9 @@
         </repository>
 
     </repositories>
-    
+  
     <dependencies>
-        
+      
         <dependency>
             <groupId>org.bukkit</groupId>
             <artifactId>spigot-api</artifactId>
@@ -95,7 +82,7 @@
             <type>jar</type>
             <scope>provided</scope>
         </dependency>
-        
+      
         <dependency>
             <groupId>org.bukkit</groupId>
             <artifactId>spigot-183</artifactId>
@@ -103,7 +90,7 @@
             <type>jar</type>
             <scope>provided</scope>
         </dependency>
-               
+             
         <dependency>
             <groupId>org.bukkit</groupId>
             <artifactId>spigot-184</artifactId>
@@ -111,7 +98,7 @@
             <type>jar</type>
             <scope>provided</scope>
         </dependency>
-        
+      
         <dependency>
             <groupId>org.bukkit</groupId>
             <artifactId>spigot-19</artifactId>
@@ -119,7 +106,7 @@
             <type>jar</type>
             <scope>provided</scope>
         </dependency>
-        
+      
         <dependency>
             <groupId>org.bukkit</groupId>
             <artifactId>spigot-194</artifactId>
@@ -127,7 +114,7 @@
             <type>jar</type>
             <scope>provided</scope>
         </dependency>
-        
+      
         <dependency>
             <groupId>org.bukkit</groupId>
             <artifactId>spigot-110</artifactId>
@@ -135,7 +122,7 @@
             <type>jar</type>
             <scope>provided</scope>
         </dependency>
-        
+      
         <dependency>
             <groupId>org.bukkit</groupId>
             <artifactId>spigot-111</artifactId>
@@ -143,7 +130,7 @@
             <type>jar</type>
             <scope>provided</scope>
         </dependency>
-        
+      
         <dependency>
             <groupId>org.bukkit</groupId>
             <artifactId>spigot-112</artifactId>
@@ -151,7 +138,7 @@
             <type>jar</type>
             <scope>provided</scope>
         </dependency>
-        
+      
         <dependency>
             <groupId>org.bukkit</groupId>
             <artifactId>spigot-113</artifactId>
@@ -159,26 +146,14 @@
             <type>jar</type>
             <scope>provided</scope>
         </dependency>
-        
+      
         <!-- PircBotX -->
         <dependency>
-            <groupId>com.cnaude.pircbotx</groupId>
-            <artifactId>pircbotx-shaded</artifactId>
-            <version>2.1.8</version>
+            <groupId>org.pircbotx</groupId>
+            <artifactId>pircbotx-unified</artifactId>
+            <version>2.2.0</version>
         </dependency>
-                     
-        <dependency>
-            <groupId>commons-codec</groupId>
-            <artifactId>commons-codec</artifactId>
-            <version>1.13</version>
-        </dependency>
-        
-        <dependency>
-            <groupId>commons-io</groupId>
-            <artifactId>commons-io</artifactId>
-            <version>2.7</version>
-        </dependency>
-                                       
+
         <!-- NTheEndAgain -->
         <dependency>
             <groupId>com.cnaude.nplugins</groupId>
@@ -186,7 +161,7 @@
             <version>0.6.10-SNAPSHOT</version>
             <type>jar</type>
         </dependency>
-        
+      
         <!-- Essentials -->
         <dependency>
             <groupId>com.cnaude.essentialsx</groupId>
@@ -194,7 +169,7 @@
             <version>2.0.1</version>
             <type>jar</type>
         </dependency>
-               
+             
         <!-- ReportRTS -->
         <dependency>
             <groupId>com.nyancraft.reportrts</groupId>
@@ -215,7 +190,7 @@
                 </exclusion>
             </exclusions>
         </dependency>
-        
+      
         <!-- Vault -->
         <dependency>
             <groupId>net.milkbowl.vault</groupId>
@@ -236,63 +211,63 @@
             <artifactId>Herochat</artifactId>
             <version>6.0.1-B34A</version>
         </dependency>
-               
+             
         <!-- VentureChat -->
         <dependency>
             <groupId>mineverse.Aust1n46.chat</groupId>
             <artifactId>VentureChat</artifactId>
             <version>2.22.8</version>
         </dependency>
-        
+      
         <!-- Jobs -->
         <dependency>
             <groupId>com.cnaude.jobs</groupId>
             <artifactId>Jobs</artifactId>
             <version>2.18.8</version>
         </dependency>
-        
+      
         <!-- Jobs -->
         <dependency>
             <groupId>com.cnaude.jobs</groupId>
             <artifactId>JobsOld</artifactId>
             <version>2.12.0</version>
         </dependency>
-        
+      
         <!-- Factions -->
         <dependency>
             <groupId>com.cnaude.factions</groupId>
             <artifactId>Factions</artifactId>
             <version>2.7.5</version>
         </dependency>
-        
+      
         <!-- OreBroadcast -->
         <dependency>
             <groupId>com.cnaude.orebroadcast</groupId>
             <artifactId>OreBroadcast</artifactId>
             <version>1.2</version>
         </dependency>
-        
+      
         <!-- RedditStream -->
         <dependency>
             <groupId>com.cnaude.RedditStream</groupId>
             <artifactId>RedditStream</artifactId>
             <version>0.2</version>
         </dependency>
-        
+      
         <!-- VanishNoPacket -->
         <dependency>
             <groupId>com.cnaude.vanishnopacket</groupId>
             <artifactId>VanishNoPacket</artifactId>
             <version>3.19.2-SNAPSHOT</version>
         </dependency>
-        
+      
         <!-- mcore -->
         <dependency>
             <groupId>com.cnaude.mcore</groupId>
             <artifactId>MassiveCore</artifactId>
             <version>2.7.5</version>
         </dependency>
-        
+      
         <!-- FactionChat -->
         <dependency>
             <groupId>nz.co.lolnet.james137137</groupId>
@@ -313,49 +288,49 @@
             <artifactId>mcMMO</artifactId>
             <version>2.1.182-SNAPSHOT</version>
         </dependency>
-        
+      
         <!-- Mulitverse-Core -->
         <dependency>
             <groupId>com.cnaude.multiverse</groupId>
             <artifactId>Multiverse-Core</artifactId>
             <version>2.5</version>
         </dependency>
-        
+      
         <!-- Towny -->
         <dependency>
             <groupId>com.cnaude.townychat</groupId>
             <artifactId>TownyChat</artifactId>
             <version>0.40</version>
         </dependency>
-        
+      
         <!-- Towny -->
         <dependency>
             <groupId>com.cnaude.towny</groupId>
             <artifactId>Towny</artifactId>
             <version>0.84.0.0</version>
         </dependency>
-        
+      
         <!-- ProtocolLib -->
         <dependency>
             <groupId>com.comphenix.protocol</groupId>
             <artifactId>ProtocolLib-API</artifactId>
             <version>4.0</version>
         </dependency>
-                        
+                      
         <!-- CleverNotch -->
         <dependency>
             <groupId>com.cnaude.clevernotch</groupId>
             <artifactId>CleverNotch</artifactId>
             <version>1.1-RELEASE</version>
         </dependency>
-               
+             
         <!-- DeathMessages -->
         <dependency>
             <groupId>com.cnaude.deathmessages</groupId>
             <artifactId>DeathMessages</artifactId>
             <version>2.9.1-SNAPSHOT</version>
         </dependency>
-        
+      
         <!-- DeathMessagesPrime -->
         <dependency>
             <groupId>com.cnaude.deathmessagesprime</groupId>
@@ -369,21 +344,21 @@
             <artifactId>Shortify</artifactId>
             <version>1.8-SNAPSHOT</version>
         </dependency>
-        
+      
         <!-- Shortify -->
         <dependency>
             <groupId>com.cnaude.shortify</groupId>
             <artifactId>Shortify-Universal</artifactId>
             <version>1.7-SNAPSHOT</version>
         </dependency>
-        
+      
         <!-- CommandBook -->
         <dependency>
             <groupId>com.cnaude.commandbook</groupId>
             <artifactId>CommandBook</artifactId>
             <version>2.5-SNAPSHOT</version>
         </dependency>
-        
+      
         <!-- DynmapAPI -->
         <dependency>
             <groupId>us.dynmap</groupId>
@@ -396,42 +371,42 @@
                 </exclusion>
             </exclusions>
         </dependency>
-        
+      
         <!-- Prism -->
         <dependency>
             <groupId>com.cnaude.prism</groupId>
             <artifactId>Prism</artifactId>
             <version>2.0.1</version>
         </dependency>
-        
+      
         <!-- AdminPrivateChat -->
         <dependency>
             <groupId>com.cnaude.adminprivatechat</groupId>
             <artifactId>AdminPrivateChat</artifactId>
             <version>2.1</version>
         </dependency>
-        
+      
         <!-- SuperVanish -->
         <dependency>
             <groupId>com.cnaude.supervanish</groupId>
             <artifactId>SuperVanish</artifactId>
             <version>5.9.1</version>
         </dependency>
-        
+      
         <!-- SimpleTicketManager -->
         <dependency>
             <groupId>com.cnaude.simpleticketmanager</groupId>
             <artifactId>SimpleTicketManager</artifactId>
             <version>2.0.3</version>
         </dependency>
-        
+      
         <!-- GriefPrevention -->
         <dependency>
             <groupId>com.cnaude.griefprevention</groupId>
             <artifactId>GriefPrevention</artifactId>
             <version>12.1</version>
         </dependency>
-        
+      
         <!-- PlaceholderAPI -->
         <dependency>
             <groupId>me.clip</groupId>
@@ -439,7 +414,7 @@
             <version>2.10.9</version>
             <scope>provided</scope>
         </dependency>
-        
+      
         <!-- DiscordSRV -->
         <dependency>
             <groupId>com.discordsrv</groupId>
@@ -447,7 +422,7 @@
             <version>1.22.0</version>
             <scope>provided</scope>
         </dependency>
-        
+      
         <!-- UltimateChat -->
         <dependency>
             <groupId>com.cnaude.uchat</groupId>
@@ -455,14 +430,7 @@
             <version>1.6.8-b502</version>
             <scope>provided</scope>
         </dependency>
-        
-        <!-- https://mvnrepository.com/artifact/com.google.guava/guava -->
-        <dependency>
-            <groupId>com.google.guava</groupId>
-            <artifactId>guava</artifactId>
-            <version>32.1.2-jre</version>
-        </dependency>
-        
+      
         <!-- Testing only -->
         <dependency>
             <groupId>junit</groupId>
@@ -497,21 +465,20 @@
                 </excludes>
             </resource>
         </resources>
-               
+             
         <plugins>
             <plugin>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.11.0</version>
                 <configuration>
-                    <source>17</source>
-                    <target>17</target>
+                    <source>21</source>
+                    <target>21</target>
                 </configuration>
             </plugin>
-
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-shade-plugin</artifactId>
-                <version>3.5.0</version>
+                <version>3.5.3</version>
                 <executions>
                     <execution>
                         <phase>package</phase>
@@ -522,56 +489,41 @@
                             <minimizeJar>true</minimizeJar>
                             <artifactSet>
                                 <includes>
-                                    <include>com.cnaude.pircbotx</include>                             
-                                    <include>commons-codec</include>
+                                    <include>org.pircbotx</include>
+                                    <include>org.apache.commons</include>
                                     <include>com.google.common</include>
+                                    <include>com.google.guava</include>
+                                    <include>commons-io</include>
                                 </includes>
                             </artifactSet>
                             <filters>
                             </filters>
-                            <relocations>
-                                <relocation>
-                                    <pattern>org.pircbotx</pattern>
-                                    <shadedPattern>com.cnaude.purpleirc.ext.org.pircbotx</shadedPattern>
-                                </relocation>
-                                <relocation>
-                                    <pattern>org.apache.commons.lang3</pattern>
-                                    <shadedPattern>com.cnaude.purpleirc.ext.org.apache.commons.lang3</shadedPattern>
-                                </relocation>
-                                <relocation>
-                                    <pattern>org.apache.commons.codec</pattern>
-                                    <shadedPattern>com.cnaude.purpleirc.ext.org.apache.commons.codec</shadedPattern>
-                                </relocation>
-                                <relocation>
-                                    <pattern>com.google.common</pattern>
-                                    <shadedPattern>com.cnaude.purpleirc.ext.com.google.common</shadedPattern>
-                                </relocation>
-                            </relocations>
                         </configuration>
                     </execution>
                 </executions>
-            </plugin>  
-            
+            </plugin>
+          
             <plugin>
                 <artifactId>maven-antrun-plugin</artifactId>
+                <version>3.1.0</version>
                 <executions>
                     <execution>
                         <phase>package</phase>
                         <configuration>
-                            <tasks>                                                                                             
-                                <copy file="../${project.name}/target/PurpleIRC-${project.version}.jar" tofile="../${project.name}/target/PurpleIRC.jar"/>                         
-                            </tasks>
+                            <target>
+                                <copy file="../${project.name}/target/PurpleIRC-${project.version}.jar" tofile="../${project.name}/target/PurpleIRC.jar"/>
+                            </target>
                         </configuration>
                         <goals>
                             <goal>run</goal>
                         </goals>
                     </execution>
                 </executions>
-            </plugin>            
-            
+            </plugin>
+          
         </plugins>
     </build>
-            
+
     <distributionManagement>
         <repository>
             <id>stage-repo</id>
