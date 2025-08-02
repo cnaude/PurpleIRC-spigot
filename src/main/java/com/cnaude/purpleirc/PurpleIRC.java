@@ -100,6 +100,11 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import net.kyori.adventure.platform.bukkit.BukkitAudiences;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.flattener.ComponentFlattener;
+import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.bukkit.ChatColor;
@@ -272,6 +277,14 @@ public class PurpleIRC extends JavaPlugin {
     public String smsgReplyAlias = "/r";
     public CaseInsensitiveMap<String> privateMsgReply;
 
+    private BukkitAudiences adventure;
+    public final LegacyComponentSerializer serializer = LegacyComponentSerializer.builder()
+            .flattener(ComponentFlattener.basic())
+            .extractUrls(Pattern.compile("((?:https?://)?[\\w-_\\.]{2,})\\.([a-zA-Z]{2,3}(?:/\\S+)?)"))
+            .useUnusualXRepeatedCharacterHexFormat()
+            .hexColors()
+            .build();
+
     public PurpleIRC() {
         this.MAINCONFIG = "MAIN-CONFIG";
         this.sampleFileName = "SampleBot.yml";
@@ -318,23 +331,27 @@ public class PurpleIRC extends JavaPlugin {
             try {
                 IdentServer.startServer();
                 identServerStarted = true;
-            } catch (Exception ex) {                
+            } catch (Exception ex) {
                 logError(ex.getMessage());
             }
         }
         getServer().getPluginManager().registerEvents(new IRCMessageListener(this), this);
-        Pattern p = Pattern.compile("MC: [0-9]\\.([0-9]+).*");
+        Pattern p = Pattern.compile("MC: [0-9]\\.([0-9]+)\\.?([0-9]*)");
         logInfo("MC version detected: " + getServer().getVersion());
         Matcher m = p.matcher(getServer().getVersion());
         if (m.find()) {
             int x = Integer.parseInt(m.group(1));
+            int y = Integer.parseInt(m.group(2));
+            if (x > 7 || x == 7 && y >= 10) {
+                this.adventure = BukkitAudiences.create(this);
+            }
             if (x >= 12) {
                 logInfo("Registering GamePlayerPlayerAdvancementDoneListener because version >= 1.12");
                 getServer().getPluginManager().registerEvents(new GamePlayerPlayerAdvancementDoneListener(this), this);
             } else {
                 logInfo("Registering GamePlayerPlayerAchievementAwardedListener because version < 1.12");
                 getServer().getPluginManager().registerEvents(new GamePlayerPlayerAchievementAwardedListener(this), this);
-            }            
+            }
         } else {
             logError("Pattern mismatch!: " + getServer().getVersion());
         }
@@ -430,6 +447,10 @@ public class PurpleIRC extends JavaPlugin {
         }
         saveDisplayNameCache();
         saveUuidCache();
+        if(this.adventure != null) {
+            this.adventure.close();
+            this.adventure = null;
+        }
     }
 
     /**
@@ -443,6 +464,49 @@ public class PurpleIRC extends JavaPlugin {
             getConfig().save(configFile);
         } catch (IOException ex) {
             logError("Problem saving to " + configFile.getName() + ": " + ex.getMessage());
+        }
+    }
+
+    public void broadcast(String message, String permission) {
+        Component finalMessage = this.serializer.deserialize(message);
+        if (this.adventure != null) {
+            for (Player player: getServer().getOnlinePlayers()) {
+                if (player.hasPermission(permission)) {
+                    this.adventure.player(player).sendMessage(finalMessage);
+                }
+            }
+            this.adventure.console().sendMessage(finalMessage);
+        } else {
+            message = LegacyComponentSerializer.legacySection().serialize(finalMessage);
+            getServer().broadcast(message, permission);
+        }
+    }
+
+    public void sendMessageToPlayers(String message, String permission) {
+        Component finalMessage = this.serializer.deserialize(message);
+        if (this.adventure != null) {
+            for (Player player: getServer().getOnlinePlayers()) {
+                if (player.hasPermission(permission)) {
+                    this.adventure.player(player).sendMessage(finalMessage);
+                }
+            }
+        } else {
+            message = LegacyComponentSerializer.legacySection().serialize(finalMessage);
+            for (Player player: getServer().getOnlinePlayers()) {
+                if (player.hasPermission(permission)) {
+                    player.sendMessage(message);
+                }
+            }
+        }
+    }
+
+    public void sendMessageToConsole(String message) {
+        Component finalMessage = this.serializer.deserialize(message);
+        if (this.adventure != null) {
+            this.adventure.console().sendMessage(finalMessage);
+        } else {
+            message = LegacyComponentSerializer.legacySection().serialize(finalMessage);
+            getServer().getConsoleSender().sendMessage(message);
         }
     }
 

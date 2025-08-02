@@ -51,7 +51,8 @@ public class MessageQueueWatcher {
     private void queueAndSend() {
         Message message = queue.poll();
         if (message != null) {
-            plugin.getServer().broadcast(message.message, message.permission);
+//            plugin.getServer().broadcast(message.message, message.permission);
+            plugin.broadcast(message.message, message.permission);
         }
     }
 

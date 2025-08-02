@@ -67,11 +67,12 @@ public class IRCMessageListener implements Listener {
             plugin.messageQueue.add(new Message(fixedMessage, permission));
         } else {
             plugin.logDebug("Broadcast Players [" + permission + "]: " + fixedMessage);
-            for (Player p : plugin.getServer().getOnlinePlayers()) {
-                if (p.hasPermission(permission)) {
-                    p.sendMessage(fixedMessage);
-                }
-            }
+//            for (Player p : plugin.getServer().getOnlinePlayers()) {
+//                if (p.hasPermission(permission)) {
+//                    p.sendMessage(fixedMessage);
+//                }
+//            }
+            plugin.sendMessageToPlayers(fixedMessage, permission);
         }
         
     }
