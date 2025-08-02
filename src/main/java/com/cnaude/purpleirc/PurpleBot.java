@@ -2901,8 +2901,11 @@ public final class PurpleBot {
         if (isMessageEnabled(channelName, TemplateName.IRC_CONSOLE_CHAT)) {
             String tmpl = plugin.getMessageTemplate(botNick, channelName, TemplateName.IRC_CONSOLE_CHAT);
             plugin.logDebug("broadcastChat [Console]: " + tmpl);
-            plugin.getServer().getConsoleSender().sendMessage(plugin.tokenizer.ircChatToGameTokenizer(
-                    this, user, channel, plugin.getMessageTemplate(botNick, channelName, TemplateName.IRC_CONSOLE_CHAT), message));
+//            plugin.getServer().getConsoleSender().sendMessage(plugin.tokenizer.ircChatToGameTokenizer(
+//                    this, user, channel, plugin.getMessageTemplate(botNick, channelName, TemplateName.IRC_CONSOLE_CHAT), message));
+            plugin.sendMessageToConsole(plugin.tokenizer.ircChatToGameTokenizer(
+                    this, user, channel, plugin.getMessageTemplate(botNick, channelName, TemplateName.IRC_CONSOLE_CHAT), message)
+            );
             messageSent = true;
         }
 
