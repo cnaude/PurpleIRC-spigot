@@ -68,12 +68,10 @@ public class IRCCommandSender implements CommandSender {
         }
     }
 
-    @Override
     public void sendMessage(UUID uuid, String s) {
 
     }
 
-    @Override
     public void sendMessage(UUID uuid, String[] strings) {
 
     }
@@ -247,7 +245,6 @@ public class IRCCommandSender implements CommandSender {
         return null;
     }
     
-        @Override
     public Spigot spigot() {
         plugin.logDebug("Spigot?");
         return null;

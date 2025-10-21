@@ -73,8 +73,7 @@ import com.cnaude.purpleirc.Utilities.Query;
 import com.cnaude.purpleirc.Utilities.RegexGlobber;
 import com.cnaude.purpleirc.Utilities.UpdateChecker;
 import com.google.common.base.Joiner;
-import com.onarandombox.MultiverseCore.api.MVPlugin;
-import com.onarandombox.MultiverseCore.api.MultiverseWorld;
+import org.mvplugins.multiverse.core.MultiverseCoreApi;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -115,6 +114,8 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.mvplugins.multiverse.core.world.MultiverseWorld;
+import org.mvplugins.multiverse.external.vavr.control.Option;
 import org.pircbotx.IdentServer;
 
 /**
@@ -912,11 +913,10 @@ public class PurpleIRC extends JavaPlugin {
     public String getWorldAlias(String worldName) {
         String alias = worldName;
         Plugin plugin = getServer().getPluginManager().getPlugin("Multiverse-Core");
-        if (plugin != null) {
-            MVPlugin mvPlugin = (MVPlugin) plugin;
-            MultiverseWorld world = mvPlugin.getCore().getMVWorldManager().getMVWorld(worldName);
+        if (plugin != null) {            
+            Option<MultiverseWorld> world = MultiverseCoreApi.get().getWorldManager().getWorld(worldName);
             if (world != null) {
-                alias = world.getAlias();
+                alias = world.get().getAlias();
             }
         }
         if (alias == null) {
@@ -1441,10 +1441,9 @@ public class PurpleIRC extends JavaPlugin {
         String color = worldName;
         Plugin plugin = getServer().getPluginManager().getPlugin("Multiverse-Core");
         if (plugin != null) {
-            MVPlugin mvPlugin = (MVPlugin) plugin;
-            MultiverseWorld world = mvPlugin.getCore().getMVWorldManager().getMVWorld(worldName);
+            Option<MultiverseWorld> world = MultiverseCoreApi.get().getWorldManager().getWorld(worldName);
             if (world != null) {
-                color = world.getColor().toString();
+                color = world.get().getColourlessAlias();
             }
         }
         if (color == null) {
