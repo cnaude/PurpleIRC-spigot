@@ -22,6 +22,7 @@ import java.util.UUID;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Server;
+import org.bukkit.Server.Spigot;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.conversations.Conversation;
 import org.bukkit.conversations.ConversationAbandonedEvent;
@@ -69,12 +70,10 @@ public class IRCConsoleCommandSender implements ConsoleCommandSender {
         }
     }
 
-    @Override
     public void sendMessage(UUID uuid, String s) {
 
     }
 
-    @Override
     public void sendMessage(UUID uuid, String[] strings) {
 
     }
@@ -173,7 +172,6 @@ public class IRCConsoleCommandSender implements ConsoleCommandSender {
         plugin.logDebug("sendRawMessage: " + string);
     }
 
-    @Override
     public void sendRawMessage(UUID uuid, String s) {
 
     }
@@ -243,7 +241,6 @@ public class IRCConsoleCommandSender implements ConsoleCommandSender {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
-    @Override
     public Spigot spigot() {
         plugin.logDebug("Spigot?");
         return null;

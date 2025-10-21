@@ -6,7 +6,7 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <!-- Bukkit API Version, change if out dated -->
-        <bukkit.version>1.20.6-R0.1-SNAPSHOT</bukkit.version>
+        <bukkit.version>1.21.10-R0.1-SNAPSHOT</bukkit.version>
         <build.number>SNAPSHOT</build.number>
     </properties>
 
@@ -326,9 +326,9 @@
       
         <!-- Mulitverse-Core -->
         <dependency>
-            <groupId>com.cnaude.multiverse</groupId>
-            <artifactId>Multiverse-Core</artifactId>
-            <version>2.5</version>
+            <groupId>org.mvplugins.multiverse</groupId>
+            <artifactId>multiverse-core</artifactId>
+            <version>5.3.3</version>
         </dependency>
       
         <!-- Towny -->
